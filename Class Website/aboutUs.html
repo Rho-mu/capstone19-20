@@ -1,0 +1,151 @@
+<!-- Used W3schools.com -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>TreeViz</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="custom-padding">
+      <nav>
+        <div class="logo">TreeViz</div>
+        <ul class="menu">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="aboutUs.html">About Us</a></li>
+          <li><a href="projectInfo.html">Project</a></li>
+          <li><a href="deliverables.html">Deliverables</a></li>
+        </ul>
+      </nav>
+    </div>
+
+  <!--
+    <div class="aboutus">
+      <div class="headshots">
+        <p><img src="headshot Riley.jpg">Riley McWilliams</p>
+
+        <p><img src="headshot Alex.jpg">Alex Bentley</p>
+        <p><img src="headshot Daniel.jpg">Daniel Rustrum</p>
+        <p><img src="headshot Han.jpg">Qi Han</p>
+        <p><img src="headshot Tang.jpg">Haitian Tang</p>
+        <p><img src="headshot Kiona.jpg" style="padding-top: 100px"></p>
+      </div>
+    </div>
+  -->
+
+    <div class="container">
+      <h1 style="text-align: center">About Us!</h1>
+      <h1 class="type-head">Undergrad Students</h1>
+      <div class="row">
+        <div class="person">
+          <div class="content">
+            <img src="headshots/headshot Riley.jpg">
+            <h2>Riley McWilliams</h2>
+            <h3>Team Lead</h3>
+            <h4>rcm264@nau.edu</h4>
+          </div>
+        </div>
+        <div class="person">
+          <div class="content">
+            <img src="headshots/headshot Daniel.jpg">
+            <h2>Daniel Rustrum</h2>
+            <h3>Architect</h3>
+            <h4>dtr63@nau.edu</h4>
+          </div>
+        </div>
+        <div class="person">
+          <div class="content">
+            <img src="headshots/headshot Alex.jpg">
+            <h2>Alex Bentley</h2>
+            <h3>Web Developer</h3>
+            <h4>ajb564@nau.edu</h4>
+          </div>
+        </div>
+        <div class="person">
+          <div class="content">
+            <img src="headshots/headshot Tang.jpg">
+            <h2>Haitian Tang</h2>
+            <h3>Database Manager</h3>
+            <h4>ht256@nau.edu</h4>
+          </div>
+        </div>
+        <div class="person">
+          <div class="content">
+            <img src="headshots/headshot Han.jpg">
+            <h2>Qi Han</h2>
+            <h3>Server Manager</h3>
+            <h4>qh37@nau.edu</h4>
+          </div>
+        </div>
+      </div>
+
+      <h1 class="type-head">Clients and Mentor</h1>
+      <div class="row">
+        <div class="person">
+          <div class="content">
+            <img src="headshots/headshot Kiona.jpg">
+            <h2>Dr. Kiona Ogle</h2>
+            <h3>Client</h3>
+            <h4>ko424@nau.edu</h4>
+          </div>
+        </div>
+        <div class="person">
+          <div class="content">
+            <img src="headshots/headshot Mike.jpg">
+            <h2>Dr. Michael Fell</h2>
+            <h3>Client</h3>
+            <h4>Michael.Fell@nau.edu</h4>
+          </div>
+        </div>
+        <div class="person">
+          <div class="content">
+            <img src="headshots/headshot Isaac.jpg">
+            <h2>Isaac Shaffer</h2>
+            <h3>Team mentor</h3>
+            <h4>ins2@nau.edu</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<style>
+  .container {
+    margin: 100px 10% 0 10%;
+  }
+
+  .type-head {
+    margin-left: 10px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+
+  .row {
+    display: flex;
+    margin-bottom: 10%;
+  }
+
+  .person {
+    float: left;
+    width: 20%;
+    margin: 0 10px 0 10px;
+    border: 5px double green;
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.3)
+  }
+
+  .content {
+    display: block;
+    margin: 5px auto 5px auto;
+    text-align: center;
+  }
+
+  img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 80%;
+    border: 1px solid #111;
+  }
+</style>

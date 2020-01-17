@@ -1,0 +1,131 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: Optima, monospace;
+}
+
+body {
+  background-image: url(1.jpg);
+  -webkit-background-size: cover;
+  background-size: cover;
+  background-position: center center;
+  height: 100vh;
+}
+
+.menu li a {
+  text-decoration: none;
+  color: #fff;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  display: block;
+  padding: 0 25px;
+  font-size: 14px;
+  line-height: 30px;
+  position: relative;
+  z-index: 1;
+}
+
+.menu li {
+  list-style: none;
+  display: inline-block;
+}
+
+.custom-padding {
+  padding-top: 25px;
+}
+
+nav {
+  position: relative;
+  padding: 10px 20px 10px 10px;
+  text-align: right;
+  z-index: 1;
+  background: #333;
+  margin: 0 auto;
+  width:calc(100% - 60px);
+}
+
+.logo{
+  width: 15%;
+  float: left;
+  text-transform: uppercase;
+  color: #fff;
+  font-size: 25px;
+  text-align: left;
+  padding-left: 2%;
+}
+
+.menu li a:hover {
+  background: tomato;
+  color: #fff;
+}
+
+nav:before {
+  position: absolute;
+  content: '';
+  left: 0;
+  top: 100%;
+  border-top: 10px solid #333;
+  border-right: 10px solid #333;
+  border-left: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+}
+
+nav:after {
+  position: absolute;
+  content: '';
+  border-top: 10px solid #333;
+  border-left: 10px solid #333;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  top:100%;
+  right: 0;
+}
+
+.homepage {
+   text-align: center;
+   padding-top: 50px;
+ }
+
+ img {
+   max-width: 30%
+ }
+
+ .gif {
+   max-width: 40%;
+ }
+
+ p {
+   padding-top: 25px;
+   font-size: 25px;
+   padding-left: 150px;
+   padding-right: 150px;
+ }
+
+h2 {
+  padding-top: 25px;
+}
+
+.aboutus img {
+  max-width: 200px;
+  max-height: 300px;
+  padding-left: 30px;
+  padding-top: 30px;
+
+}
+
+.aboutus {
+  text-align: left;
+  padding-top: 30px;
+}
+
+.headshots {
+  vertical-align: left;
+
+}
+
+.deliverables {
+  text-align: center;
+}

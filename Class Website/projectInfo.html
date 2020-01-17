@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TreeViz</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="custom-padding">
+    <nav>
+      <div class="logo">TreeViz</div>
+      <ul class="menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="aboutUs.html">About Us</a></li>
+        <li><a href="projectInfo.html">Project</a></li>
+        <li><a href="deliverables.html">Deliverables</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="container">
+    <h1>A User-friendly Platform for Visualizing Tree Growth</h1>
+
+    <br><h2>Background</h2>
+    <p>
+      Trees play an extremely important role in Earth’s climate behavior. They cover around 50% of Earth’s land area and contain upwards of 90% of the global vegetation carbon. This means that a lot of CO2 that humans emit is being taken in by trees and used for their growth. Observing tree growth patterns can lead to a better understanding of how trees and climate interact with each other. These observations can also be used to predict the effects of climate change in the future.
+      <br><br>
+      To better understand how certain factors affect trees, Dr. Kiona Ogle and Dr. Michael Fell of Ogle Labs developed a simulation that shows a tree’s growth over time. The simulation is called the Allometrically Constrained Growth and Carbon Allocation (ACGCA) model. It uses over 30 input parameters to run the simulation, which calculates the state of the tree over time. The output of the model contains useful information such as the tree’s height, trunk radius, the carbon in the leaves and trunk, etc.
+      <br><br>
+      For more information on the original project description, please
+      use this link:
+      <br><a href="Ogle-VizTreeGrowth.pdf">Project Description</a>
+    </p>
+
+    <br><h2>The Problem</h2>
+    <p>
+      The issue is that the model currently has a very small user base. This is due to it not being user-friendly and not being available online.
+      It is not user-friendly for the following reasons:
+    </p>
+    <br>
+    <ul>
+      <li class="inner-list">The input is command line-based, so user needs to have experience in programming to run it.</li>
+      <li class="inner-list">The user also needs to know what all 30 plus input parameters are which requires experience in biology.</li>
+      <li class="inner-list">The output only displays the raw data from the model. It is not visually appealing nor informative to non-researchers.</li>
+    <p>
+      The combination of these factors creates an unfriendly user environment which limits the number of people that can utilize the model.
+    </p>
+
+    <br><h2>The Solution</h2>
+    <p>
+        TreeViz will create a website that will be hosted online for anyone to use. This will be a good way to get it into the hands of students and educators, or anyone else that wants to use it. The website will run the model as usual, but it will significantly increase the accessibility to it by overhauling the input and output. Some specific features that will solve the model’s problems are as follows:
+    </p>
+    <br>
+    <ul>
+      <li class="inner-list">Available Online<br>The website will be hosted online so that anyone with internet access can use it.</li><br>
+      <li class="inner-list">User Surveys<br>Users will submit a survey so that our clients can see how the model is being used. This will help our clients develop the product further, allowing the prioritization of certain user demographics for future updates.</li><br>
+      <li class="inner-list">User-friendly Input<br>The 30 plus input parameters will be made up of text boxes and sliders instead of a command line. This will allow anyone to use it, rather than only researchers.</li><br>
+      <li class="inner-list">Access to the Model<br>The model will be accessible by the website and ran through our user-friendly interface.</li><br>
+      <li class="inner-list">Tree Visualization<br>The output will be a rendered tree visualization rather than raw data. It will be significantly more intuitive than raw data and will allow many more users to learn from the model.</li>
+    </p>
+
+    <br><h2>Solution Requirements:</h2>
+    <p>
+      To organize development of our web application, we have separated
+      it into its basic requirements.
+    </p>
+    <ul>
+      <li class="inner-list">An aesthetic and easy-to-naviagate graphical user interface</li>
+      <li class="inner-list">A way for users to enter in any of the 30+ inputs to the model.</li>
+      <li class="inner-list">A visually appealing output representation of the simulated tree.</li>
+      <li class="inner-list">A way for users to save their inputs for later use.</li>
+    </ul>
+
+    <h2>Technologies:</h2>
+    <p>
+      In order to fully realize our solution, we will use these technologies:
+    </p>
+    <br>
+    <p>Web Development: Vue.js</p>
+    <p>Tree Visualization: Unity</p>
+    <p>Database: MySQL</p>
+    <p>ReST API: CherryPy</p>
+    <p>Hosting Server: Local NAU Desktop</p>
+
+
+  </div>
+</body>
+</html>
+
+
+<style>
+  h1 {
+    margin-top: 50px;
+    margin-left: 10%;
+  }
+
+  h2 {
+    font-size: 25px;
+    margin-left: 10%;
+  }
+
+  p {
+    display: block;
+    margin-left: 15%;
+    font-size: 20px;
+    padding-top: 10px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .inner-list {
+    list-style: circle;
+    margin-left: 17%;
+    font-size: 20px;
+  }
+
+  .container {
+    margin-bottom: 15%;
+    max-width: 90%;
+  }
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--a-->
