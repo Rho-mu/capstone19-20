@@ -1,9 +1,14 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png">
-    <router-link to="friends/1/2/3">Friends</router-link>
-    <router-link to="account">Account</router-link>
+    <br>
+    <router-link to="identification">Identification</router-link>
+    <router-link to="survey">Survey</router-link>
     <router-link to="contact">Contact</router-link>
+    <router-link to="warning">Warning</router-link>
+    <router-link to="login">Login</router-link>
+    <router-link to="upload">Upload</router-link>
+    <router-link to="admin">Admin</router-link>
     <router-view/>
   </div>
 </template>
