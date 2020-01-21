@@ -1,9 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
-import Account from '@/components/Account'
+import Landing from '@/components/Landing'
+import Survey from '@/components/Survey'
 import Contact from '@/components/Contact'
-import Friends from '@/components/Friends'
+import Identification from '@/components/Identification'
+import Warning from '@/components/Warning'
+import Login from '@/components/Login'
+import Upload from '@/components/Upload'
+import Admin from '@/components/Admin'
 
 Vue.use(Router)
 
@@ -11,24 +15,43 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'Landing',
+      component: Landing
     },
     {
-      path: '/friends/:id/:age/:weight',
-      name: 'Friends',
-      props: true,
-      component: Friends
+      path: '/Identification',
+      name: 'identification',
+      component: Identification
     },
     {
-      path: '/contact',
-      name: 'Contact',
-      component: Contact
+      path: '/login',
+      name: 'Login',
+      component: Login
     },
     {
-      path: '/account',
-      name: 'Account',
-      component: Account
+      path: '/survey',
+      name: 'Survey',
+      component: Survey
+    },
+    {
+      path: '/warning',
+      name: 'Warning',
+      component: Warning
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
+    {
+      path: '/upload',
+      name: 'Upload',
+      component: Upload
+    },
+    {
+      path: '/admin',
+      name: 'Admin',
+      component: Admin
     }
   ]
 })
