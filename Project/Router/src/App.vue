@@ -4,7 +4,7 @@
     <br>
     <router-link to="identification">Identification</router-link>
     <router-link to="survey">Survey</router-link>
-    <router-link to="contact">Contact</router-link>
+    <router-link to="unityplayer">UnityPlayer</router-link>
     <router-link to="warning">Warning</router-link>
     <router-link to="login">Login</router-link>
     <router-link to="upload">Upload</router-link>

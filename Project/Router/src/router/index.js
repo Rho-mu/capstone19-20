@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Landing from '@/components/Landing'
 import Survey from '@/components/Survey'
-import Contact from '@/components/Contact'
+import UnityPlayer from '@/components/UnityPlayer'
 import Identification from '@/components/Identification'
 import Warning from '@/components/Warning'
 import Login from '@/components/Login'
@@ -39,11 +39,6 @@ export default new Router({
       component: Warning
     },
     {
-      path: '/login',
-      name: 'Login',
-      component: Login
-    },
-    {
       path: '/upload',
       name: 'Upload',
       component: Upload
@@ -52,6 +47,11 @@ export default new Router({
       path: '/admin',
       name: 'Admin',
       component: Admin
+    },
+    {
+      path: '/unityplayer',
+      name: 'UnityPlayer',
+      component: UnityPlayer
     }
   ]
 })
