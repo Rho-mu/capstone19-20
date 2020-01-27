@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Landing from '@/components/Landing'
 import Survey from '@/components/Survey'
 import Threejs from '@/components/Threejs'
+import Contact from '@/components/Contact'
 import Identification from '@/components/Identification'
 import Warning from '@/components/Warning'
 import Login from '@/components/Login'
@@ -57,6 +58,11 @@ export default new Router({
       path: '/threejs',
       name: 'Threejs',
       component: Threejs
+    },
+    {
+      path: '/contact',
+      name: 'Contact',
+      component: Contact
     }
   ]
 })
