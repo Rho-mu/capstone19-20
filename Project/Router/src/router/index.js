@@ -8,6 +8,7 @@ import Warning from '@/components/Warning'
 import Login from '@/components/Login'
 import Upload from '@/components/Upload'
 import Admin from '@/components/Admin'
+import Visualizaion from '@/components/Vis'
 
 Vue.use(Router)
 
@@ -52,6 +53,22 @@ export default new Router({
       path: '/admin',
       name: 'Admin',
       component: Admin
+    },
+    {
+      path: '/contact',
+      name: 'Contact',
+      component: Contact
+    },
+    /*{
+      path: '/threejs',
+      name: 'Threejs',
+      component: Threejs
+    },*/
+
+    {
+      path: '/Vis',
+      name: 'Visualizaion',
+      component: Visualizaion
     }
   ]
 })
