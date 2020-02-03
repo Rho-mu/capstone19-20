@@ -4,17 +4,13 @@
 
 <script>
 import * as THREE from 'three'
+import json from '../json/treeData.json'
 
 export default {
   name: 'ThreeTest',
   data() {
     return {
-      cube: null,
-      renderer: null,
-      scene: null,
-      camera: null,
-      crown: null,
-      trunk: null
+      data: json,
     }
   },
   methods: {
@@ -30,34 +26,30 @@ export default {
       document.body.appendChild(this.renderer.domElement)
 
       // Crown
-      this.crownGeo = new THREE.ConeGeometry( 2, 2, 10 )
+      // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
+      this.crownGeo = new THREE.ConeGeometry( this.data.crownRadius, this.data.crownHeight, 10 )
       this.crownMat = new THREE.MeshBasicMaterial( {color: 0x00FF00} )
       this.crown = new THREE.Mesh( this.crownGeo, this.crownMat )
       this.crown.position.y = 2
       this.scene.add( this.crown )
 
       // Trunk
-      this.trunkGeo = new THREE.CylinderGeometry( 1, 1, 3, 10 )
+      // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
+      this.trunkGeo = new THREE.CylinderGeometry( this.data.trunkRadiusTop, this.data.trunkRadiusBot, this.data.trunkHeight, 10 )
       this.trunkMat = new THREE.MeshBasicMaterial( {color: 0xb5651d} )
       this.trunk = new THREE.Mesh( this.trunkGeo, this.trunkMat )
       this.scene.add( this.trunk )
-
-      // Example geometry
-      /*const geometry = new THREE.BoxGeometry(1, 1, 1)
-      const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
-      this.cube = new THREE.Mesh(geometry, material)
-      this.scene.add(this.cube)*/
 
       this.camera.position.z = 5
 
       const animate = function() {}
     },
+
     update: function() {
-      /*this.cube.rotation.x += 0.01
-      this.cube.rotation.y += 0.01*/
       this.crown.rotation.y += 0.01
       this.trunk.rotation.y += 0.01
     },
+
     animate: function() {
       requestAnimationFrame(this.animate)
       this.update()
@@ -67,8 +59,14 @@ export default {
   mounted() {
     this.init()
     this.animate()
+    // http://www.codekayak.net/load-json-data-component-vue/
+    /*$.getJSON('endpoint', json => {
+      this.products = json.data
+      console.log(json.data)
+    })*/
   }
 }
+
 </script>
 <style scoped>
   canvas { width: 100%; height: 100% }
