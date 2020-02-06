@@ -59,12 +59,6 @@ export default new Router({
       name: 'Contact',
       component: Contact
     },
-    /*{
-      path: '/threejs',
-      name: 'Threejs',
-      component: Threejs
-    },*/
-
     {
       path: '/Vis',
       name: 'Visualizaion',
