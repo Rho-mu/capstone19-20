@@ -37,3 +37,4 @@ sysinfo.txt
 
 # node_modules folder
 node_modules/
+.Rproj.user
