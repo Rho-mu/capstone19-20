@@ -1,0 +1,26 @@
+.Rproj.user/BABFE6A7/sources/s-A859EEA3/A0AD4023-contents:      v->vt = neiloidV + parabloidV + coneV;
+.Rproj.user/BABFE6A7/sources/s-A859EEA3/A0AD4023-contents:    //printf("neilV=%g, paraV=%g, coneV=%g, vt=%g \n",neiloidV, parabloidV,coneV,v->vt);
+.Rproj.user/BABFE6A7/sources/s-A859EEA3/A0AD4023-contents:    v->vth=0;
+.Rproj.user/BABFE6A7/sources/s-A859EEA3/A0AD4023-contents:      v->vth = 0;
+.Rproj.user/BABFE6A7/sources/s-A859EEA3/A0AD4023-contents:      v->vth = (M_PI/4)*(h->H - h->H*(pow((sw/r->r0),(2/3))))*pow(r0,2);
+.Rproj.user/BABFE6A7/sources/s-A859EEA3/A0AD4023-contents:	v->vth = neiloidV + parabloidV;
+.Rproj.user/BABFE6A7/sources/s-A859EEA3/A0AD4023-contents:	v->vth = neiloidV + parabloidV + coneV;
+.Rproj.user/BABFE6A7/sources/s-A859EEA3/A0AD4023-contents:    if (v->vt >= v->vth){
+.Rproj.user/BABFE6A7/sources/s-A859EEA3/A0AD4023-contents:      v->vts =v->vt - v->vth;
+.Rproj.user/BABFE6A7/sources/s-A859EEA3/A0AD4023-contents:    v->vt=0;
+.Rproj.user/BABFE6A7/sources/s-A859EEA3/A0AD4023-contents:    v->vts=0;
+.Rproj.user/BABFE6A7/sources/s-A859EEA3/A0AD4023-contents:    v->vth=0;
+Binary file src/ACGCA.dll matches
+Binary file src/excessgrowing.o matches
+src/misc_growth_funcs.c:      v->vt = neiloidV + parabloidV + coneV;
+src/misc_growth_funcs.c:    //printf("neilV=%g, paraV=%g, coneV=%g, vt=%g \n",neiloidV, parabloidV,coneV,v->vt);
+src/misc_growth_funcs.c:    v->vth=0;
+src/misc_growth_funcs.c:      v->vth = 0;
+src/misc_growth_funcs.c:      v->vth = (M_PI/4)*(h->H - h->H*(pow((sw/r->r0),(2/3))))*pow(r0,2);
+src/misc_growth_funcs.c:	v->vth = neiloidV + parabloidV;
+src/misc_growth_funcs.c:	v->vth = neiloidV + parabloidV + coneV;
+src/misc_growth_funcs.c:    if (v->vt >= v->vth){
+src/misc_growth_funcs.c:      v->vts =v->vt - v->vth;
+src/misc_growth_funcs.c:    v->vt=0;
+src/misc_growth_funcs.c:    v->vts=0;
+src/misc_growth_funcs.c:    v->vth=0;
