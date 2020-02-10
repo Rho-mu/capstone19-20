@@ -18,7 +18,7 @@ export default {
   },
   methods: {
     init: function() {
-      var width = 40
+      var width = 50
       var height = 40
 
       // Create scene
