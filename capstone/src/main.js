@@ -1,24 +1,26 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import firebase from 'firebase'
-import App from './App'
+import App from './App.vue'
 import router from './router'
 
-Vue.config.productionTip = false;
 
-let app = '';
+Vue.config.productionTip = false
 
-firebase.initializeApp({
-    apiKey: "AIzaSyBlhe49hu63T-V7vuy1_NSYmOXFXzNqLm8",
-    authDomain: "acgcamodel.firebaseapp.com",
-    databaseURL: "https://acgcamodel.firebaseio.com",
-    projectId: "acgcamodel",
-    storageBucket: "acgcamodel.appspot.com",
-    messagingSenderId: "949804227890",
-    appId: "1:949804227890:web:ddd6263dec9eab0bfacb2b",
-    measurementId: "G-EPKM1H65GM"
+//let app = '';
+
+let app = firebase.initializeApp({
+  apiKey: "AIzaSyC5nS9CfR_UvmEdLMArhVKSw7MNDOk_lN4",
+  authDomain: "fir-vue-cd426.firebaseapp.com",
+  databaseURL: "https://fir-vue-cd426.firebaseio.com",
+  projectId: "fir-vue-cd426",
+  storageBucket: "fir-vue-cd426.appspot.com",
+  messagingSenderId: "717209956436",
+  appId: "1:717209956436:web:e668b20e40722c894efdc1",
+  measurementId: "G-1WSQ0XJDDE"
 });
+
+export const db = app.database();
+export const userRef = db.ref('users');
 
 firebase.auth().onAuthStateChanged(() => {
   if (!app) {
@@ -28,3 +30,7 @@ firebase.auth().onAuthStateChanged(() => {
     }).$mount('#app');
   }
 });
+app = new Vue({
+  router,
+  render: h => h(App)
+}).$mount('#app');
