@@ -7,51 +7,70 @@
     <p>
       or Sign In with Google <br>
       <button @click="socialLogin" class="social-button">
-        <img src="../assets/google-logo.png" alt="Google Logo">
+        <img src="../assets/google-logo.png">
       </button>
     </p>
-    <p>You don't have an account ? You can <router-link to="/sign-up">create one</router-link></p>
+    <p>You don't have an account? You can <router-link to="/sign-up">create one</router-link></p>
   </div>
 </template>
 
 <script>
-import firebase from 'firebase';
+  import firebase from 'firebase';
 
-export default {
-  name: 'login',
-  data() {
-    return {
-      email: '',
-      password: ''
-    }
-  },
-  methods: {
-    login: function() {
-      firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
-        (user) => {
-          this.$router.replace('home')
-        },
-        (err) => {
+  export default {
+    name: 'login',
+    data() {
+      return {
+        email: '',
+        password: ''
+      }
+    },
+    methods: {
+      login() {
+        firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
+          (user) => {
+            this.$router.replace('survey')
+          },
+          (err) => {
+            alert('Oops. ' + err.message)
+          }
+        );
+      },
+      socialLogin() {
+        const provider = new firebase.auth.GoogleAuthProvider();
+
+        firebase.auth().signInWithPopup(provider).then((result) => {
+          this.$router.replace('survey')
+        }).catch((err) => {
           alert('Oops. ' + err.message)
-        }
-      );
-    },
-    socialLogin() {
-      const provider = new firebase.auth.GoogleAuthProvider();
-
-      firebase.auth().signInWithPopup(provider).then((result) => {
-        this.$router.replace('home');
-      }).catch((err) => {
-        alert('Oops. ' + err.message)
-      });
-    },
-
-
+        });
+      }
     }
-}
+  }
 </script>
 
-<style lang="css" scoped>
+<style scoped>
+  .login {
+    margin-top: 40px;
+  }
+  input {
+    margin: 10px 0;
+    width: 20%;
+    padding: 15px;
+  }
+  button {
+    margin-top: 20px;
+    width: 10%;
+    cursor: pointer;
+  }
+  p {
+    margin-top: 40px;
+    font-size: 13px;
+  }
+  p a {
+    text-decoration: underline;
+    cursor: pointer;
+  }
   .social-button {
     width: 75px;
     background: white;
