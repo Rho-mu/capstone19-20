@@ -8,6 +8,7 @@ import Visualization from '../views/Vis.vue'
 import Survey from '../views/Survey.vue'
 import Landing from '../views/Landing.vue'
 import Inputs from '../views/inputs.vue'
+import Outputs from '../views/outputs.vue'
 
 Vue.use(VueRouter)
 
@@ -48,6 +49,11 @@ const routes = [
     path: '/inputs', // this redirects anything that doesn't correspond to the login page
     name: 'Inputs',
     component: Inputs
+  },
+  {
+    path: '/outputs', // this redirects anything that doesn't correspond to the login page
+    name: 'Outputs',
+    component: Outputs
   }
 ]
 
