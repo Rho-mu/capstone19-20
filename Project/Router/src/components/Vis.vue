@@ -1,8 +1,15 @@
 <template>
   <div>
     <div class="treeCanvasport" id="treeCanvasport"></div>
+    <div v-for="tree in data"
+      v-bind:year = "tree.year"
+    >
+      <label>{{ tree.year }}</label>
+    </div>
+    <input type="range" class="slider" id="timeStampSlider">
     <div class="crossSecCanvas" id="crossSecCanvas"></div>
     <!--TESTING ONLY--><div class="testCanvas" id="testCanvas"></div>
+
   </div>
 </template>
 
@@ -14,10 +21,25 @@ export default {
   name: 'treeVisual',
   data() {
     return {
-      data: json,
+      data: json.trees,
+      crownShape: "sphere"
     }
   },
   methods: {
+    getData: function() {
+      /*fetch("https://ak04d09oj9.execute-api.us-east-2.amazonaws.com/Testing/user", {
+        params: JSON.stringify({"runid": "yeah"}),
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": "AZIzU9ni0x5vG6Rsub9qLaDxH6z26Zrz9bwvteiW"
+        },
+      })
+      .then((data) => {
+        console.log(data)
+      })*/
+    },
+
     init: function() {
       /////////////// Tree Scene ///////////////
       this.treeCanvas = document.getElementById( "treeCanvasport" );
@@ -55,11 +77,15 @@ export default {
       this.crossSecRenderer = new THREE.WebGLRenderer( {antialias: true} )
       this.crossSecRenderer.setSize( window.innerWidth, window.innerHeight )
       this.crossSecCanvas.appendChild( this.crossSecRenderer.domElement )
+
+      /*for(var tree in this.data)
+      {
+        v-bind:year = "tree.year"
+      }*/
     }, // End: init()
 
     generateTrees: function() {
       var ringGroup = new THREE.Group()
-
 
       /*var loader = new THREE.TextureLoader();
 
@@ -84,13 +110,30 @@ export default {
       		console.error( 'An error happened.' )
       	}
       )*/
+  /*    new THREE.TextureLoader().load( '../json/bark.png', function ( texture ) {
 
+					texture.wrapS = texture.wrapT = THREE.RepeatWrapping
+					texture.anisotropy = renderer.capabilities.getMaxAnisotropy()
 
+					//texture.matrixAutoUpdate = false; // default true; set to false to update texture.matrix manually
+
+					var material = new THREE.MeshBasicMaterial( { map: texture } )
+
+					mesh = new THREE.Mesh( geometry, material )
+					scene.add( mesh )
+
+					updateUvTransform()
+
+					initGui()
+
+					render()
+
+				} )*/
       var myTexture = new THREE.TextureLoader().load( '../json/bark.png' )
       var myMaterial = new THREE.MeshBasicMaterial( { map: myTexture } )
       //var myMaterial = new THREE.MeshBasicMaterial( { color: 0xFFFF00 } )
-      var boxgeometry = new THREE.BoxGeometry( 1, 1, 1 );
-      var box = new THREE.Mesh( boxgeometry, myMaterial )
+      var boxGeometry = new THREE.BoxGeometry( 1, 1, 1 );
+      var box = new THREE.Mesh( boxGeometry, myMaterial )
       box.position.x = 8
       box.position.y = 0
       this.treeScene.add( box )
@@ -98,14 +141,14 @@ export default {
       for( var i = 0; i < 3; i++ )
       {
         // ACGCA output
-        var height = this.data.trees[i].height
-        var heightToCrown = this.data.trees[i].heightToCrown
-        var radiusCrownBase  = this.data.trees[i].radiusCrownBase
-        var radius = this.data.trees[i].radius
-        var radiusBase = this.data.trees[i].radiusBase
-        var radiusBreast = this.data.trees[i].radiusBreast
-        var leafArea = this.data.trees[i].leafArea
-        var growthState = this.data.trees[i].growthState
+        var height = this.data[i].height
+        var heightToCrown = this.data[i].heightToCrown
+        var radiusCrownBase  = this.data[i].radiusCrownBase
+        var radius = this.data[i].radius
+        var radiusBase = this.data[i].radiusBase
+        var radiusBreast = this.data[i].radiusBreast
+        var leafArea = this.data[i].leafArea
+        var growthState = this.data[i].growthState
 
         // Suplimental parameters
         var geoSegments = 10
@@ -114,7 +157,7 @@ export default {
         var crownPos = height - (height - heightToCrown)/2 - 2.8
 
         // Crown
-        var crownShape = "cone"
+        var crownShape = "cylinder"
         var crownGeo
         if( crownShape == "cone" )
         {
@@ -130,7 +173,7 @@ export default {
         else if( crownShape == "cylinder" )
         {
           // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
-          crownGeo = new THREE.CylinderGeometry( radiusCrownBase, crownRadius, height-heightToCrown, geoSegments );
+          crownGeo = new THREE.CylinderGeometry( radiusCrownBase, radiusCrownBase, height-heightToCrown, geoSegments );
         }
         else if( crownShape == "Lathe" )
         {
@@ -155,6 +198,7 @@ export default {
         trunk.position.y = trunkPos
         trunk.position.x = i*4-5
         this.treeScene.add( trunk )
+        this.trunk = trunk
 
         // Trunk Cross-section
         // CircleGeometry(radius : Float, segments : Integer, thetaStart : Float, thetaLength : Float)
@@ -170,6 +214,7 @@ export default {
         //this.scene.add( ring )
       }
       this.crossSecScene.add( ringGroup )
+      this.render()
     }, // End: generateTrees()
 
     test: function() {
@@ -196,19 +241,29 @@ export default {
       //ring.rotation.z -= 0.01
     }, // End: update()
 
-    animate: function() {
-      requestAnimationFrame(this.animate)
-      this.update()
+    render: function() {
       this.treeRenderer.render(this.treeScene, this.treeCam)
       this.crossSecRenderer.render(this.crossSecScene, this.crossSecCam)
       /*TESTING ONLY*/this.testRenderer.render(this.testScene, this.testCam)
+    }, // End: render()
+
+    animate: function() {
+      requestAnimationFrame(this.animate)
+      this.update()
+      //this.render()
+
     }
   }, // End: methods
 
+  created() {
+    //this.myTexture = new THREE.TextureLoader().load( '../json/bark.png' )
+  },
+
   mounted() {
+    //this.getData()
     this.init()
     this.generateTrees()
-    this.test()
+    //this.test()
     this.animate()
     // http://www.codekayak.net/load-json-data-component-vue/
     /*$.getJSON('endpoint', json => {
