@@ -68,7 +68,7 @@ const router = new VueRouter({
 //   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
 //
 //   if (requiresAuth && !currentUser) next('login');
-//   else if (!requiresAuth && currentUser) next('home');
+//   else if (!requiresAuth && currentUser) next('survey');
 //   else next();
 // });
 
