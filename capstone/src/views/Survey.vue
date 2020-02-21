@@ -1,88 +1,76 @@
 <template>
-  <div id="app">
-    <div>
-      <img src="Logo-Black.png"><br>
-      <input type="text" v-model="newUser.first_Name" placeholder="First Name" required><br>
-      <input type="text" v-model="newUser.last_Name" placeholder="Last Name" required><br>
-      <input type="text" v-model="newUser.occupation" placeholder="Affiliation"required><br>
-      <input type="text" v-model="newUser.locale" placeholder="Locale"required><br>
-      <input type="text" v-model="newUser.role" placeholder="Affiliation Role" required><br>
-      <button @click="submitName()">Add</button>
+  <div id="add-blog">
+    <h2>Add a new blog post</h2>
+    <form v-if="!submitted">
+      <label>Blog title</label>
+      <input type="text" v-model.lazy="blog.title" required/>
+      <label>Blog Content</label>
+      <textarea v-model.lazy="blog.content"></textarea>
+      <div id="checkboxes">
+        <label>Ninjas</label>
+        <input type="checkbox" value="ninjas" v-model="blog.categories"/>
+        <label>Wizards</label>
+        <input type="checkbox" value="wizards" v-model="blog.categories"/>
+        <label>Mario</label>
+        <input type="checkbox" value="mario" v-model="blog.categories"/>
+        <label>Cheese</label>
+        <input type="checkbox" value="cheese" v-model="blog.categories"/>
+      </div>
+      <label>Author</label>
+      <select v-model="blog.author">
+        <option v-for="author in authors">{{author}}</option>
+      </select>
+      <button v-on:click.prevent="post">Add Blog</button>
+    </form>
+    <div v-if="submitted">
+      <h3>Thanks for adding your post</h3>
     </div>
-    <div>
+    <div id="preview">
+      <h3>Preview Blog</h3>
+      <p>Blot title: {{blog.title}}</p>
+      <p>Blog content:</p>
+      <p>{{blog.content}}</p>
+      <p>Blog Categories:</p>
       <ul>
-        <li v-for="user of users"
-          v-bind:key="user['.key']">
-        </li>
+        <li v-for="category in blog.categories">{{category}}</li>
       </ul>
+      <p>Author: {{blog.author}}</p>
     </div>
   </div>
+
 </template>
 
 <script>
-import { userRef } from '../main';
-
 export default {
-  data () {
+
+  data() {
     return {
-      newUser: {
-        first_Name: '',
-        last_Name: '',
-        occupation: '',
-        local: '',
-        role: ''
-      }
+      blog: {
+        title: "",
+        content: "",
+        categories: [],
+        author: ""
+      },
+      authors: ['The Net Ninja', 'The Angular Avenger', 'The Vue Vindicator'],
+      submitted: false,
     }
   },
-  firebase: {
-    users: userRef
-  },
   methods: {
-    submitName() {
-      var keyRef = userRef.push( this.newUser );
-      console.log(keyRef.key);
-      this.$router.replace('visualization');
+    post: function() {
+      this.$http.post('https://acgcamodel.firebaseio.com/posts.json', this.blog).then(function(data){
+        console.log(data);
+        this.submitted = true;
+      });
+        //title: this.blog.title,
+        //body: this.blog.content,
+      //}).then(function(data){
+        //console.log(data);
+        //this.submitted = true;
+      //});
     }
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
-
-button {
-  margin-top: 20px;
-  width: 10%;
-  cursor: pointer;
-}
-input {
-  margin: 10px 0;
-  width: 20%;
-  padding: 15px;
-}
+<style lang="css" scoped>
 </style>
