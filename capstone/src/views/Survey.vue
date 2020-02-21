@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <form @submit="submitName">
     <div>
       <img src="../assets/Logo-Black.png"><br>
       <input type="text" v-model="newUser.first_Name" placeholder="First Name" required><br>
@@ -7,7 +8,7 @@
       <input type="text" v-model="newUser.occupation" placeholder="Affiliation"required><br>
       <input type="text" v-model="newUser.locale" placeholder="Locale"required><br>
       <input type="text" v-model="newUser.role" placeholder="Affiliation Role" required><br>
-      <button @click="submitName()">Add</button>
+      <button type="submit" value="Submit">Add</button>
     </div>
     <div>
       <ul>
@@ -16,6 +17,7 @@
         </li>
       </ul>
     </div>
+  </form>
   </div>
 </template>
 
@@ -31,7 +33,8 @@ export default {
         occupation: '',
         local: '',
         role: ''
-      }
+      },
+      errors: []
     }
   },
   firebase: {
@@ -40,7 +43,6 @@ export default {
   methods: {
     submitName() {
       var keyRef = userRef.push( this.newUser );
-      console.log(keyRef.key);
       this.$router.replace('visualization');
     }
   }
