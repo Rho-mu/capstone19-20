@@ -34,6 +34,7 @@
 <script>
 import firebase from 'firebase'
 export default {
+  name: 'landing',
   methods: {
     moveToSignUp: function() {
       this.$router.replace('sign-up')

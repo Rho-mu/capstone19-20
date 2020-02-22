@@ -25,6 +25,7 @@
 import { userRef } from '../main';
 
 export default {
+  name: 'survey',
   data () {
     return {
       newUser: {
@@ -33,8 +34,7 @@ export default {
         occupation: '',
         local: '',
         role: ''
-      },
-      errors: []
+      }
     }
   },
   firebase: {
