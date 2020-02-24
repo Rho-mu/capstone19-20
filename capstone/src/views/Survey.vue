@@ -102,6 +102,7 @@ input {
   width: 20%;
   padding: 15px;
 }
+
 .help-tip{
   position: absolute;
   text-align: center;

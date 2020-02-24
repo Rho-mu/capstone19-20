@@ -1,5 +1,5 @@
 <template>
-  <form class="" action="index.html" method="post">
+  <form @submit="updateFriend">
     <input type="text" name="inputTest" value="">input
     <button type="submit" name="button">Button</button>
   </form>
@@ -8,9 +8,9 @@
 <script>
 export default {
   methods: {
-    updateFriend(friend) {
+    updateFriend(data) {
       fetch("https://ak04d09oj9.execute-api.us-east-2.amazonaws.com/Testing/user", {
-        body: JSON.stringify(friend),
+        body: JSON.stringify(data),
         method: "POST", //to create a new thing we use POST
         headers: {
           "Content-Type": "application/json",
