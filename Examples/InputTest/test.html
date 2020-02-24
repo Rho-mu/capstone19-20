@@ -51,14 +51,15 @@
             var popup = document.getElementById("hidenHelp");
             popup.classList.toggle("show");
             }
-
+ 
             //initialize variables
             let uniqueTrees = [];
-
-
             
             //function that generate json object
             const generateJson = (ev)=>{
+                
+                uniqueTrees = [];
+
                 ev.preventDefault();  //to stop the form submitting
                 let uniqueTree = {
                     height: document.getElementById('height').value,
