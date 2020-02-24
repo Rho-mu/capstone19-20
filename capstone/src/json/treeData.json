@@ -1,7 +1,11 @@
 {
-  "trees": [{
+  "trees": [
+    {
+    "value": 0,
+    "year": 0,
     "height": 3,
     "heightToCrown": 1.5,
+    "radiusCrownBase": 1.0,
     "radius": 0.8,
     "radiusBase": 0.95,
     "radiusBreast": 1,
@@ -9,8 +13,11 @@
     "growthState": 1
   },
   {
+    "value": 1,
+    "year": 1,
     "height": 4.5,
     "heightToCrown": 2.25,
+    "radiusCrownBase": 1.4,
     "radius": 1,
     "radiusBase": 1.15,
     "radiusBreast": 1,
@@ -18,12 +25,16 @@
     "growthState": 1
   },
   {
+    "value": 2,
+    "year": 2,
     "height": 6,
     "heightToCrown": 3,
+    "radiusCrownBase": 2.5,
     "radius": 1.2,
     "radiusBase": 1.3,
     "radiusBreast": 1,
     "leafArea": 1,
     "growthState": 1
-  }]
+  }
+  ]
 }
