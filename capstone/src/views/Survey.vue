@@ -104,7 +104,8 @@ input {
 }
 
 .help-tip{
-  position: absolute;
+  position: relative;
+  display: inline-block;
   text-align: center;
   background-color: #BCDBEA;
   border-radius: 50%;
