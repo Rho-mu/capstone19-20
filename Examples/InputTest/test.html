@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>A quick demo of generating json object</title>
+    <style>
+        .formBox{
+            padding: 0.5rem 2rem;
+        }
+
+        .popup {
+        cursor: pointer;
+        }
+
+        .popuptext {
+        visibility: hidden;
+        }
+
+        .popup .show {
+        visibility: visible;
+        }
+    </style>
+</head>
+<body>
+    <form>
+        <div class="formBox">
+            <label for="height">tree height</label>
+            <input type="test" id="height" placeholder="Enter the height"/>
+            <div class="popup" onclick="helpBoxFunction()">WHAT IS IT?
+            <span class="popuptext" id="hidenHelp">It is the tree height</span>
+            </div>
+        </div>
+        <div class="formBox">
+            <label for="width">tree width</label>
+            <input type="text" id="width" placeholder="Enter the width"/>
+        </div>
+        <div class="formBox">
+            <button id="submit" type="submit">Click to run</button>
+            <button id="clear">clear</button>
+        </div>
+        <div id="msg">
+            <pre></pre>
+        </div>
+    </form>
+    <script>
+           
+            //function that pop up the helpbox
+            function helpBoxFunction() {
+            var popup = document.getElementById("hidenHelp");
+            popup.classList.toggle("show");
+            }
+
+            //initialize variables
+            let uniqueTrees = [];
+
+
+            
+            //function that generate json object
+            const generateJson = (ev)=>{
+                ev.preventDefault();  //to stop the form submitting
+                let uniqueTree = {
+                    height: document.getElementById('height').value,
+                    width: document.getElementById('width').value
+                }
+
+                uniqueTrees.push(uniqueTree);
+                document.forms[0].reset(); // to clear the form for the next entries
+
+                //for display purposes only
+                console.warn('added' , {uniqueTrees} );
+                let pre = document.querySelector('#msg pre');
+                pre.textContent = '\n' + JSON.stringify(uniqueTrees, '\t', 2);
+
+                //saving to localStorage
+                localStorage.setItem('TreeInput', JSON.stringify(uniqueTrees) );
+            }
+           
+            document.addEventListener('DOMContentLoaded', ()=>{
+                document.getElementById('submit').addEventListener('click', generateJson);
+            });
+
+
+
+           //function that clear the form and json object
+            const clear = (ev)=>{
+                ev.preventDefault();  //to stop the form submitting
+
+                document.forms[0].reset(); // to clear the form for the next entries
+
+                uniqueTrees = [];//clear the json
+
+                //for display purposes only
+                console.warn('cleared' );
+                let pre = document.querySelector('#msg pre');
+                pre.textContent = '\n' + JSON.stringify(uniqueTrees, '\t', 2);
+                
+            }
+
+            document.addEventListener('DOMContentLoaded', ()=>{
+                document.getElementById('clear').addEventListener('click', clear);
+            });
+
+
+
+    </script>
+</body>
+</html>
