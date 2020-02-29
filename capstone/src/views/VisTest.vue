@@ -1,20 +1,19 @@
 <template>
   <div>
-    <h5>HI</h5>
     <button @click="initialize()">init</button>
     <button @click="animate()">animate</button>
     <button @click="addBox()">add box</button>
     <!--<button @click="drawTree()">draw tree</button>-->
     <br>
-    <h3>Index: {{ dataIndex }}</h3><br>
-    <input type="range" min="0" max="2" v-model="dataIndex" id="timeStepSlider" @click="drawTree()"><br>
-
+    <!--<h3>Index: {{ dataIndex }}</h3><br>-->
     <br>
     <button @click="setCrownShape('cone')">cone</button>
     <button @click="setCrownShape('sphere')">sphere</button>
     <button @click="setCrownShape('cylinder')">cylinder</button>
 
     <div class="treeCanvasport" id="treeCanvasport"></div>
+
+    <input type="range" min="0" max="2" v-model="dataIndex" id="timeStepSlider" @click="drawTree()"><br>
 
     <label for="s2">year: {{ treeData[dataIndex].year }}</label><br>
     <label for="s2">height: {{ treeData[dataIndex].height }}</label><br>
@@ -121,7 +120,7 @@ export default {
       console.log("h:",height,"\nHtC:",heightToCrown,"\nrcb:",radiusCrownBase,"\nr:",radius,"\nrb:",radiusBase,"\nrBr:",radiusBreast,"\nla:",leafArea,"\ngs:",growthState)
 
       // Suplimental parameters
-      var geoSegments = 10
+      var geoSegments = 20
       var crownRadius = radius
       var trunkPos = heightToCrown/2 - 2.8
       var crownPos = height - (height - heightToCrown)/2 - 2.8
@@ -179,8 +178,8 @@ export default {
     }, // END: setCrownShape()
 
     update() {
-      this.trunk.rotation.y += 0.01
-      this.crown.rotation.y += 0.01
+      //this.trunk.rotation.y += 0.01
+      //this.crown.rotation.y += 0.01
     }, // END: update()
 
     animate() {
