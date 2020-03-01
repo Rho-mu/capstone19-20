@@ -1,20 +1,34 @@
 <template>
   <div>
-    <button @click="getData2()" name="button">Button</button>
+    <button @click="getData()" name="button">GetData</button>
+    <button @click="getData2()" name="button">GetData2</button>
+    <button @click="getData3()" name="button">GetData3</button>
+    <button @click="getData4()" name="button">GetData4</button>
   </div>
 </template>
 
 <script>
 export default {
-  methods: {
-    // Test 1 - Change the function in the button to switch between tests.
+methods: {
+    getData4() {
+      fetch("https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/", {
+        method: "GET",
+        mode: "no-cors",
+        headers: {
+          "x-api-key": "AZIzU9ni0x5vG6Rsub9qLaDxH6z26Zrz9bwvteiW"
+        }
+      })
+      //.then(response => response.json())
+      .then((data) => {
+        console.log(data)
+      })
+    }, //getData4
     getData() {
-      fetch("https://ak04d09oj9.execute-api.us-east-2.amazonaws.com/Testing/user", {
+      fetch("https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/", {
         params: JSON.stringify({"runid": "yeah"}),
         method: "GET",
         mode: "no-cors",
         headers: {
-
           "x-api-key": "AZIzU9ni0x5vG6Rsub9qLaDxH6z26Zrz9bwvteiW"
         }
       })
@@ -22,20 +36,33 @@ export default {
         console.log(data)
       })
     },
-    // Test 2 - Change the function in the button to switch between tests.
-    getData2() {
-          // Alias the component instance as `vm`, so that we
-          // can access it inside the promise function
-          var vm = this;
-          // Fetch our array of posts from an API
-          fetch("https://ak04d09oj9.execute-api.us-east-2.amazonaws.com/Testing/user")
-            .then(function(response) {
-              return response.json();
-            })
-            .then(function(data) {
-              vm.posts = data;
-            });
-        }
+    /*getData2() {
+      // Alias the component instance as `vm`, so that we
+      // can access it inside the promise function
+      var vm = this;
+      // Fetch our array of posts from an API
+      fetch("https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/")
+        .then(function(response) {
+          return response.json()
+        })
+        .then(function(data) {
+          vm.posts = data
+          console.log(data)
+        });
+    },*/
+    /*getData3() {
+      fetch("https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/", {
+        body: JSON.stringify(data),
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": "AZIzU9ni0x5vG6Rsub9qLaDxH6z26Zrz9bwvteiW"
+        },
+      })
+      .then((data) => {
+        console.log(data)
+      })
+    }*/
   }
 }
 </script>
