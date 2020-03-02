@@ -1,39 +1,26 @@
 <template>
   <div>
     <button @click="getData()" name="button">GetData</button>
-    <button @click="getData2()" name="button">GetData2</button>
+    <!--<button @click="getData2()" name="button">GetData2</button>
     <button @click="getData3()" name="button">GetData3</button>
-    <button @click="getData4()" name="button">GetData4</button>
+    <button @click="getData4()" name="button">GetData4</button>-->
   </div>
 </template>
 
 <script>
 export default {
 methods: {
-    getData4() {
-      fetch("https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/", {
-        method: "GET",
-        mode: "no-cors",
-        headers: {
-          "x-api-key": "AZIzU9ni0x5vG6Rsub9qLaDxH6z26Zrz9bwvteiW"
-        }
-      })
-      //.then(response => response.json())
-      .then((data) => {
-        console.log(data)
-      })
-    }, //getData4
     getData() {
       fetch("https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/", {
-        params: JSON.stringify({"runid": "yeah"}),
         method: "GET",
         mode: "no-cors",
         headers: {
+          "X-Run-ID": "test",
           "x-api-key": "AZIzU9ni0x5vG6Rsub9qLaDxH6z26Zrz9bwvteiW"
         }
       })
       .then((data) => {
-        console.log(data)
+        console.log(data["body"])
       })
     },
     /*getData2() {
@@ -63,6 +50,19 @@ methods: {
         console.log(data)
       })
     }*/
+    /*getData4() {
+      fetch("https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/", {
+        method: "GET",
+        mode: "no-cors",
+        headers: {
+          "x-api-key": "AZIzU9ni0x5vG6Rsub9qLaDxH6z26Zrz9bwvteiW"
+        }
+      })
+      //.then(response => response.json())
+      .then((data) => {
+        console.log(data)
+      })
+    }*/ //getData4
   }
 }
 </script>
