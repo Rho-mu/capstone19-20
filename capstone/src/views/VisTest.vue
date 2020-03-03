@@ -1,30 +1,32 @@
 <template>
   <div>
-    <h5>HI</h5>
     <button @click="initialize()">init</button>
     <button @click="animate()">animate</button>
     <button @click="addBox()">add box</button>
-    <!--<button @click="drawTree()">draw tree</button>-->
     <br>
-    <h3>Index: {{ dataIndex }}</h3><br>
-    <input type="range" min="0" max="2" v-model="dataIndex" id="timeStepSlider" @click="drawTree()"><br>
-
     <br>
     <button @click="setCrownShape('cone')">cone</button>
     <button @click="setCrownShape('sphere')">sphere</button>
     <button @click="setCrownShape('cylinder')">cylinder</button>
+    <br>
+    <br>
+    <button @click="setScene('treeScene')">trees</button>
+    <button @click="setScene('ringScene')">rings</button>
+
 
     <div class="treeCanvasport" id="treeCanvasport"></div>
 
-    <label for="s2">year: {{ treeData[dataIndex].year }}</label><br>
-    <label for="s2">height: {{ treeData[dataIndex].height }}</label><br>
-    <label for="s2">heightToCrown: {{ treeData[dataIndex].heightToCrown }}</label><br>
-    <label for="s2">radiusCrownBase: {{ treeData[dataIndex].radiusCrownBase }}</label><br>
-    <label for="s2">radius: {{ treeData[dataIndex].radius }}</label><br>
-    <label for="s2">radiusBase: {{ treeData[dataIndex].radiusBase }}</label><br>
-    <label for="s2">radiusBreast: {{ treeData[dataIndex].radiusBreast }}</label><br>
-    <label for="s2">leafArea: {{ treeData[dataIndex].leafArea }}</label><br>
-    <label for="s2">growthState: {{ treeData[dataIndex].growthState }}</label><br>
+    <input type="range" min="0" v-model="dataIndex" id="timeStepSlider" @click="drawTree()"><br>
+    <button @click="drawRings()">draw rings</button><br>
+
+    <label for="s2">height: {{ treeData[dataIndex].h }}               </label><br>
+    <label for="s2">heightToCrown: {{ treeData[dataIndex].hh2 }}      </label><br>
+    <label for="s2">radius: {{ treeData[dataIndex].r }}               </label><br>
+    <label for="s2">radiusBase: {{ treeData[dataIndex].rB2 }}         </label><br>
+    <label for="s2">radiusBreast: {{ treeData[dataIndex].rBH }}       </label><br>
+    <label for="s2">radiusCrownBase: {{ treeData[dataIndex].rC2 }}    </label><br>
+    <label for="s2">leafArea: {{ treeData[dataIndex].la2 }}           </label><br>
+    <label for="s2">growthState: {{ treeData[dataIndex].growth_st }}  </label><br>
   </div>
 </template>
 
@@ -37,54 +39,56 @@ export default {
   data() {
     return {
       dataIndex: "0",
+      maxTimeStep: "3",
       treeData: json.trees,
       crownShape: "cone",
-
-      trees: [
-        {
-          year: "0",
-          height: "0",
-          radius: "0"
-        },
-        {
-          year: "1",
-          height: "1.5",
-          radius: "1"
-        },
-        {
-          year: "2",
-          height: "5",
-          radius: "4"
-        }
-      ]
+      currentScene: this.treeScene,
+      currentCam: this.treeCam
     }
   },
 
   methods: {
     initialize() {
+      // Change the slider to have as many steps as timeSteps from the ACGCA model.
+      document.getElementById("timeStepSlider").setAttribute("max", this.maxTimeStep)
+
       /////////////// Tree Scene ///////////////
       this.treeCanvas = document.getElementById( "treeCanvasport" );
       var treeCanvasWidth = window.innerWidth * 0.7
       var treeCanvasHeight = window.innerHeight * 0.7
 
+      ///// Tree Scene /////
       // Create scene for trees
       this.treeScene = new THREE.Scene()
       this.treeScene.background = new THREE.Color( 0xadd8e6 );
-
       // Create camera for tree scene
       this.treeCam = new THREE.PerspectiveCamera( 90, treeCanvasWidth / treeCanvasHeight, 0.1, 1000 )
       this.treeCam.position.z = 7
       this.treeScene.add( this.treeCam )
+      ///// Tree Scene /////
+
+      ///// Ring Scene /////
+      // Create scene for rings
+      this.ringScene = new THREE.Scene()
+      this.ringScene.background = new THREE.Color( 0xada8e0 );
+      // Create camera for ring scene
+      this.ringCam = new THREE.PerspectiveCamera( 90, treeCanvasWidth / treeCanvasHeight, 0.1, 1000 )
+      this.ringCam.position.z = 7
+      this.ringScene.add( this.ringCam )
+      ///// Ring Scene /////
 
       // Create renderer
       this.treeRenderer = new THREE.WebGLRenderer( {antialias: true} )
       this.treeRenderer.setSize( treeCanvasWidth, treeCanvasHeight )
       this.treeCanvas.appendChild( this.treeRenderer.domElement )
 
+      // Create stand-in tree, but don't add it to the scene.
       this.trunk = new THREE.Mesh( new THREE.CylinderGeometry( 1, 1, 1, 1 ), new THREE.MeshBasicMaterial( {color: 0xb5651d} ) )
       this.crown = new THREE.Mesh( new THREE.CylinderGeometry( 1, 1, 1, 1 ), new THREE.MeshBasicMaterial( {color: 0xb5651d} ) )
 
-
+      // Choose default scene
+      this.currentScene = this.treeScene
+      this.currentCam = this.treeCam
     }, // END: initialize()
 
     addBox() {
@@ -96,7 +100,7 @@ export default {
       var box = new THREE.Mesh( boxGeometry, myMaterial )
       box.position.x = 8
       box.position.y = 0
-      this.treeScene.add( box )
+      this.ringScene.add( box )
     }, // END: addBox()
 
     drawTree() {
@@ -109,47 +113,46 @@ export default {
       this.treeScene.add( this.newScene )                         // Add new scene to root scene
 
       // ACGCA output
-      var height = this.treeData[index].height
-      var heightToCrown = this.treeData[index].heightToCrown
-      var radiusCrownBase  = this.treeData[index].radiusCrownBase
-      var radius = this.treeData[index].radius
-      var radiusBase = this.treeData[index].radiusBase
-      var radiusBreast = this.treeData[index].radiusBreast
-      var leafArea = this.treeData[index].leafArea
-      var growthState = this.treeData[index].growthState
+      var h = this.treeData[index].h                  // Height of tree (total)
+      var hh = this.treeData[index].hh2               // Height of transition from parabaloid to cone (also base of crown)
+      var r = this.treeData[index].r                  // Radius
+      var rB = this.treeData[index].rB2               // Radius at base of tree
+      var rBH = this.treeData[index].rBH              // Radius at breast height (3.37m)
+      var rC  = this.treeData[index].rC2              // Radius of crown base
+      var la = this.treeData[index].la2               // Total one-sided leaf area
+      var growth_st = this.treeData[index].growth_st  // Growth state of tree
+      console.log("h:",h,"\nhh:",hh,"\nr:",r,"\nrB:",rB,"\nrBH:",rBH,"\nrC:",rC,"\nla:",la,"\ngrowth_st:",growth_st)
 
-      console.log("h:",height,"\nHtC:",heightToCrown,"\nrcb:",radiusCrownBase,"\nr:",radius,"\nrb:",radiusBase,"\nrBr:",radiusBreast,"\nla:",leafArea,"\ngs:",growthState)
+      // Supplemental parameters
+      var geoSegments = 16
+      var trunkPos = hh/2 - 2.8
+      var crownPos = h - (h - hh)/2 - 2.8
 
-      // Suplimental parameters
-      var geoSegments = 10
-      var crownRadius = radius
-      var trunkPos = heightToCrown/2 - 2.8
-      var crownPos = height - (height - heightToCrown)/2 - 2.8
-
-      /// Trunk ///
+      ///// Trunk /////
       // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
-      var trunkGeo = new THREE.CylinderGeometry( radius, radiusBase, heightToCrown, geoSegments )
+      var trunkGeo = new THREE.CylinderGeometry( r, rB, hh, geoSegments )
       var trunkMat = new THREE.MeshBasicMaterial( {color: 0xb5651d} )
       this.trunk = new THREE.Mesh( trunkGeo, trunkMat )
       this.trunk.position.y = trunkPos
       this.trunk.position.x = 0
+      ///// Trunk /////
 
-      /// Crown ///
+      ///// Crown /////
       var crownGeo
       if( this.crownShape == "cone" )
       {
         // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
-        crownGeo = new THREE.ConeGeometry( radiusCrownBase, height-heightToCrown, geoSegments )
+        crownGeo = new THREE.ConeGeometry( rC, h-hh, geoSegments )
       }
       else if( this.crownShape == "sphere")
       {
         // SphereGeometry(radius : Float, widthSegments : Integer, heightSegments : Integer)
-        crownGeo = new THREE.SphereGeometry( radiusCrownBase, geoSegments*1.5, geoSegments*1.5 )
+        crownGeo = new THREE.SphereGeometry( rC, geoSegments*1.5, geoSegments*1.5 )
       }
       else if( this.crownShape == "cylinder" )
       {
         // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
-        crownGeo = new THREE.CylinderGeometry( radiusCrownBase, radiusCrownBase, height-heightToCrown, geoSegments );
+        crownGeo = new THREE.CylinderGeometry( rC, rC, h-hh, geoSegments );
       }
       else if( this.crownShape == "Lathe" )
       {
@@ -160,16 +163,36 @@ export default {
         }
         crownGeo = new THREE.LatheGeometry( lathePoints )
       }
-
       var crownMat = new THREE.MeshBasicMaterial( {color: 0x00FF00} )
       this.crown = new THREE.Mesh( crownGeo, crownMat )
       this.crown.position.y = crownPos
       this.crown.position.x = 0
+      ///// Crown /////
 
-
+      // Add trunk and crown to scene
       this.newScene.add( this.crown )
       this.newScene.add( this.trunk )
     }, // END: drawTree()
+
+    drawRings() {
+      var geoSegments = 16
+
+      // CircleGeometry(radius : Float, segments : Integer, thetaStart : Float, thetaLength : Float)
+      for( var i = 0; i <= this.maxTimeStep; i++ )
+      {
+        // ACGCA parameters
+        var r = this.treeData[i].r  // Radius
+        var ringGeo = new THREE.CircleGeometry( r, geoSegments )
+        var ringColor = new THREE.Color();
+        ringColor.r = 0.3*i
+        ringColor.g = 0.2*i
+        ringColor.b = 0.1*i
+        var ringMat = new THREE.MeshBasicMaterial( {color: ringColor} )
+        var ring = new THREE.Mesh( ringGeo, ringMat )
+        ring.position.z = -0.1*i
+        this.ringScene.add( ring )
+      }
+    }, // END: drawRings()
 
     setCrownShape(shape) {
       this.crownShape = shape
@@ -178,19 +201,32 @@ export default {
       this.drawTree()
     }, // END: setCrownShape()
 
+    setScene(scene) {
+      if(scene == "treeScene") {
+        this.currentScene = this.treeScene
+        this.currentCam = this.treeCam
+        this.drawTree()
+      }
+      else if(scene == "ringScene") {
+        this.currentScene = this.ringScene
+        this.currentCam = this.ringCam
+        this.drawRings()
+      }
+      console.log("currentScene:", scene)
+    }, // END: setScene()
+
     update() {
-      this.trunk.rotation.y += 0.01
-      this.crown.rotation.y += 0.01
+      //this.trunk.rotation.y += 0.01
+      //this.crown.rotation.y += 0.01
     }, // END: update()
 
     animate() {
       requestAnimationFrame(this.animate)
       this.update()
-      this.treeRenderer.render(this.treeScene, this.treeCam)
+      this.treeRenderer.render(this.currentScene, this.currentCam)
     } // END: animate()
-  }
-}
-
+  } // END: Methods
+} // END: export default
 </script>
 
 <style>

@@ -116,4 +116,5 @@ export default {
   font-size: 28px;
   color: white;
 }
+
 </style>
