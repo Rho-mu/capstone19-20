@@ -9,7 +9,34 @@
     <div id="app"></div>
     <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js">
 
+
     </script>
+
+    
+    <!-- <script type="text/javascript">
+    // import inputs from src/views/inputs.vue
+    let postBody = 'helo';
+
+    function postData() {
+
+      fetch("https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user", {
+        body: postBody,
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "x-api-key": "AZIzU9ni0x5vG6Rsub9qLaDxH6z26Zrz9bwvteiW"
+        }
+      })
+      .then((data) => {
+        console.log(data)
+        console.log(postBody.radius)
+      }, error => {
+        console.error(error);
+      });
+    }
+    postData();
+
+    </script> -->
     <script>
       firebase.initializeApp({
         apiKey: "AIzaSyBlhe49hu63T-V7vuy1_NSYmOXFXzNqLm8",
@@ -21,6 +48,7 @@
         appId: "1:949804227890:web:ddd6263dec9eab0bfacb2b",
         measurementId: "G-EPKM1H65GM"
     });
+
 
     </script>
     <!-- built files will be auto injected -->
