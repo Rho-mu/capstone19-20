@@ -9,6 +9,7 @@
 
 <script>
 export default {
+  name: 'outputs',
 // methods: {
 //     getData() {
 //       fetch("https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user", {
