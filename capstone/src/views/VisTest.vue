@@ -16,7 +16,7 @@
         <button @click="setCrownShape('sphere')" class="sphereButton" id="sphereButton">SPHERE</button>
         <button @click="setCrownShape('cylinder')" class="cylinderButton" id="cylinderButton">CYLINDER</button>
       </div>
-      <input type="range" min="0" v-model="dataIndex" @click="drawTree()" id="timeStepSlider" class="timeStepSlider">
+      <input type="range" min="0" v-model="dataIndex" @input="drawTree()" id="timeStepSlider" class="timeStepSlider">
       <div class="treeCanvasport" id="treeCanvasport"></div>
       <div class="rawDataList" id="rawDataList">
         <br>
