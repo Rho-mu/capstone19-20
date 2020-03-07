@@ -9,8 +9,9 @@ with open('input.json', encoding='utf-8') as f:
     f.close()
 
 # read dll 
-mydll = ctypes.CDLL(r'C:\Users\user、\Desktop\model\ACGCA.dll')
-growthloop = mydll.growthloop
+mydll = ctypes.CDLL(r'G:\ACGCA-master\ACGCA\src\ACGCA.dll')
+output = mydll.growthloop
+print(type(output))
 
 # make C structure into python
 class tparms(ctypes.Structure):
@@ -19,6 +20,12 @@ class tparms(ctypes.Structure):
 class gparms(ctypes.Structure):
   _fields_=[('BH', ctypes.c_double), ('deltat', ctypes.c_double),
     ('T',ctypes.c_double), ('tolerance', ctypes.c_double)]
+
+gp = gparms()
+gp.BH = 1.37
+gp.deltat = 0.0625
+gp.T = 10
+gp.tolerance = 0.00001
 
 class sparms(ctypes.Structure):
   _fields_=[
@@ -96,31 +103,32 @@ p.alpha=0.365
 p.R0=1.909
 p.R40=5.592
 
-class Larea(ctypes.Structure):
-  _fields_=[
-    ('tot',ctypes.c_double),
-    ('top',ctypes.c_double),
-    ('bot',ctypes.c_double)]
-
 class Forestparms(ctypes.Structure):
   _fields_=[
-    ('hB',ctypes.c_double),
-    ('hC',ctypes.c_double),
-    ('H',ctypes.c_double),
-    ('hBH',ctypes.c_double)]
+    ('kf',ctypes.c_double),
+    ('intF',ctypes.c_double),
+    ('slopeF',ctypes.c_double)]
+
+ForParms = Forestparms()
+ForParms.kf = 0.6
+ForParms.intF = 3.4 
+ForParms.slopeF = -5.5
+
+# years * steps +1
+# suppose it is 4
+N = 4
 
 # declare the pointers to the structure
-Io = ctypes.POINTER(ctypes.c_double)
-r0 = ctypes.POINTER(ctypes.c_double)
-t = ctypes.POINTER(ctypes.c_int)
-Hc = ctypes.POINTER(ctypes.c_double)
-LAIF = ctypes.POINTER(ctypes.c_double)
+Io = (c_double*N)()
+r0 = (c_double*N)()
+t = ctypes.POINTER(c_int)
+Io = 2060
+r0 = (c_double)(0.05)
+t = 1
+Hc = (ctypes.c_double)(-99)
+LAIF = (ctypes.c_double)(0)
 
-# print(p.hmax)
-gp = gparms()
-ForParms = Forestparms()
-# the lenval  N suppose it as 10
-N = 10
+
 # give the size of the double array
 APARout = (c_double*N)()
 h = (c_double*N)()
@@ -169,10 +177,18 @@ LAI2 = (c_double*N)()
 status2 = (c_int*N)()
 errorind = (c_int*N)()
 growth_st = (c_int*N)()
-'''
-growthloop(sparms *p, gparms *gp,Io,*r0, int *t,
-	  *Hc,   *LAIF, Forestparms *ForParms,   APARout , h ,
-	  hh2,
+
+output(p, 
+    gp,
+    Io,
+    r0, 
+    t,
+	  Hc,   
+    LAIF, 
+    ForParms, 
+    APARout, 
+    h,
+    hh2,
 	  hC2,
 	  hB2,
 	  hBH2,
@@ -220,4 +236,4 @@ growthloop(sparms *p, gparms *gp,Io,*r0, int *t,
 	  errorind,
 	  growth_st                
 )
-'''
+
