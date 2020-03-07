@@ -1,32 +1,84 @@
 <template>
   <div>
-    <button @click="initialize()">init</button>
-    <button @click="animate()">animate</button>
+    <!--<button @click="initialize()">init</button>
+    <button @click="animate()">animate</button>-->
     <button @click="addBox()">add box</button>
-    <br>
-    <br>
-    <button @click="setCrownShape('cone')">cone</button>
-    <button @click="setCrownShape('sphere')">sphere</button>
-    <button @click="setCrownShape('cylinder')">cylinder</button>
-    <br>
-    <br>
-    <button @click="setScene('treeScene')">trees</button>
-    <button @click="setScene('ringScene')">rings</button>
+    <!--<button @click="loadRawData()">Hide Raw Data</button>-->
 
+    <div class="outputDisplayContainer">
+      <div class="setSceneContainer">
+        <button @click="setScene('ringScene')" class="ringSceneButton" id="ringSceneButton">RINGS</button>
+        <button @click="setScene('treeScene')" class="treeSceneButton" id="treeSceneButton">TREE</button>
+        <button @click="setScene('rawDataScene')" class="rawDataSceneButton" id="rawDataSceneButton">DATA</button>
+      </div>
+      <div class="crownShapeContainer">
+        <button @click="setCrownShape('cone')" class="coneButton" id="coneButton">CONE</button>
+        <button @click="setCrownShape('sphere')" class="sphereButton" id="sphereButton">SPHERE</button>
+        <button @click="setCrownShape('cylinder')" class="cylinderButton" id="cylinderButton">CYLINDER</button>
+      </div>
+      <input type="range" min="0" v-model="dataIndex" @input="drawTree()" id="timeStepSlider" class="timeStepSlider">
+      <div class="treeCanvasport" id="treeCanvasport"></div>
+      <div class="rawDataList" id="rawDataList">
+        <br>
+        <!--<label>height: {{ treeData[dataIndex].h }}               </label><br>
+        <label>heightToCrown: {{ treeData[dataIndex].hh2 }}      </label><br>
+        <label>radius: {{ treeData[dataIndex].r }}               </label><br>
+        <label>radiusBase: {{ treeData[dataIndex].rB2 }}         </label><br>
+        <label>radiusBreast: {{ treeData[dataIndex].rBH }}       </label><br>
+        <label>radiusCrownBase: {{ treeData[dataIndex].rC2 }}    </label><br>
+        <label>leafArea: {{ treeData[dataIndex].la2 }}           </label><br>
+        <label>growthState: {{ treeData[dataIndex].growth_st }}  </label><br>-->
 
-    <div class="treeCanvasport" id="treeCanvasport"></div>
+        <label>APARout: {{ treeData[dataIndex].APARout }}               </label><br>
+        <label>h: {{ treeData[dataIndex].h }}               </label><br>
+        <label>hh2: {{ treeData[dataIndex].hh2 }}               </label><br>
+        <label>hC2: {{ treeData[dataIndex].hC2 }}               </label><br>
+        <label>hB2: {{ treeData[dataIndex].hB2 }}               </label><br>
+        <label>hBH2: {{ treeData[dataIndex].hBH2 }}               </label><br>
+        <label>r: {{ treeData[dataIndex].r }}               </label><br>
+        <label>rB2: {{ treeData[dataIndex].rB2 }}               </label><br>
+        <label>rC2: {{ treeData[dataIndex].rC2 }}               </label><br>
+        <label>rBH: {{ treeData[dataIndex].rBH }}               </label><br>
+        <label>sw2: {{ treeData[dataIndex].sw2 }}               </label><br>
+        <label>vts2: {{ treeData[dataIndex].vts2 }}               </label><br>
+        <label>vt2: {{ treeData[dataIndex].vt2 }}               </label><br>
+        <label>vth2: {{ treeData[dataIndex].vth2 }}               </label><br>
+        <label>sa2: {{ treeData[dataIndex].sa2 }}               </label><br>
+        <label>la2: {{ treeData[dataIndex].la2 }}               </label><br>
+        <label>ra2: {{ treeData[dataIndex].ra2 }}               </label><br>
+        <label>dr2: {{ treeData[dataIndex].dr2 }}               </label><br>
+        <label>xa2: {{ treeData[dataIndex].xa2 }}               </label><br>
+        <label>bl2: {{ treeData[dataIndex].bl2 }}               </label><br>
+        <label>br2: {{ treeData[dataIndex].br2 }}               </label><br>
+        <label>bt2: {{ treeData[dataIndex].bt2 }}               </label><br>
+        <label>bts2: {{ treeData[dataIndex].bts2 }}               </label><br>
+        <label>bth2: {{ treeData[dataIndex].bth2 }}               </label><br>
+        <label>boh2: {{ treeData[dataIndex].boh2 }}               </label><br>
+        <label>bos2: {{ treeData[dataIndex].bos2 }}               </label><br>
+        <label>bo2: {{ treeData[dataIndex].bo2 }}               </label><br>
+        <label>bs2: {{ treeData[dataIndex].bs2 }}               </label><br>
+        <label>cs2: {{ treeData[dataIndex].cs2 }}               </label><br>
+        <label>clr2: {{ treeData[dataIndex].clr2 }}               </label><br>
+        <label>fl2: {{ treeData[dataIndex].fl2 }}               </label><br>
+        <label>fr2: {{ treeData[dataIndex].fr2 }}               </label><br>
+        <label>ft2: {{ treeData[dataIndex].ft2 }}               </label><br>
+        <label>fo2: {{ treeData[dataIndex].fo2 }}               </label><br>
+        <label>rfl2: {{ treeData[dataIndex].rfl2 }}               </label><br>
+        <label>rfr2: {{ treeData[dataIndex].rfr2 }}               </label><br>
+        <label>rfs2: {{ treeData[dataIndex].rfs2 }}               </label><br>
+        <label>egrow2: {{ treeData[dataIndex].egrow2 }}               </label><br>
+        <label>ex2: {{ treeData[dataIndex].ex2 }}               </label><br>
+        <label>rtrans2: {{ treeData[dataIndex].rtrans2 }}               </label><br>
+        <label>light2: {{ treeData[dataIndex].light2 }}               </label><br>
+        <label>nut2: {{ treeData[dataIndex].nut2 }}               </label><br>
+        <label>deltas2: {{ treeData[dataIndex].deltas2 }}               </label><br>
+        <label>LAI2: {{ treeData[dataIndex].LAI2 }}               </label><br>
+        <label>status2: {{ treeData[dataIndex].status2 }}               </label><br>
+        <label>errorind: {{ treeData[dataIndex].errorind }}               </label><br>
+        <label>growth_st: {{ treeData[dataIndex].growth_st }}               </label><br>
+      </div>
+    </div>
 
-    <input type="range" min="0" v-model="dataIndex" id="timeStepSlider" @click="drawTree()"><br>
-    <button @click="drawRings()">draw rings</button><br>
-
-    <label for="s2">height: {{ treeData[dataIndex].h }}               </label><br>
-    <label for="s2">heightToCrown: {{ treeData[dataIndex].hh2 }}      </label><br>
-    <label for="s2">radius: {{ treeData[dataIndex].r }}               </label><br>
-    <label for="s2">radiusBase: {{ treeData[dataIndex].rB2 }}         </label><br>
-    <label for="s2">radiusBreast: {{ treeData[dataIndex].rBH }}       </label><br>
-    <label for="s2">radiusCrownBase: {{ treeData[dataIndex].rC2 }}    </label><br>
-    <label for="s2">leafArea: {{ treeData[dataIndex].la2 }}           </label><br>
-    <label for="s2">growthState: {{ treeData[dataIndex].growth_st }}  </label><br>
   </div>
 </template>
 
@@ -53,16 +105,21 @@ export default {
       document.getElementById("timeStepSlider").setAttribute("max", this.maxTimeStep)
 
       /////////////// Tree Scene ///////////////
-      this.treeCanvas = document.getElementById( "treeCanvasport" );
-      var treeCanvasWidth = window.innerWidth * 0.7
-      var treeCanvasHeight = window.innerHeight * 0.7
+      this.treeCanvas = document.getElementById( "treeCanvasport" )
+      this.outputDisplayContainer = document.getElementById("outputDisplayContainer")
+
+      console.log("window:",window.innerWidth,window.innerHeight)
+      console.log("this.treeCanvas:",this.treeCanvas.innerWidth,this.treeCanvas.innerHeight)
+      //console.log("outputCanvas:", this.outputDisplayContainer.innerWidth  , this.outputDisplayContainer.innerHeight  )
+      var canvasWidth = window.innerWidth * 0.7
+      var canvasHeight = window.innerHeight * 0.7
 
       ///// Tree Scene /////
       // Create scene for trees
       this.treeScene = new THREE.Scene()
-      this.treeScene.background = new THREE.Color( 0xadd8e6 );
+      this.treeScene.background = new THREE.Color( 0xcfffff );
       // Create camera for tree scene
-      this.treeCam = new THREE.PerspectiveCamera( 90, treeCanvasWidth / treeCanvasHeight, 0.1, 1000 )
+      this.treeCam = new THREE.PerspectiveCamera( 90, canvasWidth / canvasHeight, 0.1, 1000 )
       this.treeCam.position.z = 7
       this.treeScene.add( this.treeCam )
       ///// Tree Scene /////
@@ -70,16 +127,16 @@ export default {
       ///// Ring Scene /////
       // Create scene for rings
       this.ringScene = new THREE.Scene()
-      this.ringScene.background = new THREE.Color( 0xada8e0 );
+      this.ringScene.background = new THREE.Color( 0xdfffcf  );
       // Create camera for ring scene
-      this.ringCam = new THREE.PerspectiveCamera( 90, treeCanvasWidth / treeCanvasHeight, 0.1, 1000 )
+      this.ringCam = new THREE.PerspectiveCamera( 90, canvasWidth / canvasHeight, 0.1, 1000 )
       this.ringCam.position.z = 7
       this.ringScene.add( this.ringCam )
       ///// Ring Scene /////
 
       // Create renderer
       this.treeRenderer = new THREE.WebGLRenderer( {antialias: true} )
-      this.treeRenderer.setSize( treeCanvasWidth, treeCanvasHeight )
+      this.treeRenderer.setSize( canvasWidth, canvasHeight )
       this.treeCanvas.appendChild( this.treeRenderer.domElement )
 
       // Create stand-in tree, but don't add it to the scene.
@@ -89,6 +146,18 @@ export default {
       // Choose default scene
       this.currentScene = this.treeScene
       this.currentCam = this.treeCam
+
+      // PlaneGeometry(width : Float, height : Float, widthSegments : Integer, heightSegments : Integer)
+      /*var groundGEO = new THREE.PlaneGeometry(3, 3, 1)
+      var groundMat = new THREE.MeshBasicMaterial( {color: 0x00FF00} )
+      var ground = new THREE.Mesh( groundGEO, groundMat )
+      this.currentScene.add(ground)
+      ground.position.z = 2
+      ground.rotation.x = 89
+      ground.rotation.y = 0*/
+
+      document.getElementById("treeCanvasport").style.display = "block"
+      document.getElementById("rawDataList").style.display = "none"
     }, // END: initialize()
 
     addBox() {
@@ -191,28 +260,95 @@ export default {
         var ring = new THREE.Mesh( ringGeo, ringMat )
         ring.position.z = -0.1*i
         this.ringScene.add( ring )
-      }
+      } // END: i for-loop
     }, // END: drawRings()
+
+    loadRawData() {
+      var index = document.getElementById("timeStepSlider").value // Get index from the slider
+      var rawDataList = document.getElementById("rawDataList")
+
+      if (rawDataList.style.display === "none") {
+        rawDataList.style.display = "block"
+      } else {
+        rawDataList.style.display = "none"
+      }
+
+
+
+      /*for(var rawData in this.treeData[index]) {
+        var para = document.createElement("p")
+        var node = createTextNode("HI")
+        //var newNode = createTextNode(rawData + ": " + this.treeData[index][rawData] + "<br>")
+        para.appendChild(node)
+      }
+      rawDataList.appendChild(para)*/
+
+      //var dataList = document.getElementById("rawDataList")       // Get rawDataList element from html
+
+      // Iterate through the data at the current timestep and print its raw data.
+      /*for(var rawData in this.treeData[index]) {
+        var textNode = document.createTextNode(rawData)
+        dataList.appendChild(textNode)
+        //dataList.innerHTML += rawData + ": " + this.treeData[index][rawData]
+        //console.log(rawData,": ",this.treeData[index][rawData])
+      }*/
+
+      /*var i
+      for(var rawData in this.treeData[index]) {
+        var textNode = document.createTextNode(rawData)
+        var existingNode = dataList.childNodes[i]
+        console.log(dataList.childNodes[i])
+        existingNode.replaceChild(textnode, existingNode.childNodes[i])
+        i++
+      }*/
+
+      /*
+      for(var rawData in this.treeData[index]) {
+        var newNode = dataList.childNodes[rawData]
+        newNode.replaceChild(rawData + ": " + this.treeData[index][rawData] + "<br>", newNode.childNodes[rawData])
+      }*/
+
+    }, // END: loadRawData()
 
     setCrownShape(shape) {
       this.crownShape = shape
       console.log("crownShape:", shape)
-
       this.drawTree()
     }, // END: setCrownShape()
 
     setScene(scene) {
       if(scene == "treeScene") {
+        document.getElementById("treeCanvasport").style.display = "block"
+        document.getElementById("rawDataList").style.display = "none"
+
+        document.getElementById("coneButton").style.display = "inline-block"
+        document.getElementById("sphereButton").style.display = "inline-block"
+        document.getElementById("cylinderButton").style.display = "inline-block"
+
         this.currentScene = this.treeScene
         this.currentCam = this.treeCam
         this.drawTree()
       }
       else if(scene == "ringScene") {
+        document.getElementById("treeCanvasport").style.display = "block"
+        document.getElementById("rawDataList").style.display = "none"
+
+        document.getElementById("coneButton").style.display = "none"
+        document.getElementById("sphereButton").style.display = "none"
+        document.getElementById("cylinderButton").style.display = "none"
+
         this.currentScene = this.ringScene
         this.currentCam = this.ringCam
         this.drawRings()
       }
-      console.log("currentScene:", scene)
+      else if(scene == "rawDataScene") {
+        document.getElementById("treeCanvasport").style.display = "none"
+        document.getElementById("rawDataList").style.display = "block"
+
+        document.getElementById("coneButton").style.display = "none"
+        document.getElementById("sphereButton").style.display = "none"
+        document.getElementById("cylinderButton").style.display = "none"
+      }
     }, // END: setScene()
 
     update() {
@@ -225,10 +361,77 @@ export default {
       this.update()
       this.treeRenderer.render(this.currentScene, this.currentCam)
     } // END: animate()
-  } // END: Methods
+  }, // END: Methods
+  mounted() {
+    this.initialize()
+    this.animate()
+  } // END: mounted
 } // END: export default
 </script>
 
 <style>
+  .outputDisplayContainer {
+    width: 80%;
+    height: 80%;
+    margin: auto;
+    padding: 2%;
+    background-color: #b9b9b9;
+    border-color: green;
+    border-radius: 10px;
+  }
 
+  .outputDisplayContainer button {
+    display: inline-block;
+    width: 100px;
+    height: 50px;
+    padding: 5px 5px;
+    margin: 2px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    color: green;
+    font-family: "Lucida Console", Monaco, monospace;
+    background-color: #FFF;
+  }
+
+  .outputDisplayContainer button:hover {
+    background-color: #EEE;
+  }
+
+  .rawDataList {
+    width: 100%;
+    text-align: center;
+  }
+
+  .timeStepSlider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 25px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+  }
+
+  .timeStepSlider:hover {
+    opacity: 1;
+  }
+
+  .timeStepSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #4CAF50;
+    cursor: pointer;
+  }
+
+  .timeStepSlider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #4CAF50;
+    cursor: pointer;
+  }
 </style>
