@@ -1,24 +1,25 @@
 <template>
   <div>
-    <button @click="initialize()">init</button>
-    <button @click="animate()">animate</button>
+    <!--<button @click="initialize()">init</button>
+    <button @click="animate()">animate</button>-->
     <button @click="addBox()">add box</button>
-    <br>
-    <br>
-    <button @click="setCrownShape('cone')">cone</button>
-    <button @click="setCrownShape('sphere')">sphere</button>
-    <button @click="setCrownShape('cylinder')">cylinder</button>
-    <br>
-    <br>
-    <button @click="setScene('treeScene')">trees</button>
-    <button @click="setScene('ringScene')">rings</button>
-    <button @click="setScene('rawDataScene')">Raw Data</button>
     <!--<button @click="loadRawData()">Hide Raw Data</button>-->
-    <br><br><input type="range" min="0" v-model="dataIndex" id="timeStepSlider" @click="drawTree()"><br>
 
     <div class="outputDisplayContainer">
+      <div class="setSceneContainer">
+        <button @click="setScene('ringScene')" class="ringSceneButton" id="ringSceneButton">RINGS</button>
+        <button @click="setScene('treeScene')" class="treeSceneButton" id="treeSceneButton">TREE</button>
+        <button @click="setScene('rawDataScene')" class="rawDataSceneButton" id="rawDataSceneButton">DATA</button>
+      </div>
+      <div class="crownShapeContainer">
+        <button @click="setCrownShape('cone')" class="coneButton" id="coneButton">CONE</button>
+        <button @click="setCrownShape('sphere')" class="sphereButton" id="sphereButton">SPHERE</button>
+        <button @click="setCrownShape('cylinder')" class="cylinderButton" id="cylinderButton">CYLINDER</button>
+      </div>
+      <input type="range" min="0" v-model="dataIndex" @click="drawTree()" id="timeStepSlider" class="timeStepSlider">
       <div class="treeCanvasport" id="treeCanvasport"></div>
       <div class="rawDataList" id="rawDataList">
+        <br>
         <!--<label>height: {{ treeData[dataIndex].h }}               </label><br>
         <label>heightToCrown: {{ treeData[dataIndex].hh2 }}      </label><br>
         <label>radius: {{ treeData[dataIndex].r }}               </label><br>
@@ -145,6 +146,18 @@ export default {
       // Choose default scene
       this.currentScene = this.treeScene
       this.currentCam = this.treeCam
+
+      // PlaneGeometry(width : Float, height : Float, widthSegments : Integer, heightSegments : Integer)
+      /*var groundGEO = new THREE.PlaneGeometry(3, 3, 1)
+      var groundMat = new THREE.MeshBasicMaterial( {color: 0x00FF00} )
+      var ground = new THREE.Mesh( groundGEO, groundMat )
+      this.currentScene.add(ground)
+      ground.position.z = 2
+      ground.rotation.x = 89
+      ground.rotation.y = 0*/
+
+      document.getElementById("treeCanvasport").style.display = "block"
+      document.getElementById("rawDataList").style.display = "none"
     }, // END: initialize()
 
     addBox() {
@@ -307,6 +320,11 @@ export default {
       if(scene == "treeScene") {
         document.getElementById("treeCanvasport").style.display = "block"
         document.getElementById("rawDataList").style.display = "none"
+
+        document.getElementById("coneButton").style.display = "inline-block"
+        document.getElementById("sphereButton").style.display = "inline-block"
+        document.getElementById("cylinderButton").style.display = "inline-block"
+
         this.currentScene = this.treeScene
         this.currentCam = this.treeCam
         this.drawTree()
@@ -314,6 +332,11 @@ export default {
       else if(scene == "ringScene") {
         document.getElementById("treeCanvasport").style.display = "block"
         document.getElementById("rawDataList").style.display = "none"
+
+        document.getElementById("coneButton").style.display = "none"
+        document.getElementById("sphereButton").style.display = "none"
+        document.getElementById("cylinderButton").style.display = "none"
+
         this.currentScene = this.ringScene
         this.currentCam = this.ringCam
         this.drawRings()
@@ -321,6 +344,10 @@ export default {
       else if(scene == "rawDataScene") {
         document.getElementById("treeCanvasport").style.display = "none"
         document.getElementById("rawDataList").style.display = "block"
+
+        document.getElementById("coneButton").style.display = "none"
+        document.getElementById("sphereButton").style.display = "none"
+        document.getElementById("cylinderButton").style.display = "none"
       }
     }, // END: setScene()
 
@@ -334,7 +361,11 @@ export default {
       this.update()
       this.treeRenderer.render(this.currentScene, this.currentCam)
     } // END: animate()
-  } // END: Methods
+  }, // END: Methods
+  mounted() {
+    this.initialize()
+    this.animate()
+  } // END: mounted
 } // END: export default
 </script>
 
@@ -343,10 +374,64 @@ export default {
     width: 80%;
     height: 80%;
     margin: auto;
-    padding: 1%;
+    padding: 2%;
     background-color: #b9b9b9;
     border-color: green;
     border-radius: 10px;
   }
 
+  .outputDisplayContainer button {
+    display: inline-block;
+    width: 100px;
+    height: 50px;
+    padding: 5px 5px;
+    margin: 2px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    color: green;
+    font-family: "Lucida Console", Monaco, monospace;
+    background-color: #FFF;
+  }
+
+  .outputDisplayContainer button:hover {
+    background-color: #EEE;
+  }
+
+  .rawDataList {
+    width: 100%;
+    text-align: center;
+  }
+
+  .timeStepSlider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 25px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+  }
+
+  .timeStepSlider:hover {
+    opacity: 1;
+  }
+
+  .timeStepSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #4CAF50;
+    cursor: pointer;
+  }
+
+  .timeStepSlider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #4CAF50;
+    cursor: pointer;
+  }
 </style>
