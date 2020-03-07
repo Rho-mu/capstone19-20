@@ -36,11 +36,13 @@
         <input type="text" v-model="postBody.r40" placeholder="r40"><br>
       </form>
       <button @click="postData()" name="button">PostData</button>
+      <button @click="getData()" name="button"></button>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   data() {
     return {
@@ -77,25 +79,59 @@ export default {
           alpha: '',
           r0: '',
           r40: ''
-        }
+        },
+        runID: '',
+        getJson: []
       }
     },
 methods: {
+    // postData() {
+    //   fetch("https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user", {
+    //
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       'x-api-key': 'AZIzU9ni0x5vG6Rsub9qLaDxH6z26Zrz9bwvteiW',
+    //       'Access-Control-Allow-Origin': '*'
+    //     },
+    //     method: 'post',
+    //     // mode: "no-cors",
+    //   })
+    //
+    //   .then((response) => {
+    //     console.log(response)
+    //     /// test stuff
+    //     // this.$router.replace('outputs') // routes to the output page
+    //   })
+    //   .catch(e => {
+    //     console.log(e)
+    //   })
+    // },
     postData() {
-      fetch("https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user", {
-        method: "POST",
-        body: this.postBody,
-        mode: "no-cors",
+      axios.post('https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user', {
+        // headers: {
+        //   'Content-Type': 'application/json',
+        //   'x-api-key': 'AZIzU9ni0x5vG6Rsub9qLaDxH6z26Zrz9bwvteiW',
+        //   'Access-Control-Allow-Origin': '*'
+        // },
+        body: this.postBody
+      })
+      .then(response => {
+        this.runID = response.headers['x-run-id'],
+        console.log(this.runID)
+      });
+    },
+    getData() {
+      axios.get('https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user', {
         headers: {
+          "X-Run-ID": this.runID,
           "x-api-key": "AZIzU9ni0x5vG6Rsub9qLaDxH6z26Zrz9bwvteiW"
         }
       })
-      .then((data) => {
-        console.log(data["body"])
-        console.log(this.postBody) // test stuff
-        // this.$router.replace('outputs') // routes to the output page
+      .then((response) => {
+        console.log(runID)
+        this.getJson = response.data
       })
-    },
+    }
   }
 }
 </script>

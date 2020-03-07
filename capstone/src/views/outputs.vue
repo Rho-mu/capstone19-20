@@ -10,20 +10,22 @@
 <script>
 export default {
   name: 'outputs',
-// methods: {
-//     getData() {
-//       fetch("https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user", {
-//         method: "GET",
-//         mode: "no-cors",
-//         headers: {
-//           "X-Run-ID": "test",
-//           "x-api-key": "AZIzU9ni0x5vG6Rsub9qLaDxH6z26Zrz9bwvteiW"
-//         }
-//       })
-//       .then((data) => {
-//         console.log(data["body"])
-//       })
-//     },
+  methods: {
+      getData() {
+        fetch("https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user", {
+          method: "GET",
+          // mode: "no-cors",
+          headers: {
+            "Access-Control-Max-Age": "600",
+            "Content-Type": "application/json",
+            "X-Run-ID": "test",
+            "x-api-key": "AZIzU9ni0x5vG6Rsub9qLaDxH6z26Zrz9bwvteiW"
+          }
+        })
+        .then((data) => {
+          console.log(data["body"])
+        })
+      },
     /*getData2() {
       // Alias the component instance as `vm`, so that we
       // can access it inside the promise function
@@ -64,7 +66,7 @@ export default {
         console.log(data)
       })
     }*/ //getData4
-  // },
+  },
   mounted() {
     fetch("https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user", {
       method: "GET",
@@ -75,7 +77,7 @@ export default {
       }
     })
     .then((data) => {
-      console.log(data["body"])
+      console.log(runID)
     })
   }
 }
