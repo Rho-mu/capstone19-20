@@ -121,7 +121,7 @@ N = 4
 # declare the pointers to the structure
 Io = (c_double*N)()
 r0 = (c_double*N)()
-t = ctypes.POINTER(c_int)
+t = c_int
 Io = 2060
 r0 = (c_double)(0.05)
 t = 1

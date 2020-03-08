@@ -1,4 +1,7 @@
 import ctypes
 from ctypes import cdll
 
-mydll = ctypes.CDLL(r'C:\Users\user、\Desktop\model\ACGCA.dll')
+mydll = ctypes.CDLL(r'G:\ACGCA-master\ACGCA\src\ACGCA.dll')
+growth = mydll.growthloop
+sum = mydll.sum
+print(sum(1,2))
