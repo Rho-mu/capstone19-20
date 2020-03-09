@@ -10,6 +10,7 @@ import Landing from '../views/Landing.vue'
 import Inputs from '../views/inputs.vue'
 import Outputs from '../views/outputs.vue'
 import VisTest from '../views/VisTest.vue'
+import InputsVis from '../views/inputs-vis.vue'
 
 Vue.use(VueRouter)
 
@@ -63,6 +64,11 @@ const routes = [
     path: '/vistest',
     name: 'VisTest',
     component: VisTest
+  },
+  {
+    path: '/inputs-vis',
+    name: 'InputsVis',
+    component: InputsVis
   }
 ]
 
