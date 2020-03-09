@@ -40,7 +40,6 @@
     </div>
 
     <div class="outputDisplayContainer">
-      <button @click="addBox()">add box</button>
       <div class="setSceneContainer">
         <button @click="setScene('ringScene')" class="ringSceneButton" id="ringSceneButton">RINGS</button>
         <button @click="setScene('treeScene')" class="treeSceneButton" id="treeSceneButton">TREE</button>
