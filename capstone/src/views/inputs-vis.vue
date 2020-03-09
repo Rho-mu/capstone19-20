@@ -40,7 +40,6 @@
     </div>
 
     <div class="outputDisplayContainer">
-      
       <div class="setSceneContainer">
         <button @click="setScene('ringScene')" class="ringSceneButton" id="ringSceneButton">RINGS</button>
         <button @click="setScene('treeScene')" class="treeSceneButton" id="treeSceneButton">TREE</button>
@@ -265,6 +264,7 @@ methods: {
       this.currentScene = this.treeScene
       this.currentCam = this.treeCam
 
+      // Attempt at making a ground plane.
       // PlaneGeometry(width : Float, height : Float, widthSegments : Integer, heightSegments : Integer)
       /*var groundGEO = new THREE.PlaneGeometry(3, 3, 1)
       var groundMat = new THREE.MeshBasicMaterial( {color: 0x00FF00} )
@@ -274,8 +274,11 @@ methods: {
       ground.rotation.x = 89
       ground.rotation.y = 0*/
 
+      // Show the tree view as default and hide the raw data view.
       document.getElementById("treeCanvasport").style.display = "block"
       document.getElementById("rawDataList").style.display = "none"
+
+      window.addEventListener( 'resize', this.onWindowResize, false )
     }, // END: initialize()
 
     addBox() {
@@ -473,6 +476,15 @@ methods: {
       //this.trunk.rotation.y += 0.01
       //this.crown.rotation.y += 0.01
     }, // END: update()
+
+    onWindowResize() {
+      // Adjusts the renderer size when the window is resized.
+			this.currentCam.aspect = window.innerWidth / window.innerHeight
+			this.currentCam.updateProjectionMatrix()
+
+			this.treeRenderer.setSize( window.innerWidth * 0.7, window.innerHeight * 0.7)
+
+    }, // END: onWindowResize()
 
     animate() {
       requestAnimationFrame(this.animate)
