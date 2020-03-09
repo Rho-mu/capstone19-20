@@ -40,6 +40,7 @@
     </div>
 
     <div class="outputDisplayContainer">
+      <button @click="addBox()">add box</button>
       <div class="setSceneContainer">
         <button @click="setScene('ringScene')" class="ringSceneButton" id="ringSceneButton">RINGS</button>
         <button @click="setScene('treeScene')" class="treeSceneButton" id="treeSceneButton">TREE</button>
@@ -282,25 +283,28 @@ methods: {
     }, // END: initialize()
 
     addBox() {
-      //var myTexture = barkTex
       var myTexture = new THREE.TextureLoader().load( '../json/bark.png' )
+
       var myMaterial = new THREE.MeshBasicMaterial( { map: myTexture } )
       //var myMaterial = new THREE.MeshBasicMaterial( { color: 0xFFFF00 } )
+
       var boxGeometry = new THREE.BoxGeometry( 1, 1, 1 );
       var box = new THREE.Mesh( boxGeometry, myMaterial )
-      box.position.x = 8
-      box.position.y = 0
-      this.currentScene.add( box )
+      box.position.x = 5
+      box.position.y = -2.5
+      this.treeScene.add( box )
     }, // END: addBox()
 
     drawTree() {
       var index = document.getElementById("timeStepSlider").value // Get index from the slider
 
       while(this.treeScene.children.length > 0){                  // Clear scene of old tree
-        this.treeScene.remove(this.treeScene.children[0]);
+        this.treeScene.remove(this.treeScene.children[0])
       }
       this.newScene = new THREE.Scene()                           // Create new scene for new tree
       this.treeScene.add( this.newScene )                         // Add new scene to root scene
+
+      this.addBox()
 
       // ACGCA output
       var h = this.treeData[index].h                  // Height of tree (total)
