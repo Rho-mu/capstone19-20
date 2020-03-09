@@ -1,8 +1,18 @@
+<!--
+TODO:
+Make renderer scale with the div that it's inside.
+Make tree crown scale its alpha with the model's leaf density output.
+Add lights and shadows.
+Add ground.
+Add something for scale.
+Add textures.
+-->
+
 <template>
   <div>
     <!--<button @click="initialize()">init</button>
     <button @click="animate()">animate</button>-->
-    <button @click="addBox()">add box</button>
+    <!--<button @click="addBox()">add box</button>-->
     <!--<button @click="loadRawData()">Hide Raw Data</button>-->
 
     <div class="outputDisplayContainer">
@@ -169,7 +179,7 @@ export default {
       var box = new THREE.Mesh( boxGeometry, myMaterial )
       box.position.x = 8
       box.position.y = 0
-      this.ringScene.add( box )
+      this.currentScene.add( box )
     }, // END: addBox()
 
     drawTree() {
