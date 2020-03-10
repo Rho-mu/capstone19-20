@@ -1,6 +1,8 @@
-#include "Rgrowthloop.h"
+#include "head_files/Rgrowthloop.h"
+#include "head_files/misc_growth_funcs.h" 
+#include "head_files/growthloop.h"
 
-typedef struct Input
+typedef struct 
 {
     double data;
     double hmax; 
@@ -40,15 +42,9 @@ typedef struct Input
     double R0;
     double R40;
 
+}Input;
 
-    //Gparams
-    double BH; 
-    double deltat;
-    double T; 
-    double tolerance;
-} Input;
-
-typedef struct Output
+typedef struct 
 {
     double* APARout;
     double* h;
@@ -95,15 +91,158 @@ typedef struct Output
     double* deltas2;
     double* LAI2;
     int* status2;
+    int* lenvars;
     int* errorind;
     int* growth_st;
-} Output;
+}Output;
 
-void call_model(Input *input, Output *output) 
+void main(Input *input, Output *output) 
 {
-    double Io = 2060.0;
-    double r0 = 0.05;
-    double t = 1;
+
+    // struct Output *str_ptr = &output;
+    // modelInputs == p2
+    //double *gp2; //do we need to create a struct for this 
+    gparms gp2;
+    double I = 2060.0;
+    double *Io = &I;
+    double r1 = 0.05;
+    double *r0 = &r1;
+    int t0 = 1;
+    int *t = &t0; 
     double Hc[] = {-99, -99, -99, -99, -99, -99, -99, -99, -99, -99};
-    double LAIF = 0;
+    double LAIF[] = {0,0,0,0,0,0,0,0,0,0};
+    double k = 0.6;
+    double *kF = &k;
+    double HFmax = 40;
+    double inF = 3.4;
+    double *intF = &inF;
+    double slopF = -5.5;
+    double *slopeF = &slopF;
+
+    
+    gp2.BH = 1.37;
+    gp2.deltat = 0.00625;
+    gp2.T = 10;
+    gp2.tolerance = 0.00001;
+    // pointer to the input structure
+    // create
+    double* APARout = output->APARout;
+    double* h = output->h;
+    double* hh = output->hh2;
+    double* hC = output->hC2;
+    double* hB = output->hB2;
+    double* hBH = output->hBH2;
+    double* r = output->r;
+    double* rB = output->rB2;
+    double* rC = output->rC2;
+    double* rBH = output->rBH;
+    double* sw = output->sw2;
+    double* vts = output->vts2;
+    double* vt = output->vt2;
+    double* vth = output->vth2;
+    double* sa = output->sa2;
+    double* la = output->la2;
+    double* ra = output->ra2;
+    double* dr = output->dr2;
+    double* xa = output->xa2;
+    double* bl = output->bl2;
+    double* br = output->br2;
+    double* bt = output->bt2;
+    double* bts = output->bts2;
+    double* bth = output->bth2;
+    double* boh = output->boh2;
+    double* bos = output->bos2;
+    double* bo = output->bo2;
+    double* bs = output->bs2;
+
+    double* cs = output->cs2;
+    double* clr = output->clr2;
+    double* fl = output->fl2;
+    double* fr = output->fr2;
+    double* ft = output->ft2;
+    double* fo = output->fo2;
+    double* rfl = output->rfl2;
+    double* rfr = output->rfr2;
+    double* rfs = output->rfs2;
+
+    double* egrow = output->egrow2;
+    double* ex = output->ex2;
+    double* rtrans = output->rtrans2;
+    double* light = output->light2;
+    double* nut = output->nut2;
+    double* deltas = output->deltas2;
+    double* LAI = output->LAI2;
+    int* status = output->status2;
+    int* lenvars = output->lenvars;
+    int* errorind = output->errorind;
+    int* growth_st = output->growth_st;
+    
+    // call Rgrowthloop
+    void Rgrowthloop(
+        input, 
+        gp2, 
+        Io, 
+        r0, 
+        t, 
+        Hc,
+        LAIF,
+        kF,
+        intF,
+        slopeF,
+        APARout,
+
+        h,
+        hh2,
+		hC2,
+		hB2,
+		hBH2,
+		r,
+		rB2,
+		rC2,
+		rBH,
+		sw2,
+		vts2,
+		vt2,
+		vth2,
+		sa2,
+		la2,
+		ra2,
+		dr2,
+		xa2,
+		bl2,
+		br2,
+		bt2,
+		bts2,
+		bth2,
+		boh2,
+		bos2,
+		bo2,
+		bs2,
+
+		cs2,
+		clr2,
+		fl2,
+		fr2,
+		ft2,
+		fo2,
+		rfl2,
+		rfr2,
+		rfs2,
+
+		egrow2,
+		ex2,
+		rtrans2,
+		light2,
+		nut2,
+		deltas2,
+		LAI2,
+		status2,
+		lenvars,
+		errorind,
+		growth_st
+    );
+
+
+
+    
 }
