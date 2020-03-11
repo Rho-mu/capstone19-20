@@ -4,11 +4,9 @@
 
 typedef struct 
 {
-    double data;
     double hmax; 
     double phih; 
     double eta; 
-    double etaB;
     double swmax;
     double lamdas; 
     double lamdah;
@@ -42,7 +40,7 @@ typedef struct
     double R0;
     double R40;
 
-}Input;
+}Inputs;
 
 typedef struct 
 {
@@ -94,15 +92,27 @@ typedef struct
     int* lenvars;
     int* errorind;
     int* growth_st;
-}Output;
+}Outputs;
 
-void main(Input *input, Output *output) 
+typedef struct 
 {
+    double BH;
+    double deltat;
+    double T;
+    double tolerance;
+}gparm;
 
+
+void main(double *input, double *gp2, Outputs *output) 
+{
+    printf("%lf\n",input[0]);
+    printf("%lf\n",gp2[0]);
     // struct Output *str_ptr = &output;
     // modelInputs == p2
+    
     //double *gp2; //do we need to create a struct for this 
-    gparms gp2;
+    
+    //double *gp2 = {0.00625, 10, 0.00001,1.37};
     double I = 2060.0;
     double *Io = &I;
     double r1 = 0.05;
@@ -119,11 +129,11 @@ void main(Input *input, Output *output)
     double slopF = -5.5;
     double *slopeF = &slopF;
 
-    
-    gp2.BH = 1.37;
-    gp2.deltat = 0.00625;
-    gp2.T = 10;
-    gp2.tolerance = 0.00001;
+    //gparms gp2;
+    //gp2.BH = 1.37;
+    //gp2.deltat = 0.00625;
+    //gp2.T = 10;
+    //gp2.tolerance = 0.00001;
     // pointer to the input structure
     // create
     double* APARout = output->APARout;
@@ -176,9 +186,9 @@ void main(Input *input, Output *output)
     int* lenvars = output->lenvars;
     int* errorind = output->errorind;
     int* growth_st = output->growth_st;
-    
+
     // call Rgrowthloop
-    void Rgrowthloop(
+    Rgrowthloop(
         input, 
         gp2, 
         Io, 
@@ -192,57 +202,54 @@ void main(Input *input, Output *output)
         APARout,
 
         h,
-        hh2,
-		hC2,
-		hB2,
-		hBH2,
+        hh,
+		hC,
+		hB,
+		hBH,
 		r,
-		rB2,
-		rC2,
+		rB,
+		rC,
 		rBH,
-		sw2,
-		vts2,
-		vt2,
-		vth2,
-		sa2,
-		la2,
-		ra2,
-		dr2,
-		xa2,
-		bl2,
-		br2,
-		bt2,
-		bts2,
-		bth2,
-		boh2,
-		bos2,
-		bo2,
-		bs2,
+		sw,
+		vts,
+		vt,
+		vth,
+		sa,
+		la,
+		ra,
+		dr,
+		xa,
+		bl,
+		br,
+		bt,
+		bts,
+		bth,
+		boh,
+		bos,
+		bo,
+		bs,
 
-		cs2,
-		clr2,
-		fl2,
-		fr2,
-		ft2,
-		fo2,
-		rfl2,
-		rfr2,
-		rfs2,
+		cs,
+		clr,
+		fl,
+		fr,
+		ft,
+		fo,
+		rfl,
+		rfr,
+		rfs,
 
-		egrow2,
-		ex2,
-		rtrans2,
-		light2,
-		nut2,
-		deltas2,
-		LAI2,
-		status2,
+		egrow,
+		ex,
+		rtrans,
+		light,
+		nut,
+		deltas,
+		LAI,
+		status,
 		lenvars,
 		errorind,
 		growth_st
     );
 
-
-
-    
 }
