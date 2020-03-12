@@ -1,5 +1,7 @@
 import json
 import ctypes
+from ctypes import *
+import os.path
 
 
 with open('input.json', encoding='utf-8') as f:
@@ -8,26 +10,30 @@ with open('input.json', encoding='utf-8') as f:
     hmax = d['hmax']
     f.close()
 
-# read dll 
-mydll = ctypes.CDLL(r'G:\capstone new\capstone19-20-master\ACGCA_Instance\Model\ACGCA\src\ACGCA.dll')
-model = mydll.main
+# read dll
+
+# lower case
+mydll = CDLL("./ACGCA.so")
+model = mydll.run_model
+
 
 class Inputs(ctypes.Structure):
   _fields_=[
-      ('hmax', ctypes.c_double), 
-      ('phih',ctypes.c_double), 
-      ('eta',ctypes.c_double), 
+      ('hmax', ctypes.c_double),
+      ('phih',ctypes.c_double),
+      ('eta',ctypes.c_double),
+      ('etaB',ctypes.c_double),
       ('swmax',ctypes.c_double),
-      ('lamdas',ctypes.c_double), 
+      ('lamdas',ctypes.c_double),
       ('lamdah',ctypes.c_double),
       ('rhomax',ctypes.c_double),
-      ('rhomin',ctypes.c_double),  
-      ('f2',ctypes.c_double), 
-      ('f1',ctypes.c_double), 
+      ('rhomin',ctypes.c_double),
+      ('f2',ctypes.c_double),
+      ('f1',ctypes.c_double),
       ('gammac',ctypes.c_double),
       ('gammaw',ctypes.c_double),
-      ('gammax',ctypes.c_double), 
-      ('cgl',ctypes.c_double),  
+      ('gammax',ctypes.c_double),
+      ('cgl',ctypes.c_double),
       ('cgr',ctypes.c_double),
       ('cgw',ctypes.c_double),
       ('deltal',ctypes.c_double),
@@ -42,8 +48,8 @@ class Inputs(ctypes.Structure):
       ('rms',ctypes.c_double),
       ('rmr',ctypes.c_double),
       ('drcrit',ctypes.c_double),
-      ('drinit',ctypes.c_double),  
-      ('k',ctypes.c_double),
+      ('drinit',ctypes.c_double),
+      ('K',ctypes.c_double),
       ('epsg',ctypes.c_double),
       ('M',ctypes.c_double),
       ('alpha',ctypes.c_double),
@@ -124,11 +130,12 @@ p = Inputs()
 p.hmax = (ctypes.c_double)(27.5)
 p.phih = (ctypes.c_double)(263)
 p.eta = (ctypes.c_double)(0.64)
+p.etaB = (ctypes.c_double)(0.045)
 p.swmax = (ctypes.c_double)(0.1) # wrong
-p.lamdas = (ctypes.c_double)(0.95)  
+p.lamdas = (ctypes.c_double)(0.95)
 p.lamdah = (ctypes.c_double)(0.95)
 p.rhomax = (ctypes.c_double)(525000)
-p.rhomin= (ctypes.c_double)(525000) 
+p.rhomin= (ctypes.c_double)(525000)
 p.f2= (ctypes.c_double)(7000)
 p.f1= (ctypes.c_double)(4)
 p.gammac = (ctypes.c_double)(131000)
@@ -136,8 +143,8 @@ p.gammaw = (ctypes.c_double)(0.000000667)
 p.gammax= (ctypes.c_double)(0.12)
 p.cgl= (ctypes.c_double)(1.45)
 p.cgr= (ctypes.c_double)(1.25)
-p.cgw= (ctypes.c_double)(1.37)  
-p.deltal= (ctypes.c_double)(0.095)  
+p.cgw= (ctypes.c_double)(1.37)
+p.deltal= (ctypes.c_double)(0.095)
 p.deltar = (ctypes.c_double)(0.15)
 p.sl= (ctypes.c_double)(1)
 p.sla= (ctypes.c_double)(0.0141)
@@ -148,13 +155,15 @@ p.rhor= (ctypes.c_double)(160000)
 p.rml= (ctypes.c_double)(2.5)
 p.rms = (ctypes.c_double)(0.05)
 p.rmr= (ctypes.c_double)(1.5)
-p.etaB= (ctypes.c_double)(0.045)
+p.drcrit= (ctypes.c_double)(1)
+p.drinit= (ctypes.c_double)(1)
 p.k= (ctypes.c_double)(0.7)
 p.epsg= (ctypes.c_double)(6.75)
 p.M= (ctypes.c_double)(0.95)
 p.alpha= (ctypes.c_double)(0.365)
 p.R0= (ctypes.c_double)(1.909)
 p.R40= (ctypes.c_double)(5.592)
+
 
 
 
@@ -165,7 +174,61 @@ model.argtypes = [
   ctypes.POINTER(Inputs),
   ctypes.POINTER(gparm),
   ctypes.POINTER(Outputs),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_double),
+  ctypes.POINTER(ctypes.c_int),
+  ctypes.POINTER(ctypes.c_int),
+  ctypes.POINTER(ctypes.c_int),
 ]
 
 
-model(p,g,o)
+model(p,g,o,o.APARout,o.h,o.hh2,o.hC2,o.hB2,o.hBH2,o.r,o.rB2,o.rC2,o.rBH,
+    o.sw2,o.vts2,o.vt2,o.vth2,o.sa2,o.la2,o.ra2,o.dr2,o.xa2,o.bl2,o.br2,
+    o.bt2,o.bts2,o.bth2,o.boh2,o.bos2,o.bo2,o.bs2,o.cs2,o.clr2,o.fl2,o.fr2,
+    o.ft2,o.fo2,o.rfl2,o.rfr2,o.rfs2,o.egrow2,o.ex2,o.rtrans2,o.light2,
+    o.nut2,o.deltas2,o.LAI2,o.status2,o.errorind,o.growth_st)
+# this is how you call the outputs
+print('this is the python return')
+print(o.hh2[0])

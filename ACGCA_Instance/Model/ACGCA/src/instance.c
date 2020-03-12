@@ -1,23 +1,24 @@
 #include "head_files/Rgrowthloop.h"
-#include "head_files/misc_growth_funcs.h" 
+#include "head_files/misc_growth_funcs.h"
 #include "head_files/growthloop.h"
 
-typedef struct 
+typedef struct
 {
-    double hmax; 
-    double phih; 
-    double eta; 
+    double hmax;
+    double phih;
+    double eta;
+    double etaB;
     double swmax;
-    double lamdas; 
+    double lamdas;
     double lamdah;
     double rhomax;
-    double rhomin;  
-    double f2; 
-    double f1; 
+    double rhomin;
+    double f2;
+    double f1;
     double gammac;
     double gammaw;
-    double gammax; 
-    double cgl;  
+    double gammax;
+    double cgl;
     double cgr;
     double cgw;
     double deltal;
@@ -32,7 +33,7 @@ typedef struct
     double rms;
     double rmr;
     double drcrit;
-    double drinit;  
+    double drinit;
     double k;
     double epsg;
     double M;
@@ -42,10 +43,10 @@ typedef struct
 
 }Inputs;
 
-typedef struct 
+typedef struct
 {
-    double* APARout;
-    double* h;
+    double *APARout;
+    double h;
     double* hh2;
     double* hC2;
     double* hB2;
@@ -92,9 +93,9 @@ typedef struct
     int* lenvars;
     int* errorind;
     int* growth_st;
-}Outputs;
+} Outputs;
 
-typedef struct 
+typedef struct
 {
     double BH;
     double deltat;
@@ -103,32 +104,132 @@ typedef struct
 }gparm;
 
 
-void main(double *input, double *gp2, Outputs *output) 
+void run_model(double *input, double *gp2, double *output,
+    double *APARout,
+    double *h,
+    double* hh2,
+    double* hC2,
+    double* hB2,
+    double* hBH2,
+    double* r,
+    double* rB2,
+    double* rC2,
+    double* rBH,
+    double* sw2,
+    double* vts2,
+    double* vt2,
+    double* vth2,
+    double* sa2,
+    double* la2,
+    double* ra2,
+    double* dr2,
+    double* xa2,
+    double* bl2,
+    double* br2,
+    double* bt2,
+    double* bts2,
+    double* bth2,
+    double* boh2,
+    double* bos2,
+    double* bo2,
+    double* bs2,
+    double* cs2,
+    double* clr2,
+    double* fl2,
+    double* fr2,
+    double* ft2,
+    double* fo2,
+    double* rfl2,
+    double* rfr2,
+    double* rfs2,
+    double* egrow2,
+    double* ex2,
+    double* rtrans2,
+    double* light2,
+    double* nut2,
+    double* deltas2,
+    double* LAI2,
+    int* status2,
+    // int* lenvars,
+    int* errorind,
+    int* growth_st
+  )
 {
-    printf("%lf\n",input[0]);
-    printf("%lf\n",gp2[0]);
+  // this is test stuff
+
+
+
     // struct Output *str_ptr = &output;
     // modelInputs == p2
-    
-    //double *gp2; //do we need to create a struct for this 
-    
+
+    //double *gp2; //do we need to create a struct for this
+
     //double *gp2 = {0.00625, 10, 0.00001,1.37};
+
     double I = 2060.0;
     double *Io = &I;
     double r1 = 0.05;
     double *r0 = &r1;
     int t0 = 1;
-    int *t = &t0; 
-    double Hc[] = {-99, -99, -99, -99, -99, -99, -99, -99, -99, -99};
-    double LAIF[] = {0,0,0,0,0,0,0,0,0,0};
-    double k = 0.6;
-    double *kF = &k;
-    double HFmax = 40;
-    double inF = 3.4;
-    double *intF = &inF;
-    double slopF = -5.5;
-    double *slopeF = &slopF;
+    int *t = &t0;
+    double Hc1[] = {-99.0, -99.0, -99.0, -99.0, -99.0, -99.0, -99.0, -99.0, -99.0, -99.0};
+    double *Hc = Hc1;
+    double LAIF1[] = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
+    double *LAIF = LAIF1;
+    // double k = 0.6;
+    // double *kF = &k;
+    // double HFmax = 40;
+    // double inF = 3.4;
+    // double *intF = &inF;
+    // double slopF = -5.5;
+    // double *slopeF = &slopF;
 
+    sparms p;
+    gparms gp;
+
+    p.hmax = input[0];
+    p.phih = input[1];
+    p.eta = input[2];
+    p.swmax = input[3]; //exp(-3.054);
+    p.lamdas = input[4];
+    p.lamdah = input[5];
+    p.rhomax = input[6]; //exp(13.2);
+    p.rhomin = input[7]; //exp(13.2);
+    p.rhomin = p.rhomax; // this could be changed if rhomin != rhomax.
+    p.f2 = input[8]; //exp(8.456);//   //f2=gammax*NEWf2
+    p.f1 = input[9];
+    p.gammac = input[10];
+    p.gammaw = input[11];
+    p.gammax = input[12]; //inv_logit(-0.709);//
+    p.cgl = input[13]; //exp(0.3229);//
+    p.cgr = input[14]; //exp(0.192);//
+    p.cgw = input[15]; //exp(0.3361);//
+    p.deltal = input[16];//inv_logit(-2.276);//
+    p.deltar = input[17]; //inv_logit(-2.832);//
+    p.sl = input[18]; //exp(0.8133);//
+    p.sla = input[19]; //exp(-4.119);//
+    p.sr = input[20]; //exp(0.2493);//
+    p.so = input[21]; //exp(0.6336); //
+    p.rr = input[22]; //exp(-8.103); //
+    p.rhor = input[23]; // new value: exp(-1.724);
+    p.rml = input[24]; //exp(2.544);//
+    p.rms = input[25]; //exp(0.5499); //
+    p.rmr = input[26]; //exp(3.252);//
+    p.etaB = input[27];
+    p.K = input[28];
+    p.epsg = input[29]; //exp(-3.304); //6.75;
+    p.M = input[30];
+    p.alpha = input[31];
+    p.R0 = input[32];
+    p.R40 = input[33];
+    p.drinit = input[34];
+    p.drcrit = input[35];
+
+
+    gp.deltat = gp2[0];
+    gp.T=gp2[1];
+    gp.tolerance=gp2[2];
+    gp.BH=gp2[3];
     //gparms gp2;
     //gp2.BH = 1.37;
     //gp2.deltat = 0.00625;
@@ -136,120 +237,78 @@ void main(double *input, double *gp2, Outputs *output)
     //gp2.tolerance = 0.00001;
     // pointer to the input structure
     // create
-    double* APARout = output->APARout;
-    double* h = output->h;
-    double* hh = output->hh2;
-    double* hC = output->hC2;
-    double* hB = output->hB2;
-    double* hBH = output->hBH2;
-    double* r = output->r;
-    double* rB = output->rB2;
-    double* rC = output->rC2;
-    double* rBH = output->rBH;
-    double* sw = output->sw2;
-    double* vts = output->vts2;
-    double* vt = output->vt2;
-    double* vth = output->vth2;
-    double* sa = output->sa2;
-    double* la = output->la2;
-    double* ra = output->ra2;
-    double* dr = output->dr2;
-    double* xa = output->xa2;
-    double* bl = output->bl2;
-    double* br = output->br2;
-    double* bt = output->bt2;
-    double* bts = output->bts2;
-    double* bth = output->bth2;
-    double* boh = output->boh2;
-    double* bos = output->bos2;
-    double* bo = output->bo2;
-    double* bs = output->bs2;
 
-    double* cs = output->cs2;
-    double* clr = output->clr2;
-    double* fl = output->fl2;
-    double* fr = output->fr2;
-    double* ft = output->ft2;
-    double* fo = output->fo2;
-    double* rfl = output->rfl2;
-    double* rfr = output->rfr2;
-    double* rfs = output->rfs2;
+    Forestparms ForParms;
+  	ForParms.kF = 0.6;
+  	ForParms.intF = 3.4;
+  	ForParms.slopeF = -5.5;
 
-    double* egrow = output->egrow2;
-    double* ex = output->ex2;
-    double* rtrans = output->rtrans2;
-    double* light = output->light2;
-    double* nut = output->nut2;
-    double* deltas = output->deltas2;
-    double* LAI = output->LAI2;
-    int* status = output->status2;
-    int* lenvars = output->lenvars;
-    int* errorind = output->errorind;
-    int* growth_st = output->growth_st;
+
 
     // call Rgrowthloop
-    Rgrowthloop(
-        input, 
-        gp2, 
-        Io, 
-        r0, 
-        t, 
-        Hc,
-        LAIF,
-        kF,
-        intF,
-        slopeF,
-        APARout,
 
-        h,
-        hh,
-		hC,
-		hB,
-		hBH,
-		r,
-		rB,
-		rC,
-		rBH,
-		sw,
-		vts,
-		vt,
-		vth,
-		sa,
-		la,
-		ra,
-		dr,
-		xa,
-		bl,
-		br,
-		bt,
-		bts,
-		bth,
-		boh,
-		bos,
-		bo,
-		bs,
+    growthloop(&p,&gp, Io, r0, t,
+  		Hc, LAIF, &ForParms, APARout,
+  		h,
+  		hh2,
+  		hC2,
+  		hB2,
+  		hBH2,
+  		r,
+  		rB2,
+  		rC2,
+  		rBH,
+  		sw2,
+  		vts2,
+  		vt2,
+  		vth2,
+  		sa2,
+  		la2,
+  		ra2,
+  		dr2,
+  		xa2,
+  		bl2,
+  		br2,
+  		bt2,
+  		bts2,
+  		bth2,
+  		boh2,
+  		bos2,
+  		bo2,
+  		bs2,
 
-		cs,
-		clr,
-		fl,
-		fr,
-		ft,
-		fo,
-		rfl,
-		rfr,
-		rfs,
+  		cs2,
+  		clr2,
+  		fl2,
+  		fr2,
+  		ft2,
+  		fo2,
+  		rfl2,
+  		rfr2,
+  		rfs2,
 
-		egrow,
-		ex,
-		rtrans,
-		light,
-		nut,
-		deltas,
-		LAI,
-		status,
-		lenvars,
-		errorind,
-		growth_st
-    );
+  		egrow2,
+  		ex2,
+  		rtrans2,
+  		light2,
+  		nut2,
+  		deltas2,
+  		LAI2,
+  		status2,
+  		//i,
+  		//lenvars,
+  		errorind,
+  		growth_st
+  		//tolout,
+  		//errorout,
+      //drout,
+      //demandout,
+      //odemandout,
+      //odrout
+  	);
+
+
+
+
 
 }

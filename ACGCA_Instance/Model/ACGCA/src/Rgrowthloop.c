@@ -1,6 +1,6 @@
 #include "head_files/misc_growth_funcs.h"
 #include "head_files/growthloop.h"
-#include "head_files/Rgrowthloop.h"
+
 //////////////////////////////////////////////////////////////////////////////////
 // This code is to create a call to the growthloop from R
 // I am hoping to avoid the structure that is causing problems.
@@ -10,9 +10,10 @@
 //////////////////////////////////////////////////////////////////////////////////
 // changes added Hc, LAIf,
 void Rgrowthloop( double *p2, double *gp2, double *Io, double *r0, int *t,
-	double *Hc, double *LAIF, double *kF, double *intF, double *slopeF, 
-	double *APARout,
+	double *Hc, double *LAIF, double *kF, double *intF, double *slopeF,
 
+	// outputs
+	double *APARout,
 	double *h,
 	double *hh,
 	double *hC,
@@ -40,7 +41,6 @@ void Rgrowthloop( double *p2, double *gp2, double *Io, double *r0, int *t,
 	double *bos,
 	double *bo,
 	double *bs,
-
 	double *cs,
 	double *clr,
 	double *fl,
@@ -50,7 +50,6 @@ void Rgrowthloop( double *p2, double *gp2, double *Io, double *r0, int *t,
 	double *rfl,
 	double *rfr,
 	double *rfs,
-
 	double *egrow,
 	double *ex,
 	double *rtrans,
@@ -60,7 +59,7 @@ void Rgrowthloop( double *p2, double *gp2, double *Io, double *r0, int *t,
 	double *LAI,
 	int *status,
 	//int *dim,
-	int *lenvars,
+	// int *lenvars,
 	int *errorind,
   int *growth_st)
   //double *tolout,
@@ -70,18 +69,17 @@ void Rgrowthloop( double *p2, double *gp2, double *Io, double *r0, int *t,
   //double *odemandout,
   //double *odrout)
 {
-	printf("get into R\n");
+
 	///////////////////////////////////////////////////////////////////////////
 	// Declare two structs and use them to store the simulation parameters
 	// and the simulation control variables.
 	///////////////////////////////////////////////////////////////////////////
 	sparms p;
-  	gparms gp;
+  gparms gp;
 
 	// NOTE: all indicies -1 because C starts at 0 while R starts at 1
 	// Define p(plant) parameters based on R array
 	p.hmax = p2[0];
-	printf("R %lf\n",p2[0]);
 	p.phih = p2[1];
 	p.eta = p2[2];
 	p.swmax = p2[3]; //exp(-3.054);
@@ -124,7 +122,6 @@ void Rgrowthloop( double *p2, double *gp2, double *Io, double *r0, int *t,
 	gp.T=gp2[1]; // gparm[2] <- 10 # gp.T length of run in years
 	gp.tolerance=gp2[2]; // gparm[3] <- 0.00001 # gp.tolerance
 	gp.BH=gp2[3]; // gparm[4] <- 1.37 # gp.BH
-	printf("g %lf",gp2[1]);
 	//gp.Io=gp2[4];  // annual par APAR
 
 	// Define a structure of forest parameters.
@@ -209,9 +206,3 @@ void Rgrowthloop( double *p2, double *gp2, double *Io, double *r0, int *t,
     //odrout
 	);
 } // End of Rgrowthloop
-
-
-
-
-
-

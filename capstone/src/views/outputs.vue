@@ -72,7 +72,7 @@ export default {
       method: "GET",
       mode: "no-cors",
       headers: {
-        "X-Run-ID": "test",
+        "X-Run-ID": this.runID,
         "x-api-key": "AZIzU9ni0x5vG6Rsub9qLaDxH6z26Zrz9bwvteiW"
       }
     })

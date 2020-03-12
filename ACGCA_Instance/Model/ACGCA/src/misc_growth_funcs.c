@@ -15,7 +15,7 @@
 #include <math.h>
 #include <assert.h>
 #include "head_files/misc_growth_funcs.h"
-
+// #include <R.h>
 
 // Only define M_PI if it is not defined already
 // Added by MKF for compilers that don't define this
@@ -515,7 +515,7 @@ void LAIcalc(LAindex *LAI, Larea *LA, double LAtot, double r0,
       	//LAI->top = LAtop/CAz;
       	LAI->top = LA->top/CAtot;
       	LAI->bot = LA->bot/CAtot;
-      	
+
 //      	Rprintf("LAIcalc H > Hc LAI->top=%g \n", CAtot);
       }
       // Below, if forest canopy is below tree's crown:
@@ -604,7 +604,7 @@ void APARcalc(double *APARout, LAindex *LAI, Larea *LA, double eta, double k, do
   // Predicted, unscaled forest canopy LAI at ground level:
   logitLAImax = ForParms->intF;
   pLAImax = exp(logitLAImax) / (1 + exp(logitLAImax));
-  
+
 //  Rprintf("APAR_top=%g \n", LAI->top);
 //  Rprintf("APAR_bot=%g \n", LAI->bot);
 //  Rprintf("APAR_tot=%g \n", LAI->tot);
@@ -684,7 +684,7 @@ void APARcalc(double *APARout, LAindex *LAI, Larea *LA, double eta, double k, do
     pLAIc = exp(LogitLAIc) / (1 + exp(LogitLAIc));
     pLAIc = (pLAIc-pLAImin) / (pLAImax - pLAImin);
     LAIc = FLAI * pLAIc;
-    
+
 //    Rprintf("LogitLAIc=%g, pLAIc=%g, LAIc=%g \n", LogitLAIc, pLAIc, LAIc);
     // Total LAI (forest + tree's canopies) within a cylinder containing the
     // target tree's bottom crown portion
@@ -836,4 +836,3 @@ void acruparms(sparms *p){
   p->drcrit=0.01;
 }
 */
-

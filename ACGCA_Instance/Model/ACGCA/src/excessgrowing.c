@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+// #include <R.h>
 #include "head_files/misc_growth_funcs.h"
 #include "head_files/excessgrowing.h"
 
@@ -36,15 +37,15 @@
 ///
 /// \date 11-23-2010
 ///
- 
-void excessgrowingon(sparms *p, gparms *gp, tstates *st, 
+
+void excessgrowingon(sparms *p, gparms *gp, tstates *st,
 	int i, int growthflag, double r[], int *errorind2, int *growth_st){
 	//, double *tolout, double *errorout, double *drout, double *demandout,
 	//double *odemandout, double *odrout){
   //Rprintf("The growthloop iteration is: %i \n", i);
 	height hin; radius rin; volume v;
 
-	//local temp variables.	
+	//local temp variables.
 	double dr=0; // incremental increase in radius
 	double odr=0; // old incremental increase
 	double efl=0,efr=0,efo=0,eft=0; // used to find demand
@@ -129,7 +130,7 @@ void excessgrowingon(sparms *p, gparms *gp, tstates *st,
 			intercept=demand-slope*dr;
 			odemand=demand;
 			odr=dr;
-			if (slope == 0){ 
+			if (slope == 0){
 			  if(numerrors <=10){
 			    //Rprintf("Restarting ROOT FINDING algorithm.");
 			    slope = oslope;
@@ -151,7 +152,7 @@ void excessgrowingon(sparms *p, gparms *gp, tstates *st,
 		        break;
 		      }  // end else
 
-			    printf("SLOPE = 0 error RESTART NOW! \n");
+			    // Rprintf("SLOPE = 0 error RESTART NOW! \n");
 			  }
 			  numerrors++;
 			}
@@ -314,7 +315,7 @@ void excessgrowingon(sparms *p, gparms *gp, tstates *st,
 			}
 
 			error=fabs(demand-st->ex);  // update the error
-      
+
       //tolout[(i-1)*1000+j] = fmaxmacro(fabs(st->ex*gp->tolerance),1e-5);
       //errorout[(i-1)*1000+j] = error;
       //odrout[(i-1)*1000+j]=odr;
@@ -324,8 +325,8 @@ void excessgrowingon(sparms *p, gparms *gp, tstates *st,
       //printf("tolout, iter=%d, tolout=%f \n",i,tolout[(i-1)*1000+j]);
       //printf("errorout, iter=%d, errorout=%f \n",i,errorout[(i-1)*1000+j]);
       //printf("error, iter=%d, error=%f \n",i,error);
-      
-      
+
+
 			j=j+1;   // change this to ++j
 			oslope = slope;
 
@@ -390,13 +391,13 @@ void excessgrowingon(sparms *p, gparms *gp, tstates *st,
 	// update state variables that have been modified
 
 	st->bth=st->bth+(1.0+st->deltas)*st->nut*st->bts*gp->deltat;
-	
+
 	//Rprintf("prior to calc, st->bts=%g, rhow=%g, v.vt=%g, st->vt=%g, st->nut=%g, gp->deltat=%g, i=%i \n", st->bts, rhow, v.vt, st->vt, st->nut, gp->deltat, i);
 	st->bts=st->bts+rhow*(v.vt-st->vt)-st->nut*st->bts*gp->deltat;
 	if(st->bts < 0){ // Added 3/6/19
 	  //Rprintf("BTS BTS BTS Restarting ROOT FINDING algorithm dut to ST->BTS.");
 	  st->bts = obts;
-	  slope = 0; // Force algorithem reset. 
+	  slope = 0; // Force algorithem reset.
 	  error = fmaxmacro(fabs(st->ex*gp->tolerance),1e-5) + 1; // Make sure while continues 3/6/2019
 	}
 	//Rprintf("st->bts=%g, i=%i \n", st->bts, i);
@@ -458,7 +459,7 @@ void excessgrowingon(sparms *p, gparms *gp, tstates *st,
 /// \date 12-07-2010
 ///
 
-void excessgrowingoff(sparms *p, gparms *gp, tstates *st, int i, double deltaw, 
+void excessgrowingoff(sparms *p, gparms *gp, tstates *st, int i, double deltaw,
 	int *errorind2, int *growth_st){
 
 	//temp local variables for intermediate calculations

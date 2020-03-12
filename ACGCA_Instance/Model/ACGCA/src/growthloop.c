@@ -22,6 +22,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+// #include <R.h>
 
 #include "head_files/misc_growth_funcs.h"
 #include "head_files/excessgrowing.h"
@@ -52,7 +53,9 @@
 /// TODO: need numerical checks here
 ///
 void growthloop(sparms *p, gparms *gp, double *Io, double *r0, int *t,
-	double *Hc, double *LAIF, Forestparms *ForParms, double APARout[],
+	double *Hc, double *LAIF, Forestparms *ForParms,
+	// outputs
+	double APARout[],
 	double h[],
 	double hh2[],
 	double hC2[],
@@ -80,7 +83,6 @@ void growthloop(sparms *p, gparms *gp, double *Io, double *r0, int *t,
 	double bos2[],
 	double bo2[],
 	double bs2[],
-
 	double cs2[],
 	double clr2[],
 	double fl2[],
@@ -90,7 +92,6 @@ void growthloop(sparms *p, gparms *gp, double *Io, double *r0, int *t,
 	double rfl2[],
 	double rfr2[],
 	double rfs2[],
-
 	double egrow2[],
 	double ex2[],
 	double rtrans2[],
@@ -108,6 +109,8 @@ void growthloop(sparms *p, gparms *gp, double *Io, double *r0, int *t,
   //double *odemandout,
   //double *odrout
 ){
+	printf("got into growthloop");
+	printf("%lf \n", p->hmax);
 
 	//, double la[],double LAI[], double egrow[], double ex[], int status[]
 	// state variables
@@ -207,6 +210,7 @@ void growthloop(sparms *p, gparms *gp, double *Io, double *r0, int *t,
   		APAR[0] = -1;
   		APAR[1] = -1;
 
+
 	    // MKF moved this to the top of the loop to prevent LAI->bot == 0
 	    LAIcalc(&LAI,&LA, st.la, st.r, st.h, st.rBH, p, gp, Hc[i], &st);
 		  // If tree died last iteration, then exit program.
@@ -215,6 +219,7 @@ void growthloop(sparms *p, gparms *gp, double *Io, double *r0, int *t,
 			//    break;
 			//}
 
+			printf("above break");
 		   // If r = 0 then exit program the tree is dead
 		   // Check for possible division by zero, negative areas, etc.
 		   if ((st.vts <= 0) || (st.bts == 0) || (p->gammax == 1) || (p->gammaw == 0) ||
@@ -224,6 +229,8 @@ void growthloop(sparms *p, gparms *gp, double *Io, double *r0, int *t,
 				growth_st[i]=6;
 				break;
 			}
+
+			printf("above second break");
 		   // If miniscule amount of labile C and tissues (i.e., less than 0.01 cm2 of
 		   // leaf area and equivalent bos), tree dies. Use this for "established" trees
 		   // with r > 0.1 m.
@@ -389,6 +396,7 @@ void growthloop(sparms *p, gparms *gp, double *Io, double *r0, int *t,
 		//}
 
 
+
 		if (isnan(st.ex) !=0){
 		  printf("st.r=%g, st.bos=%g, st.bts=%g \n", st.r,st.bos,st.bts);
 		  printf("f2=%g, st.sa=%g, st.bl=%g, sla=%g \n",log(p->f2), st.sa, st.bl, log(p->sla));
@@ -406,6 +414,7 @@ void growthloop(sparms *p, gparms *gp, double *Io, double *r0, int *t,
 		  errorind[i] = errorind[i] | 2;
 		}
 
+		printf("is this working?");
 		hh2[i]=st.hh; //double
 		hC2[i]=st.hC; //double
 		hB2[i]=st.hB; //double
@@ -458,6 +467,8 @@ void growthloop(sparms *p, gparms *gp, double *Io, double *r0, int *t,
 			break;
 		}
 
+
+
 		//printf("index number in loop: %d \n", (i+(*lenvars * *iout)+ *iout));
 		//} // end of skip if
   } //end the for loop
@@ -466,6 +477,8 @@ void growthloop(sparms *p, gparms *gp, double *Io, double *r0, int *t,
 
   //*t=(i-1);  // return iteration
 
+	printf("This is the output of the growthloop \n");
+	printf("%lf \n", APARout[0]);
   // Make sure the final status is recorded
   status2[i]=st.status; // Added my MKF on 4/3/18
 
