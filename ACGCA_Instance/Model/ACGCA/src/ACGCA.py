@@ -13,7 +13,7 @@ with open('input.json', encoding='utf-8') as f:
 # read dll
 
 # lower case
-mydll = CDLL("./ACGCA.so")
+mydll = CDLL("./ACGCA.dll")
 model = mydll.run_model
 
 
