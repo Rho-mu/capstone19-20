@@ -13,7 +13,7 @@ with open('input.json', encoding='utf-8') as f:
 # read dll
 
 # lower case
-mydll = CDLL("./ACGCA.dll")
+mydll = CDLL("./ACGCA.so")
 model = mydll.run_model
 
 
@@ -231,4 +231,19 @@ model(p,g,o,o.APARout,o.h,o.hh2,o.hC2,o.hB2,o.hBH2,o.r,o.rB2,o.rC2,o.rBH,
     o.nut2,o.deltas2,o.LAI2,o.status2,o.errorind,o.growth_st)
 # this is how you call the outputs
 print('this is the python return')
+print(o.APARout[0])
+print(o.h[0])
 print(o.hh2[0])
+print(o.hC2[0])
+print(o.hB2[0])
+print(o.hBH2[0])
+print(o.r[0])
+print(o.rB2[0])
+print(o.rC2[0])
+print(o.rBH[0])
+print(o.sw2[0])
+print(o.APARout[0])
+print(o.APARout[0])
+print(o.APARout[0])
+print(o.APARout[0])
+print(o.APARout[0])
