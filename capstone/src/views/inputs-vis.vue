@@ -303,7 +303,7 @@ methods: {
       this.newScene = new THREE.Scene()                           // Create new scene for new tree
       this.treeScene.add( this.newScene )                         // Add new scene to root scene
 
-      this.addBox()
+      //this.addBox()
 
       // ACGCA output
       var h = this.treeData[index].h                  // Height of tree (total)
