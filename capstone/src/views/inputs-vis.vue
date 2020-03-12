@@ -162,6 +162,7 @@ export default {
         dataIndex: "0",
         maxTimeStep: "3",
         treeData: json.trees,
+        //treeData: [],
         crownShape: "cone",
         currentScene: this.treeScene,
         currentCam: this.treeCam
@@ -213,7 +214,8 @@ methods: {
       })
       .then((response) => {
         console.log(runID)
-        this.getJson = response.data
+        //this.getJson = response.data
+        this.treeData = response.data.trees
       })
     }, // END: getData()
 
@@ -303,7 +305,7 @@ methods: {
       this.newScene = new THREE.Scene()                           // Create new scene for new tree
       this.treeScene.add( this.newScene )                         // Add new scene to root scene
 
-      //this.addBox()
+      this.addBox()
 
       // ACGCA output
       var h = this.treeData[index].h                  // Height of tree (total)
