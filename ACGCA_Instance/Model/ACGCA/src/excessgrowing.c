@@ -12,7 +12,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <R.h>
 #include "head_files/misc_growth_funcs.h"
 #include "head_files/excessgrowing.h"
 
@@ -152,7 +151,7 @@ void excessgrowingon(sparms *p, gparms *gp, tstates *st,
 		        break;
 		      }  // end else
 
-			    Rprintf("SLOPE = 0 error RESTART NOW! \n");
+			    printf("SLOPE = 0 error RESTART NOW! \n");
 			  }
 			  numerrors++;
 			}

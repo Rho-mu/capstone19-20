@@ -9,8 +9,8 @@ with open('input.json', encoding='utf-8') as f:
     f.close()
 
 # read dll 
-mydll = ctypes.CDLL(r'G:\ACGCA-master\ACGCA\src\ACGCA.dll')
-model = mydll.call_model
+mydll = ctypes.CDLL(r'G:\capstone new\capstone19-20-master\ACGCA_Instance\Model\ACGCA\src\ACGCA.dll')
+model = mydll.main
 
 class Inputs(ctypes.Structure):
   _fields_=[
@@ -52,11 +52,6 @@ class Inputs(ctypes.Structure):
       ('R40',ctypes.c_double),
 
 
-      # Gparams
-      ('BH', ctypes.c_double), 
-      ('deltat', ctypes.c_double),
-      ('T',ctypes.c_double), 
-      ('tolerance', ctypes.c_double)
     ]
 
 N = (ctypes.c_int)(10)

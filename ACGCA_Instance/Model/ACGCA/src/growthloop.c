@@ -22,7 +22,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <R.h>
 
 #include "head_files/misc_growth_funcs.h"
 #include "head_files/excessgrowing.h"

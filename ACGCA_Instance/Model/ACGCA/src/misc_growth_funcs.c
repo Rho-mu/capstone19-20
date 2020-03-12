@@ -15,7 +15,7 @@
 #include <math.h>
 #include <assert.h>
 #include "head_files/misc_growth_funcs.h"
-#include <R.h>
+
 
 // Only define M_PI if it is not defined already
 // Added by MKF for compilers that don't define this

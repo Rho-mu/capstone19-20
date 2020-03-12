@@ -51,4 +51,4 @@ void Rgrowthloop( double *p2, double *gp2, double *Io, double *r0, int *t,
 	//int *dim,
 	int *lenvars,
 	int *errorind,
-  int *growth_st)
+  int *growth_st);
