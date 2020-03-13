@@ -123,7 +123,7 @@ import json from '../json/treeData.json'
 export default {
   data() {
     return {
-      postBody: {
+      /*postBody: {
           hmax: '',
           phih: '',
           eta: '',
@@ -156,6 +156,40 @@ export default {
           alpha: '',
           r0: '',
           r40: ''
+        },*/
+        postBody: {
+          hmax: '27.5',
+          phih: '263',
+          eta: '0.64',
+          swmax: '0.1',
+          lamda: '0.95',
+          rhomax: '525000',
+          f2: '7000',
+          f1: '4',
+          gammac: '131000',
+          gammaw: '0.000000667',
+          gammax: '0.12',
+          cgl: '1.45',
+          cgr: '1.25',
+          cgw: '1.37',
+          deltal: '0.095',
+          deltar: '0.15',
+          sl: '1',
+          sla: '0.0141',
+          so: '0.05',
+          sr: '1',
+          rr: '0.00015',
+          rhor: '160000',
+          rml: '2.5',
+          rms: '0.05',
+          rmr: '1.5',
+          etaB: '0.045',
+          k: '0.7',
+          epsg: '6.75',
+          m: '0.95',
+          alpha: '0.365',
+          r0: '1.909',
+          r40: '5.592'
         },
         runID: '',
         getJson: [],
@@ -205,8 +239,6 @@ methods: {
           (error) => { console.log(error.request)}
       )
     }, // END: getData()
-
-
 
     initialize() {
       // Change the slider to have as many steps as timeSteps from the ACGCA model.
@@ -527,6 +559,13 @@ methods: {
 
   .outputDisplayContainer button:hover {
     background-color: #EEE;
+  }
+
+  .treeCanvasport {
+    display: block;
+    float: left;
+    width: 100%;
+    height: 100%;
   }
 
   .rawDataList {
