@@ -68,7 +68,7 @@ const routes = [
   {
     path: '/inputs-vis',
     name: 'InputsVis',
-    component: InputsVis
+    component: InputsVis // this will require Auth
   }
 ]
 

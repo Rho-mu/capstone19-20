@@ -159,44 +159,23 @@ export default {
         },
         runID: '',
         getJson: [],
+        resultJson: {},
         dataIndex: "0",
         maxTimeStep: "3",
         treeData: json.trees,
-        //treeData: [],
         crownShape: "cone",
         currentScene: this.treeScene,
         currentCam: this.treeCam
       }
     }, // END: data()
 methods: {
-    // postData() {
-    //   fetch("https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user", {
-    //
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       'x-api-key': 'AZIzU9ni0x5vG6Rsub9qLaDxH6z26Zrz9bwvteiW',
-    //       'Access-Control-Allow-Origin': '*'
-    //     },
-    //     method: 'post',
-    //     // mode: "no-cors",
-    //   })
-    //
-    //   .then((response) => {
-    //     console.log(response)
-    //     /// test stuff
-    //     // this.$router.replace('outputs') // routes to the output page
-    //   })
-    //   .catch(e => {
-    //     console.log(e)
-    //   })
-    // },
     postData() {
       axios.post('https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user', {
-        // headers: {
-        //   'Content-Type': 'application/json',
-        //   'x-api-key': 'AZIzU9ni0x5vG6Rsub9qLaDxH6z26Zrz9bwvteiW',
-        //   'Access-Control-Allow-Origin': '*'
-        // },
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': 'AZIzU9ni0x5vG6Rsub9qLaDxH6z26Zrz9bwvteiW',
+          'Access-Control-Allow-Origin': '*'
+        },
         body: this.postBody
       })
       .then(response => {
@@ -208,16 +187,26 @@ methods: {
     getData() {
       axios.get('https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user', {
         headers: {
-          "X-Run-ID": this.runID,
-          "x-api-key": "AZIzU9ni0x5vG6Rsub9qLaDxH6z26Zrz9bwvteiW"
+          'Content-Type': 'application/json',
+          'x-run-id': this.runID
         }
       })
       .then((response) => {
-        console.log(runID)
-        //this.getJson = response.data
-        this.treeData = response.data.trees
-      })
+
+        console.log(this.runID)
+        this.getJson = response.data
+
+        let newStr = this.getJson.replace(/=/g, "\":")
+        let newStr2 = newStr.replace(/&/g, ",\"")
+        let newStr3 = "{\"" + newStr2 + "}"
+        this.resultJson = JSON.parse(newStr3)
+        console.log(this.resultJson)
+      },
+          (error) => { console.log(error.request)}
+      )
     }, // END: getData()
+
+
 
     initialize() {
       // Change the slider to have as many steps as timeSteps from the ACGCA model.

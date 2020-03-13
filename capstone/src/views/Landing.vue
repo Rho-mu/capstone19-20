@@ -16,7 +16,7 @@
       sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
       Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
       <p id="return">
-        <button @click="moveToLogin"id="returnButton">Returning?</button>
+        <button class="testButton" @click="moveToLogin"id="returnButton">Returning?</button>
       </p>
       <p id="survey">
         <button @click="moveToSignUp" id="surveyButton">New?</button>
@@ -115,6 +115,17 @@ export default {
   left: 16px;
   font-size: 28px;
   color: white;
+}
+
+#testButton {
+  background-color: #44c767;
+  border-radius: 28px;
+  border: 1px solid #18ab29;
+  padding: 15px 32px;
+  color:#ffffff;
+  font-family:Arial;
+  font-size: 17px;
+  display: inline-block;
 }
 
 </style>
