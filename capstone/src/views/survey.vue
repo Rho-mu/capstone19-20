@@ -58,7 +58,7 @@ export default {
   methods: {
     submitName() {
       var keyRef = userRef.push( this.newUser );
-      this.$router.replace('visualization');
+      this.$router.replace('inputs-vis');
     }
   }
 }

@@ -7,8 +7,10 @@ def model():
         headers = {'x-api-key': 'AZlzU9ni0x5vG6Rsub9qLaDxH6z26Zrz9bwvteiW'}
     )
 
+
     data = acgca_input.json()
     print(data)
+    # print(acgca_input)
 
     if data == {}:
         print("Skipped")
@@ -16,22 +18,34 @@ def model():
         return
 
     model_input = data["input"]
+    # new_model = model_input[144:]
+    # new_model = new_model.strip(",")
+    # # new_model = new_model.strip("headers")
+    # new_model = new_model.split(":")
+    # new_model = new_model.split(",")
+    print("INPUT FROM USER")
+    print(model_input)
+
+
+    # print("PRINT THE FIRST PART OF THE INPUTS")
+    # print(new_model)
 
 
     model_outputs = run_alg(model_input)
     print()
+    print("OUTPUTS FROM MODEL")
     print(model_outputs)
 
     payload = {"run_id": data["run_id"], "output": model_outputs}
 
 
-    pineapple = requests.post(
+    requests.post(
         "https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/model",
         data = model_outputs,
         headers = {'x-api-key': 'AZlzU9ni0x5vG6Rsub9qLaDxH6z26Zrz9bwvteiW',
         'X-Run-ID': data["run_id"] }
     )
-    print(pineapple.headers)
+
 
 def run_alg(input):
     import json
@@ -151,48 +165,48 @@ def run_alg(input):
     g.deltat =(ctypes.c_double)(0.00625)
     g.T = (ctypes.c_double)(10)
     g.tolerance = (ctypes.c_double)(0.00001)
-
     # suppose the default value just for current testing
     try:
         p = Inputs()
-        p.hmax = (ctypes.c_double)(float(input.hmax))#(27.5)
-        p.phih = (ctypes.c_double)(float(input.phih))#(263)
-        p.eta = (ctypes.c_double)(float(input.eta))#(0.64)
-        p.etaB = (ctypes.c_double)(float(input.etaB))#(0.045)
-        p.swmax = (ctypes.c_double)(float(input.swmax))#(0.1) # wrong
-        p.lamdas = (ctypes.c_double)(float(input.lamda))#(0.95)
-        p.lamdah = (ctypes.c_double)(float(input.lamda))#(0.95)
-        p.rhomax = (ctypes.c_double)(float(input.rhomax))#(525000)
-        p.rhomin= (ctypes.c_double)(float(input.rhomax))#(525000)
-        p.f2= (ctypes.c_double)(float(input.f2))#(7000)
-        p.f1= (ctypes.c_double)(float(input.f1))#(4)
-        p.gammac = (ctypes.c_double)(float(input.gammac))#(131000)
-        p.gammaw = (ctypes.c_double)(float(input.gammaw))#(0.000000667)
-        p.gammax= (ctypes.c_double)(float(input.gammax))#(0.12)
-        p.cgl= (ctypes.c_double)(float(input.cgl))#(1.45)
-        p.cgr= (ctypes.c_double)(float(input.cgr))#(1.25)
-        p.cgw= (ctypes.c_double)(float(input.cgw))#(1.37)
-        p.deltal= (ctypes.c_double)(float(input.deltal))#(0.095)
-        p.deltar = (ctypes.c_double)(float(input.deltar))#(0.15)
-        p.sl= (ctypes.c_double)(float(input.sl))#(1)
-        p.sla= (ctypes.c_double)(float(input.sla))#(0.0141)
-        p.sr= (ctypes.c_double)(float(input.sr))#(1)
-        p.so= (ctypes.c_double)(float(input.so))#(0.05)
-        p.rr= (ctypes.c_double)(float(input.rr))#(0.00015)
-        p.rhor= (ctypes.c_double)(float(input.rhor))#(160000)
-        p.rml= (ctypes.c_double)(float(input.rml))#(2.5)
-        p.rms = (ctypes.c_double)(float(input.rms))#(0.05)
-        p.rmr= (ctypes.c_double)(float(input.rmr))#(1.5)
+        # these arent linking with input file. input cant grab .hmax
+        p.hmax = (ctypes.c_double)(27.5)#(float(input.hmax))#(27.5)
+        p.phih = (ctypes.c_double)(263)#(float(input.phih))#(263)
+        p.eta = (ctypes.c_double)(0.64)#(float(input.eta))#(0.64)
+        p.etaB = (ctypes.c_double)(0.045)#(float(input.etaB))#(0.045)
+        p.swmax = (ctypes.c_double)(0.1)#(float(input.swmax))#(0.1) # wrong
+        p.lamdas = (ctypes.c_double)(0.95)#(float(input.lamda))#(0.95)
+        p.lamdah = (ctypes.c_double)(0.95)#(float(input.lamda))#(0.95)
+        p.rhomax = (ctypes.c_double)(525000)#(float(input.rhomax))#(525000)
+        p.rhomin= (ctypes.c_double)(525000)#(float(input.rhomax))#(525000)
+        p.f2= (ctypes.c_double)(7000)#(float(input.f2))#(7000)
+        p.f1= (ctypes.c_double)(4)#(float(input.f1))#(4)
+        p.gammac = (ctypes.c_double)(131000)#(float(input.gammac))#(131000)
+        p.gammaw = (ctypes.c_double)(0.000000667)#(float(input.gammaw))#(0.000000667)
+        p.gammax= (ctypes.c_double)(0.12)#(float(input.gammax))#(0.12)
+        p.cgl= (ctypes.c_double)(1.45)#(float(input.cgl))#(1.45)
+        p.cgr= (ctypes.c_double)(1.25)#(float(input.cgr))#(1.25)
+        p.cgw= (ctypes.c_double)(1.37)#(float(input.cgw))#(1.37)
+        p.deltal= (ctypes.c_double)(0.095)#(float(input.deltal))#(0.095)
+        p.deltar = (ctypes.c_double)(0.15)#(float(input.deltar))#(0.15)
+        p.sl= (ctypes.c_double)(1)#(float(input.sl))#(1)
+        p.sla= (ctypes.c_double)(0.0141)#(float(input.sla))#(0.0141)
+        p.sr= (ctypes.c_double)(1)#(float(input.sr))#(1)
+        p.so= (ctypes.c_double)(0.05)#(float(input.so))#(0.05)
+        p.rr= (ctypes.c_double)(0.00015)#(float(input.rr))#(0.00015)
+        p.rhor= (ctypes.c_double)(160000)#(float(input.rhor))#(160000)
+        p.rml= (ctypes.c_double)(2.5)#(float(input.rml))#(2.5)
+        p.rms = (ctypes.c_double)(0.05)#(float(input.rms))#(0.05)
+        p.rmr= (ctypes.c_double)(1.5)#(float(input.rmr))#(1.5)
 
         p.drcrit= (ctypes.c_double)(1)
         p.drinit= (ctypes.c_double)(1)
 
-        p.k= (ctypes.c_double)(0.7)
-        p.epsg= (ctypes.c_double)(6.75)
-        p.M= (ctypes.c_double)(0.95)
-        p.alpha= (ctypes.c_double)(0.365)
-        p.R0= (ctypes.c_double)(1.909)
-        p.R40= (ctypes.c_double)(5.592)
+        p.K= (ctypes.c_double)(0.7)#(float(input.K))#(0.7)
+        p.epsg= (ctypes.c_double)(6.75)#(float(input.epsg))#(6.75)
+        p.M= (ctypes.c_double)(0.95)#(float(input.M))#(0.95)
+        p.alpha= (ctypes.c_double)(0.365)#(float(input.alpha))#(0.365)
+        p.R0= (ctypes.c_double)(1.909)#(float(input.R0))#(1.909)
+        p.R40= (ctypes.c_double)(5.592)#(float(input.R40))#(5.592)
     except:
         pass
 
@@ -309,7 +323,6 @@ def run_alg(input):
                 'errorind':o.errorind[0],
                 'growth_st':o.growth_st[0]
     }
-
     return output
 
 

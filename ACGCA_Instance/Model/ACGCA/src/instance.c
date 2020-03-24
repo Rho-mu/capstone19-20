@@ -2,98 +2,7 @@
 #include "head_files/misc_growth_funcs.h"
 #include "head_files/growthloop.h"
 
-typedef struct
-{
-    double hmax;
-    double phih;
-    double eta;
-    double etaB;
-    double swmax;
-    double lamdas;
-    double lamdah;
-    double rhomax;
-    double rhomin;
-    double f2;
-    double f1;
-    double gammac;
-    double gammaw;
-    double gammax;
-    double cgl;
-    double cgr;
-    double cgw;
-    double deltal;
-    double deltar;
-    double sl;
-    double sla;
-    double sr;
-    double so;
-    double rr;
-    double rhor;
-    double rml;
-    double rms;
-    double rmr;
-    double drcrit;
-    double drinit;
-    double k;
-    double epsg;
-    double M;
-    double alpha;
-    double R0;
-    double R40;
 
-}Inputs;
-
-typedef struct
-{
-    double *APARout;
-    double h;
-    double* hh2;
-    double* hC2;
-    double* hB2;
-    double* hBH2;
-    double* r;
-    double* rB2;
-    double* rC2;
-    double* rBH;
-    double* sw2;
-    double* vts2;
-    double* vt2;
-    double* vth2;
-    double* sa2;
-    double* la2;
-    double* ra2;
-    double* dr2;
-    double* xa2;
-    double* bl2;
-    double* br2;
-    double* bt2;
-    double* bts2;
-    double* bth2;
-    double* boh2;
-    double* bos2;
-    double* bo2;
-    double* bs2;
-    double* cs2;
-    double* clr2;
-    double* fl2;
-    double* fr2;
-    double* ft2;
-    double* fo2;
-    double* rfl2;
-    double* rfr2;
-    double* rfs2;
-    double* egrow2;
-    double* ex2;
-    double* rtrans2;
-    double* light2;
-    double* nut2;
-    double* deltas2;
-    double* LAI2;
-    int* status2;
-    int* lenvars;
-    int* errorind;
-    int* growth_st;
-} Outputs;
 
 typedef struct
 {
@@ -170,7 +79,7 @@ void run_model(double *input, double *gp2, double *output,
     double *Io = &I;
     double r1 = 0.05;
     double *r0 = &r1;
-    int t0 = 1;
+    int t0 = 3;
     int *t = &t0;
     double Hc1[] = {-99.0, -99.0, -99.0, -99.0, -99.0, -99.0, -99.0, -99.0, -99.0, -99.0};
     double *Hc = Hc1;
@@ -190,46 +99,47 @@ void run_model(double *input, double *gp2, double *output,
     p.hmax = input[0];
     p.phih = input[1];
     p.eta = input[2];
-    p.swmax = input[3]; //exp(-3.054);
-    p.lamdas = input[4];
-    p.lamdah = input[5];
-    p.rhomax = input[6]; //exp(13.2);
-    p.rhomin = input[7]; //exp(13.2);
-    p.rhomin = p.rhomax; // this could be changed if rhomin != rhomax.
-    p.f2 = input[8]; //exp(8.456);//   //f2=gammax*NEWf2
-    p.f1 = input[9];
-    p.gammac = input[10];
-    p.gammaw = input[11];
-    p.gammax = input[12]; //inv_logit(-0.709);//
-    p.cgl = input[13]; //exp(0.3229);//
-    p.cgr = input[14]; //exp(0.192);//
-    p.cgw = input[15]; //exp(0.3361);//
-    p.deltal = input[16];//inv_logit(-2.276);//
-    p.deltar = input[17]; //inv_logit(-2.832);//
-    p.sl = input[18]; //exp(0.8133);//
-    p.sla = input[19]; //exp(-4.119);//
-    p.sr = input[20]; //exp(0.2493);//
-    p.so = input[21]; //exp(0.6336); //
-    p.rr = input[22]; //exp(-8.103); //
-    p.rhor = input[23]; // new value: exp(-1.724);
-    p.rml = input[24]; //exp(2.544);//
-    p.rms = input[25]; //exp(0.5499); //
-    p.rmr = input[26]; //exp(3.252);//
-    p.etaB = input[27];
-    p.K = input[28];
-    p.epsg = input[29]; //exp(-3.304); //6.75;
-    p.M = input[30];
-    p.alpha = input[31];
-    p.R0 = input[32];
-    p.R40 = input[33];
-    p.drinit = input[34];
-    p.drcrit = input[35];
+    p.etaB = input[3];
+    p.swmax = input[4]; //exp(-3.054);
+    p.lamdas = input[5];
+    p.lamdah = input[6];
+    p.rhomax = input[7]; //exp(13.2);
+    p.rhomin = input[8]; //exp(13.2);
+    // p.rhomin = p.rhomax; // this could be changed if rhomin != rhomax.
+    p.f2 = input[9]; //exp(8.456);//   //f2=gammax*NEWf2
+    p.f1 = input[10];
+    p.gammac = input[11];
+    p.gammaw = input[12];
+    p.gammax = input[13]; //inv_logit(-0.709);//
+    p.cgl = input[14]; //exp(0.3229);//
+    p.cgr = input[15]; //exp(0.192);//
+    p.cgw = input[16]; //exp(0.3361);//
+    p.deltal = input[17];//inv_logit(-2.276);//
+    p.deltar = input[18]; //inv_logit(-2.832);//
+    p.sl = input[19]; //exp(0.8133);//
+    p.sla = input[20]; //exp(-4.119);//
+    p.sr = input[21]; //exp(0.2493);//
+    p.so = input[22]; //exp(0.6336); //
+    p.rr = input[23]; //exp(-8.103); //
+    p.rhor = input[24]; // new value: exp(-1.724);
+    p.rml = input[25]; //exp(2.544);//
+    p.rms = input[26]; //exp(0.5499); //
+    p.rmr = input[27]; //exp(3.252);//
+    p.drcrit = input[28];
+    p.drinit = input[29];
+    p.K = input[30];
+    p.epsg = input[31]; //exp(-3.304); //6.75;
+
+    p.M = input[32];
+    p.alpha = input[33];
+    p.R0 = input[34];
+    p.R40 = input[35];
 
 
-    gp.deltat = gp2[0];
-    gp.T=gp2[1];
-    gp.tolerance=gp2[2];
-    gp.BH=gp2[3];
+    gp.BH = gp2[0];
+    gp.deltat=gp2[1];
+    gp.T=gp2[2];
+    gp.tolerance=gp2[3];
     //gparms gp2;
     //gp2.BH = 1.37;
     //gp2.deltat = 0.00625;
@@ -245,10 +155,13 @@ void run_model(double *input, double *gp2, double *output,
 
 
 
+
+
     // call Rgrowthloop
 
     growthloop(&p,&gp, Io, r0, t,
-  		Hc, LAIF, &ForParms, APARout,
+  		Hc, LAIF, &ForParms,
+      APARout,
   		h,
   		hh2,
   		hC2,
@@ -306,6 +219,8 @@ void run_model(double *input, double *gp2, double *output,
       //odemandout,
       //odrout
   	);
+
+
 
 
 

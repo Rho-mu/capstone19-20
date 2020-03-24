@@ -30,7 +30,7 @@
       login() {
         firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
           (user) => {
-            this.$router.replace('visualization')
+            this.$router.replace('inputs-vis')
           },
           (err) => {
             alert('Oops. ' + err.message)
@@ -41,7 +41,7 @@
         const provider = new firebase.auth.GoogleAuthProvider();
 
         firebase.auth().signInWithPopup(provider).then((result) => {
-          this.$router.replace('visualization')
+          this.$router.replace('inputs-vis')
         }).catch((err) => {
           alert('Oops. ' + err.message)
         });

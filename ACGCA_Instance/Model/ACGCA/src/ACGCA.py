@@ -4,16 +4,16 @@ from ctypes import *
 import os.path
 
 
-with open('input.json', encoding='utf-8') as f:
-    line = f.readline()
-    d = json.loads(line)
-    hmax = d['hmax']
-    f.close()
+# with open('input.json', encoding='utf-8') as f:
+#     line = f.readline()
+#     d = json.loads(line)
+#     hmax = d['hmax']
+#     f.close()
 
 # read dll
 
 # lower case
-mydll = CDLL("./ACGCA.so")
+mydll = ctypes.CDLL("/Users/alexbentley/Documents/GitHub/capstone19-20/ACGCA_Instance/Model/ACGCA/src/ACGCA.so")
 model = mydll.run_model
 
 
@@ -157,7 +157,7 @@ p.rms = (ctypes.c_double)(0.05)
 p.rmr= (ctypes.c_double)(1.5)
 p.drcrit= (ctypes.c_double)(1)
 p.drinit= (ctypes.c_double)(1)
-p.k= (ctypes.c_double)(0.7)
+p.K= (ctypes.c_double)(0.7)
 p.epsg= (ctypes.c_double)(6.75)
 p.M= (ctypes.c_double)(0.95)
 p.alpha= (ctypes.c_double)(0.365)
@@ -230,3 +230,4 @@ model(p,g,o,o.APARout,o.h,o.hh2,o.hC2,o.hB2,o.hBH2,o.r,o.rB2,o.rC2,o.rBH,
     o.ft2,o.fo2,o.rfl2,o.rfr2,o.rfs2,o.egrow2,o.ex2,o.rtrans2,o.light2,
     o.nut2,o.deltas2,o.LAI2,o.status2,o.errorind,o.growth_st)
 # this is how you call the outputs
+print(o.h[1])

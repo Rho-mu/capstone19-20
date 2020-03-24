@@ -1,44 +1,81 @@
 <template>
   <div>
     <div class="inputField">
-      <form>
-        <input type="text" v-model="postBody.hmax" placeholder="hmax"><br>
-        <input type="text" v-model="postBody.phih" placeholder="phih"><br>
-        <input type="text" v-model="postBody.eta" placeholder="eta"><br>
-        <input type="text" v-model="postBody.swmax" placeholder="swmax"><br>
-        <input type="text" v-model="postBody.lamda" placeholder="lamda"><br>
-        <input type="text" v-model="postBody.rhomax" placeholder="rhomax"><br>
-        <input type="text" v-model="postBody.f2" placeholder="f2"><br>
-        <input type="text" v-model="postBody.f1" placeholder="f1"><br>
-        <input type="text" v-model="postBody.gammac" placeholder="gammac"><br>
-        <input type="text" v-model="postBody.gammaw" placeholder="gammaw"><br>
-        <input type="text" v-model="postBody.gammax" placeholder="gammax"><br>
-        <input type="text" v-model="postBody.cgl" placeholder="cgl"><br>
-        <input type="text" v-model="postBody.cgr" placeholder="cgr"><br>
-        <input type="text" v-model="postBody.cgw" placeholder="cgw"><br>
-        <input type="text" v-model="postBody.deltal" placeholder="deltal"><br>
-        <input type="text" v-model="postBody.deltar" placeholder="deltar"><br>
-        <input type="text" v-model="postBody.sl" placeholder="sl"><br>
-        <input type="text" v-model="postBody.sla" placeholder="sla"><br>
-        <input type="text" v-model="postBody.so" placeholder="so"><br>
-        <input type="text" v-model="postBody.sr" placeholder="sr"><br>
-        <input type="text" v-model="postBody.rr" placeholder="rr"><br>
-        <input type="text" v-model="postBody.rhor" placeholder="rhor"><br>
-        <input type="text" v-model="postBody.rml" placeholder="rml"><br>
-        <input type="text" v-model="postBody.rms" placeholder="rms"><br>
-        <input type="text" v-model="postBody.rmr" placeholder="rmr"><br>
-        <input type="text" v-model="postBody.etaB" placeholder="etaB"><br>
-        <input type="text" v-model="postBody.k" placeholder="k"><br>
-        <input type="text" v-model="postBody.epsg" placeholder="epsg"><br>
-        <input type="text" v-model="postBody.m" placeholder="m"><br>
-        <input type="text" v-model="postBody.alpha" placeholder="alpha"><br>
-        <input type="text" v-model="postBody.r0" placeholder="r0"><br>
-        <input type="text" v-model="postBody.r40" placeholder="r40"><br>
-      </form>
-      <button @click="postData()" name="button">PostData</button>
-      <button @click="getData()" name="button"></button>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menu">
+      <label for="menu">Group 1</label>
+      <div class="menu-content">
+        <ul>
+          <input type="text" v-model="postBody.hmax" placeholder="hmax"><br>
+          <input type="text" v-model="postBody.phih" placeholder="phih"><br>
+          <input type="text" v-model="postBody.eta" placeholder="eta"><br>
+          <input type="text" v-model="postBody.swmax" placeholder="swmax"><br>
+          <input type="text" v-model="postBody.lamda" placeholder="lamda"><br>
+          <input type="text" v-model="postBody.rhomax" placeholder="rhomax"><br>
+          <input type="text" v-model="postBody.f2" placeholder="f2"><br>
+          <input type="text" v-model="postBody.f1" placeholder="f1"><br>
+        </ul>
+      </div>
     </div>
-
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menu-1">
+      <label for="menu-1">Group 2</label>
+      <div class="menu-content-1">
+        <ul>
+          <input type="text" v-model="postBody.gammac" placeholder="gammac"><br>
+          <input type="text" v-model="postBody.gammaw" placeholder="gammaw"><br>
+          <input type="text" v-model="postBody.gammax" placeholder="gammax"><br>
+          <input type="text" v-model="postBody.cgl" placeholder="cgl"><br>
+          <input type="text" v-model="postBody.cgr" placeholder="cgr"><br>
+          <input type="text" v-model="postBody.cgw" placeholder="cgw"><br>
+        </ul>
+      </div>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menu-2">
+      <label for="menu-2">Group 3</label>
+      <div class="menu-content-2">
+        <ul>
+          <input type="text" v-model="postBody.deltal" placeholder="deltal"><br>
+          <input type="text" v-model="postBody.deltar" placeholder="deltar"><br>
+          <input type="text" v-model="postBody.sl" placeholder="sl"><br>
+          <input type="text" v-model="postBody.sla" placeholder="sla"><br>
+          <input type="text" v-model="postBody.so" placeholder="so"><br>
+          <input type="text" v-model="postBody.sr" placeholder="sr"><br>
+          <input type="text" v-model="postBody.rr" placeholder="rr"><br>
+        </ul>
+      </div>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menu-3">
+      <label for="menu-3">Group 4</label>
+      <div class="menu-content-3">
+        <ul>
+          <input type="text" v-model="postBody.rhor" placeholder="rhor"><br>
+          <input type="text" v-model="postBody.rml" placeholder="rml"><br>
+          <input type="text" v-model="postBody.rms" placeholder="rms"><br>
+          <input type="text" v-model="postBody.rmr" placeholder="rmr"><br>
+          <input type="text" v-model="postBody.etaB" placeholder="etaB"><br>
+          <input type="text" v-model="postBody.k" placeholder="k"><br>
+        </ul>
+      </div>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menu-4">
+      <label for="menu-4">Group 5</label>
+      <div class="menu-content-4">
+        <ul>
+          <input type="text" v-model="postBody.epsg" placeholder="epsg"><br>
+          <input type="text" v-model="postBody.m" placeholder="m"><br>
+          <input type="text" v-model="postBody.alpha" placeholder="alpha"><br>
+          <input type="text" v-model="postBody.r0" placeholder="r0"><br>
+          <input type="text" v-model="postBody.r40" placeholder="r40"><br>
+        </ul>
+      </div>
+    </div>
+    <button @click="postData()" name="button">PostData</button>
+    <button @click="getData()" name="button">GetData</button>
+    </div>
     <div class="outputDisplayContainer">
       <div class="setSceneContainer">
         <button @click="setScene('ringScene')" class="ringSceneButton" id="ringSceneButton">RINGS</button>
@@ -63,56 +100,57 @@
         <label>leafArea: {{ treeData[dataIndex].la2 }}           </label><br>
         <label>growthState: {{ treeData[dataIndex].growth_st }}  </label><br>-->
 
-        <label>APARout: {{ treeData[dataIndex].APARout }}               </label><br>
-        <label>h: {{ treeData[dataIndex].h }}               </label><br>
-        <label>hh2: {{ treeData[dataIndex].hh2 }}               </label><br>
-        <label>hC2: {{ treeData[dataIndex].hC2 }}               </label><br>
-        <label>hB2: {{ treeData[dataIndex].hB2 }}               </label><br>
-        <label>hBH2: {{ treeData[dataIndex].hBH2 }}               </label><br>
-        <label>r: {{ treeData[dataIndex].r }}               </label><br>
-        <label>rB2: {{ treeData[dataIndex].rB2 }}               </label><br>
-        <label>rC2: {{ treeData[dataIndex].rC2 }}               </label><br>
-        <label>rBH: {{ treeData[dataIndex].rBH }}               </label><br>
-        <label>sw2: {{ treeData[dataIndex].sw2 }}               </label><br>
-        <label>vts2: {{ treeData[dataIndex].vts2 }}               </label><br>
-        <label>vt2: {{ treeData[dataIndex].vt2 }}               </label><br>
-        <label>vth2: {{ treeData[dataIndex].vth2 }}               </label><br>
-        <label>sa2: {{ treeData[dataIndex].sa2 }}               </label><br>
-        <label>la2: {{ treeData[dataIndex].la2 }}               </label><br>
-        <label>ra2: {{ treeData[dataIndex].ra2 }}               </label><br>
-        <label>dr2: {{ treeData[dataIndex].dr2 }}               </label><br>
-        <label>xa2: {{ treeData[dataIndex].xa2 }}               </label><br>
-        <label>bl2: {{ treeData[dataIndex].bl2 }}               </label><br>
-        <label>br2: {{ treeData[dataIndex].br2 }}               </label><br>
-        <label>bt2: {{ treeData[dataIndex].bt2 }}               </label><br>
-        <label>bts2: {{ treeData[dataIndex].bts2 }}               </label><br>
-        <label>bth2: {{ treeData[dataIndex].bth2 }}               </label><br>
-        <label>boh2: {{ treeData[dataIndex].boh2 }}               </label><br>
-        <label>bos2: {{ treeData[dataIndex].bos2 }}               </label><br>
-        <label>bo2: {{ treeData[dataIndex].bo2 }}               </label><br>
-        <label>bs2: {{ treeData[dataIndex].bs2 }}               </label><br>
-        <label>cs2: {{ treeData[dataIndex].cs2 }}               </label><br>
-        <label>clr2: {{ treeData[dataIndex].clr2 }}               </label><br>
-        <label>fl2: {{ treeData[dataIndex].fl2 }}               </label><br>
-        <label>fr2: {{ treeData[dataIndex].fr2 }}               </label><br>
-        <label>ft2: {{ treeData[dataIndex].ft2 }}               </label><br>
-        <label>fo2: {{ treeData[dataIndex].fo2 }}               </label><br>
-        <label>rfl2: {{ treeData[dataIndex].rfl2 }}               </label><br>
-        <label>rfr2: {{ treeData[dataIndex].rfr2 }}               </label><br>
-        <label>rfs2: {{ treeData[dataIndex].rfs2 }}               </label><br>
-        <label>egrow2: {{ treeData[dataIndex].egrow2 }}               </label><br>
-        <label>ex2: {{ treeData[dataIndex].ex2 }}               </label><br>
-        <label>rtrans2: {{ treeData[dataIndex].rtrans2 }}               </label><br>
-        <label>light2: {{ treeData[dataIndex].light2 }}               </label><br>
-        <label>nut2: {{ treeData[dataIndex].nut2 }}               </label><br>
-        <label>deltas2: {{ treeData[dataIndex].deltas2 }}               </label><br>
-        <label>LAI2: {{ treeData[dataIndex].LAI2 }}               </label><br>
-        <label>status2: {{ treeData[dataIndex].status2 }}               </label><br>
-        <label>errorind: {{ treeData[dataIndex].errorind }}               </label><br>
-        <label>growth_st: {{ treeData[dataIndex].growth_st }}               </label><br>
+        <label>APARout: {{ this.resultJson.APARout }}               </label><br>
+        <label>h: {{ this.resultJson.h }}               </label><br>
+        <label>hh2: {{ this.resultJson.hh2 }}               </label><br>
+        <label>hC2: {{ this.resultJson.hC2 }}               </label><br>
+        <label>hB2: {{ this.resultJson.hB2 }}               </label><br>
+        <label>hBH2: {{ this.resultJson.hBH2 }}               </label><br>
+        <label>r: {{ this.resultJson.r }}               </label><br>
+        <label>rB2: {{ this.resultJson.rB2 }}               </label><br>
+        <label>rC2: {{ this.resultJson.rC2 }}               </label><br>
+        <label>rBH: {{ this.resultJson.rBH }}               </label><br>
+        <label>sw2: {{ this.resultJson.sw2 }}               </label><br>
+        <label>vts2: {{ this.resultJson.vts2 }}               </label><br>
+        <label>vt2: {{ this.resultJson.vt2 }}               </label><br>
+        <label>vth2: {{ this.resultJson.vth2 }}               </label><br>
+        <label>sa2: {{ this.resultJson.sa2 }}               </label><br>
+        <label>la2: {{ this.resultJson.la2 }}               </label><br>
+        <label>ra2: {{ this.resultJson.ra2 }}               </label><br>
+        <label>dr2: {{ this.resultJson.dr2 }}               </label><br>
+        <label>xa2: {{ this.resultJson.xa2 }}               </label><br>
+        <label>bl2: {{ this.resultJson.bl2 }}               </label><br>
+        <label>br2: {{ this.resultJson.br2 }}               </label><br>
+        <label>bt2: {{ this.resultJson.bt2 }}               </label><br>
+        <label>bts2: {{ this.resultJson.bts2 }}               </label><br>
+        <label>bth2: {{ this.resultJson.bth2 }}               </label><br>
+        <label>boh2: {{ this.resultJson.boh2 }}               </label><br>
+        <label>bos2: {{ this.resultJson.bos2 }}               </label><br>
+        <label>bo2: {{ this.resultJson.bo2 }}               </label><br>
+        <label>bs2: {{ this.resultJson.bs2 }}               </label><br>
+        <label>cs2: {{ this.resultJson.cs2 }}               </label><br>
+        <label>clr2: {{ this.resultJson.clr2 }}               </label><br>
+        <label>fl2: {{ this.resultJson.fl2 }}               </label><br>
+        <label>fr2: {{ this.resultJson.fr2 }}               </label><br>
+        <label>ft2: {{ this.resultJson.ft2 }}               </label><br>
+        <label>fo2: {{ this.resultJson.fo2 }}               </label><br>
+        <label>rfl2: {{ this.resultJson.rfl2 }}               </label><br>
+        <label>rfr2: {{ this.resultJson.rfr2 }}               </label><br>
+        <label>rfs2: {{ this.resultJson.rfs2 }}               </label><br>
+        <label>egrow2: {{ this.resultJson.egrow2 }}               </label><br>
+        <label>ex2: {{ this.resultJson.ex2 }}               </label><br>
+        <label>rtrans2: {{ this.resultJson.rtrans2 }}               </label><br>
+        <label>light2: {{ this.resultJson.light2 }}               </label><br>
+        <label>nut2: {{ this.resultJson.nut2 }}               </label><br>
+        <label>deltas2: {{ this.resultJson.deltas2 }}               </label><br>
+        <label>LAI2: {{ this.resultJson.LAI2 }}               </label><br>
+        <label>status2: {{ this.resultJson.status2 }}               </label><br>
+        <label>errorind: {{ this.resultJson.errorind }}               </label><br>
+        <label>growth_st: {{ this.resultJson.growth_st }}               </label><br>
       </div>
     </div>
-  </div>
+
+</div>
 </template>
 
 <script>
@@ -121,9 +159,10 @@ import * as THREE from 'three'
 import json from '../json/treeData.json'
 
 export default {
+  name: 'inputs-vis',
   data() {
     return {
-      /*postBody: {
+      postBody: {
           hmax: '',
           phih: '',
           eta: '',
@@ -156,40 +195,6 @@ export default {
           alpha: '',
           r0: '',
           r40: ''
-        },*/
-        postBody: {
-          hmax: '27.5',
-          phih: '263',
-          eta: '0.64',
-          swmax: '0.1',
-          lamda: '0.95',
-          rhomax: '525000',
-          f2: '7000',
-          f1: '4',
-          gammac: '131000',
-          gammaw: '0.000000667',
-          gammax: '0.12',
-          cgl: '1.45',
-          cgr: '1.25',
-          cgw: '1.37',
-          deltal: '0.095',
-          deltar: '0.15',
-          sl: '1',
-          sla: '0.0141',
-          so: '0.05',
-          sr: '1',
-          rr: '0.00015',
-          rhor: '160000',
-          rml: '2.5',
-          rms: '0.05',
-          rmr: '1.5',
-          etaB: '0.045',
-          k: '0.7',
-          epsg: '6.75',
-          m: '0.95',
-          alpha: '0.365',
-          r0: '1.909',
-          r40: '5.592'
         },
         runID: '',
         getJson: [],
@@ -239,6 +244,8 @@ methods: {
           (error) => { console.log(error.request)}
       )
     }, // END: getData()
+
+
 
     initialize() {
       // Change the slider to have as many steps as timeSteps from the ACGCA model.
@@ -336,7 +343,7 @@ methods: {
       var rBH = this.treeData[index].rBH              // Radius at breast height (3.37m)
       var rC  = this.treeData[index].rC2              // Radius of crown base
       var la = this.treeData[index].la2               // Total one-sided leaf area
-      var growth_st = this.treeData[index].growth_st  // Growth state of tree
+      var growth_st = this.treeData[index].growth_st
       console.log("h:",h,"\nhh:",hh,"\nr:",r,"\nrB:",rB,"\nrBH:",rBH,"\nrC:",rC,"\nla:",la,"\ngrowth_st:",growth_st)
 
       // Supplemental parameters
@@ -528,7 +535,9 @@ methods: {
 
 <style lang="css" scoped>
   .inputField {
-    float: left;
+    position: relative;
+    left: -50px;
+    float:left;
   }
 
   .outputDisplayContainer {
@@ -540,6 +549,8 @@ methods: {
     background-color: #b9b9b9;
     border-color: green;
     border-radius: 10px;
+    float: right;
+    display: inline;
   }
 
   .outputDisplayContainer button {
@@ -559,13 +570,6 @@ methods: {
 
   .outputDisplayContainer button:hover {
     background-color: #EEE;
-  }
-
-  .treeCanvasport {
-    display: block;
-    float: left;
-    width: 100%;
-    height: 100%;
   }
 
   .rawDataList {
@@ -603,4 +607,124 @@ methods: {
     background: #4CAF50;
     cursor: pointer;
   }
+
+  .menu-content {
+    max-height: 0;
+    overflow: hidden;
+    font-family: 'Oswald', sans-serif;
+    padding: 0 0 0 50px;
+  }
+
+  /* Toggle Effect */
+
+  input:checked ~ .menu-content {
+    max-height: 100%;
+  }
+
+  .collapsible-menu {
+    background-color: rgb(255, 255, 255);
+    padding: 0px 30px;
+    border-bottom: 3px solid #CDE700;
+    box-shadow: 1px 2px 3px rgba(0,0,0,0.2);
+  }
+
+  .collapsible-menu ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .collapsible-menu a {
+      display:block;
+      padding: 10px;
+      text-decoration: none;
+  }
+
+  .collapsible-menu label {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 56px;
+    display: block;
+    cursor: pointer;
+    padding: 10px 0 10px 50px;
+  }input#menu {
+    display: none;
+  }
+
+  .menu-content-1 {
+    max-height: 0;
+    overflow: hidden;
+    font-family: 'Oswald', sans-serif;
+    padding: 0 0 0 50px;
+  }
+
+  .menu-content-2 {
+    max-height: 0;
+    overflow: hidden;
+    font-family: 'Oswald', sans-serif;
+    padding: 0 0 0 50px;
+  }
+
+  .menu-content-3 {
+    max-height: 0;
+    overflow: hidden;
+    font-family: 'Oswald', sans-serif;
+    padding: 0 0 0 50px;
+  }
+
+  .menu-content-4 {
+    max-height: 0;
+    overflow: hidden;
+    font-family: 'Oswald', sans-serif;
+    padding: 0 0 0 50px;
+  }
+
+
+  /* Toggle Effect */
+
+  input:checked ~ .menu-content-1 {
+    max-height: 100%;
+  }
+
+  input:checked ~ .menu-content-2 {
+    max-height: 100%;
+  }
+
+  input:checked ~ .menu-content-3 {
+    max-height: 100%;
+  }
+
+  input:checked ~ .menu-content-4 {
+    max-height: 100%;
+  }
+
+  .collapsible-menu label {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    display: inline-block;
+    cursor: pointer;
+    padding: 10px 0 10px 50px;
+
+  }
+
+  input#menu-1 {
+    display: none;
+  }
+
+  input#menu-2 {
+    display: none;
+  }
+
+  input#menu-3 {
+    display: none;
+  }
+
+  input#menu-4 {
+    display: none;
+  }
+
+  .buttons {
+    float: left;
+  }
+
+
+
 </style>

@@ -1,3 +1,4 @@
+
 import firebase from 'firebase'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
@@ -68,7 +69,10 @@ const routes = [
   {
     path: '/inputs-vis',
     name: 'InputsVis',
-    component: InputsVis // this will require Auth
+    component: InputsVis, // this will require Auth
+    meta: {
+      requiresAuth: true
+    }
   }
 ]
 
