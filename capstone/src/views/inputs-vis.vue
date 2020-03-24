@@ -8,7 +8,7 @@
         <ul>
           <input type="text" v-model="postBody.hmax" placeholder="hmax"><br>
           <input type="text" v-model="postBody.phih" placeholder="phih"><br>
-          <input type="text" v-model="postBody.eta" placeholder="eta"><br>
+          <input type="text" v-model="postBody.eta" placeholder="eta">*<br>
           <input type="text" v-model="postBody.swmax" placeholder="swmax"><br>
           <input type="text" v-model="postBody.lamda" placeholder="lamda"><br>
           <input type="text" v-model="postBody.rhomax" placeholder="rhomax"><br>
@@ -24,7 +24,7 @@
         <ul>
           <input type="text" v-model="postBody.gammac" placeholder="gammac"><br>
           <input type="text" v-model="postBody.gammaw" placeholder="gammaw"><br>
-          <input type="text" v-model="postBody.gammax" placeholder="gammax"><br>
+          <input type="text" v-model="postBody.gammax" placeholder="gammax">*<br>
           <input type="text" v-model="postBody.cgl" placeholder="cgl"><br>
           <input type="text" v-model="postBody.cgr" placeholder="cgr"><br>
           <input type="text" v-model="postBody.cgw" placeholder="cgw"><br>
@@ -55,7 +55,7 @@
           <input type="text" v-model="postBody.rml" placeholder="rml"><br>
           <input type="text" v-model="postBody.rms" placeholder="rms"><br>
           <input type="text" v-model="postBody.rmr" placeholder="rmr"><br>
-          <input type="text" v-model="postBody.etaB" placeholder="etaB"><br>
+          <input type="text" v-model="postBody.etaB" placeholder="etaB">*<br>
           <input type="text" v-model="postBody.k" placeholder="k"><br>
         </ul>
       </div>
@@ -66,7 +66,7 @@
       <div class="menu-content-4">
         <ul>
           <input type="text" v-model="postBody.epsg" placeholder="epsg"><br>
-          <input type="text" v-model="postBody.m" placeholder="m"><br>
+          <input type="text" v-model="postBody.m" placeholder="m">*<br>
           <input type="text" v-model="postBody.alpha" placeholder="alpha"><br>
           <input type="text" v-model="postBody.r0" placeholder="r0"><br>
           <input type="text" v-model="postBody.r40" placeholder="r40"><br>
