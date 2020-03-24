@@ -535,7 +535,7 @@ methods: {
 
 <style lang="css" scoped>
   .inputField {
-    position: relative;
+    position: absolute;
     left: -50px;
     float:left;
   }
@@ -550,7 +550,7 @@ methods: {
     border-color: green;
     border-radius: 10px;
     float: right;
-    display: inline;
+    position: relative;
   }
 
   .outputDisplayContainer button {
