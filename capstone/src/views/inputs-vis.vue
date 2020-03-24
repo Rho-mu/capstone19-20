@@ -1,6 +1,22 @@
 <template>
   <div>
     <div class="inputField">
+      <div class="mention-text"> 
+      Mention:
+      <br>
+              <b>Every box</b> in this form <br>
+               needs to be filled with <br>
+              a <b>positive</b> number<br>
+              <br>
+              With the <b>* mark</b> on the <br>
+              right of the input box,<br>
+              it means that it needs <br>
+              to be not only larger <br>
+              than 0 but also <b>smaller</b><br>
+              <b>than 1</b><br>
+             <br>
+              0 and 1 are valid<br>
+      </div>
     <div class="collapsible-menu">
       <input type="checkbox" id="menu">
       <label for="menu">Group 1</label>
