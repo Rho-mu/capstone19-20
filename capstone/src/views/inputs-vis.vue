@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="inputField">
-      <div class="mention-text"> 
+      <div class="mention-text">
       Mention:
       <br>
               <b>Every box</b> in this form <br>
@@ -89,7 +89,8 @@
         </ul>
       </div>
     </div>
-    <button :disabled='isDisabled()' @click="postData()" name="button">PostData</button>
+    <button @click="postData()" name="button">PostData</button>
+    <!-- <button :disabled='isDisabled()' @click="postData()" name="button">PostData</button> -->
     <button @click="getData()" name="button">GetData</button>
     </div>
     <div class="outputDisplayContainer">
@@ -542,97 +543,97 @@ methods: {
       this.update()
       this.treeRenderer.render(this.currentScene, this.currentCam)
     }, // END: animate()
-        checkValidity(){
-      var temporaryIsDisable=false
-
-      //start checking null
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.hmax===""); 
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.phip==="");
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.eta==="");
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.swmax==="") ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.lamda==="") ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.rhomax==="") ;        
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.f2==="") ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.f1==="") ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.gammac==="") ;     
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.gammaw==="") ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.gammax==="") ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.cgl==="") ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.cgr==="") ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.cgw==="") ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.deltal==="") ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.deltar==="") ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.sl==="") ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.sla==="") ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.so==="") ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.sr==="") ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.rr==="") ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.rhor==="") ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.rml==="") ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.rms==="") ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.rmr==="") ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.etaB==="") ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.k==="") ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.epsg==="") ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.m==="") ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.alpha==="") ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.r0==="") ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.r40==="") ;
-     //finish checking null 
-
-     //start check the lower limit for all of the inputs
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.hmax < 0); 
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.phip < 0);
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.eta < 0);
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.swmax < 0) ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.lamda < 0) ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.rhomax < 0) ;        
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.f2 < 0) ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.f1 < 0) ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.gammac < 0) ;     
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.gammaw < 0) ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.gammax < 0) ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.cgl < 0) ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.cgr < 0) ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.cgw < 0) ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.deltal < 0) ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.deltar < 0) ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.sl < 0) ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.sla < 0) ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.so < 0) ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.sr < 0) ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.rr < 0) ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.rhor < 0) ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.rml < 0) ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.rms < 0) ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.rmr < 0) ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.etaB < 0) ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.k < 0) ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.epsg < 0) ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.m < 0) ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.alpha < 0) ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.r0 < 0) ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.r40 < 0) ;
-     //finish checking for the lower limits
-
-     //start checking for the higher limits(if any)
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.eta > 1) ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.gammax > 1) ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.etaB > 1) ;
-     temporaryIsDisable=temporaryIsDisable || (this.postBody.m > 1) ;
-     //finish checking for the higher limits
-
-
-     this.isDisable=temporaryIsDisable; 
-    },
-
-
-    isDisabled() {
-      this.checkValidity();
-      return this.isDisable;
-    }
-  }, // END: Methods
-
+  //       checkValidity(){
+  //     var temporaryIsDisable=false
+  //
+  //     //start checking null
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.hmax==="");
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.phip==="");
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.eta==="");
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.swmax==="") ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.lamda==="") ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.rhomax==="") ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.f2==="") ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.f1==="") ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.gammac==="") ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.gammaw==="") ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.gammax==="") ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.cgl==="") ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.cgr==="") ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.cgw==="") ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.deltal==="") ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.deltar==="") ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.sl==="") ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.sla==="") ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.so==="") ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.sr==="") ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.rr==="") ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.rhor==="") ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.rml==="") ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.rms==="") ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.rmr==="") ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.etaB==="") ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.k==="") ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.epsg==="") ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.m==="") ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.alpha==="") ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.r0==="") ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.r40==="") ;
+  //    //finish checking null
+  //
+  //    //start check the lower limit for all of the inputs
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.hmax < 0);
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.phip < 0);
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.eta < 0);
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.swmax < 0) ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.lamda < 0) ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.rhomax < 0) ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.f2 < 0) ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.f1 < 0) ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.gammac < 0) ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.gammaw < 0) ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.gammax < 0) ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.cgl < 0) ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.cgr < 0) ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.cgw < 0) ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.deltal < 0) ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.deltar < 0) ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.sl < 0) ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.sla < 0) ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.so < 0) ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.sr < 0) ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.rr < 0) ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.rhor < 0) ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.rml < 0) ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.rms < 0) ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.rmr < 0) ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.etaB < 0) ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.k < 0) ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.epsg < 0) ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.m < 0) ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.alpha < 0) ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.r0 < 0) ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.r40 < 0) ;
+  //    //finish checking for the lower limits
+  //
+  //    //start checking for the higher limits(if any)
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.eta > 1) ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.gammax > 1) ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.etaB > 1) ;
+  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.m > 1) ;
+  //    //finish checking for the higher limits
+  //
+  //
+  //    this.isDisable=temporaryIsDisable;
+  //   },
+  //
+  //
+  //   isDisabled() {
+  //     this.checkValidity();
+  //     return this.isDisable;
+  //   }
+  // }, // END: Methods
+},
   mounted() {
     this.initialize()
     this.animate()

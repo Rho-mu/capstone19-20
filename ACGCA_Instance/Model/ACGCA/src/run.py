@@ -8,6 +8,7 @@ def model():
     )
 
 
+    # json
     data = acgca_input.json()
     print(data)
     # print(acgca_input)
@@ -17,7 +18,17 @@ def model():
         time.sleep(10)
         return
 
+
     model_input = data["input"]
+
+    var = acgca_input.text
+    # strip 'u
+    # replace "" with ''
+    model_inputs = json.loads(var)
+    secondVar = model_inputs["input"]["body"]
+    secondVar.hmax
+
+
     # new_model = model_input[144:]
     # new_model = new_model.strip(",")
     # # new_model = new_model.strip("headers")
@@ -31,6 +42,7 @@ def model():
     # print(new_model)
 
 
+    # wrapper run
     model_outputs = run_alg(model_input)
     print()
     print("OUTPUTS FROM MODEL")
@@ -169,7 +181,7 @@ def run_alg(input):
     try:
         p = Inputs()
         # these arent linking with input file. input cant grab .hmax
-        p.hmax = (ctypes.c_double)(27.5)#(float(input.hmax))#(27.5)
+        p.hmax = (ctypes.c_double)(27.5)#(float(input.hmax))
         p.phih = (ctypes.c_double)(263)#(float(input.phih))#(263)
         p.eta = (ctypes.c_double)(0.64)#(float(input.eta))#(0.64)
         p.etaB = (ctypes.c_double)(0.045)#(float(input.etaB))#(0.045)
