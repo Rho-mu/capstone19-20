@@ -94,6 +94,9 @@
     <button @click="getData()" name="button">GetData</button>
     </div>
     <div class="outputDisplayContainer">
+    <button @click="loadTextures()">Load Textures</Button>
+      <button @click="initialize()">Init</Button>
+      <button @click="animate()">Animate</Button>
       <div class="setSceneContainer">
         <button @click="setScene('ringScene')" class="ringSceneButton" id="ringSceneButton">RINGS</button>
         <button @click="setScene('treeScene')" class="treeSceneButton" id="treeSceneButton">TREE</button>
@@ -216,14 +219,16 @@ export default {
         runID: '',
         getJson: [],
         resultJson: {},
+
         dataIndex: "0",
         maxTimeStep: "3",
         treeData: json.trees,
         crownShape: "cone",
         currentScene: this.treeScene,
         currentCam: this.treeCam,
-         isDisable:false,
+        barkTexture: "",
 
+        isDisable:false
       }
     }, // END: data()
 methods: {
@@ -263,8 +268,6 @@ methods: {
           (error) => { console.log(error.request)}
       )
     }, // END: getData()
-
-
 
     initialize() {
       // Change the slider to have as many steps as timeSteps from the ACGCA model.
@@ -330,11 +333,53 @@ methods: {
       window.addEventListener( 'resize', this.onWindowResize, false )
     }, // END: initialize()
 
-    addBox() {
-      var myTexture = new THREE.TextureLoader().load( '../json/bark.png' )
+    loadTextures() {
+      //this.barkTexture = new THREE.TextureLoader().load( '../assets/bark.png' )
+      console.log("starting texture load")
 
-      var myMaterial = new THREE.MeshBasicMaterial( { map: myTexture } )
-      //var myMaterial = new THREE.MeshBasicMaterial( { color: 0xFFFF00 } )
+      var myMaterial2
+      // instantiate a loader
+      var loader = new THREE.TextureLoader()
+      loader.crossOrigin = ""
+
+      // load a resource
+      loader.load(
+        // resource URL
+        //'../assets/bark.png',
+        'https://i.imgur.com/XxwCL1S.jpg',
+
+        // onLoad callback
+        function ( texture ) {
+          // in this example we create the material when the texture is loaded
+          myMaterial2 = new THREE.MeshBasicMaterial( {
+            map: texture
+          } )
+          console.log("texture loaded")
+        },
+
+        // onProgress callback currently not supported
+        undefined,
+
+        // onError callback
+        function ( err ) {
+          console.error( 'An error happened.' )
+        }
+      )
+
+      console.log("creating box")
+      var boxGeometry2 = new THREE.BoxGeometry( 1, 1, 1 );
+      var box2 = new THREE.Mesh( boxGeometry2, myMaterial2 )
+      box2.position.x = -5
+      box2.position.y = -2.5
+      this.treeScene.add( box2 )
+
+    }, // END: loadTextures()
+
+    addBox() {
+      //var myTexture = new THREE.TextureLoader().load( '../json/bark.png' )
+
+      var myMaterial = new THREE.MeshLambertMaterial( { map: this.barkTexture } )
+      //var myMaterial = new THREE.MeshLambertMaterial( { color: 0xFFFF00 } )
 
       var boxGeometry = new THREE.BoxGeometry( 1, 1, 1 );
       var box = new THREE.Mesh( boxGeometry, myMaterial )
@@ -353,6 +398,7 @@ methods: {
       this.treeScene.add( this.newScene )                         // Add new scene to root scene
 
       this.addBox()
+      this.addLight()
 
       // ACGCA output
       var h = this.treeData[index].h                  // Height of tree (total)
@@ -373,7 +419,7 @@ methods: {
       ///// Trunk /////
       // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
       var trunkGeo = new THREE.CylinderGeometry( r, rB, hh, geoSegments )
-      var trunkMat = new THREE.MeshBasicMaterial( {color: 0xb5651d} )
+      var trunkMat = new THREE.MeshLambertMaterial( {color: 0xb5651d} )
       this.trunk = new THREE.Mesh( trunkGeo, trunkMat )
       this.trunk.position.y = trunkPos
       this.trunk.position.x = 0
@@ -405,7 +451,7 @@ methods: {
         }
         crownGeo = new THREE.LatheGeometry( lathePoints )
       }
-      var crownMat = new THREE.MeshBasicMaterial( {color: 0x00FF00} )
+      var crownMat = new THREE.MeshLambertMaterial( {color: 0x00FF00} )
       this.crown = new THREE.Mesh( crownGeo, crownMat )
       this.crown.position.y = crownPos
       this.crown.position.x = 0
@@ -483,6 +529,17 @@ methods: {
 
     }, // END: loadRawData()
 
+    addLight() {
+      // Ambient light for all objects.
+      var light = new THREE.AmbientLight( 0x404040 )
+      this.treeScene.add( light )
+
+      // Point light for casting shadows.
+      var pointLight = new THREE.PointLight( 0xffffff, 1, 100 )
+      pointLight.position.set( 10, 10, 10 )
+      this.treeScene.add( pointLight )
+    }, // END: addLight
+
     setCrownShape(shape) {
       this.crownShape = shape
       console.log("crownShape:", shape)
@@ -543,100 +600,102 @@ methods: {
       this.update()
       this.treeRenderer.render(this.currentScene, this.currentCam)
     }, // END: animate()
-  //       checkValidity(){
-  //     var temporaryIsDisable=false
-  //
-  //     //start checking null
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.hmax==="");
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.phip==="");
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.eta==="");
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.swmax==="") ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.lamda==="") ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.rhomax==="") ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.f2==="") ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.f1==="") ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.gammac==="") ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.gammaw==="") ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.gammax==="") ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.cgl==="") ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.cgr==="") ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.cgw==="") ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.deltal==="") ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.deltar==="") ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.sl==="") ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.sla==="") ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.so==="") ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.sr==="") ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.rr==="") ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.rhor==="") ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.rml==="") ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.rms==="") ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.rmr==="") ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.etaB==="") ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.k==="") ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.epsg==="") ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.m==="") ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.alpha==="") ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.r0==="") ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.r40==="") ;
-  //    //finish checking null
-  //
-  //    //start check the lower limit for all of the inputs
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.hmax < 0);
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.phip < 0);
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.eta < 0);
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.swmax < 0) ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.lamda < 0) ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.rhomax < 0) ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.f2 < 0) ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.f1 < 0) ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.gammac < 0) ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.gammaw < 0) ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.gammax < 0) ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.cgl < 0) ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.cgr < 0) ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.cgw < 0) ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.deltal < 0) ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.deltar < 0) ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.sl < 0) ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.sla < 0) ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.so < 0) ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.sr < 0) ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.rr < 0) ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.rhor < 0) ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.rml < 0) ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.rms < 0) ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.rmr < 0) ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.etaB < 0) ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.k < 0) ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.epsg < 0) ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.m < 0) ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.alpha < 0) ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.r0 < 0) ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.r40 < 0) ;
-  //    //finish checking for the lower limits
-  //
-  //    //start checking for the higher limits(if any)
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.eta > 1) ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.gammax > 1) ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.etaB > 1) ;
-  //    temporaryIsDisable=temporaryIsDisable || (this.postBody.m > 1) ;
-  //    //finish checking for the higher limits
-  //
-  //
-  //    this.isDisable=temporaryIsDisable;
-  //   },
-  //
-  //
-  //   isDisabled() {
-  //     this.checkValidity();
-  //     return this.isDisable;
-  //   }
-  // }, // END: Methods
-},
+
+    /*
+    checkValidity(){
+      var temporaryIsDisable=false
+  
+      //start checking null
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.hmax==="");
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.phip==="");
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.eta==="");
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.swmax==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.lamda==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.rhomax==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.f2==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.f1==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.gammac==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.gammaw==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.gammax==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.cgl==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.cgr==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.cgw==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.deltal==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.deltar==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.sl==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.sla==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.so==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.sr==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.rr==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.rhor==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.rml==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.rms==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.rmr==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.etaB==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.k==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.epsg==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.m==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.alpha==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.r0==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.r40==="") ;
+      //finish checking null
+    
+      //start check the lower limit for all of the inputs
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.hmax < 0);
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.phip < 0);
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.eta < 0);
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.swmax < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.lamda < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.rhomax < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.f2 < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.f1 < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.gammac < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.gammaw < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.gammax < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.cgl < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.cgr < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.cgw < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.deltal < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.deltar < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.sl < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.sla < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.so < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.sr < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.rr < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.rhor < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.rml < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.rms < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.rmr < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.etaB < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.k < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.epsg < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.m < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.alpha < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.r0 < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.r40 < 0) ;
+      //finish checking for the lower limits
+    
+      //start checking for the higher limits(if any)
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.eta > 1) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.gammax > 1) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.etaB > 1) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.m > 1) ;
+      //finish checking for the higher limits
+    
+    
+      this.isDisable=temporaryIsDisable;
+    }, // END: checkValidity()
+      
+    isDisabled() {
+      this.checkValidity();
+      return this.isDisable;
+    } // END: isDisabled()
+    */
+  }, // END: Methods
+
   mounted() {
-    this.initialize()
-    this.animate()
+    //this.initialize()
+    //this.animate()
   } // END: mounted
 } // END: export default
 </script>
