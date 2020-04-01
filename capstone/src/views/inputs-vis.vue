@@ -232,6 +232,36 @@ export default {
       }
     }, // END: data()
 methods: {
+
+    /*run() {
+      if( isRunning == true )
+      {
+        // disable the run button
+        isDisable = true
+      }
+
+      // user clicks run
+      postData() // Send inputs to AWS and model wrapper
+
+      while(resultJson = {}) // While the output data is empty
+      {
+        //poll AWS for the correct outputs
+        getData()
+        //sleep
+      }
+
+      // Once the output data is retrieved from the model, animate the scene
+      animate()
+    } // END: run()
+
+    reset() {
+      // If the user wants to run the model again, they need to hit the reset button.
+      
+      // Reset animate()
+      // Set run button isDisable = false (re-enable)
+
+    }*/
+
     postData() {
       axios.post('https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user', {
         headers: {
@@ -408,7 +438,7 @@ methods: {
       var rBH = this.treeData[index].rBH              // Radius at breast height (3.37m)
       var rC  = this.treeData[index].rC2              // Radius of crown base
       var la = this.treeData[index].la2               // Total one-sided leaf area
-      var growth_st = this.treeData[index].growth_st
+      var growth_st = this.treeData[index].growth_st  // State of tree (alive, dead, etc.)
       console.log("h:",h,"\nhh:",hh,"\nr:",r,"\nrB:",rB,"\nrBH:",rBH,"\nrC:",rC,"\nla:",la,"\ngrowth_st:",growth_st)
 
       // Supplemental parameters
@@ -451,6 +481,11 @@ methods: {
         }
         crownGeo = new THREE.LatheGeometry( lathePoints )
       }
+      else // Default to cone shaped crown
+      {
+        // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
+        crownGeo = new THREE.ConeGeometry( rC, h-hh, geoSegments )
+      }
       var crownMat = new THREE.MeshLambertMaterial( {color: 0x00FF00} )
       this.crown = new THREE.Mesh( crownGeo, crownMat )
       this.crown.position.y = crownPos
@@ -470,6 +505,7 @@ methods: {
       {
         // ACGCA parameters
         var r = this.treeData[i].r  // Radius
+
         var ringGeo = new THREE.CircleGeometry( r, geoSegments )
         var ringColor = new THREE.Color();
         ringColor.r = 0.3*i
