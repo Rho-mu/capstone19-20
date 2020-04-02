@@ -17,6 +17,7 @@
              <br>
               0 and 1 are valid<br>
       </div>
+    
     <div class="collapsible-menu">
       <input type="checkbox" id="menu">
       <label for="menu">Group 1</label>
@@ -89,12 +90,86 @@
         </ul>
       </div>
     </div>
+    <!--
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menu">
+      <label for="menu">Group 1</label>
+      <div class="menu-content">
+        <ul>
+          <input type="text" v-model="postBody.hmax" placeholder="hmax" value="27.5"><br>
+          <input type="text" v-model="postBody.phih" placeholder="phih" value="263"><br>
+          <input type="text" v-model="postBody.eta" placeholder="eta" value="0.64">*<br>
+          <input type="text" v-model="postBody.swmax" placeholder="swmax" value="0.1"><br>
+          <input type="text" v-model="postBody.lamda" placeholder="lamda" value="0.95"><br>
+          <input type="text" v-model="postBody.rhomax" placeholder="rhomax" value="525000"><br>
+          <input type="text" v-model="postBody.f2" placeholder="f2" value="7000"><br>
+          <input type="text" v-model="postBody.f1" placeholder="f1" value="4"><br>
+        </ul>
+      </div>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menu-1">
+      <label for="menu-1">Group 2</label>
+      <div class="menu-content-1">
+        <ul>
+          <input type="text" v-model="postBody.gammac" placeholder="gammac" value="131000"><br>
+          <input type="text" v-model="postBody.gammaw" placeholder="gammaw" value="0.000000667"><br>
+          <input type="text" v-model="postBody.gammax" placeholder="gammax" value="0.12">*<br>
+          <input type="text" v-model="postBody.cgl" placeholder="cgl" value="1.45"><br>
+          <input type="text" v-model="postBody.cgr" placeholder="cgr" value="1.25"><br>
+          <input type="text" v-model="postBody.cgw" placeholder="cgw" value="1.37"><br>
+        </ul>
+      </div>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menu-2">
+      <label for="menu-2">Group 3</label>
+      <div class="menu-content-2">
+        <ul>
+          <input type="text" v-model="postBody.deltal" placeholder="deltal" value="0.095"><br>
+          <input type="text" v-model="postBody.deltar" placeholder="deltar" value="0.15"><br>
+          <input type="text" v-model="postBody.sl" placeholder="sl" value="1"><br>
+          <input type="text" v-model="postBody.sla" placeholder="sla" value="0.0141"><br>
+          <input type="text" v-model="postBody.so" placeholder="so" value="0.05"><br>
+          <input type="text" v-model="postBody.sr" placeholder="sr" value="1"><br>
+          <input type="text" v-model="postBody.rr" placeholder="rr" value="0.00015"><br>
+        </ul>
+      </div>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menu-3">
+      <label for="menu-3">Group 4</label>
+      <div class="menu-content-3">
+        <ul>
+          <input type="text" v-model="postBody.rhor" placeholder="rhor" value="160000"><br>
+          <input type="text" v-model="postBody.rml" placeholder="rml" value="2.5"><br>
+          <input type="text" v-model="postBody.rms" placeholder="rms" value="0.05"><br>
+          <input type="text" v-model="postBody.rmr" placeholder="rmr" value="1.5"><br>
+          <input type="text" v-model="postBody.etaB" placeholder="etaB" value="0.045">*<br>
+          <input type="text" v-model="postBody.k" placeholder="k" value="0.7"><br>
+        </ul>
+      </div>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menu-4">
+      <label for="menu-4">Group 5</label>
+      <div class="menu-content-4">
+        <ul>
+          <input type="text" v-model="postBody.epsg" placeholder="epsg" value="6.75"><br>
+          <input type="text" v-model="postBody.m" placeholder="m" value="0.95">*<br>
+          <input type="text" v-model="postBody.alpha" placeholder="alpha" value="0.365"><br>
+          <input type="text" v-model="postBody.r0" placeholder="r0" value="1.909"><br>
+          <input type="text" v-model="postBody.r40" placeholder="r40" value="5.592"><br>
+        </ul>
+      </div>
+    </div>-->
     <button @click="postData()" name="button">PostData</button>
     <!-- <button :disabled='isDisabled()' @click="postData()" name="button">PostData</button> -->
     <button @click="getData()" name="button">GetData</button>
     </div>
     <div class="outputDisplayContainer">
-    <button @click="loadTextures()">Load Textures</Button>
+      <button @click="run()">RUN</Button>
+      <button @click="loadTextures()">Load Textures</Button>
       <button @click="initialize()">Init</Button>
       <button @click="animate()">Animate</Button>
       <div class="setSceneContainer">
@@ -111,7 +186,7 @@
       <div class="treeCanvasport" id="treeCanvasport"></div>
       <div class="rawDataList" id="rawDataList">
         <br>
-        <!--<label>height: {{ treeData[dataIndex].h }}               </label><br>
+        <!--<label>height: {{ treeData[dataIndex].h }}           </label><br>
         <label>heightToCrown: {{ treeData[dataIndex].hh2 }}      </label><br>
         <label>radius: {{ treeData[dataIndex].r }}               </label><br>
         <label>radiusBase: {{ treeData[dataIndex].rB2 }}         </label><br>
@@ -183,6 +258,40 @@ export default {
   data() {
     return {
       postBody: {
+          hmax: '27.5',
+          phih: '263',
+          eta: '0.64',
+          swmax: '0.1',
+          lamda: '0.95',
+          rhomax: '525000',
+          f2: '7000',
+          f1: '4',
+          gammac: '131000',
+          gammaw: '0.000000667',
+          gammax: '0.12',
+          cgl: '1.45',
+          cgr: '1.25',
+          cgw: '1.37',
+          deltal: '0.095',
+          deltar: '0.15',
+          sl: '1',
+          sla: '0.0141',
+          so: '0.05',
+          sr: '1',
+          rr: '0.00015',
+          rhor: '160000',
+          rml: '2.5',
+          rms: '0.05',
+          rmr: '1.5',
+          etaB: '0.045',
+          k: '0.7',
+          epsg: '6.75',
+          m: '0.95',
+          alpha: '0.365',
+          r0: '1.909',
+          r40: '5.592'
+        },
+        /*postBody: {
           hmax: '',
           phih: '',
           eta: '',
@@ -215,7 +324,7 @@ export default {
           alpha: '',
           r0: '',
           r40: ''
-        },
+        },*/
         runID: '',
         getJson: [],
         resultJson: {},
@@ -228,37 +337,43 @@ export default {
         currentCam: this.treeCam,
         barkTexture: "",
 
-        isDisable:false
+        isDisable: false,
       }
     }, // END: data()
+
 methods: {
 
-    /*run() {
-      if( isRunning == true )
-      {
-        // disable the run button
-        isDisable = true
-      }
+    run() {
+      console.log("run")
+      isDisable = true // Disable run button
+      console.log("disable run button")
 
       // user clicks run
+      console.log("Starting postData()")
       postData() // Send inputs to AWS and model wrapper
 
-      while(resultJson = {}) // While the output data is empty
+      console.log("Starting getData()")
+      while( resultJson = {} ) // While the output data is empty
       {
-        //poll AWS for the correct outputs
-        getData()
-        //sleep
+        console.log("polling")
+        setInterval( getData(), 1000) // Poll AWS for the output every 1000ms (1 second)
       }
+      console.log("Retreived output")
 
       // Once the output data is retrieved from the model, animate the scene
+      init()
       animate()
-    } // END: run()
+      console.log("animate")
 
-    reset() {
+      isDisable = false // Re-enable run button
+      console.log("enable run button")
+    }, // END: run()
+
+    /*reset() {
       // If the user wants to run the model again, they need to hit the reset button.
       
       // Reset animate()
-      // Set run button isDisable = false (re-enable)
+      isDisable = false // Re-enable run button
 
     }*/
 
@@ -274,7 +389,8 @@ methods: {
       .then(response => {
         this.runID = response.headers['x-run-id'],
         console.log(this.runID)
-      });
+      })
+      console.log("posted")
     }, // END: postData()
 
     getData() {
@@ -429,7 +545,7 @@ methods: {
 
       this.addBox()
       this.addLight()
-
+/*
       // ACGCA output
       var h = this.treeData[index].h                  // Height of tree (total)
       var hh = this.treeData[index].hh2               // Height of transition from parabaloid to cone (also base of crown)
@@ -439,6 +555,19 @@ methods: {
       var rC  = this.treeData[index].rC2              // Radius of crown base
       var la = this.treeData[index].la2               // Total one-sided leaf area
       var growth_st = this.treeData[index].growth_st  // State of tree (alive, dead, etc.)
+      //console.log("h:",h,"\nhh:",hh,"\nr:",r,"\nrB:",rB,"\nrBH:",rBH,"\nrC:",rC,"\nla:",la,"\ngrowth_st:",growth_st)
+*/
+
+
+      // ACGCA output
+      var h = this.resultJson.h                  // Height of tree (total)
+      var hh = this.resultJson.hh2               // Height of transition from parabaloid to cone (also base of crown)
+      var r = this.resultJson.r                  // Radius
+      var rB = this.resultJson.rB2               // Radius at base of tree
+      var rBH = this.resultJson.rBH              // Radius at breast height (3.37m)
+      var rC  = this.resultJson.rC2              // Radius of crown base
+      var la = this.resultJson.la2               // Total one-sided leaf area
+      var growth_st = this.resultJson.growth_st  // State of tree (alive, dead, etc.)
       console.log("h:",h,"\nhh:",hh,"\nr:",r,"\nrB:",rB,"\nrBH:",rBH,"\nrC:",rC,"\nla:",la,"\ngrowth_st:",growth_st)
 
       // Supplemental parameters
