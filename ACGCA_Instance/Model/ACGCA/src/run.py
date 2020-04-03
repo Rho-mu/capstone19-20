@@ -98,11 +98,11 @@ def run_alg(input):
 
             ]
 
-    N = 10
+    N = 10*16
 
     class Outputs(ctypes.Structure):
         _fields_ = [
-            ('APARout', (ctypes.c_double*N)),
+            ('APARout',(ctypes.c_double*N)),
             ('h', (ctypes.c_double*N)),
             ('hh2', (ctypes.c_double*N)),
             ('hC2', (ctypes.c_double*N)),
@@ -180,7 +180,6 @@ def run_alg(input):
         p.rhomin= (ctypes.c_double)(float(input['rhomax']))#(525000)
         p.f2= (ctypes.c_double)(float(input['f2']))#(7000)
         p.f1= (ctypes.c_double)(float(input['f1']))#(4)
-        print("GOT HERE")
         p.gammac = (ctypes.c_double)(float(input['gammac']))#(131000)
         p.gammaw = (ctypes.c_double)(float(input['gammaw']))#(0.000000667)
         p.gammax= (ctypes.c_double)(float(input['gammax']))#(0.12)
@@ -191,8 +190,8 @@ def run_alg(input):
         p.deltar = (ctypes.c_double)(float(input['deltar']))#(0.15)
         p.sl= (ctypes.c_double)(float(input['sl']))#(1)
         p.sla= (ctypes.c_double)(float(input['sla']))#(0.0141)
-        p.sr= (ctypes.c_double)(float(input['sr']))#(1)
-        p.so= (ctypes.c_double)(float(input['so']))#(0.05)
+        p.sr= (ctypes.c_double)(1)#(float(input['sr']))(1)
+        p.so= (ctypes.c_double)(0.05)#(float(input['so']))#(0.05)
         p.rr= (ctypes.c_double)(float(input['rr']))#(0.00015)
         p.rhor= (ctypes.c_double)(float(input['rhor']))#(160000)
         p.rml= (ctypes.c_double)(float(input['rml']))#(2.5)
@@ -208,6 +207,45 @@ def run_alg(input):
         p.alpha= (ctypes.c_double)(float(input['alpha']))#(0.365)
         p.R0= (ctypes.c_double)(float(input['r0']))#(1.909)
         p.R40= (ctypes.c_double)(float(input['r40']))#(5.592)
+
+
+        # TESTS
+        print("THESE ARE THE INPUTS FOR THE WRAPPER")
+        print "hmax", p.hmax
+        print "phih ",  p.phih
+        print "eta ", p.eta
+        print "ETAB ", p.etaB
+        print "swmax ", p.swmax
+        print "lamdas ", p.lamdas
+        print "lamdah ", p.lamdah
+        print "rhomax ", p.rhomax
+        print "rhomin ", p.rhomax
+        print "f2 ", p.f2
+        print "f1 ", p.f1
+        print "gammac ", p.gammac
+        print "gammaw ", p.gammaw
+        print "gammax ", p.gammax
+        print "cgl ", p.cgl
+        print "cgr ", p.cgr
+        print "cgw ", p.cgw
+        print "deltal ", p.deltal
+        print "deltar ", p.deltar
+        print "sl ", p.sl
+        print "sla ", p.sla
+        print "rr ", p.rr
+        print "rhor ", p.rhor
+        print "rml ", p.rml
+        print "rms ", p.rms
+        print "rmr ", p.rmr
+        print "drcrit ", p.drcrit
+        print "drinit ", p.drinit
+        print "k ", p.K
+        print "epsg ", p.epsg
+        print "m ", p.M
+        print "alpha ", p.alpha
+        print "r0 ", p.R0
+        print "R40 ", p.R40
+
     except:
         pass
 
@@ -276,6 +314,7 @@ def run_alg(input):
 
 
     output = {
+                #
                 'APARout':o.APARout[0],
                 'h':o.h[0],
                 'hh2':o.hh2[0],

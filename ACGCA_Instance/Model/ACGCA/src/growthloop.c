@@ -109,8 +109,43 @@ void growthloop(sparms *p, gparms *gp, double *Io, double *r0, int *t,
   //double *odemandout,
   //double *odrout
 ){
-
-
+	printf("HELLO THIS IS THE HMAX TEST CODE \n");
+	printf("HMAX, %f\n", p->hmax);
+	printf("PHIH, %f\n", p->phih);
+	printf("ETA, %f\n", p->eta);
+	printf("ETAB, %f\n", p->etaB);
+	printf("SWMAX, %f\n", p->swmax);
+	printf("LAMDAS, %f\n", p->lamdas);
+	printf("LAMDAH, %f\n", p->lamdah);
+	printf("RHOMAX, %f\n", p->rhomax);
+	printf("RHOMIN, %f\n", p->rhomin);
+	printf("F2, %f\n", p->f2);
+	printf("F1, %f\n", p->f1);
+	printf("GAMMAC, %f\n", p->gammac);
+	printf("GAMMAW, %e\n", p->gammaw);
+	printf("GAMMAX, %f\n", p->gammax);
+	printf("CGL, %f\n", p->cgl);
+	printf("CGR, %f\n", p->cgr);
+	printf("CGW, %f\n", p->cgw);
+	printf("DELTAL, %f\n", p->deltal);
+	printf("DELTAR, %f\n", p->deltar);
+	printf("SL, %f\n", p->sl);
+	printf("SLA, %f\n", p->sla);
+	printf("SR %f\n", p->sr);
+	printf("SO, %f\n", p->so);
+	printf("RR, %f\n", p->rr);
+	printf("RHOR, %f\n", p->rhor);
+	printf("RML, %f\n", p->rml);
+	printf("RMS, %f\n", p->rms);
+	printf("RMR, %f\n", p->rmr);
+	printf("DRCRIT, %f\n", p->drcrit);
+	printf("DRINIT, %f\n", p->drinit);
+	printf("K, %f\n", p->K);
+	printf("EPSG, %f\n", p->epsg);
+	printf("M, %f\n", p->M);
+	printf("ALPHA, %f\n", p->alpha);
+	printf("R0, %f\n", p->R0);
+	printf("R40, %f\n", p->R40);
 	//, double la[],double LAI[], double egrow[], double ex[], int status[]
 	// state variables
 	tstates st;
@@ -251,7 +286,7 @@ void growthloop(sparms *p, gparms *gp, double *Io, double *r0, int *t,
 		// update light value
 		if(Hc[i] != -99){
 			// APAR should be a vector of length 2
-			APARcalc(&APAR[0], &LAI, &LA, p->eta, p->K, st.h, Hc[i], LAIF[i], Io[i], ForParms);
+			APARcalc(&APAR[0], &LAI, &LA, p->eta, p->K, st.h, -99, 0, Io[i], ForParms); // Hc[i] LAIF[i]
 		  //printf("APAR[0]=%g, APAR[1]=%g \n", APAR[0], APAR[1]);
 			st.light = APAR[0];
 			//APARout[i] = APAR[1]; Moved to bottom
@@ -472,7 +507,8 @@ void growthloop(sparms *p, gparms *gp, double *Io, double *r0, int *t,
 		//} // end of skip if
   } //end the for loop
 
-	
+	printf("OUTPUT FROM GROWTHLOOP \n");
+	printf("%f \n", h[4]);
 
 	//printf("This is lenvars * iout %d \nlenvars %d \niout %d\n\n", *lenvars * *iout, *lenvars, *iout);
 

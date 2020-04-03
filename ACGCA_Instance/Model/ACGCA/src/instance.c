@@ -10,7 +10,7 @@ typedef struct
     double deltat;
     double T;
     double tolerance;
-}gparm;
+} gparm;
 
 
 void run_model(double *input, double *gp2, double *output,
@@ -68,6 +68,7 @@ void run_model(double *input, double *gp2, double *output,
 
 
 
+    printf("HELLO FROM THE INSTANCE.C CODE");
     // struct Output *str_ptr = &output;
     // modelInputs == p2
 
@@ -79,8 +80,10 @@ void run_model(double *input, double *gp2, double *output,
     double *Io = &I;
     double r1 = 0.05;
     double *r0 = &r1;
-    int t0 = 3;
+    int t0 = 5;
     int *t = &t0;
+    // need to check the variables here
+
     double Hc1[] = {-99.0, -99.0, -99.0, -99.0, -99.0, -99.0, -99.0, -99.0, -99.0, -99.0};
     double *Hc = Hc1;
     double LAIF1[] = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
@@ -219,6 +222,13 @@ void run_model(double *input, double *gp2, double *output,
       //odemandout,
       //odrout
   	);
+
+    printf("THIS IS THE H OUTPUT \n");
+
+    for( int i=0; i<10; i++ )
+    {
+      printf("%f \n", h[i]);
+    }
 
 
 
