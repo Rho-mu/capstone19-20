@@ -23,79 +23,6 @@
       <label for="menu">Group 1</label>
       <div class="menu-content">
         <ul>
-          <input type="text" v-model="postBody.hmax" placeholder="hmax"><br>
-          <input type="text" v-model="postBody.phih" placeholder="phih"><br>
-          <input type="text" v-model="postBody.eta" placeholder="eta">*<br>
-          <input type="text" v-model="postBody.swmax" placeholder="swmax"><br>
-          <input type="text" v-model="postBody.lamda" placeholder="lamda"><br>
-          <input type="text" v-model="postBody.rhomax" placeholder="rhomax"><br>
-          <input type="text" v-model="postBody.f2" placeholder="f2"><br>
-          <input type="text" v-model="postBody.f1" placeholder="f1"><br>
-        </ul>
-      </div>
-    </div>
-    <div class="collapsible-menu">
-      <input type="checkbox" id="menu-1">
-      <label for="menu-1">Group 2</label>
-      <div class="menu-content-1">
-        <ul>
-          <input type="text" v-model="postBody.gammac" placeholder="gammac"><br>
-          <input type="text" v-model="postBody.gammaw" placeholder="gammaw"><br>
-          <input type="text" v-model="postBody.gammax" placeholder="gammax">*<br>
-          <input type="text" v-model="postBody.cgl" placeholder="cgl"><br>
-          <input type="text" v-model="postBody.cgr" placeholder="cgr"><br>
-          <input type="text" v-model="postBody.cgw" placeholder="cgw"><br>
-        </ul>
-      </div>
-    </div>
-    <div class="collapsible-menu">
-      <input type="checkbox" id="menu-2">
-      <label for="menu-2">Group 3</label>
-      <div class="menu-content-2">
-        <ul>
-          <input type="text" v-model="postBody.deltal" placeholder="deltal"><br>
-          <input type="text" v-model="postBody.deltar" placeholder="deltar"><br>
-          <input type="text" v-model="postBody.sl" placeholder="sl"><br>
-          <input type="text" v-model="postBody.sla" placeholder="sla"><br>
-          <input type="text" v-model="postBody.so" placeholder="so"><br>
-          <input type="text" v-model="postBody.sr" placeholder="sr"><br>
-          <input type="text" v-model="postBody.rr" placeholder="rr"><br>
-        </ul>
-      </div>
-    </div>
-    <div class="collapsible-menu">
-      <input type="checkbox" id="menu-3">
-      <label for="menu-3">Group 4</label>
-      <div class="menu-content-3">
-        <ul>
-          <input type="text" v-model="postBody.rhor" placeholder="rhor"><br>
-          <input type="text" v-model="postBody.rml" placeholder="rml"><br>
-          <input type="text" v-model="postBody.rms" placeholder="rms"><br>
-          <input type="text" v-model="postBody.rmr" placeholder="rmr"><br>
-          <input type="text" v-model="postBody.etaB" placeholder="etaB">*<br>
-          <input type="text" v-model="postBody.k" placeholder="k"><br>
-        </ul>
-      </div>
-    </div>
-    <div class="collapsible-menu">
-      <input type="checkbox" id="menu-4">
-      <label for="menu-4">Group 5</label>
-      <div class="menu-content-4">
-        <ul>
-          <input type="text" v-model="postBody.epsg" placeholder="epsg"><br>
-          <input type="text" v-model="postBody.m" placeholder="m">*<br>
-          <input type="text" v-model="postBody.alpha" placeholder="alpha"><br>
-          <input type="text" v-model="postBody.r0" placeholder="r0"><br>
-          <input type="text" v-model="postBody.r40" placeholder="r40"><br>
-        </ul>
-      </div>
-    </div>
-    <!--
-    <div class="collapsible-menu">
-      <input type="checkbox" id="menu">
-      <label for="menu">Group 1</label>
-      <div class="menu-content">
-        <ul>
           <input type="text" v-model="postBody.hmax" placeholder="hmax" value="27.5"><br>
           <input type="text" v-model="postBody.phih" placeholder="phih" value="263"><br>
           <input type="text" v-model="postBody.eta" placeholder="eta" value="0.64">*<br>
@@ -162,9 +89,10 @@
           <input type="text" v-model="postBody.r40" placeholder="r40" value="5.592"><br>
         </ul>
       </div>
-    </div>-->
-    <button @click="postData()" name="button">PostData</button>
-    <!-- <button :disabled='isDisabled()' @click="postData()" name="button">PostData</button> -->
+    </div>
+    <button :disabled='isDisabled()' @click="postData()" name="button">PostData</button>
+    <button @click="changeToMaple()" name="changeToM"> Maple </button>
+    <button @click="changeToPine()" name="changeToP"> Pine </button>
     <button @click="getData()" name="button">GetData</button>
     </div>
     <div class="outputDisplayContainer">
@@ -257,41 +185,7 @@ export default {
   name: 'inputs-vis',
   data() {
     return {
-      postBody: {
-          hmax: '27.5',
-          phih: '263',
-          eta: '0.64',
-          swmax: '0.1',
-          lamda: '0.95',
-          rhomax: '525000',
-          f2: '7000',
-          f1: '4',
-          gammac: '131000',
-          gammaw: '0.000000667',
-          gammax: '0.12',
-          cgl: '1.45',
-          cgr: '1.25',
-          cgw: '1.37',
-          deltal: '0.095',
-          deltar: '0.15',
-          sl: '1',
-          sla: '0.0141',
-          so: '0.05',
-          sr: '1',
-          rr: '0.00015',
-          rhor: '160000',
-          rml: '2.5',
-          rms: '0.05',
-          rmr: '1.5',
-          etaB: '0.045',
-          k: '0.7',
-          epsg: '6.75',
-          m: '0.95',
-          alpha: '0.365',
-          r0: '1.909',
-          r40: '5.592'
-        },
-        /*postBody: {
+    postBody: {
           hmax: '',
           phih: '',
           eta: '',
@@ -324,7 +218,7 @@ export default {
           alpha: '',
           r0: '',
           r40: ''
-        },*/
+        },
         runID: '',
         getJson: [],
         resultJson: {},
@@ -766,7 +660,7 @@ methods: {
       this.treeRenderer.render(this.currentScene, this.currentCam)
     }, // END: animate()
 
-    /*
+
     checkValidity(){
       var temporaryIsDisable=false
   
@@ -854,8 +748,81 @@ methods: {
     isDisabled() {
       this.checkValidity();
       return this.isDisable;
-    } // END: isDisabled()
-    */
+    }, // END: isDisabled()
+
+    changeToPine(){
+      this.postBody.hmax=42;
+      this.postBody.phih=220;
+      this.postBody.eta=0.71;
+      this.postBody.swmax=0.06;
+      this.postBody.lamda=0.95;
+      this.postBody.rhomax=380000;
+      this.postBody.f2=2100;
+      this.postBody.f1=4;
+      this.postBody.gammac=265000;
+      this.postBody.gammaw=6.67e-7;
+      this.postBody.gammax=0.62;
+      this.postBody.cgl=1.51;
+      this.postBody.cgr=1.3
+      this.postBody.cgw=1.47
+      this.postBody.deltal=0.11
+      this.postBody.deltar=0.08
+      this.postBody.sl=0.33
+      this.postBody.sla=0.00602
+      this.postBody.sr=0.5
+      this.postBody.so=0.05
+      this.postBody.rr=0.00027
+      this.postBody.rhor=200000
+      this.postBody.rml=1.9
+      this.postBody.rms=0.05
+      this.postBody.rmr=1.5
+      this.postBody.etaB=0.045
+      this.postBody.k=0.55
+      this.postBody.epsg=4.5
+      this.postBody.m=0.95
+      this.postBody.alpha=0.308
+      this.postBody.r0=1.434
+      this.postBody.r40=3.873
+
+
+    },
+
+     changeToMaple(){
+      this.postBody.hmax=27.5;
+      this.postBody.phih=263;
+      this.postBody.eta=0.64;
+      this.postBody.swmax=0.1;
+      this.postBody.lamda=0.95;
+      this.postBody.rhomax=525000;
+      this.postBody.f2=7000;
+      this.postBody.f1=4;
+      this.postBody.gammac=131000;
+      this.postBody.gammaw=6.67e-7;
+      this.postBody.gammax=0.12;
+      this.postBody.cgl=1.45;
+      this.postBody.cgr=1.25
+      this.postBody.cgw=1.37
+      this.postBody.deltal=0.095
+      this.postBody.deltar=0.15
+      this.postBody.sl=1
+      this.postBody.sla=0.0141
+      this.postBody.sr=1
+      this.postBody.so=0.05
+      this.postBody.rr=0.00015
+      this.postBody.rhor=160000
+      this.postBody.rml=2.5
+      this.postBody.rms=0.05
+      this.postBody.rmr=1.5
+      this.postBody.etaB=0.045
+      this.postBody.k=0.7
+      this.postBody.epsg=6.75
+      this.postBody.m=0.95
+      this.postBody.alpha=0.365
+      this.postBody.r0=1.909
+      this.postBody.r40=5.592
+    }
+
+
   }, // END: Methods
 
   mounted() {
