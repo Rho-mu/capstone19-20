@@ -91,14 +91,12 @@
       </div>
     </div>
     <button :disabled='isDisabled()' @click="postData()" name="button">PostData</button>
-    <button @click="changeToMaple()" name="changeToM"> Maple </button>
-    <button @click="changeToPine()" name="changeToP"> Pine </button>
     <button @click="getData()" name="button">GetData</button>
-    <button @click="setDefault('Red Maple')">Red Maple</button>
-    <button @click="setDefault('Loblolly Pine')">Loblolly Pine</button>
     </div>
     <div class="outputDisplayContainer">
-      <button @click="run()">RUN</Button>
+      <button @click="run()">RUN</Button><br>
+      <button @click="setDefault('Red Maple')">Red Maple</button>
+      <button @click="setDefault('Loblolly Pine')">Loblolly Pine</button><br>
       <button @click="loadTextures()">Load Textures</Button>
       <button @click="initialize()">Init</Button>
       <button @click="animate()">Animate</Button>
@@ -313,78 +311,78 @@ methods: {
 
     setDefault(defaultType) {
       // Sets default values in the input fields based on the button that user clicks
+      
       if(defaultType == "Red Maple") // Red Maple button
       {
-        this.postBody.hmax = '27.5',
-        this.postBody.phih ='263',
-        this.postBody.eta = '0.64',
-        this.postBody.swmax = '0.1',
-        this.postBody.lamda = '0.95',
-        this.postBody.rhomax = '525000',
-        this.postBody.f2 = '7000',
-        this.postBody.f1 = '4',
-        this.postBody.gammac = '131000',
-        this.postBody.gammaw = '0.000000667',
-        this.postBody.gammax = '0.12',
-        this.postBody.cgl = '1.45',
-        this.postBody.cgr = '1.25',
-        this.postBody.cgw = '1.37',
-        this.postBody.deltal = '0.095',
-        this.postBody.deltar = '0.15',
-        this.postBody.sl = '1',
-        this.postBody.sla = '0.0141',
-        this.postBody.so = '0.05',
-        this.postBody.sr = '1',
-        this.postBody.rr = '0.00015',
-        this.postBody.rhor = '160000',
-        this.postBody.rml = '2.5',
-        this.postBody.rms = '0.05',
-        this.postBody.rmr = '1.5',
-        this.postBody.etaB = '0.045',
-        this.postBody.k = '0.7',
-        this.postBody.epsg = '6.75',
-        this.postBody.m = '0.95',
-        this.postBody.alpha = '0.365',
-        this.postBody.r0 = '1.909',
-        this.postBody.r40 = '5.592'
-      }
-      
-      if(defaultType == "Loblolly Pine")  // Loblolly Pine button
+        this.postBody.hmax=27.5;
+        this.postBody.phih=263;
+        this.postBody.eta=0.64;
+        this.postBody.swmax=0.1;
+        this.postBody.lamda=0.95;
+        this.postBody.rhomax=525000;
+        this.postBody.f2=7000;
+        this.postBody.f1=4;
+        this.postBody.gammac=131000;
+        this.postBody.gammaw=6.67e-7;
+        this.postBody.gammax=0.12;
+        this.postBody.cgl=1.45;
+        this.postBody.cgr=1.25
+        this.postBody.cgw=1.37
+        this.postBody.deltal=0.095
+        this.postBody.deltar=0.15
+        this.postBody.sl=1
+        this.postBody.sla=0.0141
+        this.postBody.sr=1
+        this.postBody.so=0.05
+        this.postBody.rr=0.00015
+        this.postBody.rhor=160000
+        this.postBody.rml=2.5
+        this.postBody.rms=0.05
+        this.postBody.rmr=1.5
+        this.postBody.etaB=0.045
+        this.postBody.k=0.7
+        this.postBody.epsg=6.75
+        this.postBody.m=0.95
+        this.postBody.alpha=0.365
+        this.postBody.r0=1.909
+        this.postBody.r40=5.592
+      } // END: if Red Maple
+
+      else if(defaultType == "Loblolly Pine")  // Loblolly Pine button
       {
-        this.postBody.hmax = '42',
-        this.postBody.phih ='220',
-        this.postBody.eta = '0.71',
-        this.postBody.swmax = '0.06',
-        this.postBody.lamda = '0.95',
-        this.postBody.rhomax = '380000',
-        this.postBody.f2 = '2100',
-        this.postBody.f1 = '4',
-        this.postBody.gammac = '265000',
-        this.postBody.gammaw = '0.000000667',
-        this.postBody.gammax = '0.62',
-        this.postBody.cgl = '1.51',
-        this.postBody.cgr = '1.3',
-        this.postBody.cgw = '1.47',
-        this.postBody.deltal = '0.11',
-        this.postBody.deltar = '0.08',
-        this.postBody.sl = '0.33',
-        this.postBody.sla = '0.00602',
-        this.postBody.so = '0.05',
-        this.postBody.sr = '0.5',
-        this.postBody.rr = '0.00027',
-        this.postBody.rhor = '200000',
-        this.postBody.rml = '1.9',
-        this.postBody.rms = '0.05',
-        this.postBody.rmr = '1.5',
-        this.postBody.etaB = '0.045',
-        this.postBody.k = '0.55',
-        this.postBody.epsg = '4.5',
-        this.postBody.m = '0.95',
-        this.postBody.alpha = '0.308',
-        this.postBody.r0 = '1.434',
-        this.postBody.r40 = '3.873'
-      }
-      
+        this.postBody.hmax=42
+        this.postBody.phih=220
+        this.postBody.eta=0.71
+        this.postBody.swmax=0.06
+        this.postBody.lamda=0.95
+        this.postBody.rhomax=380000
+        this.postBody.f2=2100
+        this.postBody.f1=4
+        this.postBody.gammac=265000
+        this.postBody.gammaw=6.67e-7
+        this.postBody.gammax=0.62
+        this.postBody.cgl=1.51
+        this.postBody.cgr=1.3
+        this.postBody.cgw=1.47
+        this.postBody.deltal=0.11
+        this.postBody.deltar=0.08
+        this.postBody.sl=0.33
+        this.postBody.sla=0.00602
+        this.postBody.sr=0.5
+        this.postBody.so=0.05
+        this.postBody.rr=0.00027
+        this.postBody.rhor=200000
+        this.postBody.rml=1.9
+        this.postBody.rms=0.05
+        this.postBody.rmr=1.5
+        this.postBody.etaB=0.045
+        this.postBody.k=0.55
+        this.postBody.epsg=4.5
+        this.postBody.m=0.95
+        this.postBody.alpha=0.308
+        this.postBody.r0=1.434
+        this.postBody.r40=3.873
+      } // END: if Loblolly Pine
     }, // END: set_default()
 
     initialize() {
@@ -737,7 +735,6 @@ methods: {
       this.update()
       this.treeRenderer.render(this.currentScene, this.currentCam)
     }, // END: animate()
-
 
     checkValidity(){
       var temporaryIsDisable=false
