@@ -23,14 +23,14 @@
       <label for="menu">Group 1</label>
       <div class="menu-content">
         <ul>
-          <input type="text" v-model="postBody.hmax" placeholder="hmax" value="27.5"><br>
-          <input type="text" v-model="postBody.phih" placeholder="phih" value="263"><br>
-          <input type="text" v-model="postBody.eta" placeholder="eta" value="0.64">*<br>
-          <input type="text" v-model="postBody.swmax" placeholder="swmax" value="0.1"><br>
-          <input type="text" v-model="postBody.lamda" placeholder="lamda" value="0.95"><br>
-          <input type="text" v-model="postBody.rhomax" placeholder="rhomax" value="525000"><br>
-          <input type="text" v-model="postBody.f2" placeholder="f2" value="7000"><br>
-          <input type="text" v-model="postBody.f1" placeholder="f1" value="4"><br>
+          <input type="text" v-model="postBody.hmax" placeholder="hmax"><br>
+          <input type="text" v-model="postBody.phih" placeholder="phih" ><br>
+          <input type="text" v-model="postBody.eta" placeholder="eta" >*<br>
+          <input type="text" v-model="postBody.swmax" placeholder="swmax" ><br>
+          <input type="text" v-model="postBody.lamda" placeholder="lamda"><br>
+          <input type="text" v-model="postBody.rhomax" placeholder="rhomax" ><br>
+          <input type="text" v-model="postBody.f2" placeholder="f2" ><br>
+          <input type="text" v-model="postBody.f1" placeholder="f1" ><br>
         </ul>
       </div>
     </div>
@@ -39,12 +39,12 @@
       <label for="menu-1">Group 2</label>
       <div class="menu-content-1">
         <ul>
-          <input type="text" v-model="postBody.gammac" placeholder="gammac" value="131000"><br>
-          <input type="text" v-model="postBody.gammaw" placeholder="gammaw" value="0.000000667"><br>
-          <input type="text" v-model="postBody.gammax" placeholder="gammax" value="0.12">*<br>
-          <input type="text" v-model="postBody.cgl" placeholder="cgl" value="1.45"><br>
-          <input type="text" v-model="postBody.cgr" placeholder="cgr" value="1.25"><br>
-          <input type="text" v-model="postBody.cgw" placeholder="cgw" value="1.37"><br>
+          <input type="text" v-model="postBody.gammac" placeholder="gammac" ><br>
+          <input type="text" v-model="postBody.gammaw" placeholder="gammaw" ><br>
+          <input type="text" v-model="postBody.gammax" placeholder="gammax" >*<br>
+          <input type="text" v-model="postBody.cgl" placeholder="cgl" ><br>
+          <input type="text" v-model="postBody.cgr" placeholder="cgr" ><br>
+          <input type="text" v-model="postBody.cgw" placeholder="cgw" ><br>
         </ul>
       </div>
     </div>
@@ -53,13 +53,13 @@
       <label for="menu-2">Group 3</label>
       <div class="menu-content-2">
         <ul>
-          <input type="text" v-model="postBody.deltal" placeholder="deltal" value="0.095"><br>
-          <input type="text" v-model="postBody.deltar" placeholder="deltar" value="0.15"><br>
-          <input type="text" v-model="postBody.sl" placeholder="sl" value="1"><br>
-          <input type="text" v-model="postBody.sla" placeholder="sla" value="0.0141"><br>
-          <input type="text" v-model="postBody.so" placeholder="so" value="0.05"><br>
-          <input type="text" v-model="postBody.sr" placeholder="sr" value="1"><br>
-          <input type="text" v-model="postBody.rr" placeholder="rr" value="0.00015"><br>
+          <input type="text" v-model="postBody.deltal" placeholder="deltal" ><br>
+          <input type="text" v-model="postBody.deltar" placeholder="deltar" ><br>
+          <input type="text" v-model="postBody.sl" placeholder="sl" ><br>
+          <input type="text" v-model="postBody.sla" placeholder="sla" ><br>
+          <input type="text" v-model="postBody.so" placeholder="so" ><br>
+          <input type="text" v-model="postBody.sr" placeholder="sr" ><br>
+          <input type="text" v-model="postBody.rr" placeholder="rr" ><br>
         </ul>
       </div>
     </div>
@@ -68,12 +68,12 @@
       <label for="menu-3">Group 4</label>
       <div class="menu-content-3">
         <ul>
-          <input type="text" v-model="postBody.rhor" placeholder="rhor" value="160000"><br>
-          <input type="text" v-model="postBody.rml" placeholder="rml" value="2.5"><br>
-          <input type="text" v-model="postBody.rms" placeholder="rms" value="0.05"><br>
-          <input type="text" v-model="postBody.rmr" placeholder="rmr" value="1.5"><br>
-          <input type="text" v-model="postBody.etaB" placeholder="etaB" value="0.045">*<br>
-          <input type="text" v-model="postBody.k" placeholder="k" value="0.7"><br>
+          <input type="text" v-model="postBody.rhor" placeholder="rhor" ><br>
+          <input type="text" v-model="postBody.rml" placeholder="rml" ><br>
+          <input type="text" v-model="postBody.rms" placeholder="rms" ><br>
+          <input type="text" v-model="postBody.rmr" placeholder="rmr" ><br>
+          <input type="text" v-model="postBody.etaB" placeholder="etaB" >*<br>
+          <input type="text" v-model="postBody.k" placeholder="k"><br>
         </ul>
       </div>
     </div>
@@ -82,11 +82,11 @@
       <label for="menu-4">Group 5</label>
       <div class="menu-content-4">
         <ul>
-          <input type="text" v-model="postBody.epsg" placeholder="epsg" value="6.75"><br>
-          <input type="text" v-model="postBody.m" placeholder="m" value="0.95">*<br>
-          <input type="text" v-model="postBody.alpha" placeholder="alpha" value="0.365"><br>
-          <input type="text" v-model="postBody.r0" placeholder="r0" value="1.909"><br>
-          <input type="text" v-model="postBody.r40" placeholder="r40" value="5.592"><br>
+          <input type="text" v-model="postBody.epsg" placeholder="epsg" ><br>
+          <input type="text" v-model="postBody.m" placeholder="m" >*<br>
+          <input type="text" v-model="postBody.alpha" placeholder="alpha" ><br>
+          <input type="text" v-model="postBody.r0" placeholder="r0" ><br>
+          <input type="text" v-model="postBody.r40" placeholder="r40"><br>
         </ul>
       </div>
     </div>
