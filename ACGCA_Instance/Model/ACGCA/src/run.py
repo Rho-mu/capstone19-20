@@ -52,7 +52,8 @@ def run_alg(input):
     import os.path
 
     # lower casex
-    mydll = ctypes.CDLL("/Users/alexbentley/Documents/GitHub/capstone19-20/ACGCA_Instance/Model/ACGCA/src/ACGCA.so")
+    #mydll = ctypes.CDLL("C:\Users\riley\OneDrive\Documents\NAU\S10\capstone\capstone19-20\ACGCA_Instance\Model\ACGCA\src\ACGCA.dll")
+    mydll = ctypes.CDLL("C:/Users/riley/OneDrive/Documents/NAU/S10/capstone/capstone19-20/ACGCA_Instance/model/ACGCA/src/ACGCA.dll")
     model = mydll.run_model
 
 
