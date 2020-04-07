@@ -247,15 +247,11 @@ methods: {
       this.postData() // Send inputs to AWS and model wrapper
 
       console.log("Starting getData()")
-      while( this.resultJson = {} ) // While the output data is empty
-      {
-        console.log("polling")
-        setInterval( this.getData(), 1000) // Poll AWS for the output every 1000ms (1 second)
-      }
+      setTimeout( this.getData, 2000)
       console.log("Retreived output")
 
       // Once the output data is retrieved from the model, animate the scene
-      this.init()
+      this.initialize()
       this.animate()
       console.log("animate")
 
@@ -288,6 +284,7 @@ methods: {
     }, // END: postData()
 
     getData() {
+      alert("Hello")
       axios.get('https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user', {
         headers: {
           'Content-Type': 'application/json',
