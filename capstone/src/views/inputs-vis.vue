@@ -239,27 +239,27 @@ methods: {
 
     run() {
       console.log("run")
-      isDisable = true // Disable run button
+      this.isDisable = true // Disable run button
       console.log("disable run button")
 
       // user clicks run
       console.log("Starting postData()")
-      postData() // Send inputs to AWS and model wrapper
+      this.postData() // Send inputs to AWS and model wrapper
 
       console.log("Starting getData()")
-      while( resultJson = {} ) // While the output data is empty
+      while( this.resultJson = {} ) // While the output data is empty
       {
         console.log("polling")
-        setInterval( getData(), 1000) // Poll AWS for the output every 1000ms (1 second)
+        setInterval( this.getData(), 1000) // Poll AWS for the output every 1000ms (1 second)
       }
       console.log("Retreived output")
 
       // Once the output data is retrieved from the model, animate the scene
-      init()
-      animate()
+      this.init()
+      this.animate()
       console.log("animate")
 
-      isDisable = false // Re-enable run button
+      this.isDisable = false // Re-enable run button
       console.log("enable run button")
     }, // END: run()
 
@@ -539,7 +539,7 @@ methods: {
       var la = this.resultJson.la2               // Total one-sided leaf area
       var growth_st = this.resultJson.growth_st  // State of tree (alive, dead, etc.)
       console.log("h:",h,"\nhh:",hh,"\nr:",r,"\nrB:",rB,"\nrBH:",rBH,"\nrC:",rC,"\nla:",la,"\ngrowth_st:",growth_st)
-
+      
       // Supplemental parameters
       var geoSegments = 16
       var trunkPos = hh/2 - 2.8
