@@ -17,6 +17,9 @@
              <br>
               0 and 1 are valid<br>
       </div>
+    <div><br>
+         {{this.errorMessage}}
+    </div>
     
     <div class="collapsible-menu">
       <input type="checkbox" id="menu">
@@ -232,6 +235,7 @@ export default {
         barkTexture: "",
 
         isDisable: false,
+        errorMessage:"",
       }
     }, // END: data()
 
@@ -735,6 +739,8 @@ methods: {
 
     checkValidity(){
       var temporaryIsDisable=false
+
+      this.errorMessage=""
   
       //start checking null
       temporaryIsDisable=temporaryIsDisable || (this.postBody.hmax==="");
@@ -770,6 +776,12 @@ methods: {
       temporaryIsDisable=temporaryIsDisable || (this.postBody.r0==="") ;
       temporaryIsDisable=temporaryIsDisable || (this.postBody.r40==="") ;
       //finish checking null
+
+      if(temporaryIsDisable){
+        this.errorMessage="ERROR: Please fill out all of the fields"
+        this.isDisable=temporaryIsDisable;
+        return 0
+      }
     
       //start check the lower limit for all of the inputs
       temporaryIsDisable=temporaryIsDisable || (this.postBody.hmax < 0);
@@ -805,6 +817,12 @@ methods: {
       temporaryIsDisable=temporaryIsDisable || (this.postBody.r0 < 0) ;
       temporaryIsDisable=temporaryIsDisable || (this.postBody.r40 < 0) ;
       //finish checking for the lower limits
+
+      if(temporaryIsDisable){
+        this.errorMessage="ERROR: Please enter positive numbers"
+        this.isDisable=temporaryIsDisable;
+        return 0
+      }
     
       //start checking for the higher limits(if any)
       temporaryIsDisable=temporaryIsDisable || (this.postBody.eta > 1) ;
@@ -812,6 +830,12 @@ methods: {
       temporaryIsDisable=temporaryIsDisable || (this.postBody.etaB > 1) ;
       temporaryIsDisable=temporaryIsDisable || (this.postBody.m > 1) ;
       //finish checking for the higher limits
+
+      if(temporaryIsDisable){
+        this.errorMessage="ERROR: Some values can't be larger than 1"
+        this.isDisable=temporaryIsDisable;
+        return 0
+      }
     
     
       this.isDisable=temporaryIsDisable;
