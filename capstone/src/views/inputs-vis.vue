@@ -236,42 +236,46 @@ export default {
 
         isDisable: false,
         errorMessage:"",
+        tempc: 0
       }
     }, // END: data()
 
 methods: {
 
     run() {
-      console.log("run")
-      this.isDisable = true // Disable run button
-      console.log("disable run button")
+      // postData
+      // done posting
+      // loop getData until result json is not empty
+      // done getting
+      // initialize() animate()
 
-      // user clicks run
-      console.log("Starting postData()")
-      this.postData() // Send inputs to AWS and model wrapper
+      this.func1()
 
-      console.log("Starting getData()")
-      setTimeout( this.getData, 2000)
-      console.log("Retreived output")
+      var d = this.func2(this.tempc)
+      console.log("result d: ", d)
 
-      // Once the output data is retrieved from the model, animate the scene
-      this.initialize()
-      this.animate()
-      console.log("animate")
-
-      this.isDisable = false // Re-enable run button
-      console.log("enable run button")
     }, // END: run()
 
-    /*reset() {
-      // If the user wants to run the model again, they need to hit the reset button.
-      
-      // Reset animate()
-      isDisable = false // Re-enable run button
+    func1()
+    {
+      console.log("func1")
+      setTimeout(this.tempc = 4, 1000)
+    },
 
-    }*/
+    func2(c)
+    {
+      console.log("func2")
+      var d = c + 2
+      return d
+    },
 
+    tempfunc()
+    {
+
+    },
+    
     postData() {
+      console.log("posting")
       axios.post('https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user', {
         headers: {
           'Content-Type': 'application/json',
@@ -282,13 +286,13 @@ methods: {
       })
       .then(response => {
         this.runID = response.headers['x-run-id'],
-        console.log(this.runID)
+        console.log("from post -- runID: ", this.runID)
       })
       console.log("posted")
     }, // END: postData()
 
     getData() {
-      alert("Hello")
+      console.log("getData")
       axios.get('https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user', {
         headers: {
           'Content-Type': 'application/json',
@@ -308,6 +312,7 @@ methods: {
       },
           (error) => { console.log(error.request)}
       )
+      console.log("data retrieved")
     }, // END: getData()
 
     setDefault(defaultType) {
@@ -337,9 +342,9 @@ methods: {
         this.postBody.so=0.05
         this.postBody.rr=0.00015
         this.postBody.rhor=160000
-        this.postBody.rml=2.5
-        this.postBody.rms=0.05
-        this.postBody.rmr=1.5
+        this.postBody.rml=1.25
+        this.postBody.rms=0.025
+        this.postBody.rmr=0.75
         this.postBody.etaB=0.045
         this.postBody.k=0.7
         this.postBody.epsg=6.75
