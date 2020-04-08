@@ -52,8 +52,8 @@
 /// \date 01-13-2010
 /// TODO: need numerical checks here
 ///
-void growthloop(sparms *p, gparms *gp, double *Io, double *r0, int *t,
-	double *Hc, double *LAIF, Forestparms *ForParms,
+void growthloop(sparms *p, gparms *gp, double *Io2, double *r0, int *t,
+	double *Hc2, double *LAIF, Forestparms *ForParms,
 	// outputs
 	double APARout[],
 	double h[],
@@ -109,43 +109,9 @@ void growthloop(sparms *p, gparms *gp, double *Io, double *r0, int *t,
   //double *odemandout,
   //double *odrout
 ){
-	printf("HELLO THIS IS THE HMAX TEST CODE \n");
-	printf("HMAX, %f\n", p->hmax);
-	printf("PHIH, %f\n", p->phih);
-	printf("ETA, %f\n", p->eta);
-	printf("ETAB, %f\n", p->etaB);
-	printf("SWMAX, %f\n", p->swmax);
-	printf("LAMDAS, %f\n", p->lamdas);
-	printf("LAMDAH, %f\n", p->lamdah);
-	printf("RHOMAX, %f\n", p->rhomax);
-	printf("RHOMIN, %f\n", p->rhomin);
-	printf("F2, %f\n", p->f2);
-	printf("F1, %f\n", p->f1);
-	printf("GAMMAC, %f\n", p->gammac);
-	printf("GAMMAW, %e\n", p->gammaw);
-	printf("GAMMAX, %f\n", p->gammax);
-	printf("CGL, %f\n", p->cgl);
-	printf("CGR, %f\n", p->cgr);
-	printf("CGW, %f\n", p->cgw);
-	printf("DELTAL, %f\n", p->deltal);
-	printf("DELTAR, %f\n", p->deltar);
-	printf("SL, %f\n", p->sl);
-	printf("SLA, %f\n", p->sla);
-	printf("SR %f\n", p->sr);
-	printf("SO, %f\n", p->so);
-	printf("RR, %f\n", p->rr);
-	printf("RHOR, %f\n", p->rhor);
-	printf("RML, %f\n", p->rml);
-	printf("RMS, %f\n", p->rms);
-	printf("RMR, %f\n", p->rmr);
-	printf("DRCRIT, %f\n", p->drcrit);
-	printf("DRINIT, %f\n", p->drinit);
-	printf("K, %f\n", p->K);
-	printf("EPSG, %f\n", p->epsg);
-	printf("M, %f\n", p->M);
-	printf("ALPHA, %f\n", p->alpha);
-	printf("R0, %f\n", p->R0);
-	printf("R40, %f\n", p->R40);
+
+
+
 	//, double la[],double LAI[], double egrow[], double ex[], int status[]
 	// state variables
 	tstates st;
@@ -173,6 +139,7 @@ void growthloop(sparms *p, gparms *gp, double *Io, double *r0, int *t,
 	initialize(p,gp,&st,r0);
 	//printf(" Initialize complete=%d \n",i);
 
+	printf("This is the st states, %f", st.hh);
 	//Initialize the radius and height arrays to be returned (needed in the MCMC)
 	r[0]=r[1]=st.r;  //same as initial radius
 	h[0]=h[1]=st.h;
@@ -185,7 +152,7 @@ void growthloop(sparms *p, gparms *gp, double *Io, double *r0, int *t,
 	//}
 
 	//Compute the LAI of the tree canopy (initially)
-	LAIcalc(&LAI, &LA, st.la,  st.r, st.h, st.rBH, p, gp, -99, &st);  //0 is Hc=0
+	LAIcalc(&LAI, &LA, st.la, st.r, st.h, st.rBH, p, gp, -99, &st);  //0 is Hc=0
 
 	// Store the initial variable states at index 0 (index 1 in R)
 	hh2[0]=st.hh; //double
@@ -235,10 +202,22 @@ void growthloop(sparms *p, gparms *gp, double *Io, double *r0, int *t,
 	growth_st[0]=0;
 	APARout[0]=0;
 
-	/****************** Start growthloop *****************************************/
+	int iter = ceil(gp->T/gp->deltat);
+	double Hc[iter];
+	double Io[iter];
 
+
+
+
+	/****************** Start growthloop *****************************************/
+	// i
 	// gp->T number of years, gp->deltat is increment (=1/16)
+		//
 	for (i = 1; i < (ceil(gp->T/gp->deltat) + 1); i++){  //DG: added in plus one
+
+			Hc[i] = -99;
+			Io[i] = 2060;
+
 
   		double APAR[2];
   		APAR[0] = -1;
@@ -246,7 +225,8 @@ void growthloop(sparms *p, gparms *gp, double *Io, double *r0, int *t,
 
 
 	    // MKF moved this to the top of the loop to prevent LAI->bot == 0
-	    LAIcalc(&LAI,&LA, st.la, st.r, st.h, st.rBH, p, gp, Hc[i], &st);
+				// gotta make sure i = to T/deltat
+	    LAIcalc(&LAI,&LA, st.la, st.r, st.h, st.rBH, p, gp, Hc[i], &st); // Hc[i]
 		  // If tree died last iteration, then exit program.
 		  //if (st.status==0){
 			//    growth_st[i]=6;
@@ -282,16 +262,21 @@ void growthloop(sparms *p, gparms *gp, double *Io, double *r0, int *t,
 
 		// mkf 3/16/2018 f_abs = fmin(1,fmax(0,(1-exp(-p->K*LAI.tot))));
 		f_abs = fminmacro(1,fmaxmacro(0,(1-exp(-p->K*LAI.tot))));
+		printf("THIS IS LAI.TOT %F \n", LAI.tot);
 
 		// update light value
+			// TODO: fix this
+				//
 		if(Hc[i] != -99){
 			// APAR should be a vector of length 2
-			APARcalc(&APAR[0], &LAI, &LA, p->eta, p->K, st.h, -99, 0, Io[i], ForParms); // Hc[i] LAIF[i]
+				// should this be -99 here in the function call below?
+			APARcalc(&APAR[0], &LAI, &LA, p->eta, p->K, st.h, Hc[i], 0, Io[i], ForParms); // Hc[i] LAIF[i] Io[i]
 		  //printf("APAR[0]=%g, APAR[1]=%g \n", APAR[0], APAR[1]);
 			st.light = APAR[0];
 			//APARout[i] = APAR[1]; Moved to bottom
 		}else{
-			st.light = Io[i]*f_abs*(st.la/LAI.tot);
+			st.light = Io[i]*f_abs*(st.la/LAI.tot); //Io[i]
+			printf("STLIGHT = %f \n", st.light);
 		}
 		// mkf 3/16/2018 st.light = Io[i]*f_abs*(st.la/LAI.tot); // 138b in appendix for Scn. A
 
@@ -508,7 +493,11 @@ void growthloop(sparms *p, gparms *gp, double *Io, double *r0, int *t,
   } //end the for loop
 
 	printf("OUTPUT FROM GROWTHLOOP \n");
-	printf("%f \n", h[4]);
+	for(int i = 0; i < 100; i++)
+	{
+		printf("%f \n", h[i]);
+		printf("%i \n", growth_st[i]);
+	}
 
 	//printf("This is lenvars * iout %d \nlenvars %d \niout %d\n\n", *lenvars * *iout, *lenvars, *iout);
 
