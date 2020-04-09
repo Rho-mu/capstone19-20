@@ -288,29 +288,9 @@ methods: {
     run() {
       // postData
       // done posting
-      // loop getData until result json is not empty
+      // loop getData until result json is retrieved
       // done getting
-      // initialize() animate()
-
-      this.func1()
-
-      var d = this.func2(this.tempc)
-      console.log("result d: ", d)
-
     }, // END: run()
-
-    func1()
-    {
-      console.log("func1")
-      setTimeout(this.tempc = 4, 1000)
-    },
-
-    func2(c)
-    {
-      console.log("func2")
-      var d = c + 2
-      return d
-    },
 
     postData() {
       console.log("posting")
