@@ -77,12 +77,17 @@ void run_model(double *input, double *gp2, double *output,
     //double *gp2 = {0.00625, 10, 0.00001,1.37};
 
     double I = 2060.0;
+    // this is a questionable variable
     double *Io = &I;
+
+    // there are two r0's
     double r1 = 0.05;
     double *r0 = &r1;
-    int t0 = 5;
+    int t0 = 1; // NEED TO CHECK THIS VARIABLE
     int *t = &t0;
     // need to check the variables here
+
+    // number
 
     double Hc1[] = {-99.0, -99.0, -99.0, -99.0, -99.0, -99.0, -99.0, -99.0, -99.0, -99.0};
     double *Hc = Hc1;
@@ -161,7 +166,7 @@ void run_model(double *input, double *gp2, double *output,
 
 
     // call Rgrowthloop
-
+      // is t that same as gp->T
     growthloop(&p,&gp, Io, r0, t,
   		Hc, LAIF, &ForParms,
       APARout,
@@ -222,13 +227,6 @@ void run_model(double *input, double *gp2, double *output,
       //odemandout,
       //odrout
   	);
-
-    printf("THIS IS THE H OUTPUT \n");
-
-    for( int i=0; i<10; i++ )
-    {
-      printf("%f \n", h[i]);
-    }
 
 
 

@@ -52,8 +52,7 @@ def run_alg(input):
     import os.path
 
     # lower casex
-    #mydll = ctypes.CDLL("C:\Users\riley\OneDrive\Documents\NAU\S10\capstone\capstone19-20\ACGCA_Instance\Model\ACGCA\src\ACGCA.dll")
-    mydll = ctypes.CDLL("C:/Users/riley/OneDrive/Documents/NAU/S10/capstone/capstone19-20/ACGCA_Instance/model/ACGCA/src/ACGCA.dll")
+    mydll = ctypes.CDLL("/Users/alexbentley/Documents/GitHub/capstone19-20/ACGCA_Instance/Model/ACGCA/src/ACGCA.so")
     model = mydll.run_model
 
 
@@ -162,7 +161,7 @@ def run_alg(input):
 
     g = gparm()
     g.BH = (ctypes.c_double)(1.37)
-    g.deltat =(ctypes.c_double)(0.00625)
+    g.deltat =(ctypes.c_double)(0.0625)
     g.T = (ctypes.c_double)(10)
     g.tolerance = (ctypes.c_double)(0.00001)
     # suppose the default value just for current testing
@@ -315,54 +314,54 @@ def run_alg(input):
 
 
     output = {
-            #
-            'APARout':o.APARout[0],
-            'h':o.h[0],
-            'hh2':o.hh2[0],
-            'hC2':o.hC2[0],
-            'hB2':o.hB2[0],
-            'hBH2':o.hBH2[0],
-            'r':o.r[0],
-            'rB2':o.rB2[0],
-            'rC2':o.rC2[0],
-            'rBH':o.rBH[0],
-            'sw2':o.sw2[0],
-            'vts2':o.vts2[0],
-            'vt2':o.vt2[0],
-            'vth2':o.vth2[0],
-            'sa2':o.sa2[0],
-            'la2':o.la2[0],
-            'ra2':o.ra2[0],
-            'dr2':o.dr2[0],
-            'xa2':o.xa2[0],
-            'bl2':o.bl2[0],
-            'br2':o.br2[0],
-            'bt2':o.bt2[0],
-            'bts2':o.bts2[0],
-            'bth2':o.bth2[0],
-            'boh2':o.boh2[0],
-            'bos2':o.bos2[0],
-            'bo2':o.bo2[0],
-            'bs2':o.bs2[0],
-            'cs2':o.cs2[0],
-            'clr2':o.clr2[0],
-            'fl2':o.fl2[0],
-            'fr2':o.fr2[0],
-            'ft2':o.ft2[0],
-            'fo2':o.fo2[0],
-            'rfl2':o.rfl2[0],
-            'rfr2':o.rfr2[0],
-            'rfs2':o.rfs2[0],
-            'egrow2':o.egrow2[0],
-            'ex2':o.ex2[0],
-            'rtrans2':o.rtrans2[0],
-            'light2':o.light2[0],
-            'nut2':o.nut2[0],
-            'deltas2':o.deltas2[0],
-            'LAI2':o.LAI2[0],
-            'status2':o.status2[0],
-            'errorind':o.errorind[0],
-            'growth_st':o.growth_st[0]
+        #
+        'APARout':o.APARout[1],
+        'h':o.h[1],
+        'hh2':o.hh2[1],
+        'hC2':o.hC2[1],
+        'hB2':o.hB2[1],
+        'hBH2':o.hBH2[1],
+        'r':o.r[1],
+        'rB2':o.rB2[1],
+        'rC2':o.rC2[1],
+        'rBH':o.rBH[1],
+        'sw2':o.sw2[1],
+        'vts2':o.vts2[1],
+        'vt2':o.vt2[1],
+        'vth2':o.vth2[1],
+        'sa2':o.sa2[1],
+        'la2':o.la2[1],
+        'ra2':o.ra2[1],
+        'dr2':o.dr2[1],
+        'xa2':o.xa2[1],
+        'bl2':o.bl2[1],
+        'br2':o.br2[1],
+        'bt2':o.bt2[1],
+        'bts2':o.bts2[1],
+        'bth2':o.bth2[1],
+        'boh2':o.boh2[1],
+        'bos2':o.bos2[1],
+        'bo2':o.bo2[1],
+        'bs2':o.bs2[1],
+        'cs2':o.cs2[1],
+        'clr2':o.clr2[1],
+        'fl2':o.fl2[1],
+        'fr2':o.fr2[1],
+        'ft2':o.ft2[1],
+        'fo2':o.fo2[1],
+        'rfl2':o.rfl2[1],
+        'rfr2':o.rfr2[1],
+        'rfs2':o.rfs2[1],
+        'egrow2':o.egrow2[1],
+        'ex2':o.ex2[1],
+        'rtrans2':o.rtrans2[1],
+        'light2':o.light2[1],
+        'nut2':o.nut2[1],
+        'deltas2':o.deltas2[1],
+        'LAI2':o.LAI2[1],
+        'status2':o.status2[1],
+        'errorind':o.errorind[1],
+        'growth_st':o.growth_st[1]
     }
 
     # output = []
