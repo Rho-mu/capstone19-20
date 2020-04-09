@@ -113,7 +113,7 @@
         <button @click="setCrownShape('sphere')" class="sphereButton" id="sphereButton">SPHERE</button>
         <button @click="setCrownShape('cylinder')" class="cylinderButton" id="cylinderButton">CYLINDER</button>
       </div>
-      <input type="range" min="0" v-model="dataIndex" @input="drawTree()" id="timeStepSlider" class="timeStepSlider">
+      <input type="range" min="1" v-model="dataIndex" @input="drawTree()" id="timeStepSlider" class="timeStepSlider">
       <div class="treeCanvasport" id="treeCanvasport"></div>
       <div class="rawDataList" id="rawDataList">
         <br>
@@ -126,53 +126,53 @@
         <label>leafArea: {{ treeData[dataIndex].la2 }}           </label><br>
         <label>growthState: {{ treeData[dataIndex].growth_st }}  </label><br>-->
 
-        <label>APARout: {{ this.resultJson.APARout }}               </label><br>
-        <label>h: {{ this.resultJson.h }}               </label><br>
-        <label>hh2: {{ this.resultJson.hh2 }}               </label><br>
-        <label>hC2: {{ this.resultJson.hC2 }}               </label><br>
-        <label>hB2: {{ this.resultJson.hB2 }}               </label><br>
-        <label>hBH2: {{ this.resultJson.hBH2 }}               </label><br>
-        <label>r: {{ this.resultJson.r }}               </label><br>
-        <label>rB2: {{ this.resultJson.rB2 }}               </label><br>
-        <label>rC2: {{ this.resultJson.rC2 }}               </label><br>
-        <label>rBH: {{ this.resultJson.rBH }}               </label><br>
-        <label>sw2: {{ this.resultJson.sw2 }}               </label><br>
-        <label>vts2: {{ this.resultJson.vts2 }}               </label><br>
-        <label>vt2: {{ this.resultJson.vt2 }}               </label><br>
-        <label>vth2: {{ this.resultJson.vth2 }}               </label><br>
-        <label>sa2: {{ this.resultJson.sa2 }}               </label><br>
-        <label>la2: {{ this.resultJson.la2 }}               </label><br>
-        <label>ra2: {{ this.resultJson.ra2 }}               </label><br>
-        <label>dr2: {{ this.resultJson.dr2 }}               </label><br>
-        <label>xa2: {{ this.resultJson.xa2 }}               </label><br>
-        <label>bl2: {{ this.resultJson.bl2 }}               </label><br>
-        <label>br2: {{ this.resultJson.br2 }}               </label><br>
-        <label>bt2: {{ this.resultJson.bt2 }}               </label><br>
-        <label>bts2: {{ this.resultJson.bts2 }}               </label><br>
-        <label>bth2: {{ this.resultJson.bth2 }}               </label><br>
-        <label>boh2: {{ this.resultJson.boh2 }}               </label><br>
-        <label>bos2: {{ this.resultJson.bos2 }}               </label><br>
-        <label>bo2: {{ this.resultJson.bo2 }}               </label><br>
-        <label>bs2: {{ this.resultJson.bs2 }}               </label><br>
-        <label>cs2: {{ this.resultJson.cs2 }}               </label><br>
-        <label>clr2: {{ this.resultJson.clr2 }}               </label><br>
-        <label>fl2: {{ this.resultJson.fl2 }}               </label><br>
-        <label>fr2: {{ this.resultJson.fr2 }}               </label><br>
-        <label>ft2: {{ this.resultJson.ft2 }}               </label><br>
-        <label>fo2: {{ this.resultJson.fo2 }}               </label><br>
-        <label>rfl2: {{ this.resultJson.rfl2 }}               </label><br>
-        <label>rfr2: {{ this.resultJson.rfr2 }}               </label><br>
-        <label>rfs2: {{ this.resultJson.rfs2 }}               </label><br>
-        <label>egrow2: {{ this.resultJson.egrow2 }}               </label><br>
-        <label>ex2: {{ this.resultJson.ex2 }}               </label><br>
-        <label>rtrans2: {{ this.resultJson.rtrans2 }}               </label><br>
-        <label>light2: {{ this.resultJson.light2 }}               </label><br>
-        <label>nut2: {{ this.resultJson.nut2 }}               </label><br>
-        <label>deltas2: {{ this.resultJson.deltas2 }}               </label><br>
-        <label>LAI2: {{ this.resultJson.LAI2 }}               </label><br>
-        <label>status2: {{ this.resultJson.status2 }}               </label><br>
-        <label>errorind: {{ this.resultJson.errorind }}               </label><br>
-        <label>growth_st: {{ this.resultJson.growth_st }}               </label><br>
+        <label>APARout: {{ this.resultJson.APARout[dataIndex] }}               </label><br>
+        <label>h: {{ this.resultJson.h[dataIndex] }}               </label><br>
+        <label>hh2: {{ this.resultJson.hh2[dataIndex] }}               </label><br>
+        <label>hC2: {{ this.resultJson.hC2[dataIndex] }}               </label><br>
+        <label>hB2: {{ this.resultJson.hB2[dataIndex] }}               </label><br>
+        <label>hBH2: {{ this.resultJson.hBH2[dataIndex] }}               </label><br>
+        <label>r: {{ this.resultJson.r[dataIndex] }}               </label><br>
+        <label>rB2: {{ this.resultJson.rB2[dataIndex] }}               </label><br>
+        <label>rC2: {{ this.resultJson.rC2[dataIndex] }}               </label><br>
+        <label>rBH: {{ this.resultJson.rBH[dataIndex] }}               </label><br>
+        <label>sw2: {{ this.resultJson.sw2[dataIndex] }}               </label><br>
+        <label>vts2: {{ this.resultJson.vts2[dataIndex] }}               </label><br>
+        <label>vt2: {{ this.resultJson.vt2[dataIndex] }}               </label><br>
+        <label>vth2: {{ this.resultJson.vth2[dataIndex] }}               </label><br>
+        <label>sa2: {{ this.resultJson.sa2[dataIndex] }}               </label><br>
+        <label>la2: {{ this.resultJson.la2[dataIndex] }}               </label><br>
+        <label>ra2: {{ this.resultJson.ra2[dataIndex] }}               </label><br>
+        <label>dr2: {{ this.resultJson.dr2[dataIndex] }}               </label><br>
+        <label>xa2: {{ this.resultJson.xa2[dataIndex] }}               </label><br>
+        <label>bl2: {{ this.resultJson.bl2[dataIndex] }}               </label><br>
+        <label>br2: {{ this.resultJson.br2[dataIndex] }}               </label><br>
+        <label>bt2: {{ this.resultJson.bt2[dataIndex] }}               </label><br>
+        <label>bts2: {{ this.resultJson.bts2[dataIndex] }}               </label><br>
+        <label>bth2: {{ this.resultJson.bth2[dataIndex] }}               </label><br>
+        <label>boh2: {{ this.resultJson.boh2[dataIndex] }}               </label><br>
+        <label>bos2: {{ this.resultJson.bos2[dataIndex] }}               </label><br>
+        <label>bo2: {{ this.resultJson.bo2[dataIndex] }}               </label><br>
+        <label>bs2: {{ this.resultJson.bs2[dataIndex] }}               </label><br>
+        <label>cs2: {{ this.resultJson.cs2[dataIndex] }}               </label><br>
+        <label>clr2: {{ this.resultJson.clr2[dataIndex] }}               </label><br>
+        <label>fl2: {{ this.resultJson.fl2[dataIndex] }}               </label><br>
+        <label>fr2: {{ this.resultJson.fr2[dataIndex] }}               </label><br>
+        <label>ft2: {{ this.resultJson.ft2[dataIndex] }}               </label><br>
+        <label>fo2: {{ this.resultJson.fo2[dataIndex] }}               </label><br>
+        <label>rfl2: {{ this.resultJson.rfl2[dataIndex] }}               </label><br>
+        <label>rfr2: {{ this.resultJson.rfr2[dataIndex] }}               </label><br>
+        <label>rfs2: {{ this.resultJson.rfs2[dataIndex] }}               </label><br>
+        <label>egrow2: {{ this.resultJson.egrow2[dataIndex] }}               </label><br>
+        <label>ex2: {{ this.resultJson.ex2[dataIndex] }}               </label><br>
+        <label>rtrans2: {{ this.resultJson.rtrans2[dataIndex] }}               </label><br>
+        <label>light2: {{ this.resultJson.light2[dataIndex] }}               </label><br>
+        <label>nut2: {{ this.resultJson.nut2[dataIndex] }}               </label><br>
+        <label>deltas2: {{ this.resultJson.deltas2[dataIndex] }}               </label><br>
+        <label>LAI2: {{ this.resultJson.LAI2[dataIndex] }}               </label><br>
+        <label>status2: {{ this.resultJson.status2[dataIndex] }}               </label><br>
+        <label>errorind: {{ this.resultJson.errorind[dataIndex] }}               </label><br>
+        <!--<label>growth_st: {{ this.resultJson.growth_st[dataIndex] }}               </label><br>-->
       </div>
     </div>
 
@@ -182,7 +182,7 @@
 <script>
 import axios from 'axios'
 import * as THREE from 'three'
-import json from '../json/treeData.json'
+//import json from '../json/treeData.json'
 
 export default {
   name: 'inputs-vis',
@@ -271,12 +271,12 @@ export default {
             "LAI2":[0],
             "status2":[0],
             "errorind":[0],
-            "growth_st":[0]
+            //"growth_st":[0]
         },
 
-        dataIndex: "0",
-        maxTimeStep: "3",
-        treeData: json.trees,
+        dataIndex: "1",
+        maxTimeStep: "150",
+        //treeData: json.trees,
         crownShape: "cone",
         currentScene: this.treeScene,
         currentCam: this.treeCam,
@@ -317,11 +317,6 @@ methods: {
       return d
     },
 
-    tempfunc()
-    {
-
-    },
-
     postData() {
       console.log("posting")
       axios.post('https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user', {
@@ -352,15 +347,11 @@ methods: {
         console.log(this.runID)
         this.getJson = response.data
 
-
-
         if (this.getJson == undefined)
         {
           return;
         }
         var parsedobj = JSON.parse(JSON.stringify(this.resultJson))
-
-
 
         let newStr = this.getJson.replace(/=/g, "\":")
         let newStr2 = newStr.replace(/&/g, ",\"")
@@ -386,7 +377,7 @@ methods: {
         this.resultJson = Result
         // let newStr3 = "{\"" + newStr2 + "}"
         // this.resultJson = JSON.parse(newStr3)
-        console.log(this.resultJson)
+        console.log("ResultJson: \n", this.resultJson)
 
       },
           (error) => { console.log(error.request)}
@@ -590,7 +581,7 @@ methods: {
     }, // END: addBox()
 
     drawTree() {
-      var index = document.getElementById("timeStepSlider").value // Get index from the slider
+      //var index = document.getElementById("timeStepSlider").value // Get index from the slider
 
       while(this.treeScene.children.length > 0){                  // Clear scene of old tree
         this.treeScene.remove(this.treeScene.children[0])
@@ -600,6 +591,7 @@ methods: {
 
       this.addBox()
       this.addLight()
+
       /*
       // ACGCA output
       var h = this.treeData[index].h                  // Height of tree (total)
@@ -613,17 +605,15 @@ methods: {
       //console.log("h:",h,"\nhh:",hh,"\nr:",r,"\nrB:",rB,"\nrBH:",rBH,"\nrC:",rC,"\nla:",la,"\ngrowth_st:",growth_st)
       */
 
-
       // ACGCA output
-      var h = this.resultJson.h                  // Height of tree (total)
-      var hh = this.resultJson.hh2               // Height of transition from parabaloid to cone (also base of crown)
-      var r = this.resultJson.r                  // Radius
-      var rB = this.resultJson.rB2               // Radius at base of tree
-      var rBH = this.resultJson.rBH              // Radius at breast height (3.37m)
-      var rC  = this.resultJson.rC2              // Radius of crown base
-      var la = this.resultJson.la2               // Total one-sided leaf area
-      var growth_st = this.resultJson.growth_st  // State of tree (alive, dead, etc.)
-      console.log("h:",h,"\nhh:",hh,"\nr:",r,"\nrB:",rB,"\nrBH:",rBH,"\nrC:",rC,"\nla:",la,"\ngrowth_st:",growth_st)
+      var h = this.resultJson.h[this.dataIndex]                  // Height of tree (total)
+      var hh = this.resultJson.hh2[this.dataIndex]               // Height of transition from parabaloid to cone (also base of crown)
+      var r = this.resultJson.r[this.dataIndex]                  // Radius
+      var rB = this.resultJson.rB2[this.dataIndex]               // Radius at base of tree
+      var rBH = this.resultJson.rBH[this.dataIndex]              // Radius at breast height (3.37m)
+      var rC  = this.resultJson.rC2[this.dataIndex]              // Radius of crown base
+      var la = this.resultJson.la2[this.dataIndex]               // Total one-sided leaf area     
+      console.log("index:",this.dataIndex, "\nh:",h,"\nhh:",hh,"\nr:",r,"\nrB:",rB,"\nrBH:",rBH,"\nrC:",rC,"\nla:",la)
 
       // Supplemental parameters
       var geoSegments = 16
@@ -688,7 +678,7 @@ methods: {
       for( var i = 0; i <= this.maxTimeStep; i++ )
       {
         // ACGCA parameters
-        var r = this.treeData[i].r  // Radius
+        var r = this.resultJson.r[this.dataIndex]  // Radius
 
         var ringGeo = new THREE.CircleGeometry( r, geoSegments )
         var ringColor = new THREE.Color();
@@ -933,8 +923,8 @@ methods: {
   }, // END: Methods
 
   mounted() {
-    //this.initialize()
-    //this.animate()
+    this.initialize()
+    this.animate()
   } // END: mounted
 } // END: export default
 </script>
