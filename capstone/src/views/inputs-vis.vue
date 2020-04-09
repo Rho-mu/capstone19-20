@@ -20,7 +20,7 @@
     <div><br>
          {{this.errorMessage}}
     </div>
-    
+
     <div class="collapsible-menu">
       <input type="checkbox" id="menu">
       <label for="menu">Group 1</label>
@@ -224,10 +224,58 @@ export default {
         },
         runID: '',
         getJson: [],
-        resultJson: {},
+        resultJson: {
+            "APARout":[0],
+            "h":[0],
+            "hh2":[0],
+            "hC2":[0],
+            "hB2":[0],
+            "hBH2":[0],
+            "r":[0],
+            "rB2":[0],
+            "rC2":[0],
+            "rBH":[0],
+            "sw2":[0],
+            "vts2":[0],
+            "vt2":[0],
+            "vth2":[0],
+            "sa2":[0],
+            "la2":[0],
+            "ra2":[0],
+            "dr2":[0],
+            "xa2":[0],
+            "bl2":[0],
+            "br2":[0],
+            "bt2":[0],
+            "bts2":[0],
+            "bth2":[0],
+            "boh2":[0],
+            "bos2":[0],
+            "bo2":[0],
+            "bs2":[0],
+            "cs2":[0],
+            "clr2":[0],
+            "fl2":[0],
+            "fr2":[0],
+            "ft2":[0],
+            "fo2":[0],
+            "rfl2":[0],
+            "rfr2":[0],
+            "rfs2":[0],
+            "egrow2":[0],
+            "ex2":[0],
+            "rtrans2":[0],
+            "light2":[0],
+            "nut2":[0],
+            "deltas2":[0],
+            "LAI2":[0],
+            "status2":[0],
+            "errorind":[0],
+            "growth_st":[0]
+        },
 
         dataIndex: "0",
-        maxTimeStep: "10",
+        maxTimeStep: "3",
         treeData: json.trees,
         crownShape: "cone",
         currentScene: this.treeScene,
@@ -241,6 +289,7 @@ export default {
     }, // END: data()
 
 methods: {
+
     run() {
       // postData
       // done posting
@@ -272,7 +321,7 @@ methods: {
     {
 
     },
-    
+
     postData() {
       console.log("posting")
       axios.post('https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user', {
@@ -300,15 +349,45 @@ methods: {
       })
       .then((response) => {
 
-        //console.log(this.runID)
-        console.log(response.data)
-        //this.getJson = response.data
-        
-        //let newStr = this.getJson.replace(/=/g, "\":")
-        //let newStr2 = newStr.replace(/&/g, ",\"")
-        //let newStr3 = "{\"" + newStr2 + "}"
-        //this.resultJson = JSON.parse(newStr3)
-        //console.log(this.resultJson)
+        console.log(this.runID)
+        this.getJson = response.data
+
+
+
+        if (this.getJson == undefined)
+        {
+          return;
+        }
+        var parsedobj = JSON.parse(JSON.stringify(this.resultJson))
+
+
+
+        let newStr = this.getJson.replace(/=/g, "\":")
+        let newStr2 = newStr.replace(/&/g, ",\"")
+        let newStr3 = newStr2.split(",")
+        let VarName = ""
+        let Values = []
+        let Result = {}
+        for(let iter = 0; iter < newStr3.length; iter++)
+        {
+          let item = newStr3[iter]
+          let index_array = item.split(":")
+          let varName = index_array[0].substring(1, index_array[0].length-1)
+          let value = parseFloat(index_array[1])
+          if (varName != VarName)
+          {
+            Result[VarName] = Values
+            Values = []
+            VarName = varName
+          }
+          Values.push(value)
+        }
+
+        this.resultJson = Result
+        // let newStr3 = "{\"" + newStr2 + "}"
+        // this.resultJson = JSON.parse(newStr3)
+        console.log(this.resultJson)
+
       },
           (error) => { console.log(error.request)}
       )
@@ -317,7 +396,7 @@ methods: {
 
     setDefault(defaultType) {
       // Sets default values in the input fields based on the button that user clicks
-      
+
       if(defaultType == "Red Maple") // Red Maple button
       {
         this.postBody.hmax=27.5;
@@ -534,6 +613,7 @@ methods: {
       //console.log("h:",h,"\nhh:",hh,"\nr:",r,"\nrB:",rB,"\nrBH:",rBH,"\nrC:",rC,"\nla:",la,"\ngrowth_st:",growth_st)
       */
 
+
       // ACGCA output
       var h = this.resultJson.h                  // Height of tree (total)
       var hh = this.resultJson.hh2               // Height of transition from parabaloid to cone (also base of crown)
@@ -544,7 +624,7 @@ methods: {
       var la = this.resultJson.la2               // Total one-sided leaf area
       var growth_st = this.resultJson.growth_st  // State of tree (alive, dead, etc.)
       console.log("h:",h,"\nhh:",hh,"\nr:",r,"\nrB:",rB,"\nrBH:",rBH,"\nrC:",rC,"\nla:",la,"\ngrowth_st:",growth_st)
-      
+
       // Supplemental parameters
       var geoSegments = 16
       var trunkPos = hh/2 - 2.8
@@ -745,7 +825,7 @@ methods: {
       var temporaryIsDisable=false
 
       this.errorMessage=""
-  
+
       //start checking null
       temporaryIsDisable=temporaryIsDisable || (this.postBody.hmax==="");
       temporaryIsDisable=temporaryIsDisable || (this.postBody.phip==="");
@@ -786,7 +866,7 @@ methods: {
         this.isDisable=temporaryIsDisable;
         return 0
       }
-    
+
       //start check the lower limit for all of the inputs
       temporaryIsDisable=temporaryIsDisable || (this.postBody.hmax < 0);
       temporaryIsDisable=temporaryIsDisable || (this.postBody.phip < 0);
@@ -827,7 +907,7 @@ methods: {
         this.isDisable=temporaryIsDisable;
         return 0
       }
-    
+
       //start checking for the higher limits(if any)
       temporaryIsDisable=temporaryIsDisable || (this.postBody.eta > 1) ;
       temporaryIsDisable=temporaryIsDisable || (this.postBody.gammax > 1) ;
@@ -840,11 +920,11 @@ methods: {
         this.isDisable=temporaryIsDisable;
         return 0
       }
-    
-    
+
+
       this.isDisable=temporaryIsDisable;
     }, // END: checkValidity()
-      
+
     isDisabled() {
       this.checkValidity();
       return this.isDisable;

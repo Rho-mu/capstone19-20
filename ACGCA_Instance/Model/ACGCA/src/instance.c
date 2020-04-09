@@ -64,17 +64,6 @@ void run_model(double *input, double *gp2, double *output,
     int* growth_st
   )
 {
-  // this is test stuff
-
-
-
-    printf("HELLO FROM THE INSTANCE.C CODE");
-    // struct Output *str_ptr = &output;
-    // modelInputs == p2
-
-    //double *gp2; //do we need to create a struct for this
-
-    //double *gp2 = {0.00625, 10, 0.00001,1.37};
 
     double I = 2060.0;
     // this is a questionable variable
@@ -227,11 +216,5 @@ void run_model(double *input, double *gp2, double *output,
       //odemandout,
       //odrout
   	);
-
-
-
-
-
-
 
 }

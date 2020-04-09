@@ -208,44 +208,6 @@ def run_alg(input):
         p.R0= (ctypes.c_double)(float(input['r0']))#(1.909)
         p.R40= (ctypes.c_double)(float(input['r40']))#(5.592)
 
-
-        # TESTS
-        print("THESE ARE THE INPUTS FOR THE WRAPPER")
-        print "hmax", p.hmax
-        print "phih ",  p.phih
-        print "eta ", p.eta
-        print "ETAB ", p.etaB
-        print "swmax ", p.swmax
-        print "lamdas ", p.lamdas
-        print "lamdah ", p.lamdah
-        print "rhomax ", p.rhomax
-        print "rhomin ", p.rhomax
-        print "f2 ", p.f2
-        print "f1 ", p.f1
-        print "gammac ", p.gammac
-        print "gammaw ", p.gammaw
-        print "gammax ", p.gammax
-        print "cgl ", p.cgl
-        print "cgr ", p.cgr
-        print "cgw ", p.cgw
-        print "deltal ", p.deltal
-        print "deltar ", p.deltar
-        print "sl ", p.sl
-        print "sla ", p.sla
-        print "rr ", p.rr
-        print "rhor ", p.rhor
-        print "rml ", p.rml
-        print "rms ", p.rms
-        print "rmr ", p.rmr
-        print "drcrit ", p.drcrit
-        print "drinit ", p.drinit
-        print "k ", p.K
-        print "epsg ", p.epsg
-        print "m ", p.M
-        print "alpha ", p.alpha
-        print "r0 ", p.R0
-        print "R40 ", p.R40
-
     except:
         pass
 
@@ -313,111 +275,108 @@ def run_alg(input):
         o.nut2,o.deltas2,o.LAI2,o.status2,o.errorind,o.growth_st)
 
 
-    output = {
-        #
-        'APARout':o.APARout[1],
-        'h':o.h[1],
-        'hh2':o.hh2[1],
-        'hC2':o.hC2[1],
-        'hB2':o.hB2[1],
-        'hBH2':o.hBH2[1],
-        'r':o.r[1],
-        'rB2':o.rB2[1],
-        'rC2':o.rC2[1],
-        'rBH':o.rBH[1],
-        'sw2':o.sw2[1],
-        'vts2':o.vts2[1],
-        'vt2':o.vt2[1],
-        'vth2':o.vth2[1],
-        'sa2':o.sa2[1],
-        'la2':o.la2[1],
-        'ra2':o.ra2[1],
-        'dr2':o.dr2[1],
-        'xa2':o.xa2[1],
-        'bl2':o.bl2[1],
-        'br2':o.br2[1],
-        'bt2':o.bt2[1],
-        'bts2':o.bts2[1],
-        'bth2':o.bth2[1],
-        'boh2':o.boh2[1],
-        'bos2':o.bos2[1],
-        'bo2':o.bo2[1],
-        'bs2':o.bs2[1],
-        'cs2':o.cs2[1],
-        'clr2':o.clr2[1],
-        'fl2':o.fl2[1],
-        'fr2':o.fr2[1],
-        'ft2':o.ft2[1],
-        'fo2':o.fo2[1],
-        'rfl2':o.rfl2[1],
-        'rfr2':o.rfr2[1],
-        'rfs2':o.rfs2[1],
-        'egrow2':o.egrow2[1],
-        'ex2':o.ex2[1],
-        'rtrans2':o.rtrans2[1],
-        'light2':o.light2[1],
-        'nut2':o.nut2[1],
-        'deltas2':o.deltas2[1],
-        'LAI2':o.LAI2[1],
-        'status2':o.status2[1],
-        'errorind':o.errorind[1],
-        'growth_st':o.growth_st[1]
-    }
-
-    # output = []
-
-    # for i in range(2):
-    #     output.append({
-    #             'APARout':o.APARout[i],
-    #             'h':o.h[i],
-    #             'hh2':o.hh2[i],
-    #             'hC2':o.hC2[i],
-    #             'hB2':o.hB2[i],
-    #             'hBH2':o.hBH2[i],
-    #             'r':o.r[i],
-    #             'rB2':o.rB2[i],
-    #             'rC2':o.rC2[i],
-    #             'rBH':o.rBH[i],
-    #             'sw2':o.sw2[i],
-    #             'vts2':o.vts2[i],
-    #             'vt2':o.vt2[i],
-    #             'vth2':o.vth2[i],
-    #             'sa2':o.sa2[i],
-    #             'la2':o.la2[i],
-    #             'ra2':o.ra2[i],
-    #             'dr2':o.dr2[i],
-    #             'xa2':o.xa2[i],
-    #             'bl2':o.bl2[i],
-    #             'br2':o.br2[i],
-    #             'bt2':o.bt2[i],
-    #             'bts2':o.bts2[i],
-    #             'bth2':o.bth2[i],
-    #             'boh2':o.boh2[i],
-    #             'bos2':o.bos2[i],
-    #             'bo2':o.bo2[i],
-    #             'bs2':o.bs2[i],
-    #             'cs2':o.cs2[i],
-    #             'clr2':o.clr2[i],
-    #             'fl2':o.fl2[i],
-    #             'fr2':o.fr2[i],
-    #             'ft2':o.ft2[i],
-    #             'fo2':o.fo2[i],
-    #             'rfl2':o.rfl2[i],
-    #             'rfr2':o.rfr2[i],
-    #             'rfs2':o.rfs2[i],
-    #             'egrow2':o.egrow2[i],
-    #             'ex2':o.ex2[i],
-    #             'rtrans2':o.rtrans2[i],
-    #             'light2':o.light2[i],
-    #             'nut2':o.nut2[i],
-    #             'deltas2':o.deltas2[i],
-    #             'LAI2':o.LAI2[i],
-    #             'status2':o.status2[i],
-    #             'errorind':o.errorind[i],
-    #             'growth_st':o.growth_st[i]
-    #     })
-    
-    return output
+    output = []
+    for i in range(2):
+        output.append({
+            'APARout':o.APARout[i],
+            'h':o.h[i],
+            'hh2':o.hh2[i],
+            'hC2':o.hC2[i],
+            'hB2':o.hB2[i],
+            'hBH2':o.hBH2[i],
+            'r':o.r[i],
+            'rB2':o.rB2[i],
+            'rC2':o.rC2[i],
+            'rBH':o.rBH[i],
+            'sw2':o.sw2[i],
+            'vts2':o.vts2[i],
+            'vt2':o.vt2[i],
+            'vth2':o.vth2[i],
+            'sa2':o.sa2[i],
+            'la2':o.la2[i],
+            'ra2':o.ra2[i],
+            'dr2':o.dr2[i],
+            'xa2':o.xa2[i],
+            'bl2':o.bl2[i],
+            'br2':o.br2[i],
+            'bt2':o.bt2[i],
+            'bts2':o.bts2[i],
+            'bth2':o.bth2[i],
+            'boh2':o.boh2[i],
+            'bos2':o.bos2[i],
+            'bo2':o.bo2[i],
+            'bs2':o.bs2[i],
+            'cs2':o.cs2[i],
+            'clr2':o.clr2[i],
+            'fl2':o.fl2[i],
+            'fr2':o.fr2[i],
+            'ft2':o.ft2[i],
+            'fo2':o.fo2[i],
+            'rfl2':o.rfl2[i],
+            'rfr2':o.rfr2[i],
+            'rfs2':o.rfs2[i],
+            'egrow2':o.egrow2[i],
+            'ex2':o.ex2[i],
+            'rtrans2':o.rtrans2[i],
+            'light2':o.light2[i],
+            'nut2':o.nut2[i],
+            'deltas2':o.deltas2[i],
+            'LAI2':o.LAI2[i],
+            'status2':o.status2[i],
+            'errorind':o.errorind[i],
+            'growth_st':o.growth_st[i]
+        })
+        output2 = {
+            'APARout':o.APARout,
+            'h':o.h,
+            'hh2':o.hh2,
+            'hC2':o.hC2,
+            'hB2':o.hB2,
+            'hBH2':o.hBH2,
+            'r':o.r,
+            'rB2':o.rB2,
+            'rC2':o.rC2,
+            'rBH':o.rBH,
+            'sw2':o.sw2,
+            'vts2':o.vts2,
+            'vt2':o.vt2,
+            'vth2':o.vth2,
+            'sa2':o.sa2,
+            'la2':o.la2,
+            'ra2':o.ra2,
+            'dr2':o.dr2,
+            'xa2':o.xa2,
+            'bl2':o.bl2,
+            'br2':o.br2,
+            'bt2':o.bt2,
+            'bts2':o.bts2,
+            'bth2':o.bth2,
+            'boh2':o.boh2,
+            'bos2':o.bos2,
+            'bo2':o.bo2,
+            'bs2':o.bs2,
+            'cs2':o.cs2,
+            'clr2':o.clr2,
+            'fl2':o.fl2,
+            'fr2':o.fr2,
+            'ft2':o.ft2,
+            'fo2':o.fo2,
+            'rfl2':o.rfl2,
+            'rfr2':o.rfr2,
+            'rfs2':o.rfs2,
+            'egrow2':o.egrow2,
+            'ex2':o.ex2,
+            'rtrans2':o.rtrans2,
+            'light2':o.light2,
+            'nut2':o.nut2,
+            'deltas2':o.deltas2,
+            'LAI2':o.LAI2,
+            'status2':o.status2,
+            'errorind':o.errorind,
+            'growth_st':o.growth_st
+        }
+        new_output = {'output':output[0]}
+    return output2
 
 
 if __name__ == "__main__":

@@ -262,7 +262,6 @@ void growthloop(sparms *p, gparms *gp, double *Io2, double *r0, int *t,
 
 		// mkf 3/16/2018 f_abs = fmin(1,fmax(0,(1-exp(-p->K*LAI.tot))));
 		f_abs = fminmacro(1,fmaxmacro(0,(1-exp(-p->K*LAI.tot))));
-		printf("THIS IS LAI.TOT %F \n", LAI.tot);
 
 		// update light value
 			// TODO: fix this
@@ -276,7 +275,6 @@ void growthloop(sparms *p, gparms *gp, double *Io2, double *r0, int *t,
 			//APARout[i] = APAR[1]; Moved to bottom
 		}else{
 			st.light = Io[i]*f_abs*(st.la/LAI.tot); //Io[i]
-			printf("STLIGHT = %f \n", st.light);
 		}
 		// mkf 3/16/2018 st.light = Io[i]*f_abs*(st.la/LAI.tot); // 138b in appendix for Scn. A
 
@@ -491,13 +489,6 @@ void growthloop(sparms *p, gparms *gp, double *Io2, double *r0, int *t,
 		//printf("index number in loop: %d \n", (i+(*lenvars * *iout)+ *iout));
 		//} // end of skip if
   } //end the for loop
-
-	printf("OUTPUT FROM GROWTHLOOP \n");
-	for(int i = 0; i < 100; i++)
-	{
-		printf("%f \n", h[i]);
-		printf("%i \n", growth_st[i]);
-	}
 
 	//printf("This is lenvars * iout %d \nlenvars %d \niout %d\n\n", *lenvars * *iout, *lenvars, *iout);
 
