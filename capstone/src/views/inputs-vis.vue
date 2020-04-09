@@ -227,7 +227,7 @@ export default {
         resultJson: {},
 
         dataIndex: "0",
-        maxTimeStep: "3",
+        maxTimeStep: "10",
         treeData: json.trees,
         crownShape: "cone",
         currentScene: this.treeScene,
@@ -241,7 +241,6 @@ export default {
     }, // END: data()
 
 methods: {
-
     run() {
       // postData
       // done posting
@@ -301,14 +300,15 @@ methods: {
       })
       .then((response) => {
 
-        console.log(this.runID)
-        this.getJson = response.data
-
-        let newStr = this.getJson.replace(/=/g, "\":")
-        let newStr2 = newStr.replace(/&/g, ",\"")
-        let newStr3 = "{\"" + newStr2 + "}"
-        this.resultJson = JSON.parse(newStr3)
-        console.log(this.resultJson)
+        //console.log(this.runID)
+        console.log(response.data)
+        //this.getJson = response.data
+        
+        //let newStr = this.getJson.replace(/=/g, "\":")
+        //let newStr2 = newStr.replace(/&/g, ",\"")
+        //let newStr3 = "{\"" + newStr2 + "}"
+        //this.resultJson = JSON.parse(newStr3)
+        //console.log(this.resultJson)
       },
           (error) => { console.log(error.request)}
       )
@@ -533,7 +533,6 @@ methods: {
       var growth_st = this.treeData[index].growth_st  // State of tree (alive, dead, etc.)
       //console.log("h:",h,"\nhh:",hh,"\nr:",r,"\nrB:",rB,"\nrBH:",rBH,"\nrC:",rC,"\nla:",la,"\ngrowth_st:",growth_st)
       */
-
 
       // ACGCA output
       var h = this.resultJson.h                  // Height of tree (total)
