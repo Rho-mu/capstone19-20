@@ -494,6 +494,10 @@ void growthloop(sparms *p, gparms *gp, double *Io2, double *r0, int *t,
 
   //*t=(i-1);  // return iteration
 
+	for(int iter = 0; iter < 80; iter++)
+	{
+		printf("This is r %f \n", r[iter]);
+	}
 	// printf("%lf \n", APARout[0]);
   // Make sure the final status is recorded
   status2[i]=st.status; // Added my MKF on 4/3/18
