@@ -97,12 +97,13 @@
     <button @click="getData()" name="button">GetData</button>
     </div>
     <div class="outputDisplayContainer">
-      <button @click="run()">RUN</Button><br>
+      <!--<button @click="run()">RUN</Button><br> Hidden for demo-->
       <button @click="setDefault('Red Maple')">Red Maple</button>
-      <button @click="setDefault('Loblolly Pine')">Loblolly Pine</button><br>
-      <button @click="loadTextures()">Load Textures</Button>
-      <button @click="initialize()">Init</Button>
-      <button @click="animate()">Animate</Button>
+      <button @click="setDefault('Loblolly Pine')">Loblolly</button>
+      <br>
+      <!--<button @click="loadTextures()">Load Textures</Button> Hidden for demo-->
+      <!--<button @click="initialize()">Init</Button> Hidden for demo-->
+      <!--<button @click="animate()">Animate</Button> Hidden for demo-->
       <div class="setSceneContainer">
         <button @click="setScene('ringScene')" class="ringSceneButton" id="ringSceneButton">RINGS</button>
         <button @click="setScene('treeScene')" class="treeSceneButton" id="treeSceneButton">TREE</button>
@@ -110,69 +111,63 @@
       </div>
       <div class="crownShapeContainer">
         <button @click="setCrownShape('cone')" class="coneButton" id="coneButton">CONE</button>
-        <button @click="setCrownShape('sphere')" class="sphereButton" id="sphereButton">SPHERE</button>
         <button @click="setCrownShape('cylinder')" class="cylinderButton" id="cylinderButton">CYLINDER</button>
+        <!--<button @click="setCrownShape('sphere')" class="sphereButton" id="sphereButton">SPHERE</button> Hidden for demo-->
+        
       </div>
       <input type="range" min="1" v-model="dataIndex" @input="drawTree()" id="timeStepSlider" class="timeStepSlider">
       <div class="treeCanvasport" id="treeCanvasport"></div>
       <div class="rawDataList" id="rawDataList">
         <br>
-        <!--<label>height: {{ treeData[dataIndex].h }}           </label><br>
-        <label>heightToCrown: {{ treeData[dataIndex].hh2 }}      </label><br>
-        <label>radius: {{ treeData[dataIndex].r }}               </label><br>
-        <label>radiusBase: {{ treeData[dataIndex].rB2 }}         </label><br>
-        <label>radiusBreast: {{ treeData[dataIndex].rBH }}       </label><br>
-        <label>radiusCrownBase: {{ treeData[dataIndex].rC2 }}    </label><br>
-        <label>leafArea: {{ treeData[dataIndex].la2 }}           </label><br>
-        <label>growthState: {{ treeData[dataIndex].growth_st }}  </label><br>-->
-
-        <label>APARout: {{ this.resultJson.APARout[dataIndex] }}               </label><br>
-        <label>h: {{ this.resultJson.h[dataIndex] }}               </label><br>
-        <label>hh2: {{ this.resultJson.hh2[dataIndex] }}               </label><br>
-        <label>hC2: {{ this.resultJson.hC2[dataIndex] }}               </label><br>
-        <label>hB2: {{ this.resultJson.hB2[dataIndex] }}               </label><br>
-        <label>hBH2: {{ this.resultJson.hBH2[dataIndex] }}               </label><br>
-        <label>r: {{ this.resultJson.r[dataIndex] }}               </label><br>
-        <label>rB2: {{ this.resultJson.rB2[dataIndex] }}               </label><br>
-        <label>rC2: {{ this.resultJson.rC2[dataIndex] }}               </label><br>
-        <label>rBH: {{ this.resultJson.rBH[dataIndex] }}               </label><br>
-        <label>sw2: {{ this.resultJson.sw2[dataIndex] }}               </label><br>
-        <label>vts2: {{ this.resultJson.vts2[dataIndex] }}               </label><br>
-        <label>vt2: {{ this.resultJson.vt2[dataIndex] }}               </label><br>
-        <label>vth2: {{ this.resultJson.vth2[dataIndex] }}               </label><br>
-        <label>sa2: {{ this.resultJson.sa2[dataIndex] }}               </label><br>
-        <label>la2: {{ this.resultJson.la2[dataIndex] }}               </label><br>
-        <label>ra2: {{ this.resultJson.ra2[dataIndex] }}               </label><br>
-        <label>dr2: {{ this.resultJson.dr2[dataIndex] }}               </label><br>
-        <label>xa2: {{ this.resultJson.xa2[dataIndex] }}               </label><br>
-        <label>bl2: {{ this.resultJson.bl2[dataIndex] }}               </label><br>
-        <label>br2: {{ this.resultJson.br2[dataIndex] }}               </label><br>
-        <label>bt2: {{ this.resultJson.bt2[dataIndex] }}               </label><br>
-        <label>bts2: {{ this.resultJson.bts2[dataIndex] }}               </label><br>
-        <label>bth2: {{ this.resultJson.bth2[dataIndex] }}               </label><br>
-        <label>boh2: {{ this.resultJson.boh2[dataIndex] }}               </label><br>
-        <label>bos2: {{ this.resultJson.bos2[dataIndex] }}               </label><br>
-        <label>bo2: {{ this.resultJson.bo2[dataIndex] }}               </label><br>
-        <label>bs2: {{ this.resultJson.bs2[dataIndex] }}               </label><br>
-        <label>cs2: {{ this.resultJson.cs2[dataIndex] }}               </label><br>
-        <label>clr2: {{ this.resultJson.clr2[dataIndex] }}               </label><br>
-        <label>fl2: {{ this.resultJson.fl2[dataIndex] }}               </label><br>
-        <label>fr2: {{ this.resultJson.fr2[dataIndex] }}               </label><br>
-        <label>ft2: {{ this.resultJson.ft2[dataIndex] }}               </label><br>
-        <label>fo2: {{ this.resultJson.fo2[dataIndex] }}               </label><br>
-        <label>rfl2: {{ this.resultJson.rfl2[dataIndex] }}               </label><br>
-        <label>rfr2: {{ this.resultJson.rfr2[dataIndex] }}               </label><br>
-        <label>rfs2: {{ this.resultJson.rfs2[dataIndex] }}               </label><br>
-        <label>egrow2: {{ this.resultJson.egrow2[dataIndex] }}               </label><br>
-        <label>ex2: {{ this.resultJson.ex2[dataIndex] }}               </label><br>
-        <label>rtrans2: {{ this.resultJson.rtrans2[dataIndex] }}               </label><br>
-        <label>light2: {{ this.resultJson.light2[dataIndex] }}               </label><br>
-        <label>nut2: {{ this.resultJson.nut2[dataIndex] }}               </label><br>
-        <label>deltas2: {{ this.resultJson.deltas2[dataIndex] }}               </label><br>
-        <label>LAI2: {{ this.resultJson.LAI2[dataIndex] }}               </label><br>
-        <label>status2: {{ this.resultJson.status2[dataIndex] }}               </label><br>
-        <label>errorind: {{ this.resultJson.errorind[dataIndex] }}               </label><br>
-        <!--<label>growth_st: {{ this.resultJson.growth_st[dataIndex] }}               </label><br>-->
+        <!--<button @click="downloadRawData()" class="dlRawDataButton" id="dlRawDataButton">Download to CSV</button><br>-->
+        <label>Year: {{ this.dataIndex/16 }}               </label><br>
+        <label>APARout: {{ this.resultJson.APARout[this.dataIndex] }}               </label><br>
+        <label>h: {{ this.resultJson.h[this.dataIndex] }}               </label><br>
+        <label>hh2: {{ this.resultJson.hh2[this.dataIndex] }}               </label><br>
+        <label>hC2: {{ this.resultJson.hC2[this.dataIndex] }}               </label><br>
+        <label>hB2: {{ this.resultJson.hB2[this.dataIndex] }}               </label><br>
+        <label>hBH2: {{ this.resultJson.hBH2[this.dataIndex] }}               </label><br>
+        <label>r: {{ this.resultJson.r[this.dataIndex] }}               </label><br>
+        <label>rB2: {{ this.resultJson.rB2[this.dataIndex] }}               </label><br>
+        <label>rC2: {{ this.resultJson.rC2[this.dataIndex] }}               </label><br>
+        <label>rBH: {{ this.resultJson.rBH[this.dataIndex] }}               </label><br>
+        <label>sw2: {{ this.resultJson.sw2[this.dataIndex] }}               </label><br>
+        <label>vts2: {{ this.resultJson.vts2[this.dataIndex] }}               </label><br>
+        <label>vt2: {{ this.resultJson.vt2[this.dataIndex] }}               </label><br>
+        <label>vth2: {{ this.resultJson.vth2[this.dataIndex] }}               </label><br>
+        <label>sa2: {{ this.resultJson.sa2[this.dataIndex] }}               </label><br>
+        <label>la2: {{ this.resultJson.la2[this.dataIndex] }}               </label><br>
+        <label>ra2: {{ this.resultJson.ra2[this.dataIndex] }}               </label><br>
+        <label>dr2: {{ this.resultJson.dr2[this.dataIndex] }}               </label><br>
+        <label>xa2: {{ this.resultJson.xa2[this.dataIndex] }}               </label><br>
+        <label>bl2: {{ this.resultJson.bl2[this.dataIndex] }}               </label><br>
+        <label>br2: {{ this.resultJson.br2[this.dataIndex] }}               </label><br>
+        <label>bt2: {{ this.resultJson.bt2[this.dataIndex] }}               </label><br>
+        <label>bts2: {{ this.resultJson.bts2[this.dataIndex] }}               </label><br>
+        <label>bth2: {{ this.resultJson.bth2[this.dataIndex] }}               </label><br>
+        <label>boh2: {{ this.resultJson.boh2[this.dataIndex] }}               </label><br>
+        <label>bos2: {{ this.resultJson.bos2[this.dataIndex] }}               </label><br>
+        <label>bo2: {{ this.resultJson.bo2[this.dataIndex] }}               </label><br>
+        <label>bs2: {{ this.resultJson.bs2[this.dataIndex] }}               </label><br>
+        <!--<label>cs2: {{ this.resultJson.cs2[this.dataIndex] }}               </label><br>-->
+        <label>clr2: {{ this.resultJson.clr2[this.dataIndex] }}               </label><br>
+        <label>fl2: {{ this.resultJson.fl2[this.dataIndex] }}               </label><br>
+        <label>fr2: {{ this.resultJson.fr2[this.dataIndex] }}               </label><br>
+        <label>ft2: {{ this.resultJson.ft2[this.dataIndex] }}               </label><br>
+        <label>fo2: {{ this.resultJson.fo2[this.dataIndex] }}               </label><br>
+        <label>rfl2: {{ this.resultJson.rfl2[this.dataIndex] }}               </label><br>
+        <label>rfr2: {{ this.resultJson.rfr2[this.dataIndex] }}               </label><br>
+        <label>rfs2: {{ this.resultJson.rfs2[this.dataIndex] }}               </label><br>
+        <label>egrow2: {{ this.resultJson.egrow2[this.dataIndex] }}               </label><br>
+        <label>ex2: {{ this.resultJson.ex2[this.dataIndex] }}               </label><br>
+        <label>rtrans2: {{ this.resultJson.rtrans2[this.dataIndex] }}               </label><br>
+        <label>light2: {{ this.resultJson.light2[this.dataIndex] }}               </label><br>
+        <label>nut2: {{ this.resultJson.nut2[this.dataIndex] }}               </label><br>
+        <label>deltas2: {{ this.resultJson.deltas2[this.dataIndex] }}               </label><br>
+        <label>LAI2: {{ this.resultJson.LAI2[this.dataIndex] }}               </label><br>
+        <label>status2: {{ this.resultJson.status2[this.dataIndex] }}               </label><br>
+        <label>errorind: {{ this.resultJson.errorind[this.dataIndex] }}               </label><br>
+        <!--<label>growth_st: {{ this.resultJson.growth_st[this.dataIndex] }}               </label><br>-->
       </div>
     </div>
 
@@ -182,7 +177,7 @@
 <script>
 import axios from 'axios'
 import * as THREE from 'three'
-//import json from '../json/treeData.json'
+import json from '../json/treeData.json'
 
 export default {
   name: 'inputs-vis',
@@ -225,58 +220,58 @@ export default {
         runID: '',
         getJson: [],
         resultJson: {
-            "APARout":[0],
-            "h":[0],
-            "hh2":[0],
-            "hC2":[0],
-            "hB2":[0],
-            "hBH2":[0],
-            "r":[0],
-            "rB2":[0],
-            "rC2":[0],
-            "rBH":[0],
-            "sw2":[0],
-            "vts2":[0],
-            "vt2":[0],
-            "vth2":[0],
-            "sa2":[0],
-            "la2":[0],
-            "ra2":[0],
-            "dr2":[0],
-            "xa2":[0],
-            "bl2":[0],
-            "br2":[0],
-            "bt2":[0],
-            "bts2":[0],
-            "bth2":[0],
-            "boh2":[0],
-            "bos2":[0],
-            "bo2":[0],
-            "bs2":[0],
-            "cs2":[0],
-            "clr2":[0],
-            "fl2":[0],
-            "fr2":[0],
-            "ft2":[0],
-            "fo2":[0],
-            "rfl2":[0],
-            "rfr2":[0],
-            "rfs2":[0],
-            "egrow2":[0],
-            "ex2":[0],
-            "rtrans2":[0],
-            "light2":[0],
-            "nut2":[0],
-            "deltas2":[0],
-            "LAI2":[0],
-            "status2":[0],
-            "errorind":[0],
-            //"growth_st":[0]
+            "APARout":'',
+            "h":'',
+            "hh2":'',
+            "hC2":'',
+            "hB2":'',
+            "hBH2":'',
+            "r":'',
+            "rB2":'',
+            "rC2":'',
+            "rBH":'',
+            "sw2":'',
+            "vts2":'',
+            "vt2":'',
+            "vth2":'',
+            "sa2":'',
+            "la2":'',
+            "ra2":'',
+            "dr2":'',
+            "xa2":'',
+            "bl2":'',
+            "br2":'',
+            "bt2":'',
+            "bts2":'',
+            "bth2":'',
+            "boh2":'',
+            "bos2":'',
+            "bo2":'',
+            "bs2":'',
+            "cs2":'',
+            "clr2":'',
+            "fl2":'',
+            "fr2":'',
+            "ft2":'',
+            "fo2":'',
+            "rfl2":'',
+            "rfr2":'',
+            "rfs2":'',
+            "egrow2":'',
+            "ex2":'',
+            "rtrans2":'',
+            "light2":'',
+            "nut2":'',
+            "deltas2":'',
+            "LAI2":'',
+            "status2":'',
+            "errorind":'',
+            //"growth_st":''
         },
 
         dataIndex: "1",
         maxTimeStep: "150",
-        //treeData: json.trees,
+        treeData: json.trees,
         crownShape: "cone",
         currentScene: this.treeScene,
         currentCam: this.treeCam,
@@ -569,14 +564,15 @@ methods: {
 
     addBox() {
       //var myTexture = new THREE.TextureLoader().load( '../json/bark.png' )
+      var r = this.resultJson.r[this.dataIndex]      // Radius of trunk at base
+      r = r * 7 // Temporary use to negate weird data
 
       var myMaterial = new THREE.MeshLambertMaterial( { map: this.barkTexture } )
       //var myMaterial = new THREE.MeshLambertMaterial( { color: 0xFFFF00 } )
 
       var boxGeometry = new THREE.BoxGeometry( 1, 1, 1 );
       var box = new THREE.Mesh( boxGeometry, myMaterial )
-      box.position.x = 5
-      box.position.y = -2.5
+      box.position.x = r + 2
       this.treeScene.add( box )
     }, // END: addBox()
 
@@ -592,37 +588,69 @@ methods: {
       this.addBox()
       this.addLight()
 
-      /*
-      // ACGCA output
-      var h = this.treeData[index].h                  // Height of tree (total)
-      var hh = this.treeData[index].hh2               // Height of transition from parabaloid to cone (also base of crown)
-      var r = this.treeData[index].r                  // Radius
-      var rB = this.treeData[index].rB2               // Radius at base of tree
-      var rBH = this.treeData[index].rBH              // Radius at breast height (3.37m)
-      var rC  = this.treeData[index].rC2              // Radius of crown base
-      var la = this.treeData[index].la2               // Total one-sided leaf area
-      var growth_st = this.treeData[index].growth_st  // State of tree (alive, dead, etc.)
-      //console.log("h:",h,"\nhh:",hh,"\nr:",r,"\nrB:",rB,"\nrBH:",rBH,"\nrC:",rC,"\nla:",la,"\ngrowth_st:",growth_st)
-      */
+      /// Trunk variables
+      var h = this.resultJson.h[this.dataIndex]      // Total tree height
+      var hB = this.resultJson.hB2[this.dataIndex]  // Height that trunk transitions from neiloid to paraboloid (base to trunk)
+      hB = hB / 0.5e-314 // Temporary use to negate weird data
+      var hC = this.resultJson.hC2[this.dataIndex]   // Height that trunk transitions from paraboloid to cone (trunk to crown)
+      hC = hC / 0.5e-314 // Temporary use to negate weird data
+      var r = this.resultJson.r[this.dataIndex]      // Radius of trunk at base
+      r = r * 7 // Temporary use to negate weird data
+      var rB = this.resultJson.rB2[this.dataIndex]   // Radius of trunk when transitioning from neilooid to paraboloid (base to trunk)
+      var rC = this.resultJson.rC2[this.dataIndex]   // Radius of trunk when transitioning from parapoloid to cone (trunk to crown)
+      rC = rC * 7 // Temporary use to negate weird data
 
-      // ACGCA output
-      var h = this.resultJson.h[this.dataIndex]                  // Height of tree (total)
-      var hh = this.resultJson.hh2[this.dataIndex]               // Height of transition from parabaloid to cone (also base of crown)
-      var r = this.resultJson.r[this.dataIndex]                  // Radius
-      var rB = this.resultJson.rB2[this.dataIndex]               // Radius at base of tree
-      var rBH = this.resultJson.rBH[this.dataIndex]              // Radius at breast height (3.37m)
-      var rC  = this.resultJson.rC2[this.dataIndex]              // Radius of crown base
-      var la = this.resultJson.la2[this.dataIndex]               // Total one-sided leaf area     
-      console.log("index:",this.dataIndex, "\nh:",h,"\nhh:",hh,"\nr:",r,"\nrB:",rB,"\nrBH:",rBH,"\nrC:",rC,"\nla:",la)
+      /// Crown variables (overlaid on "cone" part of trunk)
+      var hmax = this.postBody.hmax                 // Input.
+      var phih = this.postBody.phih                 // Input.
+      var eta = this.postBody.eta                   // Input.
+      var m = this.postBody.m                       // Input.
+      var alpha = this.postBody.alpha               // Input.
+      var r0 = this.postBody.r0                     // Input.
+      var r40 = this.postBody.r40                   // Input.
+      var rBH = this.resultJson.rBH[this.dataIndex]   // Output. 
+      // var h = this.treeData[this.dataIndex].h    // Output. Delcared above
+      const BH = 1.37                               // Breast height. Contsant 1.37 meters
+
+      // if h > BH --> rcmax = r0 + ((r40 - r0) * (2 * rBH * 100) / 40)
+      // if h < BH --> rcmax = (r0 * r) / ((hmax / phih) * ln(hmax/(hmax - BH)))
+      var rcmax // Maximum potential radius at a crown ratio of m
+      if( h > BH )
+      {
+        rcmax = r0 + ((r40 - r0) * (2 * rBH * 100) / 40)
+      }
+      else if( h < BH )
+      {
+        rcmax = (r0 * r) / ((hmax / phih) * ln(hmax/(hmax - BH)))
+      }
+      
+      var eta = this.postBody.eta     // Input.
+      var alpha = this.postBody.alpha // Input. Curvature of the crown.
+
+      // if m > (1 - eta) --> rcbase = rcmax * ((1 - eta) / m)^alpha
+      // otherwise --> rcbase = 1 - eta
+      var rcbase // Radius at the base of the crown.
+      if( m > (1 - eta))
+      {
+        rcbase = rcmax * Math.pow(((1 - eta) / m), alpha)
+      }
+      else
+      {
+        rcbase = 1 - eta
+      }
+
+      console.log("index:",this.dataIndex,"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,
+      "\nrBH:",rBH,"\nrcmax:",rcmax,"\nrcbase:",rcbase)
+      
 
       // Supplemental parameters
-      var geoSegments = 16
-      var trunkPos = hh/2 - 2.8
-      var crownPos = h - (h - hh)/2 - 2.8
+      var geoSegments = 16                  // Segments of geometry
+      var trunkPos = hC/2             // Trunk position on the screen. Needs to be based on max height.
+      var crownPos = h - (h - hC)/2   // Crown position on the screen. Bottom of crown needs to be on the same x plan as top of trunk.
 
       ///// Trunk /////
       // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
-      var trunkGeo = new THREE.CylinderGeometry( r, rB, hh, geoSegments )
+      var trunkGeo = new THREE.CylinderGeometry( rC, r, hC, geoSegments )
       var trunkMat = new THREE.MeshLambertMaterial( {color: 0xb5651d} )
       this.trunk = new THREE.Mesh( trunkGeo, trunkMat )
       this.trunk.position.y = trunkPos
@@ -634,31 +662,22 @@ methods: {
       if( this.crownShape == "cone" )
       {
         // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
-        crownGeo = new THREE.ConeGeometry( rC, h-hh, geoSegments )
+        crownGeo = new THREE.ConeGeometry( rcbase, h-hC, geoSegments )
       }
       else if( this.crownShape == "sphere")
       {
         // SphereGeometry(radius : Float, widthSegments : Integer, heightSegments : Integer)
-        crownGeo = new THREE.SphereGeometry( rC, geoSegments*1.5, geoSegments*1.5 )
+        crownGeo = new THREE.SphereGeometry( rcbase, geoSegments*1.5, geoSegments*1.5 )
       }
       else if( this.crownShape == "cylinder" )
       {
         // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
-        crownGeo = new THREE.CylinderGeometry( rC, rC, h-hh, geoSegments );
-      }
-      else if( this.crownShape == "Lathe" )
-      {
-        // LatheGeometry(points : Array, segments : Integer, phiStart : Float, phiLength : Float)
-        var lathePoints = []
-        for ( var i = 0; i < 10; i ++ ) {
-           lathePoints.push( new THREE.Vector2( Math.sin( i * 0.2 ) * 10 + 5, ( i - 5 ) * 2 ) )
-        }
-        crownGeo = new THREE.LatheGeometry( lathePoints )
+        crownGeo = new THREE.CylinderGeometry( rcbase, rcbase, h-hC, geoSegments );
       }
       else // Default to cone shaped crown
       {
         // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
-        crownGeo = new THREE.ConeGeometry( rC, h-hh, geoSegments )
+        crownGeo = new THREE.ConeGeometry( rcbase, h-hC, geoSegments )
       }
       var crownMat = new THREE.MeshLambertMaterial( {color: 0x00FF00} )
       this.crown = new THREE.Mesh( crownGeo, crownMat )
@@ -666,6 +685,10 @@ methods: {
       this.crown.position.x = 0
       ///// Crown /////
 
+
+      this.currentCam.position.y = h / 2
+      this.currentCam.position.z = h
+      this.currentCam.lookAt(0, h/2, 0)
       // Add trunk and crown to scene
       this.newScene.add( this.crown )
       this.newScene.add( this.trunk )
@@ -675,21 +698,23 @@ methods: {
       var geoSegments = 16
 
       // CircleGeometry(radius : Float, segments : Integer, thetaStart : Float, thetaLength : Float)
-      for( var i = 0; i <= this.maxTimeStep; i++ )
+      for( var i = 1; i <= this.maxTimeStep; i+=16 )
       {
         // ACGCA parameters
-        var r = this.resultJson.r[this.dataIndex]  // Radius
+        var rB = this.resultJson.rB2[i]   // radius of trunk when transitioning from neilooid to paraboloid (base to trunk)
+        rB = rB * 20 // Temporary use to negate weird data
 
-        var ringGeo = new THREE.CircleGeometry( r, geoSegments )
+        var ringGeo = new THREE.CircleGeometry( rB, geoSegments )
         var ringColor = new THREE.Color();
-        ringColor.r = 0.3*i
-        ringColor.g = 0.2*i
-        ringColor.b = 0.1*i
+        ringColor.r = (255/this.maxTimeStep) * 0.3 * i
+        ringColor.g = (255/this.maxTimeStep) * 0.2 * i
+        ringColor.b = (255/this.maxTimeStep) * 0.1 * i
         var ringMat = new THREE.MeshBasicMaterial( {color: ringColor} )
         var ring = new THREE.Mesh( ringGeo, ringMat )
         ring.position.z = -0.1*i
         this.ringScene.add( ring )
       } // END: i for-loop
+      
     }, // END: drawRings()
 
     loadRawData() {
@@ -762,7 +787,7 @@ methods: {
         document.getElementById("rawDataList").style.display = "none"
 
         document.getElementById("coneButton").style.display = "inline-block"
-        document.getElementById("sphereButton").style.display = "inline-block"
+        //document.getElementById("sphereButton").style.display = "inline-block"
         document.getElementById("cylinderButton").style.display = "inline-block"
 
         this.currentScene = this.treeScene
@@ -774,7 +799,7 @@ methods: {
         document.getElementById("rawDataList").style.display = "none"
 
         document.getElementById("coneButton").style.display = "none"
-        document.getElementById("sphereButton").style.display = "none"
+        //document.getElementById("sphereButton").style.display = "none"
         document.getElementById("cylinderButton").style.display = "none"
 
         this.currentScene = this.ringScene
@@ -786,7 +811,7 @@ methods: {
         document.getElementById("rawDataList").style.display = "block"
 
         document.getElementById("coneButton").style.display = "none"
-        document.getElementById("sphereButton").style.display = "none"
+        //document.getElementById("sphereButton").style.display = "none"
         document.getElementById("cylinderButton").style.display = "none"
       }
     }, // END: setScene()
@@ -919,6 +944,12 @@ methods: {
       this.checkValidity();
       return this.isDisable;
     }, // END: isDisabled()
+
+    downloadRawData() {
+      // Downloads the raw data output from resultJson to a .csv file
+
+
+    }, // END: downloadRawData()
 
   }, // END: Methods
 
