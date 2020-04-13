@@ -1,29 +1,50 @@
 <template>
   <div>
-    <div class="inputField">
-      <div class="mention-text">
-      Mention:
-      <br>
-              <b>Every box</b> in this form <br>
-               needs to be filled with <br>
-              a <b>positive</b> number<br>
-              <br>
-              With the <b>* mark</b> on the <br>
-              right of the input box,<br>
-              it means that it needs <br>
-              to be not only larger <br>
-              than 0 but also <b>smaller</b><br>
-              <b>than 1</b><br>
-             <br>
-              0 and 1 are valid<br>
-      </div>
-    <div><br>
-         {{this.errorMessage}}
+
+    <div class="title-wrapper">
+      Presented By TreeViz
     </div>
+
+    <div class="divider">
+      </div>
+
+    <div class="inputField">
+
+      <div class="title-wrapper" id="input-title">
+      Control Pannel 
+      </div>
+
+      <span class="help-tip" id="mention">
+      <p> 
+      <span id="mention-text">Mention</span>
+      <br><br>
+               <b>Every box</b> in this form <br>
+                needs to be filled with <br>
+               a <b>positive</b> number<br>
+              <br>
+               With the <b>* mark</b> on the <br>
+               right of the input box,<br>
+               it means that it needs <br>
+               to be not only larger <br>
+               than 0 but also <b>smaller</b><br>
+               <b>than 1</b><br>
+             <br>
+               0 and 1 are valid<br>
+       </p>
+       </span>
+
+      <div class="divider">
+      </div>
+      <div class="divider">
+      </div>
+      <div class="divider">
+      </div>
+      <div class="divider">
+      </div>
 
     <div class="collapsible-menu">
       <input type="checkbox" id="menu">
-      <label for="menu">Group 1</label>
+      <label id="gourp1" for="menu">Group 1</label>
       <div class="menu-content">
         <ul>
           <input type="text" v-model="postBody.hmax" placeholder="hmax"><br>
@@ -37,13 +58,19 @@
         </ul>
       </div>
     </div>
+
+    <div class="divider">
+      </div>
+
     <div class="collapsible-menu">
       <input type="checkbox" id="menu-1">
       <label for="menu-1">Group 2</label>
-      <div class="menu-content-1">
+      <div class="menu-content">
         <ul>
-          <input type="text" v-model="postBody.gammac" placeholder="gammac" ><br>
-          <input type="text" v-model="postBody.gammaw" placeholder="gammaw" ><br>
+          <label for="gammac">Maximum labile carbon storage capacity of living sapwood cells<br>(g gluc m-3)</label>
+          <input id="gammac" type="text" v-model="postBody.gammac" placeholder="gammac" ><br>
+          <label for="gammaw">Inverse density of sapwood structural tissue<br>(m3g dw-1)</label>
+          <input id="gammaw" type="text" v-model="postBody.gammaw" placeholder="gammaw" ><br>
           <input type="text" v-model="postBody.gammax" placeholder="gammax" >*<br>
           <input type="text" v-model="postBody.cgl" placeholder="cgl" ><br>
           <input type="text" v-model="postBody.cgr" placeholder="cgr" ><br>
@@ -51,10 +78,14 @@
         </ul>
       </div>
     </div>
+
+    <div class="divider">
+      </div>
+
     <div class="collapsible-menu">
       <input type="checkbox" id="menu-2">
       <label for="menu-2">Group 3</label>
-      <div class="menu-content-2">
+      <div class="menu-content">
         <ul>
           <input type="text" v-model="postBody.deltal" placeholder="deltal" ><br>
           <input type="text" v-model="postBody.deltar" placeholder="deltar" ><br>
@@ -66,10 +97,14 @@
         </ul>
       </div>
     </div>
+
+    <div class="divider">
+      </div>
+
     <div class="collapsible-menu">
       <input type="checkbox" id="menu-3">
       <label for="menu-3">Group 4</label>
-      <div class="menu-content-3">
+      <div class="menu-content">
         <ul>
           <input type="text" v-model="postBody.rhor" placeholder="rhor" ><br>
           <input type="text" v-model="postBody.rml" placeholder="rml" ><br>
@@ -80,10 +115,14 @@
         </ul>
       </div>
     </div>
+
+    <div class="divider">
+      </div>
+
     <div class="collapsible-menu">
       <input type="checkbox" id="menu-4">
       <label for="menu-4">Group 5</label>
-      <div class="menu-content-4">
+      <div class="menu-content">
         <ul>
           <input type="text" v-model="postBody.epsg" placeholder="epsg" ><br>
           <input type="text" v-model="postBody.m" placeholder="m" >*<br>
@@ -93,10 +132,24 @@
         </ul>
       </div>
     </div>
+
+    <div class="divider">
+      </div>
+
+    <div id="error-message"><br>
+         {{this.errorMessage}}
+    </div>
+
+    <div class="divider">
+      </div>
+
     <button :disabled='isDisabled()' @click="postData()" name="button">PostData</button>
     <button @click="getData()" name="button">GetData</button>
     </div>
+
+
     <div class="outputDisplayContainer">
+
       <!--<button @click="run()">RUN</Button><br> Hidden for demo-->
       <button @click="setDefault('Red Maple')">Red Maple</button>
       <button @click="setDefault('Loblolly Pine')">Loblolly</button>
@@ -941,18 +994,83 @@ methods: {
 </script>
 
 <style lang="css" scoped>
-  .inputField {
-    position: absolute;
-    left: -50px;
+
+  /*title wrapper*/
+
+  .title-wrapper {
+    text-align: center;
+    display:inline-block;
+    font-size: 30px;
+    width:98%;
+    border-radius: 20px;
+    background-color: #4CAF50;
+    font-family: "Lucida Console", Monaco, monospace;
+    padding:5px;
+  }
+
+  #input-title {
+    font-size: 25px;
+    width:80%;
     float:left;
+    background-color: #b9b9b9;
+  }
+
+  #mention p {
+     width:200px;
+  }
+
+  #mention-text{
+    font-size: 20px;
+    font-weight: bold;
+    color:coral
+  }
+  
+  .divider {
+    height:10px;
+  }
+
+  .inputField {
+    display: inline-block;
+    padding: 20px 10px 20px 10px;
+    margin: 2px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    color:black;
+    font-family: "Lucida Console", Monaco, monospace;
+    width:17%;
+    background-color: #b9b9b9;
+  }
+
+    .inputField button {
+    display: inline-block;
+    width: 100px;
+    height: 50px;
+    padding: 5px 5px;
+    margin: 2px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    color: black;
+    font-family: "Lucida Console", Monaco, monospace;
+    background-color:green;
+  }
+
+  .inputField button:hover {
+    background-color: #EEE;
+  }
+
+  .inputField button:disabled {
+    background-color: red;
   }
 
   .outputDisplayContainer {
-    width: 80%;
+    width: 77%;
     height: 80%;
     margin: auto;
     padding: 2%;
-    float: left;
+    float: right;
     background-color: #b9b9b9;
     border-color: green;
     border-radius: 10px;
@@ -1018,8 +1136,9 @@ methods: {
   .menu-content {
     max-height: 0;
     overflow: hidden;
-    font-family: 'Oswald', sans-serif;
-    padding: 0 0 0 50px;
+    font-family: "Lucida Console", Monaco, monospace;
+    padding: 0 5px 5px 5px;
+    text-align: left;
   }
 
   /* Toggle Effect */
@@ -1030,9 +1149,10 @@ methods: {
 
   .collapsible-menu {
     background-color: rgb(255, 255, 255);
-    padding: 0px 30px;
+    padding: 0px 0px;
     border-bottom: 3px solid #CDE700;
     box-shadow: 1px 2px 3px rgba(0,0,0,0.2);
+    border-radius: 20px;
   }
 
   .collapsible-menu ul {
@@ -1045,72 +1165,31 @@ methods: {
       padding: 10px;
       text-decoration: none;
   }
-
+  
   .collapsible-menu label {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 56px;
-    display: block;
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 20px;
+    display: inline-block;
     cursor: pointer;
-    padding: 10px 0 10px 50px;
-  }input#menu {
+    padding: 10px 0px 5px 0px;
+
+  }
+
+    .menu-content label {
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 5px;
+    display: inline-block;
+    cursor: pointer;
+
+  }
+  
+  input#menu {
     display: none;
   }
 
-  .menu-content-1 {
-    max-height: 0;
-    overflow: hidden;
-    font-family: 'Oswald', sans-serif;
-    padding: 0 0 0 50px;
-  }
-
-  .menu-content-2 {
-    max-height: 0;
-    overflow: hidden;
-    font-family: 'Oswald', sans-serif;
-    padding: 0 0 0 50px;
-  }
-
-  .menu-content-3 {
-    max-height: 0;
-    overflow: hidden;
-    font-family: 'Oswald', sans-serif;
-    padding: 0 0 0 50px;
-  }
-
-  .menu-content-4 {
-    max-height: 0;
-    overflow: hidden;
-    font-family: 'Oswald', sans-serif;
-    padding: 0 0 0 50px;
-  }
 
 
   /* Toggle Effect */
-
-  input:checked ~ .menu-content-1 {
-    max-height: 100%;
-  }
-
-  input:checked ~ .menu-content-2 {
-    max-height: 100%;
-  }
-
-  input:checked ~ .menu-content-3 {
-    max-height: 100%;
-  }
-
-  input:checked ~ .menu-content-4 {
-    max-height: 100%;
-  }
-
-  .collapsible-menu label {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 30px;
-    display: inline-block;
-    cursor: pointer;
-    padding: 10px 0 10px 50px;
-
-  }
 
   input#menu-1 {
     display: none;
@@ -1130,7 +1209,83 @@ methods: {
 
   .buttons {
     float: left;
-  }
+  } 
+
+  /*help tip*/
+  .help-tip{
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  background-color: #BCDBEA;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 14px;
+  line-height: 26px;
+  cursor: default;
+}
+.help-tip:before{
+  content:'?';
+  font-weight: bold;
+  color:#fff;
+}
+.help-tip:hover p{
+  display: inline;
+  transform-origin: 100% 0%;
+
+  -webkit-animation: fadeIn 0.3s ease-in-out;
+  animation: fadeIn 0.3s ease-in-out;
+}
+.help-tip p{
+  display: none;
+  text-align: left;
+  background-color: #1E2021;
+  padding: 20px;
+  width: 300px;
+  position: absolute;
+  border-radius: 3px;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+  right: -4px;
+  color: #fff;
+  font-size: 13px;
+  line-height: 1.4;
+  border-radius: 25px;
+}
+.help-tip p:before{ /* The pointer of the tooltip */
+    position: relative;
+    content: '';
+    width:0;
+    height: 0;
+    border:6px solid transparent;
+    border-bottom-color:#1E2021;
+    right:10px;
+    top:-12px;
+}
+.help-tip p:after{ /* Prevents the tooltip from being hidden */
+    width:100%;
+    height:40px;
+    content:'';
+    position: relative;
+    top:-40px;
+    left:0;
+}
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity:0;
+        transform: scale(0.6);
+    }
+
+    100% {
+        opacity:100%;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeIn {
+    0% { opacity:0; }
+    100% { opacity:100%; }
+}
+
 
 
 
