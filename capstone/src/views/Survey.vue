@@ -133,7 +133,7 @@ input {
   background-color: #1E2021;
   padding: 20px;
   width: 300px;
-  postion: absolute;
+  position: absolute;
   border-radius: 3px;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
   right: -4px;
