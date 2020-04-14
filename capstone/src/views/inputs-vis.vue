@@ -44,17 +44,25 @@
 
     <div class="collapsible-menu">
       <input type="checkbox" id="menu">
-      <label id="gourp1" for="menu">Group 1</label>
+      <label id="gourp1" for="menu">Allometries and <br>biomass partitioning</label>
       <div class="menu-content">
         <ul>
-          <input type="text" v-model="postBody.hmax" placeholder="hmax"><br>
-          <input type="text" v-model="postBody.phih" placeholder="phih" ><br>
-          <input type="text" v-model="postBody.eta" placeholder="eta" >*<br>
-          <input type="text" v-model="postBody.swmax" placeholder="swmax" ><br>
-          <input type="text" v-model="postBody.lamda" placeholder="lamda"><br>
-          <input type="text" v-model="postBody.rhomax" placeholder="rhomax" ><br>
-          <input type="text" v-model="postBody.f2" placeholder="f2" ><br>
-          <input type="text" v-model="postBody.f1" placeholder="f1" ><br>
+          <input type="text" v-model="postBody.hmax" placeholder="hmax(m) < 127">
+          <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
+          <input type="text" v-model="postBody.phih" placeholder="phih > 0" >
+          <span class="help-tip"><p>Slope of height vs trunk radius (r) curve at r = 0 m</p></span><br><br>
+          <input type="text" v-model="postBody.eta" placeholder="eta (0, 1)" >
+          <span class="help-tip"><p>Relative height that trunk transitions from paraboloid to cone</p></span><br><br>
+          <input type="text" v-model="postBody.swmax" placeholder="swmax" >
+          <span class="help-tip"><p>Maximum sapwood width<br>(m)</p></span><br><br>
+          <input type="text" v-model="postBody.lamda" placeholder="lamda">
+          <span class="help-tip"><p>Proportionality between trunk and non-trunk biomass</p></span><br><br>
+          <input type="text" v-model="postBody.rhomax" placeholder="rhomax" >
+          <span class="help-tip"><p>Wood densityt<br>(g dw m-3)</p></span><br><br>
+          <input type="text" v-model="postBody.f2" placeholder="f2" >
+          <span class="help-tip"><p>Fine root area to leaf area ratio</p></span><br><br>
+          <input type="text" v-model="postBody.f1" placeholder="f1" >
+          <span class="help-tip"><p>Leaf area to xylem conducting area ratio</p></span><br><br>
         </ul>
       </div>
     </div>
@@ -64,18 +72,21 @@
 
     <div class="collapsible-menu">
       <input type="checkbox" id="menu-1">
-      <label for="menu-1">Group 2</label>
+      <label for="menu-1">Tree and organ<br> size traits</label>
       <div class="menu-content">
         <ul>
           <input id="gammac" type="text" v-model="postBody.gammac" placeholder="gammac" >
            <span class="help-tip"><p>Maximum labile carbon storage capacity of living sapwood cells<br>(g gluc m-3)</p></span><br><br>
           <input id="gammaw" type="text" v-model="postBody.gammaw" placeholder="gammaw" >
           <span class="help-tip"><p>Xylem conducting area to sapwood area ratio<br>(m3g dw-1)</p></span><br><br>
-          <input type="text" v-model="postBody.gammax" placeholder="gammax" >*
-          <span class="help-tip"><p>Inverse density of sapwood structural tissue<br>(m3g dw-1)</p></span><br><br>
-          <input type="text" v-model="postBody.cgl" placeholder="cgl" ><br>
-          <input type="text" v-model="postBody.cgr" placeholder="cgr" ><br>
-          <input type="text" v-model="postBody.cgw" placeholder="cgw" ><br>
+          <input type="text" v-model="postBody.gammax" placeholder="gammax" >
+          <span class="help-tip"><p>Inverse density of sapwood structural tissue</p></span><br><br>
+          <input type="text" v-model="postBody.cgl" placeholder="cgl" >
+          <span class="help-tip"><p>Construction costs of producing leaves<br>(g gluc g dw-1)</p></span><br><br>
+          <input type="text" v-model="postBody.cgr" placeholder="cgr" >
+          <span class="help-tip"><p>Construction costs of producing fine roots<br>(g gluc g dw-1)</p></span><br><br>
+          <input type="text" v-model="postBody.cgw" placeholder="cgw" >
+          <span class="help-tip"><p>Construction costs of producing sapwood<br>(g gluc g dw-1)</p></span><br><br>
         </ul>
       </div>
     </div>
@@ -85,16 +96,23 @@
 
     <div class="collapsible-menu">
       <input type="checkbox" id="menu-2">
-      <label for="menu-2">Group 3</label>
+      <label for="menu-2">Structural traits</label>
       <div class="menu-content">
         <ul>
-          <input type="text" v-model="postBody.deltal" placeholder="deltal" ><br>
-          <input type="text" v-model="postBody.deltar" placeholder="deltar" ><br>
-          <input type="text" v-model="postBody.sl" placeholder="sl" ><br>
-          <input type="text" v-model="postBody.sla" placeholder="sla" ><br>
-          <input type="text" v-model="postBody.so" placeholder="so" ><br>
-          <input type="text" v-model="postBody.sr" placeholder="sr" ><br>
-          <input type="text" v-model="postBody.rr" placeholder="rr" ><br>
+          <input type="text" v-model="postBody.deltal" placeholder="deltal" >
+           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
+          <input type="text" v-model="postBody.deltar" placeholder="deltar" >
+           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
+          <input type="text" v-model="postBody.sl" placeholder="sl" >
+           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
+          <input type="text" v-model="postBody.sla" placeholder="sla" >
+           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
+          <input type="text" v-model="postBody.so" placeholder="so" >
+           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
+          <input type="text" v-model="postBody.sr" placeholder="sr" >
+           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
+          <input type="text" v-model="postBody.rr" placeholder="rr" >
+           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
         </ul>
       </div>
     </div>
@@ -104,15 +122,21 @@
 
     <div class="collapsible-menu">
       <input type="checkbox" id="menu-3">
-      <label for="menu-3">Group 4</label>
+      <label for="menu-3">Physiological traits</label>
       <div class="menu-content">
         <ul>
-          <input type="text" v-model="postBody.rhor" placeholder="rhor" ><br>
-          <input type="text" v-model="postBody.rml" placeholder="rml" ><br>
-          <input type="text" v-model="postBody.rms" placeholder="rms" ><br>
-          <input type="text" v-model="postBody.rmr" placeholder="rmr" ><br>
-          <input type="text" v-model="postBody.etaB" placeholder="etaB" >*<br>
-          <input type="text" v-model="postBody.k" placeholder="k"><br>
+          <input type="text" v-model="postBody.rhor" placeholder="rhor" >
+           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
+          <input type="text" v-model="postBody.rml" placeholder="rml" >
+           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
+          <input type="text" v-model="postBody.rms" placeholder="rms" >
+           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
+          <input type="text" v-model="postBody.rmr" placeholder="rmr" >
+           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
+          <input type="text" v-model="postBody.etaB" placeholder="etaB" >
+           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
+          <input type="text" v-model="postBody.k" placeholder="k">
+           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
         </ul>
       </div>
     </div>
@@ -122,14 +146,19 @@
 
     <div class="collapsible-menu">
       <input type="checkbox" id="menu-4">
-      <label for="menu-4">Group 5</label>
+      <label for="menu-4">Turn-over and <br>senescence traits</label>
       <div class="menu-content">
         <ul>
-          <input type="text" v-model="postBody.epsg" placeholder="epsg" ><br>
-          <input type="text" v-model="postBody.m" placeholder="m" >*<br>
-          <input type="text" v-model="postBody.alpha" placeholder="alpha" ><br>
-          <input type="text" v-model="postBody.r0" placeholder="r0" ><br>
-          <input type="text" v-model="postBody.r40" placeholder="r40"><br>
+          <input type="text" v-model="postBody.epsg" placeholder="epsg" >
+           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
+          <input type="text" v-model="postBody.m" placeholder="m" >
+           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
+          <input type="text" v-model="postBody.alpha" placeholder="alpha" >
+           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
+          <input type="text" v-model="postBody.r0" placeholder="r0" >
+           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
+          <input type="text" v-model="postBody.r40" placeholder="r40">
+           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
         </ul>
       </div>
     </div>
