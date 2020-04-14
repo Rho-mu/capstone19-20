@@ -67,11 +67,12 @@
       <label for="menu-1">Group 2</label>
       <div class="menu-content">
         <ul>
-          <label for="gammac">Maximum labile carbon storage capacity of living sapwood cells<br>(g gluc m-3)</label>
-          <input id="gammac" type="text" v-model="postBody.gammac" placeholder="gammac" ><br>
-          <label for="gammaw">Inverse density of sapwood structural tissue<br>(m3g dw-1)</label>
-          <input id="gammaw" type="text" v-model="postBody.gammaw" placeholder="gammaw" ><br>
-          <input type="text" v-model="postBody.gammax" placeholder="gammax" >*<br>
+          <input id="gammac" type="text" v-model="postBody.gammac" placeholder="gammac" >
+           <span class="help-tip"><p>Maximum labile carbon storage capacity of living sapwood cells<br>(g gluc m-3)</p></span><br><br>
+          <input id="gammaw" type="text" v-model="postBody.gammaw" placeholder="gammaw" >
+          <span class="help-tip"><p>Xylem conducting area to sapwood area ratio<br>(m3g dw-1)</p></span><br><br>
+          <input type="text" v-model="postBody.gammax" placeholder="gammax" >*
+          <span class="help-tip"><p>Inverse density of sapwood structural tissue<br>(m3g dw-1)</p></span><br><br>
           <input type="text" v-model="postBody.cgl" placeholder="cgl" ><br>
           <input type="text" v-model="postBody.cgr" placeholder="cgr" ><br>
           <input type="text" v-model="postBody.cgw" placeholder="cgw" ><br>
@@ -1063,6 +1064,11 @@ methods: {
 
   .inputField button:disabled {
     background-color: red;
+    cursor: auto;
+  }
+
+  #error-message{
+    color: red;
   }
 
   .outputDisplayContainer {
@@ -1175,13 +1181,6 @@ methods: {
 
   }
 
-    .menu-content label {
-    font-family: "Lucida Console", Monaco, monospace;
-    font-size: 5px;
-    display: inline-block;
-    cursor: pointer;
-
-  }
   
   input#menu {
     display: none;
@@ -1241,7 +1240,7 @@ methods: {
   text-align: left;
   background-color: #1E2021;
   padding: 20px;
-  width: 300px;
+  width: 700%;
   position: absolute;
   border-radius: 3px;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
@@ -1261,7 +1260,9 @@ methods: {
     right:10px;
     top:-12px;
 }
-.help-tip p:after{ /* Prevents the tooltip from being hidden */
+
+
+.help-tip p:after{ /*Prevents the tooltip from being hidden */
     width:100%;
     height:40px;
     content:'';
@@ -1269,6 +1270,7 @@ methods: {
     top:-40px;
     left:0;
 }
+
 @-webkit-keyframes fadeIn {
     0% {
         opacity:0;
