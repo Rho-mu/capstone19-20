@@ -667,6 +667,18 @@ methods: {
     }, // END: draw()
 
     drawTree() {
+      // Find max height of tree over its life to scale the scene to.
+      var maxHeight = 0
+      for( var i = 1; i < this.postBody.t; i++ )
+      {
+        if( maxHeight < this.resultJson.h[i*this.timeStep] )
+        {
+          maxHeight = this.resultJson.h[i*this.timeStep] 
+        }
+        console.log("maxheight:",maxHeight)
+      }
+
+      // Clear scene of old drawings
       while(this.treeScene.children.length > 0){                  // Clear scene of old tree
         this.treeScene.remove(this.treeScene.children[0])
       }
@@ -676,7 +688,7 @@ methods: {
       this.addBox()
       this.addLight()
 
-      var year = this.dataIndex
+      var year = this.dataIndex * 16 - 1
 
       /// Trunk variables
       var h = this.resultJson.h[year]      // Total tree height
@@ -775,10 +787,10 @@ methods: {
       this.crown.position.x = 0
       ///// Crown /////
 
-
-      //this.currentCam.position.y = h / 2
-      //this.currentCam.position.z = h
-      //this.currentCam.lookAt(0, h/2, 0)
+      // Resize camera based on max tree height
+      this.currentCam.position.y = maxHeight / 2
+      this.currentCam.position.z = maxHeight
+      this.currentCam.lookAt(0, maxHeight/2, 0)
       // Add trunk and crown to scene
       this.newScene.add( this.crown )
       this.newScene.add( this.trunk )
@@ -787,44 +799,44 @@ methods: {
     drawRings() {
       var geoSegments = 16
 
-      // CircleGeometry(radius : Float, segments : Integer, thetaStart : Float, thetaLength : Float)
-      /*
-      for( var i = 1; i <= this.maxTimeStep; i+=16 )
-      {
-        // ACGCA parameters
-        var rB = this.resultJson.rB2[i]   // radius of trunk when transitioning from neilooid to paraboloid (base to trunk)
-        rB = rB * 20 // Temporary use to negate weird data
-
-        var ringGeo = new THREE.CircleGeometry( rB, geoSegments )
-        var ringColor = new THREE.Color();
-        ringColor.r = (255/this.maxTimeStep) * 0.3 * i
-        ringColor.g = (255/this.maxTimeStep) * 0.2 * i
-        ringColor.b = (255/this.maxTimeStep) * 0.1 * i
-        var ringMat = new THREE.MeshBasicMaterial( {color: ringColor} )
-        var ring = new THREE.Mesh( ringGeo, ringMat )
-        ring.position.z = -0.1*i
-        this.ringScene.add( ring )
-      } // END: i for-loop
-      */
-
+      // Clear scene of previous drawings
       while(this.ringScene.children.length > 0){                  // Clear scene of old tree
         this.ringScene.remove(this.ringScene.children[0])
       }
       this.newScene = new THREE.Scene()                           // Create new scene for new tree
       this.ringScene.add( this.newScene )                         // Add new scene to root scene
 
-      for( var year = 1; year <= this.dataIndex; year++ )
+      // Find max radius and scale scene to that size
+      var maxRadius = this.resultJson.r[this.postBody.t]
+      console.log("maxRadius:",maxRadius)
+      this.ringCam.position.z = maxRadius*2
+      this.ringCam.lookAt(0, 0, 0)
+
+      var heartwoodRadius = this.resultJson.r[this.dataIndex] - this.resultJson.sw2[this.dataIndex] // Gets the heart wood radius at the current year on the slider
+      console.log("sw:", this.resultJson.sw2[this.dataIndex], "\nr:", this.resultJson.r[this.dataIndex], "\nhw:", heartwoodRadius)
+
+      for( var i = 1; i <= this.dataIndex; i++ )
       {
         // RingGeometry(innerRadius : Float, outerRadius : Float, thetaSegments : Integer, phiSegments : Integer, thetaStart : Float, thetaLength : Float)
-        var ringGeo = new THREE.RingGeometry( this.resultJson.r[year-1], this.resultJson.r[year], 32 )
+        var ringGeo = new THREE.RingGeometry( this.resultJson.r[i-1], this.resultJson.r[i], 32 )
+
+        // color
         var ringColor = new THREE.Color()
-        if(year % 2 == 0)
+        if( this.resultJson.r[i] < heartwoodRadius ) // If the current ring is part of the heart wood..
         {
-          ringColor = 0xff0000
+          // Alternate between lighter colors
+          //if(i % 2 == 0) { ringColor = 0x0000ff }
+          //else { ringColor = 0x00ffff }
+          if(i % 2 == 0) { ringColor = 0x964b00 }
+          else { ringColor = 0x804c22 }
         }
-        else
+        else                                        // If the current ring is part of the sap wood..
         {
-          ringColor = 0x00ff00
+          // Alternate between darker colors
+          //if(i % 2 == 0) { ringColor = 0xff0000 }
+          //else { ringColor = 0xffff00 }
+          if(i % 2 == 0) { ringColor = 0x754c2d }
+          else { ringColor = 0x5b4b41 }
         }
         
         var ringMat = new THREE.MeshBasicMaterial( {color: ringColor} )
@@ -832,8 +844,6 @@ methods: {
         this.newScene.add( ring )
       }
 
-      this.ringCam.position.z = 1
-      this.ringCam.lookAt(0, 0, 0)
     }, // END: drawRings()
 
     loadRawData() {
