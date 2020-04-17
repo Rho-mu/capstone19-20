@@ -199,7 +199,7 @@
       <div class="rawDataList" id="rawDataList">
         <br>
         <!--<button @click="downloadRawData()" class="dlRawDataButton" id="dlRawDataButton">Download to CSV</button><br>-->
-        <label>Year: {{ this.dataIndex/16 }}               </label><br>
+        <label>Year: {{ this.postBody.t/16 }}               </label><br>
         <label>APARout: {{ this.resultJson.APARout[this.dataIndex] }}               </label><br>
         <label>h: {{ this.resultJson.h[this.dataIndex] }}               </label><br>
         <label>hh2: {{ this.resultJson.hh2[this.dataIndex] }}               </label><br>
@@ -245,7 +245,7 @@
         <label>deltas2: {{ this.resultJson.deltas2[this.dataIndex] }}               </label><br>
         <label>LAI2: {{ this.resultJson.LAI2[this.dataIndex] }}               </label><br>
         <label>status2: {{ this.resultJson.status2[this.dataIndex] }}               </label><br>
-        <label>errorind: {{ this.resultJson.errorind[this.dataIndex] }}               </label><br>
+        <!--<label>errorind: {{ this.resultJson.errorind[this.dataIndex] }}               </label><br>-->
         <!--<label>growth_st: {{ this.resultJson.growth_st[this.dataIndex] }}               </label><br>-->
       </div>
     </div>
@@ -443,8 +443,13 @@ methods: {
     }, // END: getData()
 
     setDefault(defaultType) {
-      // Sets default values in the input fields based on the button that user clicks
+     
+      // Set default time, light level, and initial radius
+      this.postBody.t=10
+      this.postBody.radius=0.05
+      this.postBody.io=2060
 
+      // Sets default values in the input fields based on the button that user clicks
       if(defaultType == "Red Maple") // Red Maple button
       {
         this.postBody.hmax=27.5;
@@ -760,6 +765,7 @@ methods: {
       var geoSegments = 16
 
       // CircleGeometry(radius : Float, segments : Integer, thetaStart : Float, thetaLength : Float)
+      /*
       for( var i = 1; i <= this.maxTimeStep; i+=16 )
       {
         // ACGCA parameters
@@ -776,6 +782,18 @@ methods: {
         ring.position.z = -0.1*i
         this.ringScene.add( ring )
       } // END: i for-loop
+      */
+
+      // RingGeometry(innerRadius : Float, outerRadius : Float, thetaSegments : Integer, phiSegments : Integer, thetaStart : Float, thetaLength : Float)
+      var geometrya = new THREE.RingGeometry( 1, 2, 32 )
+      var materiala = new THREE.MeshBasicMaterial( { color: 0xffff00} )
+      var ringa = new THREE.Mesh( geometrya, materiala )
+      this.ringScene.add( ringa )
+
+      var geometryb = new THREE.RingGeometry( 2, 5, 32 )
+      var materialb = new THREE.MeshBasicMaterial( { color: 0xff00ff} )
+      var ringb = new THREE.Mesh( geometryb, materialb )
+      this.ringScene.add( ringb )
 
     }, // END: drawRings()
 
