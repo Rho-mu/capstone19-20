@@ -36,10 +36,18 @@
       <label id="gourp1" for="menu">Allometries and <br>biomass partitioning</label>
       <div class="menu-content">
         <ul>
-
-
-          <input type="text" v-model="postBody.phih" placeholder="phih > 0" >
-          <span class="help-tip"><p>Slope of height vs trunk radius (r) curve at r = 0 m</p></span><br><br>
+          <label for="phip"> phip:</label><br>
+          <input id="phip" type="text" v-model="postBody.phih" placeholder="phih > 0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Slope of height vs trunk radius (r) curve at r = 0 m<br>
+              <span class="separator"></span>
+              Unit: none<br>
+              <span class="separator"></span>
+              Constraint: (0,&#8734)
+            </p></span><br><br>
           <input type="text" v-model="postBody.eta" placeholder="eta (0, 1)" >
           <span class="help-tip"><p>Relative height that trunk transitions from paraboloid to cone</p></span><br><br>
           <input type="text" v-model="postBody.lamda" placeholder="lamda">
@@ -1320,7 +1328,7 @@ methods: {
 .help-tip p{
   display:none;
   text-align: left;
-  background-color: #1E2021;
+  background-color: green;
   padding: 20px;
   width: 700%;
   position: absolute;
@@ -1369,6 +1377,15 @@ methods: {
 @keyframes fadeIn {
     0% { opacity:0; }
     100% { opacity:100%; }
+}
+
+span .separator {
+    border-top: 3px solid #333;
+    border-radius:1px;
+    width: 100%;
+    height: 3px;
+    display: block;
+    border-color: white;
 }
 
 
