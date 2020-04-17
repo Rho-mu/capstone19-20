@@ -65,14 +65,14 @@ void run_model(double *input, double *gp2, double *output,
   )
 {
 
-    double I = 2060.0;
+    double I = input[38];
     // this is a questionable variable
     double *Io = &I;
 
     // there are two r0's
-    double r1 = 0.05;
+    double r1 = input[37];
     double *r0 = &r1;
-    int t0 = 1; // NEED TO CHECK THIS VARIABLE
+    int t0 = input[36]; // NEED TO CHECK THIS VARIABLE
     int *t = &t0;
     // need to check the variables here
 

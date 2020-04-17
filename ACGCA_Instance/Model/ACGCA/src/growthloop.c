@@ -112,6 +112,7 @@ void growthloop(sparms *p, gparms *gp, double *Io2, double *r0, int *t,
 
 
 
+	
 	//, double la[],double LAI[], double egrow[], double ex[], int status[]
 	// state variables
 	tstates st;
@@ -139,7 +140,6 @@ void growthloop(sparms *p, gparms *gp, double *Io2, double *r0, int *t,
 	initialize(p,gp,&st,r0);
 	//printf(" Initialize complete=%d \n",i);
 
-	printf("This is the st states, %f", st.hh);
 	//Initialize the radius and height arrays to be returned (needed in the MCMC)
 	r[0]=r[1]=st.r;  //same as initial radius
 	h[0]=h[1]=st.h;
@@ -494,10 +494,7 @@ void growthloop(sparms *p, gparms *gp, double *Io2, double *r0, int *t,
 
   //*t=(i-1);  // return iteration
 
-	for(int iter = 0; iter < 80; iter++)
-	{
-		printf("This is r %f \n", r[iter]);
-	}
+
 	// printf("%lf \n", APARout[0]);
   // Make sure the final status is recorded
   status2[i]=st.status; // Added my MKF on 4/3/18
