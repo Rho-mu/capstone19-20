@@ -18,18 +18,7 @@
       <p> 
       <span id="mention-text">Mention</span>
       <br><br>
-               <b>Every box</b> in this form <br>
-                needs to be filled with <br>
-               a <b>positive</b> number<br>
-              <br>
-               With the <b>* mark</b> on the <br>
-               right of the input box,<br>
-               it means that it needs <br>
-               to be not only larger <br>
-               than 0 but also <b>smaller</b><br>
-               <b>than 1</b><br>
-             <br>
-               0 and 1 are valid<br>
+
        </p>
        </span>
 
@@ -47,12 +36,15 @@
       <label id="gourp1" for="menu">Allometries and <br>biomass partitioning</label>
       <div class="menu-content">
         <ul>
-          <input type="text" v-model="postBody.hmax" placeholder="hmax(m) < 127">
-          <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
-          <input type="text" v-model="postBody.phih" placeholder="phih > 0" >
-          <span class="help-tip"><p>Slope of height vs trunk radius (r) curve at r = 0 m</p></span><br><br>
-          <input type="text" v-model="postBody.eta" placeholder="eta (0, 1)" >
-          <span class="help-tip"><p>Relative height that trunk transitions from paraboloid to cone</p></span><br><br>
+          <label for="hmax">hmax:</label><br>
+          <input type="text" id="hmax" v-model="postBody.hmax" placeholder="hmax(m) < 127">
+          <span class="help-tip"><p>Maximum tree height<br><br> Unit: (m) <br>Constraint: (0,127)</p></span><br>
+          <label for="phih">phih:</label><br>
+          <input type="text" id="phih" v-model="postBody.phih" placeholder="phih > 0" >
+          <span class="help-tip"><p>Slope of height vs trunk radius (r) curve at r = 0 m<br><br>Unit: none <br>Constraint: (0,+&#8734) </p></span><br>
+          <label for="eta">eta:</label><br>
+          <input type="text" id="eta" v-model="postBody.eta" placeholder="0 < eta < 1" >
+          <span class="help-tip"><p>Relative height that trunk transitions from paraboloid to cone<br><br>Unit: none <br>Constraint: (0,1)</p></span><br><br>
           <input type="text" v-model="postBody.swmax" placeholder="swmax" >
           <span class="help-tip"><p>Maximum sapwood width<br>(m)</p></span><br><br>
           <input type="text" v-model="postBody.lamda" placeholder="lamda">
@@ -1210,6 +1202,10 @@ methods: {
 
   }
 
+  .menu-content label {
+    font-size:15px;
+  }
+
   
   input#menu {
     display: none;
@@ -1265,7 +1261,7 @@ methods: {
   animation: fadeIn 0.3s ease-in-out;
 }
 .help-tip p{
-  display: none;
+  display:none;
   text-align: left;
   background-color: #1E2021;
   padding: 20px;
@@ -1278,6 +1274,7 @@ methods: {
   font-size: 13px;
   line-height: 1.4;
   border-radius: 25px;
+   z-index:9999;  /*this z index makes the help tip on top of every other things*/
 }
 .help-tip p:before{ /* The pointer of the tooltip */
     position: relative;
