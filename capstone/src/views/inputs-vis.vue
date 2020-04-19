@@ -202,12 +202,12 @@
         <!--<button @click="setCrownShape('sphere')" class="sphereButton" id="sphereButton">SPHERE</button> Hidden for demo-->
 
       </div>
-      <input type="range" min="1" v-model="dataIndex" @input="drawTree()" id="timeStepSlider" class="timeStepSlider">
+      <input type="range" min="1" v-model="dataIndex" @input="draw()" id="timeStepSlider" class="timeStepSlider">
       <div class="treeCanvasport" id="treeCanvasport"></div>
       <div class="rawDataList" id="rawDataList">
         <br>
         <!--<button @click="downloadRawData()" class="dlRawDataButton" id="dlRawDataButton">Download to CSV</button><br>-->
-        <label>Year: {{ this.postBody.t/16 }}               </label><br>
+        <label>Year: {{ this.dataIndex }}               </label><br>
         <label>APARout: {{ this.resultJson.APARout[this.dataIndex] }}               </label><br>
         <label>h: {{ this.resultJson.h[this.dataIndex] }}               </label><br>
         <label>hh2: {{ this.resultJson.hh2[this.dataIndex] }}               </label><br>
@@ -360,7 +360,7 @@ export default {
         },
 
         dataIndex: "1",
-        maxTimeStep: "150",
+        timeStep: "16",
         treeData: json.trees,
         crownShape: "cone",
         currentScene: this.treeScene,
@@ -533,7 +533,7 @@ methods: {
 
     initialize() {
       // Change the slider to have as many steps as timeSteps from the ACGCA model.
-      document.getElementById("timeStepSlider").setAttribute("max", this.maxTimeStep)
+      document.getElementById("timeStepSlider").setAttribute("max", 10)
 
       /////////////// Tree Scene ///////////////
       this.treeCanvas = document.getElementById( "treeCanvasport" )
@@ -550,6 +550,7 @@ methods: {
       this.treeScene = new THREE.Scene()
       this.treeScene.background = new THREE.Color( 0xcfffff );
       // Create camera for tree scene
+      // PerspectiveCamera( fov : Number, aspect : Number, near : Number, far : Number )
       this.treeCam = new THREE.PerspectiveCamera( 90, canvasWidth / canvasHeight, 0.1, 1000 )
       this.treeCam.position.z = 7
       this.treeScene.add( this.treeCam )
@@ -560,6 +561,7 @@ methods: {
       this.ringScene = new THREE.Scene()
       this.ringScene.background = new THREE.Color( 0xdfffcf  );
       // Create camera for ring scene
+      // PerspectiveCamera( fov : Number, aspect : Number, near : Number, far : Number )
       this.ringCam = new THREE.PerspectiveCamera( 90, canvasWidth / canvasHeight, 0.1, 1000 )
       this.ringCam.position.z = 7
       this.ringScene.add( this.ringCam )
@@ -651,9 +653,32 @@ methods: {
       this.treeScene.add( box )
     }, // END: addBox()
 
-    drawTree() {
-      //var index = document.getElementById("timeStepSlider").value // Get index from the slider
+    draw(scene)
+    {
+      document.getElementById("timeStepSlider").setAttribute("max", this.postBody.t)
+      if(this.currentScene == this.treeScene)
+      {
+        this.drawTree()
+      }
+      else if(this.currentScene == this.ringScene)
+      {
+        this.drawRings()
+      }
+    }, // END: draw()
 
+    drawTree() {
+      // Find max height of tree over its life to scale the scene to.
+      var maxHeight = 0
+      for( var i = 1; i < this.postBody.t; i++ )
+      {
+        if( maxHeight < this.resultJson.h[i*this.timeStep] )
+        {
+          maxHeight = this.resultJson.h[i*this.timeStep] 
+        }
+        console.log("maxheight:",maxHeight)
+      }
+
+      // Clear scene of old drawings
       while(this.treeScene.children.length > 0){                  // Clear scene of old tree
         this.treeScene.remove(this.treeScene.children[0])
       }
@@ -663,16 +688,18 @@ methods: {
       this.addBox()
       this.addLight()
 
+      var year = this.dataIndex * 16 - 1
+
       /// Trunk variables
-      var h = this.resultJson.h[this.dataIndex]      // Total tree height
-      var hB = this.resultJson.hB2[this.dataIndex]  // Height that trunk transitions from neiloid to paraboloid (base to trunk)
+      var h = this.resultJson.h[year]      // Total tree height
+      var hB = this.resultJson.hB2[year]   // Height that trunk transitions from neiloid to paraboloid (base to trunk)
       hB = hB / 0.5e-314 // Temporary use to negate weird data
-      var hC = this.resultJson.hC2[this.dataIndex]   // Height that trunk transitions from paraboloid to cone (trunk to crown)
+      var hC = this.resultJson.hC2[year]   // Height that trunk transitions from paraboloid to cone (trunk to crown)
       hC = hC / 0.5e-314 // Temporary use to negate weird data
-      var r = this.resultJson.r[this.dataIndex]      // Radius of trunk at base
+      var r = this.resultJson.r[year]      // Radius of trunk at base
       r = r * 7 // Temporary use to negate weird data
-      var rB = this.resultJson.rB2[this.dataIndex]   // Radius of trunk when transitioning from neilooid to paraboloid (base to trunk)
-      var rC = this.resultJson.rC2[this.dataIndex]   // Radius of trunk when transitioning from parapoloid to cone (trunk to crown)
+      var rB = this.resultJson.rB2[year]   // Radius of trunk when transitioning from neilooid to paraboloid (base to trunk)
+      var rC = this.resultJson.rC2[year]   // Radius of trunk when transitioning from parapoloid to cone (trunk to crown)
       rC = rC * 7 // Temporary use to negate weird data
 
       /// Crown variables (overlaid on "cone" part of trunk)
@@ -683,8 +710,8 @@ methods: {
       var alpha = this.postBody.alpha               // Input.
       var r0 = this.postBody.r0                     // Input.
       var r40 = this.postBody.r40                   // Input.
-      var rBH = this.resultJson.rBH[this.dataIndex]   // Output.
-      // var h = this.treeData[this.dataIndex].h    // Output. Delcared above
+      var rBH = this.resultJson.rBH[year]           // Output.
+      // var h = this.treeData[year].h              // Output. Delcared above
       const BH = 1.37                               // Breast height. Contsant 1.37 meters
 
       // if h > BH --> rcmax = r0 + ((r40 - r0) * (2 * rBH * 100) / 40)
@@ -714,7 +741,7 @@ methods: {
         rcbase = 1 - eta
       }
 
-      console.log("index:",this.dataIndex,"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,
+      console.log("year:",year,"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,
       "\nrBH:",rBH,"\nrcmax:",rcmax,"\nrcbase:",rcbase)
 
 
@@ -760,10 +787,10 @@ methods: {
       this.crown.position.x = 0
       ///// Crown /////
 
-
-      this.currentCam.position.y = h / 2
-      this.currentCam.position.z = h
-      this.currentCam.lookAt(0, h/2, 0)
+      // Resize camera based on max tree height
+      this.currentCam.position.y = maxHeight / 2
+      this.currentCam.position.z = maxHeight
+      this.currentCam.lookAt(0, maxHeight/2, 0)
       // Add trunk and crown to scene
       this.newScene.add( this.crown )
       this.newScene.add( this.trunk )
@@ -772,36 +799,50 @@ methods: {
     drawRings() {
       var geoSegments = 16
 
-      // CircleGeometry(radius : Float, segments : Integer, thetaStart : Float, thetaLength : Float)
-      /*
-      for( var i = 1; i <= this.maxTimeStep; i+=16 )
-      {
-        // ACGCA parameters
-        var rB = this.resultJson.rB2[i]   // radius of trunk when transitioning from neilooid to paraboloid (base to trunk)
-        rB = rB * 20 // Temporary use to negate weird data
+      // Clear scene of previous drawings
+      while(this.ringScene.children.length > 0){                  // Clear scene of old tree
+        this.ringScene.remove(this.ringScene.children[0])
+      }
+      this.newScene = new THREE.Scene()                           // Create new scene for new tree
+      this.ringScene.add( this.newScene )                         // Add new scene to root scene
 
-        var ringGeo = new THREE.CircleGeometry( rB, geoSegments )
-        var ringColor = new THREE.Color();
-        ringColor.r = (255/this.maxTimeStep) * 0.3 * i
-        ringColor.g = (255/this.maxTimeStep) * 0.2 * i
-        ringColor.b = (255/this.maxTimeStep) * 0.1 * i
+      // Find max radius and scale scene to that size
+      var maxRadius = this.resultJson.r[this.postBody.t]
+      console.log("maxRadius:",maxRadius)
+      this.ringCam.position.z = maxRadius*2
+      this.ringCam.lookAt(0, 0, 0)
+
+      var heartwoodRadius = this.resultJson.r[this.dataIndex] - this.resultJson.sw2[this.dataIndex] // Gets the heart wood radius at the current year on the slider
+      console.log("sw:", this.resultJson.sw2[this.dataIndex], "\nr:", this.resultJson.r[this.dataIndex], "\nhw:", heartwoodRadius)
+
+      for( var i = 1; i <= this.dataIndex; i++ )
+      {
+        // RingGeometry(innerRadius : Float, outerRadius : Float, thetaSegments : Integer, phiSegments : Integer, thetaStart : Float, thetaLength : Float)
+        var ringGeo = new THREE.RingGeometry( this.resultJson.r[i-1], this.resultJson.r[i], 32 )
+
+        // color
+        var ringColor = new THREE.Color()
+        if( this.resultJson.r[i] < heartwoodRadius ) // If the current ring is part of the heart wood..
+        {
+          // Alternate between lighter colors
+          //if(i % 2 == 0) { ringColor = 0x0000ff }
+          //else { ringColor = 0x00ffff }
+          if(i % 2 == 0) { ringColor = 0x964b00 }
+          else { ringColor = 0x804c22 }
+        }
+        else                                        // If the current ring is part of the sap wood..
+        {
+          // Alternate between darker colors
+          //if(i % 2 == 0) { ringColor = 0xff0000 }
+          //else { ringColor = 0xffff00 }
+          if(i % 2 == 0) { ringColor = 0x754c2d }
+          else { ringColor = 0x5b4b41 }
+        }
+        
         var ringMat = new THREE.MeshBasicMaterial( {color: ringColor} )
         var ring = new THREE.Mesh( ringGeo, ringMat )
-        ring.position.z = -0.1*i
-        this.ringScene.add( ring )
-      } // END: i for-loop
-      */
-
-      // RingGeometry(innerRadius : Float, outerRadius : Float, thetaSegments : Integer, phiSegments : Integer, thetaStart : Float, thetaLength : Float)
-      var geometrya = new THREE.RingGeometry( 1, 2, 32 )
-      var materiala = new THREE.MeshBasicMaterial( { color: 0xffff00} )
-      var ringa = new THREE.Mesh( geometrya, materiala )
-      this.ringScene.add( ringa )
-
-      var geometryb = new THREE.RingGeometry( 2, 5, 32 )
-      var materialb = new THREE.MeshBasicMaterial( { color: 0xff00ff} )
-      var ringb = new THREE.Mesh( geometryb, materialb )
-      this.ringScene.add( ringb )
+        this.newScene.add( ring )
+      }
 
     }, // END: drawRings()
 
