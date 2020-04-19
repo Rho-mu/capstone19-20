@@ -42,7 +42,7 @@
             <p>
               &nbspInformation Box<br>
               <span class="separator"></span>
-              Slope of height vs trunk radius (r) curve at r = 0 m<br>
+              Name:&nbspSlope of height vs trunk radius (r) curve at r = 0 m<br>
               <span class="separator"></span>
               Unit: none<br>
               <span class="separator"></span>
