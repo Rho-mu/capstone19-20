@@ -172,7 +172,7 @@
             <p>
               &nbspInformation Box<br>
               <span class="separator"></span>
-              Name:&nbspMaximum potential crown radius of a tree with diameter at breast height of 0 cm (i.e., for a tree that is exactly 1.37 m tall)<br>
+              Name:&nbspMaximum potential crown radius of a tree with diameter at breast height of 40 cm<br>
               <span class="separator"></span>
               Unit: none<br>
               <span class="separator"></span>
@@ -191,12 +191,45 @@
       <label for="menu-1">Tree and organ<br> size traits</label>
       <div class="menu-content">
         <ul>
-          <input type="text" v-model="postBody.hmax" placeholder="hmax(m) < 127">
-          <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
-          <input type="text" v-model="postBody.swmax" placeholder="swmax" >
-          <span class="help-tip"><p>Maximum sapwood width<br>(m)</p></span><br><br>
-          <input type="text" v-model="postBody.rr" placeholder="rr" >
-           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
+          <label for="hmax"> Hmax:(m)</label><br>
+          <input id="hmax" type="text" v-model="postBody.hmax" placeholder="0 < Hmax < 127" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspMaximum tree height<br>
+              <span class="separator"></span>
+              Unit: m<br>
+              <span class="separator"></span>
+              Constraint: (R0,127)
+            </p></span><br>
+
+          <label for="swmax"> SWmax:(m)</label><br>
+          <input id="swmax" type="text" v-model="postBody.swmax" placeholder="SWmax > 0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspMaximum sapwood width<br>
+              <span class="separator"></span>
+              Unit: m<br>
+              <span class="separator"></span>
+              Constraint: (0,&#8734)
+            </p></span><br>
+
+          <label for="rr"> rr: (m)</label><br>
+          <input id="rr" type="text" v-model="postBody.rr" placeholder="rr> 0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspAverage fine root radius<br>
+              <span class="separator"></span>
+              Unit: m<br>
+              <span class="separator"></span>
+              Constraint: (0,&#8734)
+            </p></span><br>
+
         </ul>
       </div>
     </div>
