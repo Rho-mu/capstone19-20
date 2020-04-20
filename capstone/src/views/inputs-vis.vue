@@ -47,27 +47,138 @@
               Unit: none<br>
               <span class="separator"></span>
               Constraint: (0,&#8734)
-            </p></span><br><br>
-          <input type="text" v-model="postBody.eta" placeholder="eta (0, 1)" >
-          <span class="help-tip"><p>Relative height that trunk transitions from paraboloid to cone</p></span><br><br>
-          <input type="text" v-model="postBody.lamda" placeholder="lamda">
-          <span class="help-tip"><p>Proportionality between trunk and non-trunk biomass</p></span><br><br>
-          <input type="text" v-model="postBody.f2" placeholder="f2" >
-          <span class="help-tip"><p>Fine root area to leaf area ratio</p></span><br><br>
-          <input type="text" v-model="postBody.f1" placeholder="f1" >
-          <span class="help-tip"><p>Leaf area to xylem conducting area ratio</p></span><br><br>
-          <input type="text" v-model="postBody.gammax" placeholder="gammax" >
-          <span class="help-tip"><p>Inverse density of sapwood structural tissue</p></span><br><br>
-          <input type="text" v-model="postBody.etaB" placeholder="etaB" >
-          <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
-          <input type="text" v-model="postBody.m" placeholder="m" >
-          <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
-          <input type="text" v-model="postBody.alpha" placeholder="alpha" >
-          <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
-          <input type="text" v-model="postBody.r0" placeholder="r0" >
-           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
-          <input type="text" v-model="postBody.r40" placeholder="r40">
-           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
+            </p></span><br>
+
+          <label for="eta"> eta:</label><br>
+          <input id="eta" type="text" v-model="postBody.eta" placeholder="0 < eta < 1" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspRelative height that trunk transitions from paraboloid to cone<br>
+              <span class="separator"></span>
+              Unit: none<br>
+              <span class="separator"></span>
+              Constraint: (0,1)
+            </p></span><br>
+
+          <label for="lamda"> lamda:</label><br>
+          <input id="lamda" type="text" v-model="postBody.lamda" placeholder="0 < lamda < 1" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspProportionality between trunk and non-trunk biomass<br>
+              <span class="separator"></span>
+              Unit: none<br>
+              <span class="separator"></span>
+              Constraint: (0,1)
+            </p></span><br>
+
+          <label for="f2"> f2 (RA:LA):</label><br>
+          <input id="f2" type="text" v-model="postBody.f2" placeholder="f2 (RA:LA) > 0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspFine root area to leaf area ratio<br>
+              <span class="separator"></span>
+              Unit: none<br>
+              <span class="separator"></span>
+              Constraint: (0,&#8734)
+            </p></span><br>
+
+          <label for="f1"> f1 (LA:XA):</label><br>
+          <input id="f1" type="text" v-model="postBody.f1" placeholder="f1 (LA:XA) > 0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspLeaf area to xylem conducting area ratio<br>
+              <span class="separator"></span>
+              Unit: none<br>
+              <span class="separator"></span>
+              Constraint: (0,&#8734)
+            </p></span><br>
+
+          <label for="gammax"> gammaX (XA:SA):</label><br>
+          <input id="gammax" type="text" v-model="postBody.gammax" placeholder="0 < gammaX (XA:SA) < 1" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspXylem conducting area to sapwood area ratio<br>
+              <span class="separator"></span>
+              Unit: none<br>
+              <span class="separator"></span>
+              Constraint: (0,1)
+            </p></span><br>
+
+          <label for="etaB"> etaB:</label><br>
+          <input id="etaB" type="text" v-model="postBody.etaB" placeholder="0 < etaB < eta" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspRelative height at which trunk transitions from a neiloid to a paraboloid<br>
+              <span class="separator"></span>
+              Unit: none<br>
+              <span class="separator"></span>
+              Constraint: (0,eta)
+            </p></span><br>
+
+          <label for="m"> M:</label><br>
+          <input id="m" type="text" v-model="postBody.m" placeholder="0 < m < 1" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspMaximum relative crown depth<br>
+              <span class="separator"></span>
+              Unit: none<br>
+              <span class="separator"></span>
+              Constraint: (0,1)
+            </p></span><br>
+
+          <label for="alpha"> alpha:</label><br>
+          <input id="alpha" type="text" v-model="postBody.alpha" placeholder="alpha > 0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspCrown curvature parameter<br>
+              <span class="separator"></span>
+              Unit: none<br>
+              <span class="separator"></span>
+              Constraint: (0,&#8734)
+            </p></span><br>
+
+          <label for="r0"> R0:</label><br>
+          <input id="r0" type="text" v-model="postBody.r0" placeholder="R0 > 0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspMaximum potential crown radius of a tree with diameter at breast height of 0 cm (i.e., for a tree that is exactly 1.37 m tall)<br>
+              <span class="separator"></span>
+              Unit: none<br>
+              <span class="separator"></span>
+              Constraint: (0,&#8734)
+            </p></span><br>
+
+          <label for="r40"> R40:</label><br>
+          <input id="r40" type="text" v-model="postBody.r40" placeholder="R40 > R0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspMaximum potential crown radius of a tree with diameter at breast height of 0 cm (i.e., for a tree that is exactly 1.37 m tall)<br>
+              <span class="separator"></span>
+              Unit: none<br>
+              <span class="separator"></span>
+              Constraint: (R0,&#8734)
+            </p></span><br>
+
         </ul>
       </div>
     </div>
