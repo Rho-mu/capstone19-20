@@ -155,10 +155,19 @@ void growthloop(sparms *p, gparms *gp, double *Io2, double *r0, int *t,
 	LAIcalc(&LAI, &LA, st.la, st.r, st.h, st.rBH, p, gp, -99, &st);  //0 is Hc=0
 
 	// Store the initial variable states at index 0 (index 1 in R)
+	
+	// Replaced these with Mike's new version
+	//hh2[0]=st.hh; //double
+	//hC2[0]=st.hC; //double
+	//hB2[0]=st.hB; //double
+	//hBH2[0]=st.hBH; //double
 	hh2[0]=st.hh; //double
-	hC2[0]=st.hC; //double
-	hB2[0]=st.hB; //double
-	hBH2[0]=st.hBH; //double
+    hC2[0]=st.hh; //double
+    //hB2[0]=st.hB; //double
+    hB2[0]=st.h * p->etaB;
+    //hBH2[0]=st.hBH; //double
+    hBH2[0]=gp->BH; //double
+
 	rB2[0]=st.rB; //double
 	rC2[0]=st.rC; //double
 	sw2[0]=st.sw; //double
@@ -429,11 +438,18 @@ void growthloop(sparms *p, gparms *gp, double *Io2, double *r0, int *t,
 		  errorind[i] = errorind[i] | 2;
 		}
 
+		// Replaced these with Mike's newer version
 		hh2[i]=st.hh; //double
+        hC2[i]=st.hh; //double
+		//hB2[i]=st.hB; //double
+        hB2[i]=st.h * p->etaB;
+        hBH2[i]=gp->BH; //double
+        //hBH2[i]=st.hBH; //double
+		//hh2[i]=st.hh; //double
+		//hC2[i]=st.hC; //double
+		//hB2[i]=st.hB; //double
+		//hBH2[i]=st.hBH; //double
 
-		hC2[i]=st.hC; //double
-		hB2[i]=st.hB; //double
-		hBH2[i]=st.hBH; //double
 		rB2[i]=st.rB; //double
 		rC2[i]=st.rC; //double
 		sw2[i]=st.sw; //double
