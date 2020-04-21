@@ -1307,7 +1307,7 @@ methods: {
       this.treeRenderer.render(this.currentScene, this.currentCam)
     }, // END: animate()
 
-    checkValidity(){
+    checkForNull(){
       var temporaryIsDisable=false
 
       this.errorMessage=""
@@ -1348,14 +1348,23 @@ methods: {
       temporaryIsDisable=temporaryIsDisable || (this.postBody.radius==="") ;
       temporaryIsDisable=temporaryIsDisable || (this.postBody.io==="") ;
       temporaryIsDisable=temporaryIsDisable || (this.postBody.t==="") ;
-      //finish checking null
 
-      if(temporaryIsDisable){
-        this.errorMessage="ERROR: Please fill out all of the fields";
-        this.isDisable=temporaryIsDisable;
-        return 0
-      }
+      this.errorMessage="ERROR: Please fill out all of the fields";
+      this.isDisable=temporaryIsDisable;
+      return 0;
+    },
+    
+    hardLimit(){
+      if (this.postBody.phih < 0) this.postBody.phih= 0;
 
+
+
+      if (this.postBody.io < 0) this.postBody.io = 0;
+      if (this.postBody.io > 2060) this.postBody.io= 2060;
+
+    },
+
+    checkValidity(){
       //start check the lower limit for all of the inputs
       temporaryIsDisable=temporaryIsDisable || (this.postBody.phih < 0);
 
@@ -1444,13 +1453,14 @@ methods: {
         this.isDisable=temporaryIsDisable;
         return 0
       }
-
-
-      this.isDisable=temporaryIsDisable;
     }, // END: checkValidity()
 
     isDisabled() {
-      this.checkValidity();
+      this.hardLimit();
+      this.checkForNull();
+      if(this.errorMessage==null){
+          this.checkValidity();
+      }
       return this.isDisable;
     }, // END: isDisabled()
 
