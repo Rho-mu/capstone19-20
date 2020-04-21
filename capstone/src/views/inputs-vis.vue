@@ -1470,13 +1470,13 @@ methods: {
   }
 
   #io::-webkit-slider-thumb {
-    background: url('../assets/logo-Black.png');
+    background: url('../assets/Logo-Black.png');
     width:36px;
     height:36px;
   }
 
   #io::-moz-range-thumb{
-    background: url('../assets/logo-Black.png');
+    background: url('../assets/Logo-Black.png');
     width:36px;
     height:36px;
   }
@@ -1625,13 +1625,13 @@ methods: {
   }
 
   #timeStepSlider::-webkit-slider-thumb {
-    background: url('../assets/logo-Black.png');
+    background: url('../assets/Logo-Black.png');
     width:45px;
     height:45px;
   }
 
     #timeStepSlider::-moz-range-thumb{
-    background: url('../assets/logo-Black.png');
+    background: url('../assets/Logo-Black.png');
     width:45px;
     height:45px;
   }
