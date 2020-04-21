@@ -1,10 +1,6 @@
 <template>
   <div>
 
-    <div class="title-wrapper">
-      Presented By TreeViz
-    </div>
-
     <div class="divider">
       </div>
 
@@ -30,44 +26,167 @@
       </div>
       <div class="divider">
       </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menu-0">
+      <label for="menu-0">Default Data Sets</label>
+      <div class="menu-content">
+      <br>
+        <button @click="setDefault('Red Maple')">Red Maple</button>
+        <button @click="setDefault('Loblolly Pine')">Loblolly Pine</button>
+      </div>
+    </div>
+
+      <div class="divider">
+      </div>
 
     <div class="collapsible-menu">
       <input type="checkbox" id="menu">
       <label id="gourp1" for="menu">Allometries and <br>biomass partitioning</label>
       <div class="menu-content">
         <ul>
-          <label for="phip"> phip:</label><br>
-          <input id="phip" type="text" v-model="postBody.phih" placeholder="phih > 0" >
+          <label for="phih"> phip:</label><br>
+          <input id="phih" type="text" v-model="postBody.phih" placeholder="phih > 0" min="0" >
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
               <span class="separator"></span>
-              Slope of height vs trunk radius (r) curve at r = 0 m<br>
+              Name:&nbspSlope of height vs trunk radius (r) curve at r = 0 m<br>
               <span class="separator"></span>
               Unit: none<br>
               <span class="separator"></span>
-              Constraint: (0,&#8734)
-            </p></span><br><br>
-          <input type="text" v-model="postBody.eta" placeholder="eta (0, 1)" >
-          <span class="help-tip"><p>Relative height that trunk transitions from paraboloid to cone</p></span><br><br>
-          <input type="text" v-model="postBody.lamda" placeholder="lamda">
-          <span class="help-tip"><p>Proportionality between trunk and non-trunk biomass</p></span><br><br>
-          <input type="text" v-model="postBody.f2" placeholder="f2" >
-          <span class="help-tip"><p>Fine root area to leaf area ratio</p></span><br><br>
-          <input type="text" v-model="postBody.f1" placeholder="f1" >
-          <span class="help-tip"><p>Leaf area to xylem conducting area ratio</p></span><br><br>
-          <input type="text" v-model="postBody.gammax" placeholder="gammax" >
-          <span class="help-tip"><p>Inverse density of sapwood structural tissue</p></span><br><br>
-          <input type="text" v-model="postBody.etaB" placeholder="etaB" >
-          <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
-          <input type="text" v-model="postBody.m" placeholder="m" >
-          <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
-          <input type="text" v-model="postBody.alpha" placeholder="alpha" >
-          <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
-          <input type="text" v-model="postBody.r0" placeholder="r0" >
-           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
-          <input type="text" v-model="postBody.r40" placeholder="r40">
-           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
+              Constraint: (0,+&#8734)
+            </p></span><br>
+
+          <label for="eta"> eta:</label><br>
+          <input id="eta" type="text" v-model="postBody.eta" placeholder="0 < eta < 1" min="0" max="1">
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspRelative height that trunk transitions from paraboloid to cone<br>
+              <span class="separator"></span>
+              Unit: none<br>
+              <span class="separator"></span>
+              Constraint: (0,1)
+            </p></span><br>
+
+          <label for="lamda"> lamda:</label><br>
+          <input id="lamda" type="text" v-model="postBody.lamda" placeholder="0 < lamda < 1" min="0" max="1" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspProportionality between trunk and non-trunk biomass<br>
+              <span class="separator"></span>
+              Unit: none<br>
+              <span class="separator"></span>
+              Constraint: (0,1)
+            </p></span><br>
+
+          <label for="f2"> f2 (RA:LA):</label><br>
+          <input id="f2" type="text" v-model="postBody.f2" placeholder="f2 (RA:LA) > 0" min="0">
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspFine root area to leaf area ratio<br>
+              <span class="separator"></span>
+              Unit: none<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+            </p></span><br>
+
+          <label for="f1"> f1 (LA:XA):</label><br>
+          <input id="f1" type="text" v-model="postBody.f1" placeholder="f1 (LA:XA) > 0" min="0">
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspLeaf area to xylem conducting area ratio<br>
+              <span class="separator"></span>
+              Unit: none<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+            </p></span><br>
+
+          <label for="gammax"> gammaX (XA:SA):</label><br>
+          <input id="gammax" type="text" v-model="postBody.gammax" placeholder="0 <gammaX (XA:SA)< 1" min="0" max="1">
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspXylem conducting area to sapwood area ratio<br>
+              <span class="separator"></span>
+              Unit: none<br>
+              <span class="separator"></span>
+              Constraint: (0,1)
+            </p></span><br>
+
+          <label for="etaB"> etaB:</label><br>
+          <input id="etaB" type="text" v-model="postBody.etaB" placeholder="0 < etaB < eta" min="0">
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspRelative height at which trunk transitions from a neiloid to a paraboloid<br>
+              <span class="separator"></span>
+              Unit: none<br>
+              <span class="separator"></span>
+              Constraint: (0,eta)
+            </p></span><br>
+
+          <label for="m"> M:</label><br>
+          <input id="m" type="text" v-model="postBody.m" placeholder="0 < m < 1" min="0" max="1">
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspMaximum relative crown depth<br>
+              <span class="separator"></span>
+              Unit: none<br>
+              <span class="separator"></span>
+              Constraint: (0,1)
+            </p></span><br>
+
+          <label for="alpha"> alpha:</label><br>
+          <input id="alpha" type="text" v-model="postBody.alpha" placeholder="alpha > 0" min="0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspCrown curvature parameter<br>
+              <span class="separator"></span>
+              Unit: none<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+            </p></span><br>
+
+          <label for="r0"> R0:</label><br>
+          <input id="r0" type="text" v-model="postBody.r0" placeholder="R0 > 0" min="0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspMaximum potential crown radius of a tree with diameter at breast height of 0 cm (i.e., for a tree that is exactly 1.37 m tall)<br>
+              <span class="separator"></span>
+              Unit: none<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+            </p></span><br>
+
+          <label for="r40"> R40:</label><br>
+          <input id="r40" type="text" v-model="postBody.r40" placeholder="R40 > R0" min="0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspMaximum potential crown radius of a tree with diameter at breast height of 40 cm<br>
+              <span class="separator"></span>
+              Unit: none<br>
+              <span class="separator"></span>
+              Constraint: (R0,+&#8734)
+            </p></span><br>
+
         </ul>
       </div>
     </div>
@@ -80,12 +199,45 @@
       <label for="menu-1">Tree and organ<br> size traits</label>
       <div class="menu-content">
         <ul>
-          <input type="text" v-model="postBody.hmax" placeholder="hmax(m) < 127">
-          <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
-          <input type="text" v-model="postBody.swmax" placeholder="swmax" >
-          <span class="help-tip"><p>Maximum sapwood width<br>(m)</p></span><br><br>
-          <input type="text" v-model="postBody.rr" placeholder="rr" >
-           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
+          <label for="hmax"> Hmax:(m)</label><br>
+          <input id="hmax" type="text" v-model="postBody.hmax" placeholder="0 < Hmax < 127" min="0" max="127">
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspMaximum tree height<br>
+              <span class="separator"></span>
+              Unit: m<br>
+              <span class="separator"></span>
+              Constraint: (R0,127)
+            </p></span><br>
+
+          <label for="swmax"> SWmax:(m)</label><br>
+          <input id="swmax" type="text" v-model="postBody.swmax" placeholder="SWmax > 0" min="0"  >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspMaximum sapwood width<br>
+              <span class="separator"></span>
+              Unit: m<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+            </p></span><br>
+
+          <label for="rr"> rr: (m)</label><br>
+          <input id="rr" type="text" v-model="postBody.rr" placeholder="rr > 0" min="0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspAverage fine root radius<br>
+              <span class="separator"></span>
+              Unit: m<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+            </p></span><br>
+
         </ul>
       </div>
     </div>
@@ -98,12 +250,45 @@
       <label for="menu-2">Structural traits</label>
       <div class="menu-content">
         <ul>
-          <input type="text" v-model="postBody.rhomax" placeholder="rhomax" >
-          <span class="help-tip"><p>Wood densityt<br>(g dw m-3)</p></span><br><br>
-          <input id="gammaw" type="text" v-model="postBody.gammaw" placeholder="gammaw" >
-          <span class="help-tip"><p>Xylem conducting area to sapwood area ratio<br>(m3g dw-1)</p></span><br><br>
-          <input type="text" v-model="postBody.sla" placeholder="sla" >
-          <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
+          <label for="rhomax"> WD: (g dw m-3)</label><br>
+          <input id="rhomax" type="text" v-model="postBody.rhomax" placeholder="WD > 0" min="0">
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspWood density<br>
+              <span class="separator"></span>
+              Unit: g dw m-3<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+            </p></span><br>
+
+          <label for="gammaw"> gammaW: (m3g dw-1)</label><br>
+          <input id="gammaw" type="text" v-model="postBody.gammaw" placeholder="gammaW">
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbsp(Inverse) density of sapwood structural tissue<br>
+              <span class="separator"></span>
+              Unit: m3g dw-1<br>
+              <span class="separator"></span>
+              Constraint: none
+            </p></span><br>
+
+          <label for="sla"> sla: (m2g dw-1)</label><br>
+          <input id="sla" type="text" v-model="postBody.sla" placeholder="sla > 0" min="0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspSpecific leaf area<br>
+              <span class="separator"></span>
+              Unit: m2g dw-1<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+            </p></span><br>
+
         </ul>
       </div>
     </div>
@@ -116,30 +301,162 @@
       <label for="menu-3">Physiological traits</label>
       <div class="menu-content">
         <ul>
-          <input id="gammac" type="text" v-model="postBody.gammac" placeholder="gammac" >
-           <span class="help-tip"><p>Maximum labile carbon storage capacity of living sapwood cells<br>(g gluc m-3)</p></span><br><br>
-           <input type="text" v-model="postBody.cgl" placeholder="cgl" >
-           <span class="help-tip"><p>Construction costs of producing leaves<br>(g gluc g dw-1)</p></span><br><br>
-           <input type="text" v-model="postBody.cgr" placeholder="cgr" >
-           <span class="help-tip"><p>Construction costs of producing fine roots<br>(g gluc g dw-1)</p></span><br><br>
-           <input type="text" v-model="postBody.cgw" placeholder="cgw" >
-           <span class="help-tip"><p>Construction costs of producing sapwood<br>(g gluc g dw-1)</p></span><br><br>
-           <input type="text" v-model="postBody.deltal" placeholder="deltal" >
-            <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
-           <input type="text" v-model="postBody.deltar" placeholder="deltar" >
-            <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
-          <input type="text" v-model="postBody.rhor" placeholder="rhor" >
-           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
-          <input type="text" v-model="postBody.rml" placeholder="rml" >
-           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
-          <input type="text" v-model="postBody.rms" placeholder="rms" >
-           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
-          <input type="text" v-model="postBody.rmr" placeholder="rmr" >
-           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
-          <input type="text" v-model="postBody.k" placeholder="k">
-           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
-           <input type="text" v-model="postBody.epsg" placeholder="epsg" >
-            <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
+          <label for="gammac"> gammaC: (g gluc m-3)</label><br>
+          <input id="gammac" type="text" v-model="postBody.gammac" placeholder="gammac > 0" min="0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspMaximum labile carbon storage capacity of living sapwood cells<br>
+              <span class="separator"></span>
+              Unit: g dw m-3<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+          </p></span><br>
+
+          <label for="cgl"> cgL: (g gluc g dw-1)</label><br>
+          <input id="cgl" type="text" v-model="postBody.cgl" placeholder="cgL > 0" min="0">
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspConstruction costs of producing leaves<br>
+              <span class="separator"></span>
+              Unit: g gluc g dw-1<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+          </p></span><br>
+
+          <label for="cgr"> cgR: (g gluc g dw-1)</label><br>
+          <input id="cgr" type="text" v-model="postBody.cgr" placeholder="cgr > 0" min="0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspConstruction costs of producing fine roots<br>
+              <span class="separator"></span>
+              Unit: g gluc g dw-1<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+          </p></span><br>
+
+          <label for="cgw"> cgW: (g gluc g dw-1)</label><br>
+          <input id="cgw" type="text" v-model="postBody.cgw" placeholder="cgw > 0" min="0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspConstruction costs of producing sapwood<br>
+              <span class="separator"></span>
+              Unit: g gluc g dw-1<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+          </p></span><br>
+
+          <label for="deltal"> deltaL: (g gluc g dw-1)</label><br>
+          <input id="deltal" type="text" v-model="postBody.deltal" placeholder="deltal > 0" min="0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspLabile carbon storage capacity of leaves<br>
+              <span class="separator"></span>
+              Unit: g gluc g dw-1<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+          </p></span><br>
+
+          <label for="deltar"> deltaR: (g gluc g dw-1)</label><br>
+          <input id="deltar" type="text" v-model="postBody.deltar" placeholder="deltar > 0" min="0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspLabile carbon storage capacity of fine roots<br>
+              <span class="separator"></span>
+              Unit: g gluc g dw-1<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+          </p></span><br>
+
+          <label for="rhor"> rhor: (g dw m-3)</label><br>
+          <input id="rhor" type="text" v-model="postBody.rhor" placeholder="rhor > 0" min="0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspTissue density of fine roots<br>
+              <span class="separator"></span>
+              Unit: g dw m-3<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+          </p></span><br>
+
+          <label for="rml"> rmL: (g gluc g dw-1year-1)</label><br>
+          <input id="rml" type="text" v-model="postBody.rml" placeholder="rmL > 0" min="0">
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspMaintenance respiration rate of leaves<br>
+              <span class="separator"></span>
+              Unit: g gluc g dw-1year-1<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+          </p></span><br>
+
+          <label for="rms"> rmS: (g gluc g dw-1year-1)</label><br>
+          <input id="rms" type="text" v-model="postBody.rms" placeholder="rmS > 0" min="0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspMaintenance respiration rate of sapwood<br>
+              <span class="separator"></span>
+              Unit: g gluc g dw-1year-1<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+          </p></span><br>
+
+          <label for="rmr"> rmR: (g gluc g dw-1year-1)</label><br>
+          <input id="rmr" type="text" v-model="postBody.rmr" placeholder="rmR > 0" min="0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspMaintenance respiration rate of fine roots<br>
+              <span class="separator"></span>
+              Unit: g gluc g dw-1year-1<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+          </p></span><br>
+
+          <label for="k"> k: (g gluc g dw-1year-1)</label><br>
+          <input id="k" type="text" v-model="postBody.k" placeholder="k > 0" min="0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspLight extinction coefficient<br>
+              <span class="separator"></span>
+              Unit: none<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+          </p></span><br>
+
+          <label for="k"> epsg (RUE): (g gluc MJ-1)</label><br>
+          <input id="k" type="text" v-model="postBody.epsg" placeholder="0 < k < 15.73" min="0" max="15.73">
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspRadiation-use efficiency<br>
+              <span class="separator"></span>
+              Unit: g gluc MJ-1<br>
+              <span class="separator"></span>
+              Constraint: (0,15.73)
+          </p></span><br>
+
         </ul>
       </div>
     </div>
@@ -152,19 +469,86 @@
       <label for="menu-4">Turn-over and <br>senescence traits</label>
       <div class="menu-content">
         <ul>
+          <label for="sl"> sL: (year-1)</label><br>
+          <input id="sl" type="text" v-model="postBody.sl" placeholder="sL > 0" min="0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspSenescence rate of leaves<br>
+              <span class="separator"></span>
+              Unit: year-1<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+          </p></span><br>
 
-           <input type="text" v-model="postBody.sl" placeholder="sl" >
-            <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
-           <input type="text" v-model="postBody.so" placeholder="so" >
-            <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
-           <input type="text" v-model="postBody.sr" placeholder="sr" >
-            <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
+          <label for="sr"> sR: (year-1)</label><br>
+          <input id="sr" type="text" v-model="postBody.sr" placeholder="sR > 0" min="0">
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspSenescence rate of fine roots<br>
+              <span class="separator"></span>
+              Unit: year-1<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+          </p></span><br>
 
-           <input type="text" v-model="postBody.t" placeholder="Time">
-           <input type="text" v-model="postBody.radius" placeholder="Initial Radius">
-           <input type="text" v-model="postBody.io" placeholder="Light Level">
+          <label for="so"> sO: (year-1)</label><br>
+          <input id="so" type="text" v-model="postBody.so" placeholder="sO > 0" min="0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspSenescence rate of or coarse roots and branches<br>
+              <span class="separator"></span>
+              Unit: year-1<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+          </p></span><br>
+
+          <label for="initialRadius"> Initial radius: (m)</label><br>
+          <input id="initialRadius" type="text" v-model="postBody.radius" placeholder="radius > 0" min="0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspInitial radius<br>
+              <span class="separator"></span>
+              Unit: m<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+          </p></span><br>
+
         </ul>
       </div>
+    </div>
+    <div id="sliderdiv" class="slidecontainer">
+
+      <div class="divider">
+      </div>
+      <div class="divider">
+      </div>
+
+      <label for="io"> Light Level:</label>
+      <input id="iodisplay" type="text" v-model="postBody.io" >
+      <div class="divider">
+      </div>
+       <div class="divider">
+      </div>
+      0<input id="io"type="range" min="0" max="2060" v-model="postBody.io" class="timeStepSlider">2060
+
+
+      <div class="divider">
+      </div>
+      <div class="divider">
+      </div>
+
+      <label for="t">Total Time: (year)</label><br>
+      <input id="t" type="text" v-model="postBody.t" placeholder="Time in Years" class="time" min="0" max="100">
+
+
     </div>
 
     <div class="divider">
@@ -177,20 +561,14 @@
     <div class="divider">
       </div>
 
-    <button :disabled='isDisabled()' @click="postData()" name="button">PostData</button>
+    <button id="postDataBtn" :disabled='isDisabled()' @click="postData()" name="button">PostData</button>
     <button @click="getData()" name="button">GetData</button>
+    <button @click="run()">RUN</Button><br>
+      <br>
     </div>
 
-
     <div class="outputDisplayContainer">
-
-      <!--<button @click="run()">RUN</Button><br> Hidden for demo-->
-      <button @click="setDefault('Red Maple')">Red Maple</button>
-      <button @click="setDefault('Loblolly Pine')">Loblolly</button>
-      <br>
-      <!--<button @click="loadTextures()">Load Textures</Button> Hidden for demo-->
-      <!--<button @click="initialize()">Init</Button> Hidden for demo-->
-      <!--<button @click="animate()">Animate</Button> Hidden for demo-->
+      <button @click="loadTextures()">Load Textures</Button>
       <div class="setSceneContainer">
         <button @click="setScene('ringScene')" class="ringSceneButton" id="ringSceneButton">RINGS</button>
         <button @click="setScene('treeScene')" class="treeSceneButton" id="treeSceneButton">TREE</button>
@@ -200,14 +578,18 @@
         <button @click="setCrownShape('cone')" class="coneButton" id="coneButton">CONE</button>
         <button @click="setCrownShape('cylinder')" class="cylinderButton" id="cylinderButton">CYLINDER</button>
         <!--<button @click="setCrownShape('sphere')" class="sphereButton" id="sphereButton">SPHERE</button> Hidden for demo-->
-
       </div>
-      <input type="range" min="1" v-model="dataIndex" @input="draw()" id="timeStepSlider" class="timeStepSlider">
+
+      <div class="divider">
+      </div>
+
+      <h3> Move the slider to see the growth of the tree!</h3>
+
+      <input type="range" min="1" v-model="dataIndex" @input="draw()" id="timeStepSlider" class="timeStepSlider"><br><br>
       <div class="treeCanvasport" id="treeCanvasport"></div>
       <div class="rawDataList" id="rawDataList">
         <br>
-
-        <!--<button @click="downloadRawData()" class="dlRawDataButton" id="dlRawDataButton">Download to CSV</button><br>-->
+        <button @click="downloadRawData()" class="dlRawDataButton" id="dlRawDataButton">Download to CSV</button><br><br>
         <label>Year: {{ this.dataIndex }}               </label><br>
         <label>APARout: {{ this.resultJson.APARout[this.dataIndex] }}               </label><br>
         <label>h: {{ this.resultJson.h[this.dataIndex] }}               </label><br>
@@ -257,8 +639,6 @@
         <!--<label>errorind: {{ this.resultJson.errorind[this.dataIndex] }}               </label><br>-->
         <!--<label>growth_st: {{ this.resultJson.growth_st[this.dataIndex] }}               </label><br>-->
       </div>
-      <vue-json-to-csv :json-data="resultJson">
-      </vue-json-to-csv>
     </div>
 
 </div>
@@ -268,7 +648,6 @@
 import axios from 'axios'
 import * as THREE from 'three'
 import json from '../json/treeData.json'
-import VueJsonToCsv from 'vue-json-to-csv'
 
 export default {
   name: 'inputs-vis',
@@ -455,7 +834,7 @@ methods: {
     }, // END: getData()
 
     setDefault(defaultType) {
-     
+
       // Set default time, light level, and initial radius
       this.postBody.t=10
       this.postBody.radius=0.05
@@ -496,6 +875,9 @@ methods: {
         this.postBody.alpha=0.365
         this.postBody.r0=1.909
         this.postBody.r40=5.592
+        this.postBody.radius=0.05
+        this.postBody.t = 10
+        this.postBody.io = 2060
       } // END: if Red Maple
 
       else if(defaultType == "Loblolly Pine")  // Loblolly Pine button
@@ -532,6 +914,9 @@ methods: {
         this.postBody.alpha=0.308
         this.postBody.r0=1.434
         this.postBody.r40=3.873
+        this.postBody.radius=0.05
+        this.postBody.t = 10
+        this.postBody.io = 2060
       } // END: if Loblolly Pine
     }, // END: set_default()
 
@@ -657,9 +1042,8 @@ methods: {
       this.treeScene.add( box )
     }, // END: addBox()
 
-    draw(scene)
-    {
-      document.getElementById("timeStepSlider").setAttribute("max", this.postBody.t)
+    draw(scene) {
+      document.getElementById("timeStepSlider").setAttribute("max", this.postBody.t) // Should be moved to end of getData().
       if(this.currentScene == this.treeScene)
       {
         this.drawTree()
@@ -677,9 +1061,8 @@ methods: {
       {
         if( maxHeight < this.resultJson.h[i*this.timeStep] )
         {
-          maxHeight = this.resultJson.h[i*this.timeStep] 
+          maxHeight = this.resultJson.h[i*this.timeStep]
         }
-        console.log("maxheight:",maxHeight)
       }
 
       // Clear scene of old drawings
@@ -743,7 +1126,7 @@ methods: {
       }
       else
       {
-        rcbase = 1 - eta
+        rcbase = rcmax
       }
 
       console.log("year:",year,"timestep:",timestep,"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,
@@ -786,7 +1169,11 @@ methods: {
         // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
         crownGeo = new THREE.ConeGeometry( rcbase, h-hC, geoSegments )
       }
-      var crownMat = new THREE.MeshLambertMaterial( {color: 0x00FF00} )
+      var crownColor = new THREE.Color()
+      crownColor.setRGB(0, this.resultJson.LAI2[year] * 0.1, 0)
+      var crownMat = new THREE.MeshLambertMaterial( {color: crownColor} )
+      console.log("crown color:",crownColor)
+      //var crownMat = new THREE.MeshLambertMaterial( {color: 0x00FF00} )
       this.crown = new THREE.Mesh( crownGeo, crownMat )
       this.crown.position.y = crownPos
       this.crown.position.x = 0
@@ -813,7 +1200,6 @@ methods: {
 
       // Find max radius and scale scene to that size
       var maxRadius = this.resultJson.r[this.postBody.t]
-      console.log("maxRadius:",maxRadius)
       this.ringCam.position.z = maxRadius*2
       this.ringCam.lookAt(0, 0, 0)
 
@@ -839,59 +1225,12 @@ methods: {
           if(i % 2 == 0) { ringColor = 0x7E572D }
           else { ringColor = 0x43280B }
         }
-        
+
         var ringMat = new THREE.MeshBasicMaterial( {color: ringColor} )
         var ring = new THREE.Mesh( ringGeo, ringMat )
         this.newScene.add( ring )
       }
     }, // END: drawRings()
-
-    loadRawData() {
-      var index = document.getElementById("timeStepSlider").value // Get index from the slider
-      var rawDataList = document.getElementById("rawDataList")
-
-      if (rawDataList.style.display === "none") {
-        rawDataList.style.display = "block"
-      } else {
-        rawDataList.style.display = "none"
-      }
-
-
-
-      /*for(var rawData in this.treeData[index]) {
-        var para = document.createElement("p")
-        var node = createTextNode("HI")
-        //var newNode = createTextNode(rawData + ": " + this.treeData[index][rawData] + "<br>")
-        para.appendChild(node)
-      }
-      rawDataList.appendChild(para)*/
-
-      //var dataList = document.getElementById("rawDataList")       // Get rawDataList element from html
-
-      // Iterate through the data at the current timestep and print its raw data.
-      /*for(var rawData in this.treeData[index]) {
-        var textNode = document.createTextNode(rawData)
-        dataList.appendChild(textNode)
-        //dataList.innerHTML += rawData + ": " + this.treeData[index][rawData]
-        //console.log(rawData,": ",this.treeData[index][rawData])
-      }*/
-
-      /*var i
-      for(var rawData in this.treeData[index]) {
-        var textNode = document.createTextNode(rawData)
-        var existingNode = dataList.childNodes[i]
-        console.log(dataList.childNodes[i])
-        existingNode.replaceChild(textnode, existingNode.childNodes[i])
-        i++
-      }*/
-
-      /*
-      for(var rawData in this.treeData[index]) {
-        var newNode = dataList.childNodes[rawData]
-        newNode.replaceChild(rawData + ": " + this.treeData[index][rawData] + "<br>", newNode.childNodes[rawData])
-      }*/
-
-    }, // END: loadRawData()
 
     addLight() {
       // Ambient light for all objects.
@@ -946,6 +1285,7 @@ methods: {
     }, // END: setScene()
 
     update() {
+      // THREE.js function
       //this.trunk.rotation.y += 0.01
       //this.crown.rotation.y += 0.01
     }, // END: update()
@@ -956,10 +1296,10 @@ methods: {
 			this.currentCam.updateProjectionMatrix()
 
 			this.treeRenderer.setSize( window.innerWidth * 0.7, window.innerHeight * 0.7)
-
     }, // END: onWindowResize()
 
     animate() {
+      // THREE.js function
       requestAnimationFrame(this.animate)
       this.update()
       this.treeRenderer.render(this.currentScene, this.currentCam)
@@ -972,7 +1312,7 @@ methods: {
 
       //start checking null
       temporaryIsDisable=temporaryIsDisable || (this.postBody.hmax==="");
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.phip==="");
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.phih==="");
       temporaryIsDisable=temporaryIsDisable || (this.postBody.eta==="");
       temporaryIsDisable=temporaryIsDisable || (this.postBody.swmax==="") ;
       temporaryIsDisable=temporaryIsDisable || (this.postBody.lamda==="") ;
@@ -1003,64 +1343,102 @@ methods: {
       temporaryIsDisable=temporaryIsDisable || (this.postBody.alpha==="") ;
       temporaryIsDisable=temporaryIsDisable || (this.postBody.r0==="") ;
       temporaryIsDisable=temporaryIsDisable || (this.postBody.r40==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.radius==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.io==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.t==="") ;
       //finish checking null
 
       if(temporaryIsDisable){
-        this.errorMessage="ERROR: Please fill out all of the fields"
+        this.errorMessage="ERROR: Please fill out all of the fields";
         this.isDisable=temporaryIsDisable;
         return 0
       }
 
       //start check the lower limit for all of the inputs
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.hmax < 0);
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.phip < 0);
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.phih < 0);
+
       temporaryIsDisable=temporaryIsDisable || (this.postBody.eta < 0);
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.swmax < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.lamda < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.rhomax < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.f2 < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.f1 < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.gammac < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.gammaw < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.gammax < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.cgl < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.cgr < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.cgw < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.deltal < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.deltar < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.sl < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.sla < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.so < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.sr < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.rr < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.rhor < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.rml < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.rms < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.rmr < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.etaB < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.k < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.epsg < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.m < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.alpha < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.r0 < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.r40 < 0) ;
-      //finish checking for the lower limits
-
-      if(temporaryIsDisable){
-        this.errorMessage="ERROR: Please enter positive numbers"
-        this.isDisable=temporaryIsDisable;
-        return 0
-      }
-
-      //start checking for the higher limits(if any)
       temporaryIsDisable=temporaryIsDisable || (this.postBody.eta > 1) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.lamda < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.lamda > 1) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.f2 < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.f1 < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.gammax < 0) ;
       temporaryIsDisable=temporaryIsDisable || (this.postBody.gammax > 1) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.etaB > 1) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.etaB < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.etaB > this.postBody.eta) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.m < 0) ;
       temporaryIsDisable=temporaryIsDisable || (this.postBody.m > 1) ;
-      //finish checking for the higher limits
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.alpha < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.r0 < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.r40 < this.postBody.r0) ;
+      //Group A end
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.hmax < 0);
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.hmax > 127) ;
+      
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.swmax < 0) ;
+
+       temporaryIsDisable=temporaryIsDisable || (this.postBody.rr < 0) ;
+       //Group B end
+      
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.rhomax < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.gammaw < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.sla < 0) ;
+      //Group C end
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.gammac < 0) ;    
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.cgl < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.cgr < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.cgw < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.deltal < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.deltar < 0) ;
+      
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.rhor < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.rml < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.rms < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.rmr < 0) ;
+      
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.k < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.epsg < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.epsg > 15.73) ;
+      //Group D end
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.sl < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.sr < 0) ;
+      
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.so < 0) ;
+           
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.radius < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.io < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.t < 0) ;
+      //Group E end
 
       if(temporaryIsDisable){
-        this.errorMessage="ERROR: Some values can't be larger than 1"
+        this.errorMessage="ERROR: Please check the constraints"
         this.isDisable=temporaryIsDisable;
         return 0
       }
@@ -1091,6 +1469,68 @@ methods: {
 
 <style lang="css" scoped>
 
+  input[type=text] {
+    border-radius:5px;
+  }
+
+  input[type=text]::-webkit-input-placeholder {
+    font-family: "Lucida Console", Monaco, monospace;
+  }
+
+  input[type=text]:-ms-input-placeholder {
+    font-family: "Lucida Console", Monaco, monospace;
+  }
+
+  input[type=text]:-moz-placeholder {
+    font-family: "Lucida Console", Monaco, monospace;
+  }
+
+  input[type=text]::-moz-placeholder {
+    font-family: "Lucida Console", Monaco, monospace;
+  }
+
+  #iodisplay{
+      border: none;
+      background: transparent;
+      border-bottom: 1px solid #fff;
+      outline: none;
+      width:40%;
+  }
+
+  #io{
+    width:80%;
+  }
+
+  #io::-webkit-slider-thumb {
+    background: url('../assets/Logo-Black.png');
+    width:36px;
+    height:36px;
+  }
+
+  #io::-moz-range-thumb{
+    background: url('../assets/Logo-Black.png');
+    width:36px;
+    height:36px;
+  }
+
+  #sliderdiv{
+    text-align:left;
+  }
+
+  .slidecontainer {
+    width: 100%;
+
+  }
+
+  .slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 25px;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+  }
   /*title wrapper*/
 
   .title-wrapper {
@@ -1109,6 +1549,7 @@ methods: {
     width:80%;
     float:left;
     background-color: #b9b9b9;
+    height:30px;
   }
 
   #mention p {
@@ -1206,12 +1647,25 @@ methods: {
   .timeStepSlider {
     -webkit-appearance: none;
     width: 100%;
-    height: 25px;
+    height: 15px;
+    border-radius: 5px;
     background: #d3d3d3;
     outline: none;
     opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
+  }
+
+  #timeStepSlider::-webkit-slider-thumb {
+    background: url('../assets/Logo-Black.png');
+    width:45px;
+    height:45px;
+  }
+
+    #timeStepSlider::-moz-range-thumb{
+    background: url('../assets/Logo-Black.png');
+    width:45px;
+    height:45px;
   }
 
   .timeStepSlider:hover {
@@ -1225,6 +1679,7 @@ methods: {
     height: 25px;
     background: #4CAF50;
     cursor: pointer;
+    border-radius: 50%;
   }
 
   .timeStepSlider::-moz-range-thumb {
@@ -1232,6 +1687,7 @@ methods: {
     height: 25px;
     background: #4CAF50;
     cursor: pointer;
+    border-radius: 50%;
   }
 
   .menu-content {
@@ -1276,13 +1732,36 @@ methods: {
 
   }
 
+  .collapsible-menu button {
+    display: inline-block;
+    width: 100px;
+    height: 50px;
+    padding: 5px 5px;
+    margin: 2px;
+    border: 2px solid green;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    color: black;
+    font-family: "Lucida Console", Monaco, monospace;
+    background-color: #FFF;
+
+  }
+
   .menu-content label {
     font-size:15px;
   }
 
-  
+
+  input#menu-0 {
+    display: none;
+  }
 
   input#menu {
+    display: none;
+  }
+
+  input#menu0 {
     display: none;
   }
 
@@ -1323,11 +1802,19 @@ methods: {
     line-height: 26px;
     cursor: default;
   }
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of d32bc12... Add files via upload
   .help-tip:before{
     content:'?';
     font-weight: bold;
     color:#fff;
   }
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of d32bc12... Add files via upload
   .help-tip:hover p{
     display: inline;
     transform-origin: 100% 0%;
@@ -1335,6 +1822,10 @@ methods: {
     -webkit-animation: fadeIn 0.3s ease-in-out;
     animation: fadeIn 0.3s ease-in-out;
   }
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of d32bc12... Add files via upload
   .help-tip p{
     display:none;
     text-align: left;
@@ -1398,6 +1889,44 @@ methods: {
       border-color: white;
   }
 
+  .help-tip p:after{ /*Prevents the tooltip from being hidden */
+      width:100%;
+      height:40px;
+      content:'';
+      position: relative;
+      top:-40px;
+      left:0;
+  }
+
+  @-webkit-keyframes fadeIn {
+      0% {
+          opacity:0;
+          transform: scale(0.6);
+      }
+
+      100% {
+          opacity:100%;
+          transform: scale(1);
+      }
+  }
+
+  @keyframes fadeIn {
+      0% { opacity:0; }
+      100% { opacity:100%; }
+  }
+
+  span .separator {
+      border-top: 3px solid #333;
+      border-radius:1px;
+      width: 100%;
+      height: 3px;
+      display: block;
+      border-color: white;
+  }
+  .time {
+    width: 100%;
+    height: 25px;
+  }
 
 
 
