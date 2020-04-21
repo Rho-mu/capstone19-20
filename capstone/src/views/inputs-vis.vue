@@ -242,12 +242,45 @@
       <label for="menu-2">Structural traits</label>
       <div class="menu-content">
         <ul>
-          <input type="text" v-model="postBody.rhomax" placeholder="rhomax" >
-          <span class="help-tip"><p>Wood densityt<br>(g dw m-3)</p></span><br><br>
+          <label for="rhomax"> WD: (g dw m-3)</label><br>
+          <input id="rhomax" type="text" v-model="postBody.rhomax" placeholder="WD> 0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspWood density<br>
+              <span class="separator"></span>
+              Unit: g dw m-3<br>
+              <span class="separator"></span>
+              Constraint: (0,&#8734)
+            </p></span><br>
+
+          <label for="gammaw"> gammaw: (m3g dw-1)</label><br>
           <input id="gammaw" type="text" v-model="postBody.gammaw" placeholder="gammaw" >
-          <span class="help-tip"><p>Xylem conducting area to sapwood area ratio<br>(m3g dw-1)</p></span><br><br>
-          <input type="text" v-model="postBody.sla" placeholder="sla" >
-          <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbsp(Inverse) density of sapwood structural tissue<br>
+              <span class="separator"></span>
+              Unit: m3g dw-1<br>
+              <span class="separator"></span>
+              Constraint: none
+            </p></span><br>
+
+          <label for="sla"> sla: (Specific leaf area)</label><br>
+          <input id="sla" type="text" v-model="postBody.sla" placeholder="sla > 0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspSpecific leaf area<br>
+              <span class="separator"></span>
+              Unit: g dw m-3<br>
+              <span class="separator"></span>
+              Constraint: (0,&#8734)
+            </p></span><br>
+
         </ul>
       </div>
     </div>
@@ -1248,6 +1281,7 @@ methods: {
     width:80%;
     float:left;
     background-color: #b9b9b9;
+    height:30px;
   }
 
   #mention p {
