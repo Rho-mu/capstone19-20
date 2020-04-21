@@ -1063,6 +1063,7 @@ methods: {
         {
           maxHeight = this.resultJson.h[i*this.timeStep]
         }
+        console.log("maxheight:",maxHeight)
       }
 
       // Clear scene of old drawings
@@ -1075,20 +1076,19 @@ methods: {
       this.addBox()
       this.addLight()
 
-      var year = this.dataIndex
-      var timestep = year * 16 - 1
+      var year = this.dataIndex * 16 - 1
 
       /// Trunk variables
-      var h = this.resultJson.h[timestep]      // Total tree height
-      var hB = this.resultJson.hB2[timestep]   // Height that trunk transitions from neiloid to paraboloid (base to trunk)
-      hB = this.postBody.etaB * h
-      var hC = this.resultJson.hC2[timestep]   // Height that trunk transitions from paraboloid to cone (trunk to crown)
-      hC = this.postBody.eta * h
-      var r = this.resultJson.r[timestep]      // Radius of trunk at base
-      //r = r * 7 // Temporary use to negate weird data
-      var rB = this.resultJson.rB2[timestep]   // Radius of trunk when transitioning from neilooid to paraboloid (base to trunk)
-      var rC = this.resultJson.rC2[timestep]   // Radius of trunk when transitioning from parapoloid to cone (trunk to crown)
-      //rC = rC * 7 // Temporary use to negate weird data
+      var h = this.resultJson.h[year]      // Total tree height
+      var hB = this.resultJson.hB2[year]   // Height that trunk transitions from neiloid to paraboloid (base to trunk)
+      hB = hB / 0.5e-314 // Temporary use to negate weird data
+      var hC = this.resultJson.hC2[year]   // Height that trunk transitions from paraboloid to cone (trunk to crown)
+      hC = hC / 0.5e-314 // Temporary use to negate weird data
+      var r = this.resultJson.r[year]      // Radius of trunk at base
+      r = r * 7 // Temporary use to negate weird data
+      var rB = this.resultJson.rB2[year]   // Radius of trunk when transitioning from neilooid to paraboloid (base to trunk)
+      var rC = this.resultJson.rC2[year]   // Radius of trunk when transitioning from parapoloid to cone (trunk to crown)
+      rC = rC * 7 // Temporary use to negate weird data
 
       /// Crown variables (overlaid on "cone" part of trunk)
       var hmax = this.postBody.hmax                 // Input.
@@ -1098,8 +1098,8 @@ methods: {
       var alpha = this.postBody.alpha               // Input.
       var r0 = this.postBody.r0                     // Input.
       var r40 = this.postBody.r40                   // Input.
-      var rBH = this.resultJson.rBH[timestep]           // Output.
-      // var h = this.treeData[timestep].h              // Output. Delcared above
+      var rBH = this.resultJson.rBH[year]           // Output.
+      // var h = this.treeData[year].h              // Output. Delcared above
       const BH = 1.37                               // Breast height. Contsant 1.37 meters
 
       // if h > BH --> rcmax = r0 + ((r40 - r0) * (2 * rBH * 100) / 40)
@@ -1126,15 +1126,15 @@ methods: {
       }
       else
       {
-        rcbase = rcmax
+        rcbase = 1 - eta
       }
 
-      console.log("year:",year,"timestep:",timestep,"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,
+      console.log("year:",year,"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,
       "\nrBH:",rBH,"\nrcmax:",rcmax,"\nrcbase:",rcbase)
 
 
       // Supplemental parameters
-      var geoSegments = 20                  // Segments of geometry
+      var geoSegments = 16                  // Segments of geometry
       var trunkPos = hC/2             // Trunk position on the screen. Needs to be based on max height.
       var crownPos = h - (h - hC)/2   // Crown position on the screen. Bottom of crown needs to be on the same x plan as top of trunk.
 
@@ -1154,7 +1154,7 @@ methods: {
         // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
         crownGeo = new THREE.ConeGeometry( rcbase, h-hC, geoSegments )
       }
-      else if( this.crownShape == "sphere") // Currently doesn't work very well. Needs tuning.
+      else if( this.crownShape == "sphere")
       {
         // SphereGeometry(radius : Float, widthSegments : Integer, heightSegments : Integer)
         crownGeo = new THREE.SphereGeometry( rcbase, geoSegments*1.5, geoSegments*1.5 )
@@ -1169,11 +1169,7 @@ methods: {
         // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
         crownGeo = new THREE.ConeGeometry( rcbase, h-hC, geoSegments )
       }
-      var crownColor = new THREE.Color()
-      crownColor.setRGB(0, this.resultJson.LAI2[year] * 0.1, 0)
-      var crownMat = new THREE.MeshLambertMaterial( {color: crownColor} )
-      console.log("crown color:",crownColor)
-      //var crownMat = new THREE.MeshLambertMaterial( {color: 0x00FF00} )
+      var crownMat = new THREE.MeshLambertMaterial( {color: 0x00FF00} )
       this.crown = new THREE.Mesh( crownGeo, crownMat )
       this.crown.position.y = crownPos
       this.crown.position.x = 0
@@ -1200,6 +1196,7 @@ methods: {
 
       // Find max radius and scale scene to that size
       var maxRadius = this.resultJson.r[this.postBody.t]
+      console.log("maxRadius:",maxRadius)
       this.ringCam.position.z = maxRadius*2
       this.ringCam.lookAt(0, 0, 0)
 
@@ -1216,20 +1213,25 @@ methods: {
         if( this.resultJson.r[i] < heartwoodRadius ) // If the current ring is part of the heart wood..
         {
           // Alternate between lighter colors
-          if(i % 2 == 0) { ringColor = 0x925A40 }
-          else { ringColor = 0x642C11 }
+          //if(i % 2 == 0) { ringColor = 0x0000ff }
+          //else { ringColor = 0x00ffff }
+          if(i % 2 == 0) { ringColor = 0x964b00 }
+          else { ringColor = 0x804c22 }
         }
         else                                        // If the current ring is part of the sap wood..
         {
           // Alternate between darker colors
-          if(i % 2 == 0) { ringColor = 0x7E572D }
-          else { ringColor = 0x43280B }
+          //if(i % 2 == 0) { ringColor = 0xff0000 }
+          //else { ringColor = 0xffff00 }
+          if(i % 2 == 0) { ringColor = 0x754c2d }
+          else { ringColor = 0x5b4b41 }
         }
 
         var ringMat = new THREE.MeshBasicMaterial( {color: ringColor} )
         var ring = new THREE.Mesh( ringGeo, ringMat )
         this.newScene.add( ring )
       }
+
     }, // END: drawRings()
 
     addLight() {
@@ -1354,7 +1356,6 @@ methods: {
     
     hardLimit(){
       if (this.postBody.phih < 0) this.postBody.phih= 0;
-
 
 
       if (this.postBody.io < 0) this.postBody.io = 0;
@@ -1801,142 +1802,85 @@ methods: {
 
   /*help tip*/
   .help-tip{
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  background-color: #BCDBEA;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 14px;
+  line-height: 26px;
+  cursor: default;
+}
+.help-tip:before{
+  content:'?';
+  font-weight: bold;
+  color:#fff;
+}
+.help-tip:hover p{
+  display: inline;
+  transform-origin: 100% 0%;
+  -webkit-animation: fadeIn 0.3s ease-in-out;
+  animation: fadeIn 0.3s ease-in-out;
+}
+.help-tip p{
+  display:none;
+  text-align: left;
+  background-color: green;
+  padding: 20px;
+  width: 700%;
+  position: absolute;
+  border-radius: 3px;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+  right: -4px;
+  color: #fff;
+  font-size: 13px;
+  line-height: 1.4;
+  border-radius: 25px;
+   z-index:9999;  /*this z index makes the help tip on top of every other things*/
+}
+.help-tip p:before{ /* The pointer of the tooltip */
     position: relative;
-    display: inline-block;
-    text-align: center;
-    background-color: #BCDBEA;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    font-size: 14px;
-    line-height: 26px;
-    cursor: default;
-  }
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of d32bc12... Add files via upload
-  .help-tip:before{
-    content:'?';
-    font-weight: bold;
-    color:#fff;
-  }
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of d32bc12... Add files via upload
-  .help-tip:hover p{
-    display: inline;
-    transform-origin: 100% 0%;
-
-    -webkit-animation: fadeIn 0.3s ease-in-out;
-    animation: fadeIn 0.3s ease-in-out;
-  }
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of d32bc12... Add files via upload
-  .help-tip p{
-    display:none;
-    text-align: left;
-    background-color: green;
-    padding: 20px;
-    width: 700%;
-    position: absolute;
-    border-radius: 3px;
-    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
-    right: -4px;
-    color: #fff;
-    font-size: 13px;
-    line-height: 1.4;
-    border-radius: 25px;
-    z-index:9999;  /*this z index makes the help tip on top of every other things*/
-  }
-  .help-tip p:before{ /* The pointer of the tooltip */
-      position: relative;
-      content: '';
-      width:0;
-      height: 0;
-      border:6px solid transparent;
-      border-bottom-color:#1E2021;
-      right:10px;
-      top:-12px;
-  }
-
-
-  .help-tip p:after{ /*Prevents the tooltip from being hidden */
-      width:100%;
-      height:40px;
-      content:'';
-      position: relative;
-      top:-40px;
-      left:0;
-  }
-
-  @-webkit-keyframes fadeIn {
-      0% {
-          opacity:0;
-          transform: scale(0.6);
-      }
-
-      100% {
-          opacity:100%;
-          transform: scale(1);
-      }
-  }
-
-  @keyframes fadeIn {
-      0% { opacity:0; }
-      100% { opacity:100%; }
-  }
-
-  span .separator {
-      border-top: 3px solid #333;
-      border-radius:1px;
-      width: 100%;
-      height: 3px;
-      display: block;
-      border-color: white;
-  }
-
-  .help-tip p:after{ /*Prevents the tooltip from being hidden */
-      width:100%;
-      height:40px;
-      content:'';
-      position: relative;
-      top:-40px;
-      left:0;
-  }
-
-  @-webkit-keyframes fadeIn {
-      0% {
-          opacity:0;
-          transform: scale(0.6);
-      }
-
-      100% {
-          opacity:100%;
-          transform: scale(1);
-      }
-  }
-
-  @keyframes fadeIn {
-      0% { opacity:0; }
-      100% { opacity:100%; }
-  }
-
-  span .separator {
-      border-top: 3px solid #333;
-      border-radius:1px;
-      width: 100%;
-      height: 3px;
-      display: block;
-      border-color: white;
-  }
-  .time {
+    content: '';
+    width:0;
+    height: 0;
+    border:6px solid transparent;
+    border-bottom-color:#1E2021;
+    right:10px;
+    top:-12px;
+}
+.help-tip p:after{ /*Prevents the tooltip from being hidden */
+    width:100%;
+    height:40px;
+    content:'';
+    position: relative;
+    top:-40px;
+    left:0;
+}
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity:0;
+        transform: scale(0.6);
+    }
+    100% {
+        opacity:100%;
+        transform: scale(1);
+    }
+}
+@keyframes fadeIn {
+    0% { opacity:0; }
+    100% { opacity:100%; }
+}
+span .separator {
+    border-top: 3px solid #333;
+    border-radius:1px;
     width: 100%;
-    height: 25px;
-  }
+    height: 3px;
+    display: block;
+    border-color: white;
+}
+  
 
 
 
