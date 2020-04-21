@@ -552,16 +552,13 @@
     <button @click="getData()" name="button">GetData</button>
     </div>
 
-
     <div class="outputDisplayContainer">
 
-      <!--<button @click="run()">RUN</Button><br> Hidden for demo-->
+      <button @click="run()">RUN</Button><br>
       <button @click="setDefault('Red Maple')">Red Maple</button>
       <button @click="setDefault('Loblolly Pine')">Loblolly</button>
       <br>
-      <!--<button @click="loadTextures()">Load Textures</Button> Hidden for demo-->
-      <!--<button @click="initialize()">Init</Button> Hidden for demo-->
-      <!--<button @click="animate()">Animate</Button> Hidden for demo-->
+      <button @click="loadTextures()">Load Textures</Button>
       <div class="setSceneContainer">
         <button @click="setScene('ringScene')" class="ringSceneButton" id="ringSceneButton">RINGS</button>
         <button @click="setScene('treeScene')" class="treeSceneButton" id="treeSceneButton">TREE</button>
@@ -577,7 +574,7 @@
       <div class="treeCanvasport" id="treeCanvasport"></div>
       <div class="rawDataList" id="rawDataList">
         <br>
-        <!--<button @click="downloadRawData()" class="dlRawDataButton" id="dlRawDataButton">Download to CSV</button><br>-->
+        <button @click="downloadRawData()" class="dlRawDataButton" id="dlRawDataButton">Download to CSV</button><br>
         <label>Year: {{ this.dataIndex }}               </label><br>
         <label>APARout: {{ this.resultJson.APARout[this.dataIndex] }}               </label><br>
         <label>h: {{ this.resultJson.h[this.dataIndex] }}               </label><br>
@@ -1030,9 +1027,8 @@ methods: {
       this.treeScene.add( box )
     }, // END: addBox()
 
-    draw(scene)
-    {
-      document.getElementById("timeStepSlider").setAttribute("max", this.postBody.t)
+    draw(scene) {
+      document.getElementById("timeStepSlider").setAttribute("max", this.postBody.t) // Should be moved to end of getData().
       if(this.currentScene == this.treeScene)
       {
         this.drawTree()
@@ -1223,18 +1219,6 @@ methods: {
 
     }, // END: drawRings()
 
-    loadRawData() {
-      var index = document.getElementById("timeStepSlider").value // Get index from the slider
-      var rawDataList = document.getElementById("rawDataList")
-
-      if (rawDataList.style.display === "none") {
-        rawDataList.style.display = "block"
-      } else {
-        rawDataList.style.display = "none"
-      }
-
-    }, // END: loadRawData()
-
     addLight() {
       // Ambient light for all objects.
       var light = new THREE.AmbientLight( 0x404040 )
@@ -1288,6 +1272,7 @@ methods: {
     }, // END: setScene()
 
     update() {
+      // THREE.js function
       //this.trunk.rotation.y += 0.01
       //this.crown.rotation.y += 0.01
     }, // END: update()
@@ -1298,10 +1283,10 @@ methods: {
 			this.currentCam.updateProjectionMatrix()
 
 			this.treeRenderer.setSize( window.innerWidth * 0.7, window.innerHeight * 0.7)
-
     }, // END: onWindowResize()
 
     animate() {
+      // THREE.js function
       requestAnimationFrame(this.animate)
       this.update()
       this.treeRenderer.render(this.currentScene, this.currentCam)
@@ -1434,6 +1419,7 @@ methods: {
 </script>
 
 <style lang="css" scoped>
+
   #sliderdiv{
     text-align:left;
   }
