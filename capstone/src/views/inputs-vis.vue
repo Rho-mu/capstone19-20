@@ -304,11 +304,17 @@
            <input type="text" v-model="postBody.sr" placeholder="sr" >
             <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
 
-           <input type="text" v-model="postBody.t" placeholder="Time">
            <input type="text" v-model="postBody.radius" placeholder="Initial Radius">
-           <input type="text" v-model="postBody.io" placeholder="Light Level">
         </ul>
       </div>
+    </div>
+    <div class="slidecontainer">
+      <p>Light Level</p>
+      <input type="range" min="0" max="2060" v-model="postBody.io" class="slider">
+      <p>value: {{postBody.io}} </p>
+      <input type="text" v-model="postBody.t" placeholder="Time in Years" class="time">
+
+
     </div>
 
     <div class="divider">
@@ -595,7 +601,7 @@ methods: {
     }, // END: getData()
 
     setDefault(defaultType) {
-     
+
       // Set default time, light level, and initial radius
       this.postBody.t=10
       this.postBody.radius=0.05
@@ -636,6 +642,9 @@ methods: {
         this.postBody.alpha=0.365
         this.postBody.r0=1.909
         this.postBody.r40=5.592
+        this.postBody.radius=0.05
+        this.postBody.t = 10
+        this.postBody.io = 2060
       } // END: if Red Maple
 
       else if(defaultType == "Loblolly Pine")  // Loblolly Pine button
@@ -672,6 +681,9 @@ methods: {
         this.postBody.alpha=0.308
         this.postBody.r0=1.434
         this.postBody.r40=3.873
+        this.postBody.radius=0.05
+        this.postBody.t = 10
+        this.postBody.io = 2060
       } // END: if Loblolly Pine
     }, // END: set_default()
 
@@ -817,7 +829,7 @@ methods: {
       {
         if( maxHeight < this.resultJson.h[i*this.timeStep] )
         {
-          maxHeight = this.resultJson.h[i*this.timeStep] 
+          maxHeight = this.resultJson.h[i*this.timeStep]
         }
         console.log("maxheight:",maxHeight)
       }
@@ -982,7 +994,7 @@ methods: {
           if(i % 2 == 0) { ringColor = 0x754c2d }
           else { ringColor = 0x5b4b41 }
         }
-        
+
         var ringMat = new THREE.MeshBasicMaterial( {color: ringColor} )
         var ring = new THREE.Mesh( ringGeo, ringMat )
         this.newScene.add( ring )
@@ -999,41 +1011,6 @@ methods: {
       } else {
         rawDataList.style.display = "none"
       }
-
-
-
-      /*for(var rawData in this.treeData[index]) {
-        var para = document.createElement("p")
-        var node = createTextNode("HI")
-        //var newNode = createTextNode(rawData + ": " + this.treeData[index][rawData] + "<br>")
-        para.appendChild(node)
-      }
-      rawDataList.appendChild(para)*/
-
-      //var dataList = document.getElementById("rawDataList")       // Get rawDataList element from html
-
-      // Iterate through the data at the current timestep and print its raw data.
-      /*for(var rawData in this.treeData[index]) {
-        var textNode = document.createTextNode(rawData)
-        dataList.appendChild(textNode)
-        //dataList.innerHTML += rawData + ": " + this.treeData[index][rawData]
-        //console.log(rawData,": ",this.treeData[index][rawData])
-      }*/
-
-      /*var i
-      for(var rawData in this.treeData[index]) {
-        var textNode = document.createTextNode(rawData)
-        var existingNode = dataList.childNodes[i]
-        console.log(dataList.childNodes[i])
-        existingNode.replaceChild(textnode, existingNode.childNodes[i])
-        i++
-      }*/
-
-      /*
-      for(var rawData in this.treeData[index]) {
-        var newNode = dataList.childNodes[rawData]
-        newNode.replaceChild(rawData + ": " + this.treeData[index][rawData] + "<br>", newNode.childNodes[rawData])
-      }*/
 
     }, // END: loadRawData()
 
@@ -1235,6 +1212,21 @@ methods: {
 
 <style lang="css" scoped>
 
+
+  .slidecontainer {
+    width: 100%;
+
+  }
+
+  .slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 25px;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+  }
   /*title wrapper*/
 
   .title-wrapper {
@@ -1424,7 +1416,7 @@ methods: {
     font-size:15px;
   }
 
-  
+
 
   input#menu {
     display: none;
@@ -1541,7 +1533,10 @@ span .separator {
     display: block;
     border-color: white;
 }
-
+.time {
+  width: 100%;
+  height: 25px;
+}
 
 
 

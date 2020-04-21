@@ -5,12 +5,8 @@ import VueRouter from 'vue-router'
 //import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import SignUp from '../views/SignUp.vue'
-import Visualization from '../views/Vis.vue'
 import Survey from '../views/Survey.vue'
 import Landing from '../views/Landing.vue'
-import Inputs from '../views/inputs.vue'
-import Outputs from '../views/outputs.vue'
-import VisTest from '../views/VisTest.vue'
 import InputsVis from '../views/inputs-vis.vue'
 
 Vue.use(VueRouter)
@@ -39,32 +35,9 @@ const routes = [
     redirect: '/Landing'
   },
   {
-    path: '/visualization', // this redirects anything that doesn't correspond to the login page
-    name: 'Visualization',
-    component: Visualization,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
     path: '/landing', // this redirects anything that doesn't correspond to the login page
     name: 'Landing',
     component: Landing
-  },
-  {
-    path: '/inputs', // this redirects anything that doesn't correspond to the login page
-    name: 'Inputs',
-    component: Inputs
-  },
-  {
-    path: '/outputs', // this redirects anything that doesn't correspond to the login page
-    name: 'Outputs',
-    component: Outputs
-  },
-  {
-    path: '/vistest',
-    name: 'VisTest',
-    component: VisTest
   },
   {
     path: '/inputs-vis',
