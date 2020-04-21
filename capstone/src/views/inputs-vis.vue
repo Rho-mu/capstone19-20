@@ -30,7 +30,19 @@
       </div>
       <div class="divider">
       </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menu-0">
+      <label for="menu-0">Default Data Sets</label>
+      <div class="menu-content">
+      <br>
+        <button @click="setDefault('Red Maple')">Red Maple</button>
+        <button @click="setDefault('Loblolly Pine')">Loblolly Pine</button>
+      </div>
+    </div>
 
+    <div class="divider">
+      </div>
+      
     <div class="collapsible-menu">
       <input type="checkbox" id="menu">
       <label id="gourp1" for="menu">Allometries and <br>biomass partitioning</label>
@@ -555,8 +567,6 @@
     <div class="outputDisplayContainer">
 
       <button @click="run()">RUN</Button><br>
-      <button @click="setDefault('Red Maple')">Red Maple</button>
-      <button @click="setDefault('Loblolly Pine')">Loblolly</button>
       <br>
       <button @click="loadTextures()">Load Textures</Button>
       <div class="setSceneContainer">
@@ -1624,17 +1634,34 @@ methods: {
 
   }
 
+  .collapsible-menu button {
+    display: inline-block;
+    width: 100px;
+    height: 50px;
+    padding: 5px 5px;
+    margin: 2px;
+    border: 2px solid green;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    color: black;
+    font-family: "Lucida Console", Monaco, monospace;
+    background-color: #FFF;
+
+  }
+
   .menu-content label {
     font-size:15px;
   }
 
 
+  input#menu-0 {
+    display: none;
+  }
 
   input#menu {
     display: none;
   }
-
-
 
   /* Toggle Effect */
 
