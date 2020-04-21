@@ -1075,18 +1075,19 @@ methods: {
       this.addBox()
       this.addLight()
 
-      var year = this.dataIndex * 16 - 1
+      var year = this.dataIndex
+      var timestep = year * 16 - 1
 
       /// Trunk variables
-      var h = this.resultJson.h[year]      // Total tree height
-      var hB = this.resultJson.hB2[year]   // Height that trunk transitions from neiloid to paraboloid (base to trunk)
+      var h = this.resultJson.h[timestep]      // Total tree height
+      var hB = this.resultJson.hB2[timestep]   // Height that trunk transitions from neiloid to paraboloid (base to trunk)
       hB = this.postBody.etaB * h
-      var hC = this.resultJson.hC2[year]   // Height that trunk transitions from paraboloid to cone (trunk to crown)
+      var hC = this.resultJson.hC2[timestep]   // Height that trunk transitions from paraboloid to cone (trunk to crown)
       hC = this.postBody.eta * h
-      var r = this.resultJson.r[year]      // Radius of trunk at base
+      var r = this.resultJson.r[timestep]      // Radius of trunk at base
       //r = r * 7 // Temporary use to negate weird data
-      var rB = this.resultJson.rB2[year]   // Radius of trunk when transitioning from neilooid to paraboloid (base to trunk)
-      var rC = this.resultJson.rC2[year]   // Radius of trunk when transitioning from parapoloid to cone (trunk to crown)
+      var rB = this.resultJson.rB2[timestep]   // Radius of trunk when transitioning from neilooid to paraboloid (base to trunk)
+      var rC = this.resultJson.rC2[timestep]   // Radius of trunk when transitioning from parapoloid to cone (trunk to crown)
       //rC = rC * 7 // Temporary use to negate weird data
 
       /// Crown variables (overlaid on "cone" part of trunk)
@@ -1097,8 +1098,8 @@ methods: {
       var alpha = this.postBody.alpha               // Input.
       var r0 = this.postBody.r0                     // Input.
       var r40 = this.postBody.r40                   // Input.
-      var rBH = this.resultJson.rBH[year]           // Output.
-      // var h = this.treeData[year].h              // Output. Delcared above
+      var rBH = this.resultJson.rBH[timestep]           // Output.
+      // var h = this.treeData[timestep].h              // Output. Delcared above
       const BH = 1.37                               // Breast height. Contsant 1.37 meters
 
       // if h > BH --> rcmax = r0 + ((r40 - r0) * (2 * rBH * 100) / 40)
@@ -1128,12 +1129,12 @@ methods: {
         rcbase = rcmax
       }
 
-      console.log("timestep:",year,"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,
+      console.log("year:",year,"timestep:",timestep,"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,
       "\nrBH:",rBH,"\nrcmax:",rcmax,"\nrcbase:",rcbase)
 
 
       // Supplemental parameters
-      var geoSegments = 16                  // Segments of geometry
+      var geoSegments = 20                  // Segments of geometry
       var trunkPos = hC/2             // Trunk position on the screen. Needs to be based on max height.
       var crownPos = h - (h - hC)/2   // Crown position on the screen. Bottom of crown needs to be on the same x plan as top of trunk.
 
@@ -1153,7 +1154,7 @@ methods: {
         // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
         crownGeo = new THREE.ConeGeometry( rcbase, h-hC, geoSegments )
       }
-      else if( this.crownShape == "sphere")
+      else if( this.crownShape == "sphere") // Currently doesn't work very well. Needs tuning.
       {
         // SphereGeometry(radius : Float, widthSegments : Integer, heightSegments : Integer)
         crownGeo = new THREE.SphereGeometry( rcbase, geoSegments*1.5, geoSegments*1.5 )
@@ -1215,21 +1216,20 @@ methods: {
         if( this.resultJson.r[i] < heartwoodRadius ) // If the current ring is part of the heart wood..
         {
           // Alternate between lighter colors
-          if(i % 2 == 0) { ringColor = 0x964b00 }
-          else { ringColor = 0x804c22 }
+          if(i % 2 == 0) { ringColor = 0x925A40 }
+          else { ringColor = 0x642C11 }
         }
         else                                        // If the current ring is part of the sap wood..
         {
           // Alternate between darker colors
-          if(i % 2 == 0) { ringColor = 0x754c2d }
-          else { ringColor = 0x5b4b41 }
+          if(i % 2 == 0) { ringColor = 0x7E572D }
+          else { ringColor = 0x43280B }
         }
 
         var ringMat = new THREE.MeshBasicMaterial( {color: ringColor} )
         var ring = new THREE.Mesh( ringGeo, ringMat )
         this.newScene.add( ring )
       }
-
     }, // END: drawRings()
 
     addLight() {
