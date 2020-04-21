@@ -44,8 +44,8 @@
       <label id="gourp1" for="menu">Allometries and <br>biomass partitioning</label>
       <div class="menu-content">
         <ul>
-          <label for="phip"> phip:</label><br>
-          <input id="phip" type="text" v-model="postBody.phih" placeholder="phih > 0" >
+          <label for="phih"> phip:</label><br>
+          <input id="phih" type="text" v-model="postBody.phih" placeholder="phih > 0" min="0" >
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -58,7 +58,7 @@
             </p></span><br>
 
           <label for="eta"> eta:</label><br>
-          <input id="eta" type="text" v-model="postBody.eta" placeholder="0 < eta < 1" >
+          <input id="eta" type="text" v-model="postBody.eta" placeholder="0 < eta < 1" min="0" max="1">
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -71,7 +71,7 @@
             </p></span><br>
 
           <label for="lamda"> lamda:</label><br>
-          <input id="lamda" type="text" v-model="postBody.lamda" placeholder="0 < lamda < 1" >
+          <input id="lamda" type="text" v-model="postBody.lamda" placeholder="0 < lamda < 1" min="0" max="1" >
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -84,7 +84,7 @@
             </p></span><br>
 
           <label for="f2"> f2 (RA:LA):</label><br>
-          <input id="f2" type="text" v-model="postBody.f2" placeholder="f2 (RA:LA) > 0" >
+          <input id="f2" type="text" v-model="postBody.f2" placeholder="f2 (RA:LA) > 0" min="0">
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -97,7 +97,7 @@
             </p></span><br>
 
           <label for="f1"> f1 (LA:XA):</label><br>
-          <input id="f1" type="text" v-model="postBody.f1" placeholder="f1 (LA:XA) > 0" >
+          <input id="f1" type="text" v-model="postBody.f1" placeholder="f1 (LA:XA) > 0" min="0">
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -110,7 +110,7 @@
             </p></span><br>
 
           <label for="gammax"> gammaX (XA:SA):</label><br>
-          <input id="gammax" type="text" v-model="postBody.gammax" placeholder="0 < gammaX (XA:SA) < 1" >
+          <input id="gammax" type="text" v-model="postBody.gammax" placeholder="0 <gammaX (XA:SA)< 1" min="0" max="1">
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -123,7 +123,7 @@
             </p></span><br>
 
           <label for="etaB"> etaB:</label><br>
-          <input id="etaB" type="text" v-model="postBody.etaB" placeholder="0 < etaB < eta" >
+          <input id="etaB" type="text" v-model="postBody.etaB" placeholder="0 < etaB < eta" min="0">
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -136,7 +136,7 @@
             </p></span><br>
 
           <label for="m"> M:</label><br>
-          <input id="m" type="text" v-model="postBody.m" placeholder="0 < m < 1" >
+          <input id="m" type="text" v-model="postBody.m" placeholder="0 < m < 1" min="0" max="1">
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -149,7 +149,7 @@
             </p></span><br>
 
           <label for="alpha"> alpha:</label><br>
-          <input id="alpha" type="text" v-model="postBody.alpha" placeholder="alpha > 0" >
+          <input id="alpha" type="text" v-model="postBody.alpha" placeholder="alpha > 0" min="0" >
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -162,7 +162,7 @@
             </p></span><br>
 
           <label for="r0"> R0:</label><br>
-          <input id="r0" type="text" v-model="postBody.r0" placeholder="R0 > 0" >
+          <input id="r0" type="text" v-model="postBody.r0" placeholder="R0 > 0" min="0" >
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -175,7 +175,7 @@
             </p></span><br>
 
           <label for="r40"> R40:</label><br>
-          <input id="r40" type="text" v-model="postBody.r40" placeholder="R40 > R0" >
+          <input id="r40" type="text" v-model="postBody.r40" placeholder="R40 > R0" min="0" >
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -200,7 +200,7 @@
       <div class="menu-content">
         <ul>
           <label for="hmax"> Hmax:(m)</label><br>
-          <input id="hmax" type="text" v-model="postBody.hmax" placeholder="0 < Hmax < 127" >
+          <input id="hmax" type="text" v-model="postBody.hmax" placeholder="0 < Hmax < 127" min="0" max="127">
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -213,7 +213,7 @@
             </p></span><br>
 
           <label for="swmax"> SWmax:(m)</label><br>
-          <input id="swmax" type="text" v-model="postBody.swmax" placeholder="SWmax > 0" >
+          <input id="swmax" type="text" v-model="postBody.swmax" placeholder="SWmax > 0" min="0"  >
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -226,7 +226,7 @@
             </p></span><br>
 
           <label for="rr"> rr: (m)</label><br>
-          <input id="rr" type="text" v-model="postBody.rr" placeholder="rr > 0" >
+          <input id="rr" type="text" v-model="postBody.rr" placeholder="rr > 0" min="0" >
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -251,7 +251,7 @@
       <div class="menu-content">
         <ul>
           <label for="rhomax"> WD: (g dw m-3)</label><br>
-          <input id="rhomax" type="text" v-model="postBody.rhomax" placeholder="WD > 0" >
+          <input id="rhomax" type="text" v-model="postBody.rhomax" placeholder="WD > 0" min="0">
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -264,7 +264,7 @@
             </p></span><br>
 
           <label for="gammaw"> gammaW: (m3g dw-1)</label><br>
-          <input id="gammaw" type="text" v-model="postBody.gammaw" placeholder="gammaW" >
+          <input id="gammaw" type="text" v-model="postBody.gammaw" placeholder="gammaW">
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -277,7 +277,7 @@
             </p></span><br>
 
           <label for="sla"> sla: (m2g dw-1)</label><br>
-          <input id="sla" type="text" v-model="postBody.sla" placeholder="sla > 0" >
+          <input id="sla" type="text" v-model="postBody.sla" placeholder="sla > 0" min="0" >
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -302,7 +302,7 @@
       <div class="menu-content">
         <ul>
           <label for="gammac"> gammaC: (g gluc m-3)</label><br>
-          <input id="gammac" type="text" v-model="postBody.gammac" placeholder="gammac > 0" >
+          <input id="gammac" type="text" v-model="postBody.gammac" placeholder="gammac > 0" min="0" >
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -315,7 +315,7 @@
           </p></span><br>
 
           <label for="cgl"> cgL: (g gluc g dw-1)</label><br>
-          <input id="cgl" type="text" v-model="postBody.cgl" placeholder="cgL > 0" >
+          <input id="cgl" type="text" v-model="postBody.cgl" placeholder="cgL > 0" min="0">
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -328,7 +328,7 @@
           </p></span><br>
 
           <label for="cgr"> cgR: (g gluc g dw-1)</label><br>
-          <input id="cgr" type="text" v-model="postBody.cgr" placeholder="cgr > 0" >
+          <input id="cgr" type="text" v-model="postBody.cgr" placeholder="cgr > 0" min="0" >
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -341,7 +341,7 @@
           </p></span><br>
 
           <label for="cgw"> cgW: (g gluc g dw-1)</label><br>
-          <input id="cgw" type="text" v-model="postBody.cgw" placeholder="cgw > 0" >
+          <input id="cgw" type="text" v-model="postBody.cgw" placeholder="cgw > 0" min="0" >
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -354,7 +354,7 @@
           </p></span><br>
 
           <label for="deltal"> deltaL: (g gluc g dw-1)</label><br>
-          <input id="deltal" type="text" v-model="postBody.deltal" placeholder="deltal > 0" >
+          <input id="deltal" type="text" v-model="postBody.deltal" placeholder="deltal > 0" min="0" >
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -367,7 +367,7 @@
           </p></span><br>
 
           <label for="deltar"> deltaR: (g gluc g dw-1)</label><br>
-          <input id="deltar" type="text" v-model="postBody.deltar" placeholder="deltar > 0" >
+          <input id="deltar" type="text" v-model="postBody.deltar" placeholder="deltar > 0" min="0" >
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -380,7 +380,7 @@
           </p></span><br>
 
           <label for="rhor"> rhor: (g dw m-3)</label><br>
-          <input id="rhor" type="text" v-model="postBody.rhor" placeholder="rhor > 0" >
+          <input id="rhor" type="text" v-model="postBody.rhor" placeholder="rhor > 0" min="0" >
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -393,7 +393,7 @@
           </p></span><br>
 
           <label for="rml"> rmL: (g gluc g dw-1year-1)</label><br>
-          <input id="rml" type="text" v-model="postBody.rml" placeholder="rmL > 0" >
+          <input id="rml" type="text" v-model="postBody.rml" placeholder="rmL > 0" min="0">
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -406,7 +406,7 @@
           </p></span><br>
 
           <label for="rms"> rmS: (g gluc g dw-1year-1)</label><br>
-          <input id="rms" type="text" v-model="postBody.rms" placeholder="rmS > 0" >
+          <input id="rms" type="text" v-model="postBody.rms" placeholder="rmS > 0" min="0" >
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -419,7 +419,7 @@
           </p></span><br>
 
           <label for="rmr"> rmR: (g gluc g dw-1year-1)</label><br>
-          <input id="rmr" type="text" v-model="postBody.rmr" placeholder="rmR > 0" >
+          <input id="rmr" type="text" v-model="postBody.rmr" placeholder="rmR > 0" min="0" >
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -432,7 +432,7 @@
           </p></span><br>
 
           <label for="k"> k: (g gluc g dw-1year-1)</label><br>
-          <input id="k" type="text" v-model="postBody.k" placeholder="k > 0" >
+          <input id="k" type="text" v-model="postBody.k" placeholder="k > 0" min="0" >
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -445,7 +445,7 @@
           </p></span><br>
 
           <label for="k"> epsg (RUE): (g gluc MJ-1)</label><br>
-          <input id="k" type="text" v-model="postBody.epsg" placeholder="0 < k < 15.73" >
+          <input id="k" type="text" v-model="postBody.epsg" placeholder="0 < k < 15.73" min="0" max="15.73">
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -470,7 +470,7 @@
       <div class="menu-content">
         <ul>
           <label for="sl"> sL: (year-1)</label><br>
-          <input id="sl" type="text" v-model="postBody.sl" placeholder="sL > 0" >
+          <input id="sl" type="text" v-model="postBody.sl" placeholder="sL > 0" min="0" >
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -483,7 +483,7 @@
           </p></span><br>
 
           <label for="sr"> sR: (year-1)</label><br>
-          <input id="sr" type="text" v-model="postBody.sr" placeholder="sR > 0" >
+          <input id="sr" type="text" v-model="postBody.sr" placeholder="sR > 0" min="0">
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -494,9 +494,9 @@
               <span class="separator"></span>
               Constraint: (0,+&#8734)
           </p></span><br>
-          
+
           <label for="so"> sO: (year-1)</label><br>
-          <input id="so" type="text" v-model="postBody.so" placeholder="sO > 0" >
+          <input id="so" type="text" v-model="postBody.so" placeholder="sO > 0" min="0" >
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -509,7 +509,7 @@
           </p></span><br>
 
           <label for="initialRadius"> Initial radius: (m)</label><br>
-          <input id="initialRadius" type="text" v-model="postBody.radius" placeholder="radius > 0" >
+          <input id="initialRadius" type="text" v-model="postBody.radius" placeholder="radius > 0" min="0" >
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -538,15 +538,15 @@
        <div class="divider">
       </div>
       0<input id="io"type="range" min="0" max="2060" v-model="postBody.io" class="timeStepSlider">2060
-      
+
 
       <div class="divider">
       </div>
       <div class="divider">
       </div>
 
-      <label for="t"> Time: (year)</label><br>
-      <input id="t" type="text" v-model="postBody.t" placeholder="Time in Years" class="time">
+      <label for="t">Total Time: (year)</label><br>
+      <input id="t" type="text" v-model="postBody.t" placeholder="Time in Years" class="time" min="0" max="100">
 
 
     </div>
@@ -584,8 +584,8 @@
       </div>
 
       <h3> Move the slider to see the growth of the tree!</h3>
-      <input type="range" min="1" v-model="dataIndex" @input="draw()" id="timeStepSlider" class="timeStepSlider">
-      <br><br>
+
+      <input type="range" min="1" v-model="dataIndex" @input="draw()" id="timeStepSlider" class="timeStepSlider"><br><br>
       <div class="treeCanvasport" id="treeCanvasport"></div>
       <div class="rawDataList" id="rawDataList">
         <br>
@@ -1312,7 +1312,7 @@ methods: {
 
       //start checking null
       temporaryIsDisable=temporaryIsDisable || (this.postBody.hmax==="");
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.phip==="");
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.phih==="");
       temporaryIsDisable=temporaryIsDisable || (this.postBody.eta==="");
       temporaryIsDisable=temporaryIsDisable || (this.postBody.swmax==="") ;
       temporaryIsDisable=temporaryIsDisable || (this.postBody.lamda==="") ;
@@ -1343,66 +1343,102 @@ methods: {
       temporaryIsDisable=temporaryIsDisable || (this.postBody.alpha==="") ;
       temporaryIsDisable=temporaryIsDisable || (this.postBody.r0==="") ;
       temporaryIsDisable=temporaryIsDisable || (this.postBody.r40==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.radius==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.io==="") ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.t==="") ;
       //finish checking null
 
       if(temporaryIsDisable){
-        this.errorMessage="ERROR: Please fill out all of the fields"
+        this.errorMessage="ERROR: Please fill out all of the fields";
         this.isDisable=temporaryIsDisable;
         return 0
       }
 
       //start check the lower limit for all of the inputs
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.hmax < 0);
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.phip < 0);
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.phih < 0);
+
       temporaryIsDisable=temporaryIsDisable || (this.postBody.eta < 0);
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.swmax < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.lamda < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.rhomax < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.f2 < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.f1 < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.gammac < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.gammaw < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.gammax < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.cgl < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.cgr < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.cgw < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.deltal < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.deltar < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.sl < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.sla < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.so < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.sr < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.rr < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.rhor < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.rml < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.rms < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.rmr < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.etaB < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.k < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.epsg < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.m < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.alpha < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.r0 < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.r40 < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.t < 0) ;
-      //finish checking for the lower limits
-
-      if(temporaryIsDisable){
-        this.errorMessage="ERROR: Please enter positive numbers"
-        this.isDisable=temporaryIsDisable;
-        return 0
-      }
-
-      //start checking for the higher limits(if any)
       temporaryIsDisable=temporaryIsDisable || (this.postBody.eta > 1) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.lamda < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.lamda > 1) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.f2 < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.f1 < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.gammax < 0) ;
       temporaryIsDisable=temporaryIsDisable || (this.postBody.gammax > 1) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.etaB > 1) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.etaB < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.etaB > this.postBody.eta) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.m < 0) ;
       temporaryIsDisable=temporaryIsDisable || (this.postBody.m > 1) ;
 
-      //finish checking for the higher limits
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.alpha < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.r0 < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.r40 < this.postBody.r0) ;
+      //Group A end
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.hmax < 0);
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.hmax > 127) ;
+      
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.swmax < 0) ;
+
+       temporaryIsDisable=temporaryIsDisable || (this.postBody.rr < 0) ;
+       //Group B end
+      
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.rhomax < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.gammaw < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.sla < 0) ;
+      //Group C end
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.gammac < 0) ;    
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.cgl < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.cgr < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.cgw < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.deltal < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.deltar < 0) ;
+      
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.rhor < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.rml < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.rms < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.rmr < 0) ;
+      
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.k < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.epsg < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.epsg > 15.73) ;
+      //Group D end
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.sl < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.sr < 0) ;
+      
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.so < 0) ;
+           
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.radius < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.io < 0) ;
+
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.t < 0) ;
+      //Group E end
 
       if(temporaryIsDisable){
-        this.errorMessage="ERROR: Some values can't be larger than 1"
+        this.errorMessage="ERROR: Please check the constraints"
         this.isDisable=temporaryIsDisable;
         return 0
       }
@@ -1433,29 +1469,25 @@ methods: {
 
 <style lang="css" scoped>
 
-  #defaultRM{
-    background-color:#4d0000;
-    color:#EEE;
+  input[type=text] {
+    border-radius:5px;
   }
 
-  #defaultRM button:hover {
-    background-color: #EEE;
-  }
-
-  #defaultRM, #defaultLP {
-    display: inline-block;
-    width: 60%;
-    height: 40px;
-    padding: 5px 5px;
-    margin: 2px;
-    border: none;
-    border-radius: 15px;
-    cursor: pointer;
-    font-size: 16px;
+  input[type=text]::-webkit-input-placeholder {
     font-family: "Lucida Console", Monaco, monospace;
   }
 
+  input[type=text]:-ms-input-placeholder {
+    font-family: "Lucida Console", Monaco, monospace;
+  }
 
+  input[type=text]:-moz-placeholder {
+    font-family: "Lucida Console", Monaco, monospace;
+  }
+
+  input[type=text]::-moz-placeholder {
+    font-family: "Lucida Console", Monaco, monospace;
+  }
 
   #iodisplay{
       border: none;
@@ -1616,7 +1648,7 @@ methods: {
     -webkit-appearance: none;
     width: 100%;
     height: 15px;
-    border-radius: 5px; 
+    border-radius: 5px;
     background: #d3d3d3;
     outline: none;
     opacity: 0.7;
@@ -1647,7 +1679,7 @@ methods: {
     height: 25px;
     background: #4CAF50;
     cursor: pointer;
-    border-radius: 50%; 
+    border-radius: 50%;
   }
 
   .timeStepSlider::-moz-range-thumb {
@@ -1655,7 +1687,7 @@ methods: {
     height: 25px;
     background: #4CAF50;
     cursor: pointer;
-    border-radius: 50%; 
+    border-radius: 50%;
   }
 
   .menu-content {
