@@ -1812,19 +1812,11 @@ methods: {
     line-height: 26px;
     cursor: default;
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of d32bc12... Add files via upload
   .help-tip:before{
     content:'?';
     font-weight: bold;
     color:#fff;
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of d32bc12... Add files via upload
   .help-tip:hover p{
     display: inline;
     transform-origin: 100% 0%;
@@ -1832,10 +1824,6 @@ methods: {
     -webkit-animation: fadeIn 0.3s ease-in-out;
     animation: fadeIn 0.3s ease-in-out;
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of d32bc12... Add files via upload
   .help-tip p{
     display:none;
     text-align: left;
