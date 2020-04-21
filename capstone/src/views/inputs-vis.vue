@@ -494,7 +494,7 @@
               <span class="separator"></span>
               Constraint: (0,+&#8734)
           </p></span><br>
-          
+
           <label for="so"> sO: (year-1)</label><br>
           <input id="so" type="text" v-model="postBody.so" placeholder="sO > 0" >
           <span class="help-tip">
@@ -538,7 +538,7 @@
        <div class="divider">
       </div>
       0<input id="io"type="range" min="0" max="2060" v-model="postBody.io" class="timeStepSlider">2060
-      
+
 
       <div class="divider">
       </div>
@@ -584,8 +584,8 @@
       </div>
 
       <h3> Move the slider to see the growth of the tree!</h3>
-      
-      <input type="range" min="1" v-model="dataIndex" @input="draw()" id="timeStepSlider" class="timeStepSlider">
+
+      <input type="range" min="1" v-model="dataIndex" @input="draw()" id="timeStepSlider" class="timeStepSlider"><br><br>
       <div class="treeCanvasport" id="treeCanvasport"></div>
       <div class="rawDataList" id="rawDataList">
         <br>
@@ -1616,7 +1616,7 @@ methods: {
     -webkit-appearance: none;
     width: 100%;
     height: 15px;
-    border-radius: 5px; 
+    border-radius: 5px;
     background: #d3d3d3;
     outline: none;
     opacity: 0.7;
@@ -1647,7 +1647,7 @@ methods: {
     height: 25px;
     background: #4CAF50;
     cursor: pointer;
-    border-radius: 50%; 
+    border-radius: 50%;
   }
 
   .timeStepSlider::-moz-range-thumb {
@@ -1655,7 +1655,7 @@ methods: {
     height: 25px;
     background: #4CAF50;
     cursor: pointer;
-    border-radius: 50%; 
+    border-radius: 50%;
   }
 
   .menu-content {
