@@ -1312,91 +1312,91 @@ methods: {
 
   /*help tip*/
   .help-tip{
-  position: relative;
-  display: inline-block;
-  text-align: center;
-  background-color: #BCDBEA;
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  font-size: 14px;
-  line-height: 26px;
-  cursor: default;
-}
-.help-tip:before{
-  content:'?';
-  font-weight: bold;
-  color:#fff;
-}
-.help-tip:hover p{
-  display: inline;
-  transform-origin: 100% 0%;
-
-  -webkit-animation: fadeIn 0.3s ease-in-out;
-  animation: fadeIn 0.3s ease-in-out;
-}
-.help-tip p{
-  display:none;
-  text-align: left;
-  background-color: green;
-  padding: 20px;
-  width: 700%;
-  position: absolute;
-  border-radius: 3px;
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
-  right: -4px;
-  color: #fff;
-  font-size: 13px;
-  line-height: 1.4;
-  border-radius: 25px;
-   z-index:9999;  /*this z index makes the help tip on top of every other things*/
-}
-.help-tip p:before{ /* The pointer of the tooltip */
     position: relative;
-    content: '';
-    width:0;
-    height: 0;
-    border:6px solid transparent;
-    border-bottom-color:#1E2021;
-    right:10px;
-    top:-12px;
-}
+    display: inline-block;
+    text-align: center;
+    background-color: #BCDBEA;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+    line-height: 26px;
+    cursor: default;
+  }
+  .help-tip:before{
+    content:'?';
+    font-weight: bold;
+    color:#fff;
+  }
+  .help-tip:hover p{
+    display: inline;
+    transform-origin: 100% 0%;
+
+    -webkit-animation: fadeIn 0.3s ease-in-out;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  .help-tip p{
+    display:none;
+    text-align: left;
+    background-color: green;
+    padding: 20px;
+    width: 700%;
+    position: absolute;
+    border-radius: 3px;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    right: -4px;
+    color: #fff;
+    font-size: 13px;
+    line-height: 1.4;
+    border-radius: 25px;
+    z-index:9999;  /*this z index makes the help tip on top of every other things*/
+  }
+  .help-tip p:before{ /* The pointer of the tooltip */
+      position: relative;
+      content: '';
+      width:0;
+      height: 0;
+      border:6px solid transparent;
+      border-bottom-color:#1E2021;
+      right:10px;
+      top:-12px;
+  }
 
 
-.help-tip p:after{ /*Prevents the tooltip from being hidden */
-    width:100%;
-    height:40px;
-    content:'';
-    position: relative;
-    top:-40px;
-    left:0;
-}
+  .help-tip p:after{ /*Prevents the tooltip from being hidden */
+      width:100%;
+      height:40px;
+      content:'';
+      position: relative;
+      top:-40px;
+      left:0;
+  }
 
-@-webkit-keyframes fadeIn {
-    0% {
-        opacity:0;
-        transform: scale(0.6);
-    }
+  @-webkit-keyframes fadeIn {
+      0% {
+          opacity:0;
+          transform: scale(0.6);
+      }
 
-    100% {
-        opacity:100%;
-        transform: scale(1);
-    }
-}
+      100% {
+          opacity:100%;
+          transform: scale(1);
+      }
+  }
 
-@keyframes fadeIn {
-    0% { opacity:0; }
-    100% { opacity:100%; }
-}
+  @keyframes fadeIn {
+      0% { opacity:0; }
+      100% { opacity:100%; }
+  }
 
-span .separator {
-    border-top: 3px solid #333;
-    border-radius:1px;
-    width: 100%;
-    height: 3px;
-    display: block;
-    border-color: white;
-}
+  span .separator {
+      border-top: 3px solid #333;
+      border-radius:1px;
+      width: 100%;
+      height: 3px;
+      display: block;
+      border-color: white;
+  }
 
 
 
