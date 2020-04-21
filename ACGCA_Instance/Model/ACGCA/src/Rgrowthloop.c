@@ -77,7 +77,7 @@ void Rgrowthloop( double *p2, double *gp2, double *Io, double *r0, int *t,
 	// and the simulation control variables.
 	///////////////////////////////////////////////////////////////////////////
 	sparms p;
-  gparms gp;
+  	gparms gp;
 
 	// NOTE: all indicies -1 because C starts at 0 while R starts at 1
 	// Define p(plant) parameters based on R array

@@ -7,14 +7,17 @@
 
 
     </div>
-    <div id="center">Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-      sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-      erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et
-      ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-      ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-      sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-      sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
-      Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    <div id="center">
+      ACGCA Introduction
+
+      The Allometrically Constrained Growth and Carbon Allocation (ACGCA) model is an individually based model of tree growth and mortality originally developed by Ogle and Pacala (2009). As the name implies the ACGCA model makes use of functional traits and allometries between tissue types (i.e. leaves, roots, and stems) to determine carbon allocation in a tree.
+      <br><br>
+      Carbon dynamics within the tree are essential to this model. Carbon is allocated between a structural and two storage pools in a way that satisfies the aforementioned allometric relationships (Ogle and Pacala (2009). One storage pool is associated with leaf and fine root tissue. Labile carbon in this pool is retranslocated when the tissue senesceses (Ogle and Pacala 2009). The other storage pool is in the sapwood and is used in times of stress (high labile carbon demand relative to carbon inputs). Finally there is a transient labile carbon pool representative of recent photosynthate and retranslocated carbon. It is not associated with a specific tissue and is immediately redistributed within the tree to accommodate biomass production, respiration, and allocation to storage. If the labile carbon available to the tree is depleted the tree dies (Ogle and Pacala 2009).
+      <br><br>
+      There are six possible physiological states in the ACGCA model: healthy, static, shrinking, recovering, recovered, or dead (Ogle and Pacala 2009). Each state is described by a set of difference equations satisfying mass-balance relationshipts between structural and labile carbon pools. The only environmental driver included in the model is parmax (annual radiation for a site).
+      <br><br>
+      For a full description of the model see Ogle and Pacala (2009) and the accompanying supplemental material. The model has also been used in several other studies (Fell et al. 2018 and Gemoets et al 2013).
+      
       <p id="return">
         <button class="testButton" @click="moveToLogin"id="returnButton">Returning?</button>
       </p>
