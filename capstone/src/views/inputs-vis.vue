@@ -1,10 +1,6 @@
 <template>
   <div>
 
-    <div class="title-wrapper">
-      Presented By TreeViz
-    </div>
-
     <div class="divider">
       </div>
 
@@ -39,28 +35,6 @@
         <button @click="setDefault('Loblolly Pine')">Loblolly Pine</button>
       </div>
     </div>
-
-      <div class="collapsible-menu">
-      <input type="checkbox" id="menu0">
-      <label id="gourp0" for="menu0">Using Default</label>
-      <div class="menu-content">
-
-              <div class="divider">
-              </div>
-              <div class="divider">
-              </div>
-
-              <!--<button @click="run()">RUN</Button><br> Hidden for demo-->
-              <button id="defaultRM" class="defaultBtn" @click="setDefault('Red Maple')">Red Maple</button><br>
-
-              <div class="divider">
-              </div>
-
-              <button id="defaultLP" class="defaultBtn" @click="setDefault('Loblolly Pine')">Loblolly Pine</button><br>
-
-              <br>
-      </div>
-      </div>
 
       <div class="divider">
       </div>
@@ -589,12 +563,13 @@
 
     <button id="postDataBtn" :disabled='isDisabled()' @click="postData()" name="button">PostData</button>
     <button @click="getData()" name="button">GetData</button>
+    <button @click="run()">RUN</Button><br>
+      <br>
     </div>
 
     <div class="outputDisplayContainer">
 
-      <button @click="run()">RUN</Button><br>
-      <br>
+      
       <button @click="loadTextures()">Load Textures</Button>
       <div class="setSceneContainer">
         <button @click="setScene('ringScene')" class="ringSceneButton" id="ringSceneButton">RINGS</button>
