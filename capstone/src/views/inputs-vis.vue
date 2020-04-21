@@ -31,6 +31,31 @@
       <div class="divider">
       </div>
 
+      <div class="collapsible-menu">
+      <input type="checkbox" id="menu0">
+      <label id="gourp0" for="menu0">Using Default</label>
+      <div class="menu-content">
+
+              <div class="divider">
+              </div>
+              <div class="divider">
+              </div>
+
+              <!--<button @click="run()">RUN</Button><br> Hidden for demo-->
+              <button id="defaultRM" class="defaultBtn" @click="setDefault('Red Maple')">Red Maple</button><br>
+
+              <div class="divider">
+              </div>
+
+              <button id="defaultLP" class="defaultBtn" @click="setDefault('Loblolly Pine')">Loblolly Pine</button><br>
+
+              <br>
+      </div>
+      </div>
+
+      <div class="divider">
+      </div>
+
     <div class="collapsible-menu">
       <input type="checkbox" id="menu">
       <label id="gourp1" for="menu">Allometries and <br>biomass partitioning</label>
@@ -218,7 +243,7 @@
             </p></span><br>
 
           <label for="rr"> rr: (m)</label><br>
-          <input id="rr" type="text" v-model="postBody.rr" placeholder="rr> 0" >
+          <input id="rr" type="text" v-model="postBody.rr" placeholder="rr > 0" >
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -243,7 +268,7 @@
       <div class="menu-content">
         <ul>
           <label for="rhomax"> WD: (g dw m-3)</label><br>
-          <input id="rhomax" type="text" v-model="postBody.rhomax" placeholder="WD> 0" >
+          <input id="rhomax" type="text" v-model="postBody.rhomax" placeholder="WD > 0" >
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -437,7 +462,7 @@
           </p></span><br>
 
           <label for="k"> epsg (RUE): (g gluc MJ-1)</label><br>
-          <input id="k" type="text" v-model="postBody.k" placeholder="0 < k < 15.73" >
+          <input id="k" type="text" v-model="postBody.epsg" placeholder="0 < k < 15.73" >
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -523,8 +548,13 @@
       <div class="divider">
       </div>
 
-      <label for="io"> Light Level:</label><span> {{postBody.io}} </span><br>
-      <input id="io"type="range" min="0" max="2060" v-model="postBody.io" class="slider">
+      <label for="io"> Light Level:</label>
+      <input id="iodisplay" type="text" v-model="postBody.io" >
+      <div class="divider">
+      </div>
+       <div class="divider">
+      </div>
+      0<input id="io"type="range" min="0" max="2060" v-model="postBody.io" class="timeStepSlider">2060
       
 
       <div class="divider">
@@ -548,17 +578,14 @@
     <div class="divider">
       </div>
 
-    <button :disabled='isDisabled()' @click="postData()" name="button">PostData</button>
+    <button id="postDataBtn" :disabled='isDisabled()' @click="postData()" name="button">PostData</button>
     <button @click="getData()" name="button">GetData</button>
     </div>
 
 
     <div class="outputDisplayContainer">
 
-      <!--<button @click="run()">RUN</Button><br> Hidden for demo-->
-      <button @click="setDefault('Red Maple')">Red Maple</button>
-      <button @click="setDefault('Loblolly Pine')">Loblolly</button>
-      <br>
+
       <!--<button @click="loadTextures()">Load Textures</Button> Hidden for demo-->
       <!--<button @click="initialize()">Init</Button> Hidden for demo-->
       <!--<button @click="animate()">Animate</Button> Hidden for demo-->
@@ -571,8 +598,13 @@
         <button @click="setCrownShape('cone')" class="coneButton" id="coneButton">CONE</button>
         <button @click="setCrownShape('cylinder')" class="cylinderButton" id="cylinderButton">CYLINDER</button>
         <!--<button @click="setCrownShape('sphere')" class="sphereButton" id="sphereButton">SPHERE</button> Hidden for demo-->
-
       </div>
+
+      <div class="divider">
+      </div>
+
+      <h3> Move the slider to see the growth of the tree!</h3>
+      
       <input type="range" min="1" v-model="dataIndex" @input="draw()" id="timeStepSlider" class="timeStepSlider">
       <div class="treeCanvasport" id="treeCanvasport"></div>
       <div class="rawDataList" id="rawDataList">
@@ -1434,6 +1466,55 @@ methods: {
 </script>
 
 <style lang="css" scoped>
+
+  #defaultRM{
+    background-color:#4d0000;
+    color:#EEE;
+  }
+
+  #defaultRM button:hover {
+    background-color: #EEE;
+  }
+
+  #defaultRM, #defaultLP {
+    display: inline-block;
+    width: 60%;
+    height: 40px;
+    padding: 5px 5px;
+    margin: 2px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: "Lucida Console", Monaco, monospace;
+  }
+
+
+
+  #iodisplay{
+      border: none;
+      background: transparent;
+      border-bottom: 1px solid #fff;
+      outline: none;
+      width:40%;
+  }
+
+  #io{
+    width:80%;
+  }
+
+  #io::-webkit-slider-thumb {
+    background: url('../assets/logo-Black.png');
+    width:36px;
+    height:36px;
+  }
+
+  #io::-moz-range-thumb{
+    background: url('../assets/logo-Black.png');
+    width:36px;
+    height:36px;
+  }
+
   #sliderdiv{
     text-align:left;
   }
@@ -1568,12 +1649,25 @@ methods: {
   .timeStepSlider {
     -webkit-appearance: none;
     width: 100%;
-    height: 25px;
+    height: 15px;
+    border-radius: 5px; 
     background: #d3d3d3;
     outline: none;
     opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
+  }
+
+  #timeStepSlider::-webkit-slider-thumb {
+    background: url('../assets/logo-Black.png');
+    width:45px;
+    height:45px;
+  }
+
+    #timeStepSlider::-moz-range-thumb{
+    background: url('../assets/logo-Black.png');
+    width:45px;
+    height:45px;
   }
 
   .timeStepSlider:hover {
@@ -1587,6 +1681,7 @@ methods: {
     height: 25px;
     background: #4CAF50;
     cursor: pointer;
+    border-radius: 50%; 
   }
 
   .timeStepSlider::-moz-range-thumb {
@@ -1594,6 +1689,7 @@ methods: {
     height: 25px;
     background: #4CAF50;
     cursor: pointer;
+    border-radius: 50%; 
   }
 
   .menu-content {
@@ -1645,6 +1741,10 @@ methods: {
 
 
   input#menu {
+    display: none;
+  }
+
+  input#menu0 {
     display: none;
   }
 
