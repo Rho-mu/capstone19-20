@@ -9,15 +9,16 @@ Vue.config.productionTip = false
 
 //let app = '';
 
-let app = firebase.initializeApp({
-  apiKey: "AIzaSyC5nS9CfR_UvmEdLMArhVKSw7MNDOk_lN4",
-  authDomain: "fir-vue-cd426.firebaseapp.com",
-  databaseURL: "https://fir-vue-cd426.firebaseio.com",
-  projectId: "fir-vue-cd426",
-  storageBucket: "fir-vue-cd426.appspot.com",
-  messagingSenderId: "717209956436",
-  appId: "1:717209956436:web:e668b20e40722c894efdc1",
-  measurementId: "G-1WSQ0XJDDE"
+let app = firebase.initializeApp
+({
+  apiKey: "AIzaSyBZM8yAxoZeqEIq30tEcSs4Fh86dbl6L4s",
+  authDomain: "acgca-2396d.firebaseapp.com",
+  databaseURL: "https://acgca-2396d.firebaseio.com",
+  projectId: "acgca-2396d",
+  storageBucket: "acgca-2396d.appspot.com",
+  messagingSenderId: "796968935884",
+  appId: "1:796968935884:web:b903014782ff691c9b3d69",
+  measurementId: "G-H8XL1K7K93"
 });
 
 export const db = app.database();
