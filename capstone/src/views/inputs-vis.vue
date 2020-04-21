@@ -584,8 +584,8 @@
       </div>
 
       <h3> Move the slider to see the growth of the tree!</h3>
-      
       <input type="range" min="1" v-model="dataIndex" @input="draw()" id="timeStepSlider" class="timeStepSlider">
+      <br><br>
       <div class="treeCanvasport" id="treeCanvasport"></div>
       <div class="rawDataList" id="rawDataList">
         <br>
@@ -1063,7 +1063,6 @@ methods: {
         {
           maxHeight = this.resultJson.h[i*this.timeStep]
         }
-        console.log("maxheight:",maxHeight)
       }
 
       // Clear scene of old drawings
@@ -1081,14 +1080,14 @@ methods: {
       /// Trunk variables
       var h = this.resultJson.h[year]      // Total tree height
       var hB = this.resultJson.hB2[year]   // Height that trunk transitions from neiloid to paraboloid (base to trunk)
-      hB = hB / 0.5e-314 // Temporary use to negate weird data
+      hB = this.postBody.etaB * h
       var hC = this.resultJson.hC2[year]   // Height that trunk transitions from paraboloid to cone (trunk to crown)
-      hC = hC / 0.5e-314 // Temporary use to negate weird data
+      hC = this.postBody.eta * h
       var r = this.resultJson.r[year]      // Radius of trunk at base
-      r = r * 7 // Temporary use to negate weird data
+      //r = r * 7 // Temporary use to negate weird data
       var rB = this.resultJson.rB2[year]   // Radius of trunk when transitioning from neilooid to paraboloid (base to trunk)
       var rC = this.resultJson.rC2[year]   // Radius of trunk when transitioning from parapoloid to cone (trunk to crown)
-      rC = rC * 7 // Temporary use to negate weird data
+      //rC = rC * 7 // Temporary use to negate weird data
 
       /// Crown variables (overlaid on "cone" part of trunk)
       var hmax = this.postBody.hmax                 // Input.
@@ -1126,10 +1125,10 @@ methods: {
       }
       else
       {
-        rcbase = 1 - eta
+        rcbase = rcmax
       }
 
-      console.log("year:",year,"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,
+      console.log("timestep:",year,"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,
       "\nrBH:",rBH,"\nrcmax:",rcmax,"\nrcbase:",rcbase)
 
 
@@ -1169,7 +1168,11 @@ methods: {
         // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
         crownGeo = new THREE.ConeGeometry( rcbase, h-hC, geoSegments )
       }
-      var crownMat = new THREE.MeshLambertMaterial( {color: 0x00FF00} )
+      var crownColor = new THREE.Color()
+      crownColor.setRGB(0, this.resultJson.LAI2[year] * 0.1, 0)
+      var crownMat = new THREE.MeshLambertMaterial( {color: crownColor} )
+      console.log("crown color:",crownColor)
+      //var crownMat = new THREE.MeshLambertMaterial( {color: 0x00FF00} )
       this.crown = new THREE.Mesh( crownGeo, crownMat )
       this.crown.position.y = crownPos
       this.crown.position.x = 0
@@ -1196,7 +1199,6 @@ methods: {
 
       // Find max radius and scale scene to that size
       var maxRadius = this.resultJson.r[this.postBody.t]
-      console.log("maxRadius:",maxRadius)
       this.ringCam.position.z = maxRadius*2
       this.ringCam.lookAt(0, 0, 0)
 
@@ -1213,16 +1215,12 @@ methods: {
         if( this.resultJson.r[i] < heartwoodRadius ) // If the current ring is part of the heart wood..
         {
           // Alternate between lighter colors
-          //if(i % 2 == 0) { ringColor = 0x0000ff }
-          //else { ringColor = 0x00ffff }
           if(i % 2 == 0) { ringColor = 0x964b00 }
           else { ringColor = 0x804c22 }
         }
         else                                        // If the current ring is part of the sap wood..
         {
           // Alternate between darker colors
-          //if(i % 2 == 0) { ringColor = 0xff0000 }
-          //else { ringColor = 0xffff00 }
           if(i % 2 == 0) { ringColor = 0x754c2d }
           else { ringColor = 0x5b4b41 }
         }
