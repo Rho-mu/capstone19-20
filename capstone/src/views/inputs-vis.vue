@@ -1346,8 +1346,9 @@ methods: {
       temporaryIsDisable=temporaryIsDisable || (this.postBody.radius==="") ;
       temporaryIsDisable=temporaryIsDisable || (this.postBody.io==="") ;
       temporaryIsDisable=temporaryIsDisable || (this.postBody.t==="") ;
-
+      if(temporaryIsDisable){
       this.errorMessage="ERROR: Please fill out all of the fields";
+      }
       this.isDisable=temporaryIsDisable;
       return 0;
     },
@@ -1363,6 +1364,7 @@ methods: {
     },
 
     checkValidity(){
+      temporaryIsDisable=false;
       //start check the lower limit for all of the inputs
       temporaryIsDisable=temporaryIsDisable || (this.postBody.phih < 0);
 
