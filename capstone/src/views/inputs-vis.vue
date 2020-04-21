@@ -305,6 +305,7 @@
             <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
 
            <input type="text" v-model="postBody.radius" placeholder="Initial Radius">
+           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
         </ul>
       </div>
     </div>
@@ -1165,6 +1166,7 @@ methods: {
       temporaryIsDisable=temporaryIsDisable || (this.postBody.alpha < 0) ;
       temporaryIsDisable=temporaryIsDisable || (this.postBody.r0 < 0) ;
       temporaryIsDisable=temporaryIsDisable || (this.postBody.r40 < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.t < 0) ;
       //finish checking for the lower limits
 
       if(temporaryIsDisable){
@@ -1178,6 +1180,7 @@ methods: {
       temporaryIsDisable=temporaryIsDisable || (this.postBody.gammax > 1) ;
       temporaryIsDisable=temporaryIsDisable || (this.postBody.etaB > 1) ;
       temporaryIsDisable=temporaryIsDisable || (this.postBody.m > 1) ;
+
       //finish checking for the higher limits
 
       if(temporaryIsDisable){
