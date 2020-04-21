@@ -110,7 +110,7 @@
             </p></span><br>
 
           <label for="gammax"> gammaX (XA:SA):</label><br>
-          <input id="gammax" type="text" v-model="postBody.gammax" placeholder="0 < gammaX (XA:SA) < 1" >
+          <input id="gammax" type="text" v-model="postBody.gammax" placeholder="0 <gammaX (XA:SA)< 1" >
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -1387,6 +1387,8 @@ methods: {
       temporaryIsDisable=temporaryIsDisable || (this.postBody.r0 < 0) ;
       temporaryIsDisable=temporaryIsDisable || (this.postBody.r40 < 0) ;
       temporaryIsDisable=temporaryIsDisable || (this.postBody.t < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.io < 0) ;
+      temporaryIsDisable=temporaryIsDisable || (this.postBody.radius < 0) ;
       //finish checking for the lower limits
 
       if(temporaryIsDisable){
@@ -1435,29 +1437,25 @@ methods: {
 
 <style lang="css" scoped>
 
-  #defaultRM{
-    background-color:#4d0000;
-    color:#EEE;
+  input[type=text] {
+    border-radius:5px;
   }
 
-  #defaultRM button:hover {
-    background-color: #EEE;
-  }
-
-  #defaultRM, #defaultLP {
-    display: inline-block;
-    width: 60%;
-    height: 40px;
-    padding: 5px 5px;
-    margin: 2px;
-    border: none;
-    border-radius: 15px;
-    cursor: pointer;
-    font-size: 16px;
+  input[type=text]::-webkit-input-placeholder {
     font-family: "Lucida Console", Monaco, monospace;
   }
 
+  input[type=text]:-ms-input-placeholder {
+    font-family: "Lucida Console", Monaco, monospace;
+  }
 
+  input[type=text]:-moz-placeholder {
+    font-family: "Lucida Console", Monaco, monospace;
+  }
+
+  input[type=text]::-moz-placeholder {
+    font-family: "Lucida Console", Monaco, monospace;
+  }
 
   #iodisplay{
       border: none;
@@ -1472,13 +1470,13 @@ methods: {
   }
 
   #io::-webkit-slider-thumb {
-    background: url('../assets/Logo-Black.png');
+    background: url('../assets/logo-Black.png');
     width:36px;
     height:36px;
   }
 
   #io::-moz-range-thumb{
-    background: url('../assets/Logo-Black.png');
+    background: url('../assets/logo-Black.png');
     width:36px;
     height:36px;
   }
@@ -1627,13 +1625,13 @@ methods: {
   }
 
   #timeStepSlider::-webkit-slider-thumb {
-    background: url('../assets/Logo-Black.png');
+    background: url('../assets/logo-Black.png');
     width:45px;
     height:45px;
   }
 
     #timeStepSlider::-moz-range-thumb{
-    background: url('../assets/Logo-Black.png');
+    background: url('../assets/logo-Black.png');
     width:45px;
     height:45px;
   }
