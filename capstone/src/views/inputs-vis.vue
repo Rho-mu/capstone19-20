@@ -46,7 +46,7 @@
               <span class="separator"></span>
               Unit: none<br>
               <span class="separator"></span>
-              Constraint: (0,&#8734)
+              Constraint: (0,+&#8734)
             </p></span><br>
 
           <label for="eta"> eta:</label><br>
@@ -85,7 +85,7 @@
               <span class="separator"></span>
               Unit: none<br>
               <span class="separator"></span>
-              Constraint: (0,&#8734)
+              Constraint: (0,+&#8734)
             </p></span><br>
 
           <label for="f1"> f1 (LA:XA):</label><br>
@@ -98,7 +98,7 @@
               <span class="separator"></span>
               Unit: none<br>
               <span class="separator"></span>
-              Constraint: (0,&#8734)
+              Constraint: (0,+&#8734)
             </p></span><br>
 
           <label for="gammax"> gammaX (XA:SA):</label><br>
@@ -150,7 +150,7 @@
               <span class="separator"></span>
               Unit: none<br>
               <span class="separator"></span>
-              Constraint: (0,&#8734)
+              Constraint: (0,+&#8734)
             </p></span><br>
 
           <label for="r0"> R0:</label><br>
@@ -163,7 +163,7 @@
               <span class="separator"></span>
               Unit: none<br>
               <span class="separator"></span>
-              Constraint: (0,&#8734)
+              Constraint: (0,+&#8734)
             </p></span><br>
 
           <label for="r40"> R40:</label><br>
@@ -176,7 +176,7 @@
               <span class="separator"></span>
               Unit: none<br>
               <span class="separator"></span>
-              Constraint: (R0,&#8734)
+              Constraint: (R0,+&#8734)
             </p></span><br>
 
         </ul>
@@ -214,7 +214,7 @@
               <span class="separator"></span>
               Unit: m<br>
               <span class="separator"></span>
-              Constraint: (0,&#8734)
+              Constraint: (0,+&#8734)
             </p></span><br>
 
           <label for="rr"> rr: (m)</label><br>
@@ -227,7 +227,7 @@
               <span class="separator"></span>
               Unit: m<br>
               <span class="separator"></span>
-              Constraint: (0,&#8734)
+              Constraint: (0,+&#8734)
             </p></span><br>
 
         </ul>
@@ -252,11 +252,11 @@
               <span class="separator"></span>
               Unit: g dw m-3<br>
               <span class="separator"></span>
-              Constraint: (0,&#8734)
+              Constraint: (0,+&#8734)
             </p></span><br>
 
-          <label for="gammaw"> gammaw: (m3g dw-1)</label><br>
-          <input id="gammaw" type="text" v-model="postBody.gammaw" placeholder="gammaw" >
+          <label for="gammaw"> gammaW: (m3g dw-1)</label><br>
+          <input id="gammaw" type="text" v-model="postBody.gammaw" placeholder="gammaW" >
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -268,7 +268,7 @@
               Constraint: none
             </p></span><br>
 
-          <label for="sla"> sla: (Specific leaf area)</label><br>
+          <label for="sla"> sla: (m2g dw-1)</label><br>
           <input id="sla" type="text" v-model="postBody.sla" placeholder="sla > 0" >
           <span class="help-tip">
             <p>
@@ -276,9 +276,9 @@
               <span class="separator"></span>
               Name:&nbspSpecific leaf area<br>
               <span class="separator"></span>
-              Unit: g dw m-3<br>
+              Unit: m2g dw-1<br>
               <span class="separator"></span>
-              Constraint: (0,&#8734)
+              Constraint: (0,+&#8734)
             </p></span><br>
 
         </ul>
@@ -293,30 +293,162 @@
       <label for="menu-3">Physiological traits</label>
       <div class="menu-content">
         <ul>
-          <input id="gammac" type="text" v-model="postBody.gammac" placeholder="gammac" >
-           <span class="help-tip"><p>Maximum labile carbon storage capacity of living sapwood cells<br>(g gluc m-3)</p></span><br><br>
-           <input type="text" v-model="postBody.cgl" placeholder="cgl" >
-           <span class="help-tip"><p>Construction costs of producing leaves<br>(g gluc g dw-1)</p></span><br><br>
-           <input type="text" v-model="postBody.cgr" placeholder="cgr" >
-           <span class="help-tip"><p>Construction costs of producing fine roots<br>(g gluc g dw-1)</p></span><br><br>
-           <input type="text" v-model="postBody.cgw" placeholder="cgw" >
-           <span class="help-tip"><p>Construction costs of producing sapwood<br>(g gluc g dw-1)</p></span><br><br>
-           <input type="text" v-model="postBody.deltal" placeholder="deltal" >
-            <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
-           <input type="text" v-model="postBody.deltar" placeholder="deltar" >
-            <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
-          <input type="text" v-model="postBody.rhor" placeholder="rhor" >
-           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
-          <input type="text" v-model="postBody.rml" placeholder="rml" >
-           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
-          <input type="text" v-model="postBody.rms" placeholder="rms" >
-           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
-          <input type="text" v-model="postBody.rmr" placeholder="rmr" >
-           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
-          <input type="text" v-model="postBody.k" placeholder="k">
-           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
-           <input type="text" v-model="postBody.epsg" placeholder="epsg" >
-            <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
+          <label for="gammac"> gammaC: (g gluc m-3)</label><br>
+          <input id="gammac" type="text" v-model="postBody.gammac" placeholder="gammac > 0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspMaximum labile carbon storage capacity of living sapwood cells<br>
+              <span class="separator"></span>
+              Unit: g dw m-3<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+          </p></span><br>
+
+          <label for="cgl"> cgL: (g gluc g dw-1)</label><br>
+          <input id="cgl" type="text" v-model="postBody.cgl" placeholder="cgL > 0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspConstruction costs of producing leaves<br>
+              <span class="separator"></span>
+              Unit: g gluc g dw-1<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+          </p></span><br>
+
+          <label for="cgr"> cgR: (g gluc g dw-1)</label><br>
+          <input id="cgr" type="text" v-model="postBody.cgr" placeholder="cgr > 0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspConstruction costs of producing fine roots<br>
+              <span class="separator"></span>
+              Unit: g gluc g dw-1<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+          </p></span><br>
+
+          <label for="cgw"> cgW: (g gluc g dw-1)</label><br>
+          <input id="cgw" type="text" v-model="postBody.cgw" placeholder="cgw > 0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspConstruction costs of producing sapwood<br>
+              <span class="separator"></span>
+              Unit: g gluc g dw-1<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+          </p></span><br>
+
+          <label for="deltal"> deltaL: (g gluc g dw-1)</label><br>
+          <input id="deltal" type="text" v-model="postBody.deltal" placeholder="deltal > 0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspLabile carbon storage capacity of leaves<br>
+              <span class="separator"></span>
+              Unit: g gluc g dw-1<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+          </p></span><br>
+
+          <label for="deltar"> deltaR: (g gluc g dw-1)</label><br>
+          <input id="deltar" type="text" v-model="postBody.deltar" placeholder="deltar > 0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspLabile carbon storage capacity of fine roots<br>
+              <span class="separator"></span>
+              Unit: g gluc g dw-1<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+          </p></span><br>
+
+          <label for="rhor"> rhor: (g dw m-3)</label><br>
+          <input id="rhor" type="text" v-model="postBody.rhor" placeholder="rhor > 0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspTissue density of fine roots<br>
+              <span class="separator"></span>
+              Unit: g dw m-3<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+          </p></span><br>
+
+          <label for="rml"> rmL: (g gluc g dw-1year-1)</label><br>
+          <input id="rml" type="text" v-model="postBody.rml" placeholder="rmL > 0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspMaintenance respiration rate of leaves<br>
+              <span class="separator"></span>
+              Unit: g gluc g dw-1year-1<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+          </p></span><br>
+
+          <label for="rms"> rmS: (g gluc g dw-1year-1)</label><br>
+          <input id="rms" type="text" v-model="postBody.rms" placeholder="rmS > 0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspMaintenance respiration rate of sapwood<br>
+              <span class="separator"></span>
+              Unit: g gluc g dw-1year-1<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+          </p></span><br>
+
+          <label for="rmr"> rmR: (g gluc g dw-1year-1)</label><br>
+          <input id="rmr" type="text" v-model="postBody.rmr" placeholder="rmR > 0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspMaintenance respiration rate of fine roots<br>
+              <span class="separator"></span>
+              Unit: g gluc g dw-1year-1<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+          </p></span><br>
+
+          <label for="k"> k: (g gluc g dw-1year-1)</label><br>
+          <input id="k" type="text" v-model="postBody.k" placeholder="k > 0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspLight extinction coefficient<br>
+              <span class="separator"></span>
+              Unit: none<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+          </p></span><br>
+
+          <label for="k"> epsg (RUE): (g gluc MJ-1)</label><br>
+          <input id="k" type="text" v-model="postBody.k" placeholder="0 < k < 15.73" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspRadiation-use efficiency<br>
+              <span class="separator"></span>
+              Unit: g gluc MJ-1<br>
+              <span class="separator"></span>
+              Constraint: (0,15.73)
+          </p></span><br>
+
         </ul>
       </div>
     </div>
@@ -329,24 +461,79 @@
       <label for="menu-4">Turn-over and <br>senescence traits</label>
       <div class="menu-content">
         <ul>
+          <label for="sl"> sL: (year-1)</label><br>
+          <input id="sl" type="text" v-model="postBody.sl" placeholder="sL > 0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspSenescence rate of leaves<br>
+              <span class="separator"></span>
+              Unit: year-1<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+          </p></span><br>
 
-           <input type="text" v-model="postBody.sl" placeholder="sl" >
-            <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
-           <input type="text" v-model="postBody.so" placeholder="so" >
-            <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
-           <input type="text" v-model="postBody.sr" placeholder="sr" >
-            <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
+          <label for="sr"> sR: (year-1)</label><br>
+          <input id="sr" type="text" v-model="postBody.sr" placeholder="sR > 0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspSenescence rate of fine roots<br>
+              <span class="separator"></span>
+              Unit: year-1<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+          </p></span><br>
+          
+          <label for="so"> sO: (year-1)</label><br>
+          <input id="so" type="text" v-model="postBody.so" placeholder="sO > 0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspSenescence rate of or coarse roots and branches<br>
+              <span class="separator"></span>
+              Unit: year-1<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+          </p></span><br>
 
-           <input type="text" v-model="postBody.radius" placeholder="Initial Radius">
-           <span class="help-tip"><p>Maximum tree height<br>(m)</p></span><br><br>
+          <label for="initialRadius"> Initial radius: (m)</label><br>
+          <input id="initialRadius" type="text" v-model="postBody.radius" placeholder="radius > 0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspInitial radius<br>
+              <span class="separator"></span>
+              Unit: m<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+          </p></span><br>
+
         </ul>
       </div>
     </div>
-    <div class="slidecontainer">
-      <p>Light Level</p>
-      <input type="range" min="0" max="2060" v-model="postBody.io" class="slider">
-      <p>value: {{postBody.io}} </p>
-      <input type="text" v-model="postBody.t" placeholder="Time in Years" class="time">
+    <div id="sliderdiv" class="slidecontainer">
+
+      <div class="divider">
+      </div>
+      <div class="divider">
+      </div>
+
+      <label for="io"> Light Level:</label><span> {{postBody.io}} </span><br>
+      <input id="io"type="range" min="0" max="2060" v-model="postBody.io" class="slider">
+      
+
+      <div class="divider">
+      </div>
+      <div class="divider">
+      </div>
+
+      <label for="t"> Time: (year)</label><br>
+      <input id="t" type="text" v-model="postBody.t" placeholder="Time in Years" class="time">
 
 
     </div>
@@ -1247,7 +1434,9 @@ methods: {
 </script>
 
 <style lang="css" scoped>
-
+  #sliderdiv{
+    text-align:left;
+  }
 
   .slidecontainer {
     width: 100%;
