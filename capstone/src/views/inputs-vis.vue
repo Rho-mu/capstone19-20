@@ -836,9 +836,9 @@ methods: {
     setDefault(defaultType) {
 
       // Set default time, light level, and initial radius
-      this.postBody.t=10
+      this.postBody.t=100
       this.postBody.radius=0.05
-      this.postBody.io=2060
+      this.postBody.io=1000
 
       // Sets default values in the input fields based on the button that user clicks
       if(defaultType == "Red Maple") // Red Maple button
@@ -876,8 +876,8 @@ methods: {
         this.postBody.r0=1.909
         this.postBody.r40=5.592
         this.postBody.radius=0.05
-        this.postBody.t = 10
-        this.postBody.io = 2060
+        this.postBody.t = 100
+        this.postBody.io = 1000
       } // END: if Red Maple
 
       else if(defaultType == "Loblolly Pine")  // Loblolly Pine button
@@ -915,8 +915,8 @@ methods: {
         this.postBody.r0=1.434
         this.postBody.r40=3.873
         this.postBody.radius=0.05
-        this.postBody.t = 10
-        this.postBody.io = 2060
+        this.postBody.t = 100
+        this.postBody.io = 1000
       } // END: if Loblolly Pine
     }, // END: set_default()
 
@@ -1085,7 +1085,7 @@ methods: {
       var hC = this.resultJson.hC2[year]   // Height that trunk transitions from paraboloid to cone (trunk to crown)
       hC = hC / 0.5e-314 // Temporary use to negate weird data
       var r = this.resultJson.r[year]      // Radius of trunk at base
-      r = r * 7 // Temporary use to negate weird data
+      //r = r * 7 // Temporary use to negate weird data
       var rB = this.resultJson.rB2[year]   // Radius of trunk when transitioning from neilooid to paraboloid (base to trunk)
       var rC = this.resultJson.rC2[year]   // Radius of trunk when transitioning from parapoloid to cone (trunk to crown)
       rC = rC * 7 // Temporary use to negate weird data
@@ -1132,9 +1132,8 @@ methods: {
       console.log("year:",year,"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,
       "\nrBH:",rBH,"\nrcmax:",rcmax,"\nrcbase:",rcbase)
 
-
       // Supplemental parameters
-      var geoSegments = 16                  // Segments of geometry
+      var geoSegments = 16            // Segments of geometry
       var trunkPos = hC/2             // Trunk position on the screen. Needs to be based on max height.
       var crownPos = h - (h - hC)/2   // Crown position on the screen. Bottom of crown needs to be on the same x plan as top of trunk.
 
