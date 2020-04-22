@@ -1079,18 +1079,6 @@ methods: {
       var timestep = year * 16 - 1
 
       /// Trunk variables
-<<<<<<< HEAD
-      var h = this.resultJson.h[year]      // Total tree height
-      var hB = this.resultJson.hB2[year]   // Height that trunk transitions from neiloid to paraboloid (base to trunk)
-      hB = hB / 0.5e-314 // Temporary use to negate weird data
-      var hC = this.resultJson.hC2[year]   // Height that trunk transitions from paraboloid to cone (trunk to crown)
-      hC = hC / 0.5e-314 // Temporary use to negate weird data
-      var r = this.resultJson.r[year]      // Radius of trunk at base
-      //r = r * 7 // Temporary use to negate weird data
-      var rB = this.resultJson.rB2[year]   // Radius of trunk when transitioning from neilooid to paraboloid (base to trunk)
-      var rC = this.resultJson.rC2[year]   // Radius of trunk when transitioning from parapoloid to cone (trunk to crown)
-      rC = rC * 7 // Temporary use to negate weird data
-=======
       var h = this.resultJson.h[timestep]      // Total tree height
       var hB = this.resultJson.hB2[timestep]   // Height that trunk transitions from neiloid to paraboloid (base to trunk)
       hB = this.postBody.etaB * h
@@ -1101,7 +1089,6 @@ methods: {
       var rB = this.resultJson.rB2[timestep]   // Radius of trunk when transitioning from neilooid to paraboloid (base to trunk)
       var rC = this.resultJson.rC2[timestep]   // Radius of trunk when transitioning from parapoloid to cone (trunk to crown)
       //rC = rC * 7 // Temporary use to negate weird data
->>>>>>> 9089d5360d80bbfcd1f1aa196b9952f022e8ce54
 
       /// Crown variables (overlaid on "cone" part of trunk)
       var hmax = this.postBody.hmax                 // Input.
@@ -1146,11 +1133,7 @@ methods: {
       "\nrBH:",rBH,"\nrcmax:",rcmax,"\nrcbase:",rcbase)
 
       // Supplemental parameters
-<<<<<<< HEAD
-      var geoSegments = 16            // Segments of geometry
-=======
       var geoSegments = 20                  // Segments of geometry
->>>>>>> 9089d5360d80bbfcd1f1aa196b9952f022e8ce54
       var trunkPos = hC/2             // Trunk position on the screen. Needs to be based on max height.
       var crownPos = h - (h - hC)/2   // Crown position on the screen. Bottom of crown needs to be on the same x plan as top of trunk.
 
