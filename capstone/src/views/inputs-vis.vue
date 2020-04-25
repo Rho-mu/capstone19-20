@@ -123,7 +123,7 @@
             </p></span><br>
 
           <label for="etaB"> etaB:</label><br>
-          <input id="etaB" type="text" v-model="postBody.etaB" placeholder="0 < etaB < eta" min="0">
+          <input id="etaB" type="text" v-model="postBody.etaB" placeholder="0 < etaB < eta" min="0" :disabled='postBody.eta==""'>
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -175,7 +175,7 @@
             </p></span><br>
 
           <label for="r40"> R40:</label><br>
-          <input id="r40" type="text" v-model="postBody.r40" placeholder="R40 > R0" min="0" >
+          <input id="r40" type="text" v-model="postBody.r40" placeholder="R40 > R0" min="0" :disabled='postBody.r0==""'>
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
@@ -751,6 +751,7 @@ export default {
         barkTexture: "",
 
         isDisable: false,
+        etaBDisable:true,
         errorMessage:"",
         tempc: 0
       }
@@ -1356,111 +1357,102 @@ methods: {
     hardLimit(){
       if (this.postBody.phih < 0) this.postBody.phih= 0;
 
+      if (this.postBody.eta < 0) this.postBody.eta = 0;
+      if (this.postBody.eta > 1) this.postBody.eta= 1;
 
+      if (this.postBody.lamda < 0) this.postBody.lamda = 0;
+      if (this.postBody.lamda > 1) this.postBody.lamda= 1;
+
+      if (this.postBody.f2 < 0) this.postBody.f2 = 0;
+
+      if (this.postBody.f1 < 0) this.postBody.f1 = 0;
+
+      if (this.postBody.gammax < 0) this.postBody.gammax = 0;
+      if (this.postBody.gammax > 1) this.postBody.gammax= 1;
+
+      if (this.postBody.etaB < 0) this.postBody.etaB = 0;
+      if(this.postBody.eta!=""){
+      if (this.postBody.etaB > eta) this.postBody.etaB= eta;
+      }
+
+      if (this.postBody.m < 0) this.postBody.m = 0;
+      if (this.postBody.m > 1) this.postBody.m= 1;
+
+      if (this.postBody.alpha < 0) this.postBody.alpha = 0;
+
+      if (this.postBody.r0 < 0) this.postBody.r0 = 0;
+
+      if(this.postBody.r0!=""){
+      if (this.postBody.r40 < r0) this.postBody.r40 = r0;
+      }
+
+      //Group A end 
+
+      if (this.postBody.hmax < 0) this.postBody.hmax= 0;
+      if (this.postBody.hmax> 127) this.postBody.hmax= 127;
+
+      if (this.postBody.swmax < 0) this.postBody.swmax= 0;
+
+      if (this.postBody.rr < 0) this.postBody.rr= 0;
+
+      //Group B end
+
+      if (this.postBody.rhomax < 0) this.postBody.rhomax= 0;
+
+      if (this.postBody.gammaw < 0) this.postBody.gammaw= 0;
+
+      if (this.postBody.sla < 0) this.postBody.sla= 0;
+
+      //Group C end
+
+      if (this.postBody.gammac < 0) this.postBody.gammac= 0;
+
+      if (this.postBody.cgl < 0) this.postBody.cgl= 0;
+
+      if (this.postBody.cgr < 0) this.postBody.cgr= 0;
+
+      if (this.postBody.cgw < 0) this.postBody.cgw= 0;
+
+      if (this.postBody.deltal < 0) this.postBody.deltal= 0;
+
+      if (this.postBody.deltar < 0) this.postBody.deltar= 0;
+
+      if (this.postBody.rhor < 0) this.postBody.rhor= 0;
+
+      if (this.postBody.rml < 0) this.postBody.rml= 0;
+
+      if (this.postBody.rms < 0) this.postBody.rms= 0;
+
+      if (this.postBody.rmr < 0) this.postBody.rmr= 0;
+
+      if (this.postBody.k < 0) this.postBody.k= 0;
+
+      if (this.postBody.epsg < 0) this.postBody.epsg= 0;
+      if (this.postBody.epsg> 15.73) this.postBody.epsg= 15.73;
+
+      //Group D end
+
+      if (this.postBody.sl < 0) this.postBody.sl= 0;
+
+      if (this.postBody.sr < 0) this.postBody.sr= 0;
+
+      if (this.postBody.so < 0) this.postBody.so= 0;
+
+      if (this.postBody.radius < 0) this.postBody.gammac= 0;
 
       if (this.postBody.io < 0) this.postBody.io = 0;
       if (this.postBody.io > 2060) this.postBody.io= 2060;
 
-    },
+      if (this.postBody.t < 0) this.postBody.cgr= 0;
 
-    checkValidity(){
-      temporaryIsDisable=false;
-      //start check the lower limit for all of the inputs
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.phih < 0);
-
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.eta < 0);
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.eta > 1) ;
-
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.lamda < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.lamda > 1) ;
-
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.f2 < 0) ;
-
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.f1 < 0) ;
-
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.gammax < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.gammax > 1) ;
-
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.etaB < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.etaB > this.postBody.eta) ;
-
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.m < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.m > 1) ;
-
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.alpha < 0) ;
-
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.r0 < 0) ;
-
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.r40 < this.postBody.r0) ;
-      //Group A end
-
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.hmax < 0);
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.hmax > 127) ;
-      
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.swmax < 0) ;
-
-       temporaryIsDisable=temporaryIsDisable || (this.postBody.rr < 0) ;
-       //Group B end
-      
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.rhomax < 0) ;
-
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.gammaw < 0) ;
-
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.sla < 0) ;
-      //Group C end
-
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.gammac < 0) ;    
-
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.cgl < 0) ;
-
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.cgr < 0) ;
-
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.cgw < 0) ;
-
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.deltal < 0) ;
-
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.deltar < 0) ;
-      
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.rhor < 0) ;
-
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.rml < 0) ;
-
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.rms < 0) ;
-
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.rmr < 0) ;
-      
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.k < 0) ;
-
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.epsg < 0) ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.epsg > 15.73) ;
-      //Group D end
-
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.sl < 0) ;
-
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.sr < 0) ;
-      
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.so < 0) ;
-           
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.radius < 0) ;
-
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.io < 0) ;
-
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.t < 0) ;
       //Group E end
 
-      if(temporaryIsDisable){
-        this.errorMessage="ERROR: Please check the constraints"
-        this.isDisable=temporaryIsDisable;
-        return 0
-      }
-    }, // END: checkValidity()
+
+    },
 
     isDisabled() {
-      this.hardLimit();
       this.checkForNull();
-      if(this.errorMessage==null){
-          this.checkValidity();
-      }
+      this.hardLimit();
       return this.isDisable;
     }, // END: isDisabled()
 
