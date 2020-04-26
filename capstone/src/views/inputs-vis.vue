@@ -444,8 +444,8 @@
               Constraint: (0,+&#8734)
           </p></span><br>
 
-          <label for="k"> epsg (RUE): (g gluc MJ-1)</label><br>
-          <input id="k" type="text" v-model="postBody.epsg" placeholder="0 < k < 15.73" min="0" max="15.73">
+          <label for="epsg"> epsg (RUE): (g gluc MJ-1)</label><br>
+          <input id="epsg" type="text" v-model="postBody.epsg" placeholder="0 < epsg < 15.73" min="0" max="15.73">
           <span class="help-tip">
             <p>
               &nbspInformation Box<br>
