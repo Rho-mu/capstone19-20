@@ -837,9 +837,9 @@ methods: {
     setDefault(defaultType) {
 
       // Set default time, light level, and initial radius
-      this.postBody.t=10
+      this.postBody.t=100
       this.postBody.radius=0.05
-      this.postBody.io=2060
+      this.postBody.io=1000
 
       // Sets default values in the input fields based on the button that user clicks
       if(defaultType == "Red Maple") // Red Maple button
@@ -877,8 +877,8 @@ methods: {
         this.postBody.r0=1.909
         this.postBody.r40=5.592
         this.postBody.radius=0.05
-        this.postBody.t = 10
-        this.postBody.io = 2060
+        this.postBody.t = 100
+        this.postBody.io = 1000
       } // END: if Red Maple
 
       else if(defaultType == "Loblolly Pine")  // Loblolly Pine button
@@ -916,8 +916,8 @@ methods: {
         this.postBody.r0=1.434
         this.postBody.r40=3.873
         this.postBody.radius=0.05
-        this.postBody.t = 10
-        this.postBody.io = 2060
+        this.postBody.t = 100
+        this.postBody.io = 1000
       } // END: if Loblolly Pine
     }, // END: set_default()
 
@@ -1132,7 +1132,6 @@ methods: {
 
       console.log("year:",year,"timestep:",timestep,"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,
       "\nrBH:",rBH,"\nrcmax:",rcmax,"\nrcbase:",rcbase)
-
 
       // Supplemental parameters
       var geoSegments = 20                  // Segments of geometry
