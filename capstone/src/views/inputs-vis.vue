@@ -1308,7 +1308,6 @@ methods: {
     checkForNull(){
       var temporaryIsDisable=false
 
-      this.errorMessage=""
 
       //start checking null
       temporaryIsDisable=temporaryIsDisable || (this.postBody.hmax==="");
@@ -1349,10 +1348,9 @@ methods: {
       this.isDisable=temporaryIsDisable;
 
       if(this.isDisable){
-      this.errorMessage="ERROR: Please fill out all of the fields";
+         this.errorMessage="ERROR: Please fill out all of the fields";
       }
 
-    
     },
     
     hardLimit(){
