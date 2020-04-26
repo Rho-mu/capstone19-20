@@ -1346,11 +1346,11 @@ methods: {
       temporaryIsDisable=temporaryIsDisable || (this.postBody.radius==="") ;
       temporaryIsDisable=temporaryIsDisable || (this.postBody.io==="") ;
       temporaryIsDisable=temporaryIsDisable || (this.postBody.t==="") ;
-      if(temporaryIsDisable){
+      if(temporaryIsDisable==ture){
       this.errorMessage="ERROR: Please fill out all of the fields";
-      }
       this.isDisable=temporaryIsDisable;
-      return 0;
+      }
+    
     },
     
     hardLimit(){
