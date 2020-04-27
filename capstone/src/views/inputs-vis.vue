@@ -853,7 +853,7 @@ methods: {
     setDefault(defaultType) {
 
       // Set default time, light level, and initial radius
-      this.postBody.t=100
+      this.postBody.t=29
       this.postBody.radius=0.05
       this.postBody.io=1000
 
@@ -892,9 +892,6 @@ methods: {
         this.postBody.alpha=0.365
         this.postBody.r0=1.909
         this.postBody.r40=5.592
-        this.postBody.radius=0.05
-        this.postBody.t = 100
-        this.postBody.io = 1000
       } // END: if Red Maple
 
       else if(defaultType == "Loblolly Pine")  // Loblolly Pine button
@@ -931,9 +928,6 @@ methods: {
         this.postBody.alpha=0.308
         this.postBody.r0=1.434
         this.postBody.r40=3.873
-        this.postBody.radius=0.05
-        this.postBody.t = 100
-        this.postBody.io = 1000
       } // END: if Loblolly Pine
     }, // END: set_default()
 
@@ -1370,7 +1364,7 @@ methods: {
         this.errorMessage=""
       }
 
-    },
+    }, // END: checkForNull()
     
     hardLimit(){
       if (this.postBody.phih < 0) this.postBody.phih= 0;
@@ -1466,7 +1460,7 @@ methods: {
       //Group E end
 
 
-    },
+    }, // END: hardLimit()
 
     isDisabled() {
       this.checkForNull();
