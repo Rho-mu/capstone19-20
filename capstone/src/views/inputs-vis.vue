@@ -1,6 +1,30 @@
 <template>
   <div>
+    <!-- Instructions Box -->
+    <div class="instructionsContainer">
+      <button id="instructionsButton" @click="hideInstructions">HIDE</button>
+      <button id="instructionsButton" @click="showInstructions">SHOW</button>
 
+      <h2>Instructions!</h2>
+
+      <div id="instructionsText">
+        <p>Enter in input values for the ACGCA model in the control pannel on the left. You can also use the provided default values.</p>
+        <p>Once the input fields are are filled, you may press the "Send Inputs" button to send the inputs to the ACGCA model.</p>
+        <p>Then, press the "Get Outputs" button to retrieve the output of the ACGCA model. You may have to try this once every few seconds for it to work.</p>
+        <p>When the output data has been retrieved, use the output box to see your simulated tree.</p>
+        <br>
+        <h3>Output Tools</h3>
+        <p>Rings: Shows the tree rings at each year.</p>
+        <p>Tree: Shows the tree at each year.
+            <p>Cone: Changes the tree crown to a cone.</P>
+            <p>Cylinder: Changes the tree crown to a Cylinder.</P>
+        </p>
+        <p>Data: Shows the raw data from the ACGCA model at each year.</p>
+      </div>
+    </div>
+    <!-- END: Instructions Box -->
+
+    <!-- Input Fields Box -->
     <div class="inputField">
 
       <div class="title-wrapper" id="input-title">
@@ -16,559 +40,561 @@
       </div>
       <div class="divider">
       </div>
-    <div class="collapsible-menu">
-      <input type="checkbox" id="menu-0">
-      <label for="menu-0">Default Data Sets</label>
-      <div class="menu-content">
+      <div class="collapsible-menu">
+        <input type="checkbox" id="menu-0">
+        <label for="menu-0">Default Data Sets</label>
+        <div class="menu-content">
+        <br>
+          <button @click="setDefault('Red Maple')">Red Maple</button>
+          <button @click="setDefault('Loblolly Pine')">Loblolly Pine</button>
+        </div>
+      </div>
+
+        <div class="divider">
+        </div>
+
+      <div class="collapsible-menu">
+        <input type="checkbox" id="menu">
+        <label id="gourp1" for="menu">Allometries and <br>biomass partitioning</label>
+        <div class="menu-content">
+          <ul>
+            <label for="phih"> phip:</label><br>
+            <input id="phih" type="text" v-model="postBody.phih" placeholder="phih > 0" min="0" >
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspSlope of height vs trunk radius (r) curve at r = 0 m<br>
+                <span class="separator"></span>
+                Unit: none<br>
+                <span class="separator"></span>
+                Constraint: (0,+&#8734)
+              </p></span><br>
+
+            <label for="eta"> eta:</label><br>
+            <input id="eta" type="text" v-model="postBody.eta" placeholder="0 < eta < 1" min="0" max="1">
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspRelative height that trunk transitions from paraboloid to cone<br>
+                <span class="separator"></span>
+                Unit: none<br>
+                <span class="separator"></span>
+                Constraint: (0,1)
+              </p></span><br>
+
+            <label for="lamda"> lamda:</label><br>
+            <input id="lamda" type="text" v-model="postBody.lamda" placeholder="0 < lamda < 1" min="0" max="1" >
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspProportionality between trunk and non-trunk biomass<br>
+                <span class="separator"></span>
+                Unit: none<br>
+                <span class="separator"></span>
+                Constraint: (0,1)
+              </p></span><br>
+
+            <label for="f2"> f2 (RA:LA):</label><br>
+            <input id="f2" type="text" v-model="postBody.f2" placeholder="f2 (RA:LA) > 0" min="0">
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspFine root area to leaf area ratio<br>
+                <span class="separator"></span>
+                Unit: none<br>
+                <span class="separator"></span>
+                Constraint: (0,+&#8734)
+              </p></span><br>
+
+            <label for="f1"> f1 (LA:XA):</label><br>
+            <input id="f1" type="text" v-model="postBody.f1" placeholder="f1 (LA:XA) > 0" min="0">
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspLeaf area to xylem conducting area ratio<br>
+                <span class="separator"></span>
+                Unit: none<br>
+                <span class="separator"></span>
+                Constraint: (0,+&#8734)
+              </p></span><br>
+
+            <label for="gammax"> gammaX (XA:SA):</label><br>
+            <input id="gammax" type="text" v-model="postBody.gammax" placeholder="0 <gammaX (XA:SA)< 1" min="0" max="1">
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspXylem conducting area to sapwood area ratio<br>
+                <span class="separator"></span>
+                Unit: none<br>
+                <span class="separator"></span>
+                Constraint: (0,1)
+              </p></span><br>
+
+            <label for="etaB"> etaB:</label><br>
+            <input id="etaB" type="text" v-model="postBody.etaB" placeholder="0 < etaB < eta" min="0" :disabled='postBody.eta==""'>
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspRelative height at which trunk transitions from a neiloid to a paraboloid<br>
+                <span class="separator"></span>
+                Unit: none<br>
+                <span class="separator"></span>
+                Constraint: (0,eta)
+              </p></span><br>
+
+            <label for="m"> M:</label><br>
+            <input id="m" type="text" v-model="postBody.m" placeholder="0 < m < 1" min="0" max="1">
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspMaximum relative crown depth<br>
+                <span class="separator"></span>
+                Unit: none<br>
+                <span class="separator"></span>
+                Constraint: (0,1)
+              </p></span><br>
+
+            <label for="r0"> R0:</label><br>
+            <input id="r0" type="text" v-model="postBody.r0" placeholder="R0 > 0" min="0" >
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspMaximum potential crown radius of a tree with diameter at breast height of 0 cm (i.e., for a tree that is exactly 1.37 m tall)<br>
+                <span class="separator"></span>
+                Unit: none<br>
+                <span class="separator"></span>
+                Constraint: (0,+&#8734)
+              </p></span><br>
+
+            <label for="r40"> R40:</label><br>
+            <input id="r40" type="text" v-model="postBody.r40" placeholder="R40 > R0" min="0" :disabled='postBody.r0==""'>
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspMaximum potential crown radius of a tree with diameter at breast height of 40 cm<br>
+                <span class="separator"></span>
+                Unit: none<br>
+                <span class="separator"></span>
+                Constraint: (R0,+&#8734)
+              </p></span><br>
+
+            <label for="alpha"> alpha:</label><br>
+            <input id="alpha" type="text" v-model="postBody.alpha" placeholder="alpha > 0" min="0" >
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspCrown curvature parameter<br>
+                <span class="separator"></span>
+                Unit: none<br>
+                <span class="separator"></span>
+                Constraint: (0,+&#8734)
+              </p></span><br>
+
+        <div class="groupDivider">
+      </div>
+
+          </ul>
+        </div>
+      </div>
+
+      <div class="divider">
+        </div>
+
+      <div class="collapsible-menu">
+        <input type="checkbox" id="menu-1">
+        <label for="menu-1">Tree and organ<br> size traits</label>
+        <div class="menu-content">
+          <ul>
+            <label for="hmax"> Hmax:(m)</label><br>
+            <input id="hmax" type="text" v-model="postBody.hmax" placeholder="0 < Hmax < 127" min="0" max="127">
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspMaximum tree height<br>
+                <span class="separator"></span>
+                Unit: m<br>
+                <span class="separator"></span>
+                Constraint: (R0,127)
+              </p></span><br>
+
+            <label for="swmax"> SWmax:(m)</label><br>
+            <input id="swmax" type="text" v-model="postBody.swmax" placeholder="SWmax > 0" min="0"  >
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspMaximum sapwood width<br>
+                <span class="separator"></span>
+                Unit: m<br>
+                <span class="separator"></span>
+                Constraint: (0,+&#8734)
+              </p></span><br>
+
+            <label for="rr"> rr: (m)</label><br>
+            <input id="rr" type="text" v-model="postBody.rr" placeholder="rr > 0" min="0" >
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspAverage fine root radius<br>
+                <span class="separator"></span>
+                Unit: m<br>
+                <span class="separator"></span>
+                Constraint: (0,+&#8734)
+              </p></span><br>
+
+        <div class="groupDivider">
+      </div>
+
+          </ul>
+        </div>
+      </div>
+
+      <div class="divider">
+        </div>
+
+      <div class="collapsible-menu">
+        <input type="checkbox" id="menu-2">
+        <label for="menu-2">Structural traits</label>
+        <div class="menu-content">
+          <ul>
+            <label for="rhomax"> WD: (g dw m-3)</label><br>
+            <input id="rhomax" type="text" v-model="postBody.rhomax" placeholder="WD > 0" min="0">
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspWood density<br>
+                <span class="separator"></span>
+                Unit: g dw m-3<br>
+                <span class="separator"></span>
+                Constraint: (0,+&#8734)
+              </p></span><br>
+
+            <label for="gammaw"> gammaW: (m3g dw-1)</label><br>
+            <input id="gammaw" type="text" v-model="postBody.gammaw" placeholder="gammaW">
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbsp(Inverse) density of sapwood structural tissue<br>
+                <span class="separator"></span>
+                Unit: m3g dw-1<br>
+                <span class="separator"></span>
+                Constraint: none
+              </p></span><br>
+
+            <label for="sla"> sla: (m2g dw-1)</label><br>
+            <input id="sla" type="text" v-model="postBody.sla" placeholder="sla > 0" min="0" >
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspSpecific leaf area<br>
+                <span class="separator"></span>
+                Unit: m2g dw-1<br>
+                <span class="separator"></span>
+                Constraint: (0,+&#8734)
+              </p></span><br>
+
+        <div class="groupDivider">
+      </div>
+
+          </ul>
+        </div>
+      </div>
+
+
+      <div class="divider">
+        </div>
+
+      <div class="collapsible-menu">
+        <input type="checkbox" id="menu-3">
+        <label for="menu-3">Physiological traits</label>
+        <div class="menu-content">
+          <ul>
+            <label for="gammac"> gammaC: (g gluc m-3)</label><br>
+            <input id="gammac" type="text" v-model="postBody.gammac" placeholder="gammac > 0" min="0" >
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspMaximum labile carbon storage capacity of living sapwood cells<br>
+                <span class="separator"></span>
+                Unit: g dw m-3<br>
+                <span class="separator"></span>
+                Constraint: (0,+&#8734)
+            </p></span><br>
+
+            <label for="cgl"> cgL: (g gluc g dw-1)</label><br>
+            <input id="cgl" type="text" v-model="postBody.cgl" placeholder="cgL > 0" min="0">
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspConstruction costs of producing leaves<br>
+                <span class="separator"></span>
+                Unit: g gluc g dw-1<br>
+                <span class="separator"></span>
+                Constraint: (0,+&#8734)
+            </p></span><br>
+
+            <label for="cgr"> cgR: (g gluc g dw-1)</label><br>
+            <input id="cgr" type="text" v-model="postBody.cgr" placeholder="cgr > 0" min="0" >
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspConstruction costs of producing fine roots<br>
+                <span class="separator"></span>
+                Unit: g gluc g dw-1<br>
+                <span class="separator"></span>
+                Constraint: (0,+&#8734)
+            </p></span><br>
+
+            <label for="cgw"> cgW: (g gluc g dw-1)</label><br>
+            <input id="cgw" type="text" v-model="postBody.cgw" placeholder="cgw > 0" min="0" >
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspConstruction costs of producing sapwood<br>
+                <span class="separator"></span>
+                Unit: g gluc g dw-1<br>
+                <span class="separator"></span>
+                Constraint: (0,+&#8734)
+            </p></span><br>
+
+            <label for="deltal"> deltaL: (g gluc g dw-1)</label><br>
+            <input id="deltal" type="text" v-model="postBody.deltal" placeholder="deltal > 0" min="0" >
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspLabile carbon storage capacity of leaves<br>
+                <span class="separator"></span>
+                Unit: g gluc g dw-1<br>
+                <span class="separator"></span>
+                Constraint: (0,+&#8734)
+            </p></span><br>
+
+            <label for="deltar"> deltaR: (g gluc g dw-1)</label><br>
+            <input id="deltar" type="text" v-model="postBody.deltar" placeholder="deltar > 0" min="0" >
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspLabile carbon storage capacity of fine roots<br>
+                <span class="separator"></span>
+                Unit: g gluc g dw-1<br>
+                <span class="separator"></span>
+                Constraint: (0,+&#8734)
+            </p></span><br>
+
+            <label for="rhor"> rhor: (g dw m-3)</label><br>
+            <input id="rhor" type="text" v-model="postBody.rhor" placeholder="rhor > 0" min="0" >
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspTissue density of fine roots<br>
+                <span class="separator"></span>
+                Unit: g dw m-3<br>
+                <span class="separator"></span>
+                Constraint: (0,+&#8734)
+            </p></span><br>
+
+            <label for="rml"> rmL: (g gluc g dw-1year-1)</label><br>
+            <input id="rml" type="text" v-model="postBody.rml" placeholder="rmL > 0" min="0">
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspMaintenance respiration rate of leaves<br>
+                <span class="separator"></span>
+                Unit: g gluc g dw-1year-1<br>
+                <span class="separator"></span>
+                Constraint: (0,+&#8734)
+            </p></span><br>
+
+            <label for="rms"> rmS: (g gluc g dw-1year-1)</label><br>
+            <input id="rms" type="text" v-model="postBody.rms" placeholder="rmS > 0" min="0" >
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspMaintenance respiration rate of sapwood<br>
+                <span class="separator"></span>
+                Unit: g gluc g dw-1year-1<br>
+                <span class="separator"></span>
+                Constraint: (0,+&#8734)
+            </p></span><br>
+
+            <label for="rmr"> rmR: (g gluc g dw-1year-1)</label><br>
+            <input id="rmr" type="text" v-model="postBody.rmr" placeholder="rmR > 0" min="0" >
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspMaintenance respiration rate of fine roots<br>
+                <span class="separator"></span>
+                Unit: g gluc g dw-1year-1<br>
+                <span class="separator"></span>
+                Constraint: (0,+&#8734)
+            </p></span><br>
+
+            <label for="k"> k: (g gluc g dw-1year-1)</label><br>
+            <input id="k" type="text" v-model="postBody.k" placeholder="k > 0" min="0" >
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspLight extinction coefficient<br>
+                <span class="separator"></span>
+                Unit: none<br>
+                <span class="separator"></span>
+                Constraint: (0,+&#8734)
+            </p></span><br>
+
+            <label for="epsg"> epsg (RUE): (g gluc MJ-1)</label><br>
+            <input id="epsg" type="text" v-model="postBody.epsg" placeholder="0 < epsg < 15.73" min="0" max="15.73">
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspRadiation-use efficiency<br>
+                <span class="separator"></span>
+                Unit: g gluc MJ-1<br>
+                <span class="separator"></span>
+                Constraint: (0,15.73)
+            </p></span><br>
+
+        <div class="groupDivider">
+      </div>
+
+          </ul>
+        </div>
+      </div>
+
+      <div class="divider">
+        </div>
+
+      <div class="collapsible-menu">
+        <input type="checkbox" id="menu-4">
+        <label for="menu-4">Turn-over and <br>senescence traits</label>
+        <div class="menu-content">
+          <ul>
+            <label for="sl"> sL: (year-1)</label><br>
+            <input id="sl" type="text" v-model="postBody.sl" placeholder="sL > 0" min="0" >
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspSenescence rate of leaves<br>
+                <span class="separator"></span>
+                Unit: year-1<br>
+                <span class="separator"></span>
+                Constraint: (0,+&#8734)
+            </p></span><br>
+
+            <label for="sr"> sR: (year-1)</label><br>
+            <input id="sr" type="text" v-model="postBody.sr" placeholder="sR > 0" min="0">
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspSenescence rate of fine roots<br>
+                <span class="separator"></span>
+                Unit: year-1<br>
+                <span class="separator"></span>
+                Constraint: (0,+&#8734)
+            </p></span><br>
+
+            <label for="so"> sO: (year-1)</label><br>
+            <input id="so" type="text" v-model="postBody.so" placeholder="sO > 0" min="0" >
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspSenescence rate of or coarse roots and branches<br>
+                <span class="separator"></span>
+                Unit: year-1<br>
+                <span class="separator"></span>
+                Constraint: (0,+&#8734)
+            </p></span><br>
+
+        <div class="groupDivider">
+      </div>
+
+          </ul>
+        </div>
+      </div>
+      <div id="sliderdiv" class="slidecontainer">
+
+        <div class="divider">
+        </div>
+        <div class="divider">
+        </div>
+
+        <label for="initialRadius"> Initial radius: (m)</label><br>
+            <input id="initialRadius" type="text" v-model="postBody.radius" placeholder="radius > 0" min="0" >
+            <span class="help-tip">
+              <p>
+                &nbspInformation Box<br>
+                <span class="separator"></span>
+                Name:&nbspInitial radius<br>
+                <span class="separator"></span>
+                Unit: m<br>
+                <span class="separator"></span>
+                Constraint: (0,+&#8734)
+            </p></span><br><br>
+
+        <label> Light Level: {{postBody.io}}</label><br><br>
+        0<input id="io"type="range" min="0" max="2060" v-model="postBody.io" class="timeStepSlider">2060
+
+
+        <div class="divider">
+        </div>
+        <div class="divider">
+        </div>
+
+        <label for="t">Total Time: {{postBody.t}} </label><br><br>
+        0<input id="io" class="timeStepSlider" type="range" min="1" max="450" v-model="postBody.t">450
+        <!-- <input id="t" type="text" v-model="postBody.t" placeholder="Time in Years" class="time" min="0" max="100"> -->
+
+
+      </div>
+
+      <div class="divider">
+        </div>
+
+      <div id="error-message"><br>
+          {{this.errorMessage}}
+      </div>
+
+      <div class="divider">
+        </div>
+
+      <button id="postDataBtn" :disabled='isDisabled()' @click="postData()" name="button">PostData</button>
+      <button @click="getData()" name="button">GetData</button>
+      <!--<button @click="run()">RUN</Button><br>-->
       <br>
-        <button @click="setDefault('Red Maple')">Red Maple</button>
-        <button @click="setDefault('Loblolly Pine')">Loblolly Pine</button>
-      </div>
     </div>
+    <!-- END: Input Fields Box -->
 
-      <div class="divider">
-      </div>
-
-    <div class="collapsible-menu">
-      <input type="checkbox" id="menu">
-      <label id="gourp1" for="menu">Allometries and <br>biomass partitioning</label>
-      <div class="menu-content">
-        <ul>
-          <label for="phih"> phip:</label><br>
-          <input id="phih" type="text" v-model="postBody.phih" placeholder="phih > 0" min="0" >
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspSlope of height vs trunk radius (r) curve at r = 0 m<br>
-              <span class="separator"></span>
-              Unit: none<br>
-              <span class="separator"></span>
-              Constraint: (0,+&#8734)
-            </p></span><br>
-
-          <label for="eta"> eta:</label><br>
-          <input id="eta" type="text" v-model="postBody.eta" placeholder="0 < eta < 1" min="0" max="1">
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspRelative height that trunk transitions from paraboloid to cone<br>
-              <span class="separator"></span>
-              Unit: none<br>
-              <span class="separator"></span>
-              Constraint: (0,1)
-            </p></span><br>
-
-          <label for="lamda"> lamda:</label><br>
-          <input id="lamda" type="text" v-model="postBody.lamda" placeholder="0 < lamda < 1" min="0" max="1" >
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspProportionality between trunk and non-trunk biomass<br>
-              <span class="separator"></span>
-              Unit: none<br>
-              <span class="separator"></span>
-              Constraint: (0,1)
-            </p></span><br>
-
-          <label for="f2"> f2 (RA:LA):</label><br>
-          <input id="f2" type="text" v-model="postBody.f2" placeholder="f2 (RA:LA) > 0" min="0">
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspFine root area to leaf area ratio<br>
-              <span class="separator"></span>
-              Unit: none<br>
-              <span class="separator"></span>
-              Constraint: (0,+&#8734)
-            </p></span><br>
-
-          <label for="f1"> f1 (LA:XA):</label><br>
-          <input id="f1" type="text" v-model="postBody.f1" placeholder="f1 (LA:XA) > 0" min="0">
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspLeaf area to xylem conducting area ratio<br>
-              <span class="separator"></span>
-              Unit: none<br>
-              <span class="separator"></span>
-              Constraint: (0,+&#8734)
-            </p></span><br>
-
-          <label for="gammax"> gammaX (XA:SA):</label><br>
-          <input id="gammax" type="text" v-model="postBody.gammax" placeholder="0 <gammaX (XA:SA)< 1" min="0" max="1">
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspXylem conducting area to sapwood area ratio<br>
-              <span class="separator"></span>
-              Unit: none<br>
-              <span class="separator"></span>
-              Constraint: (0,1)
-            </p></span><br>
-
-          <label for="etaB"> etaB:</label><br>
-          <input id="etaB" type="text" v-model="postBody.etaB" placeholder="0 < etaB < eta" min="0" :disabled='postBody.eta==""'>
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspRelative height at which trunk transitions from a neiloid to a paraboloid<br>
-              <span class="separator"></span>
-              Unit: none<br>
-              <span class="separator"></span>
-              Constraint: (0,eta)
-            </p></span><br>
-
-          <label for="m"> M:</label><br>
-          <input id="m" type="text" v-model="postBody.m" placeholder="0 < m < 1" min="0" max="1">
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspMaximum relative crown depth<br>
-              <span class="separator"></span>
-              Unit: none<br>
-              <span class="separator"></span>
-              Constraint: (0,1)
-            </p></span><br>
-
-          <label for="r0"> R0:</label><br>
-          <input id="r0" type="text" v-model="postBody.r0" placeholder="R0 > 0" min="0" >
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspMaximum potential crown radius of a tree with diameter at breast height of 0 cm (i.e., for a tree that is exactly 1.37 m tall)<br>
-              <span class="separator"></span>
-              Unit: none<br>
-              <span class="separator"></span>
-              Constraint: (0,+&#8734)
-            </p></span><br>
-
-          <label for="r40"> R40:</label><br>
-          <input id="r40" type="text" v-model="postBody.r40" placeholder="R40 > R0" min="0" :disabled='postBody.r0==""'>
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspMaximum potential crown radius of a tree with diameter at breast height of 40 cm<br>
-              <span class="separator"></span>
-              Unit: none<br>
-              <span class="separator"></span>
-              Constraint: (R0,+&#8734)
-            </p></span><br>
-
-          <label for="alpha"> alpha:</label><br>
-          <input id="alpha" type="text" v-model="postBody.alpha" placeholder="alpha > 0" min="0" >
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspCrown curvature parameter<br>
-              <span class="separator"></span>
-              Unit: none<br>
-              <span class="separator"></span>
-              Constraint: (0,+&#8734)
-            </p></span><br>
-
-      <div class="groupDivider">
-     </div>
-
-        </ul>
-      </div>
-    </div>
-
-    <div class="divider">
-      </div>
-
-    <div class="collapsible-menu">
-      <input type="checkbox" id="menu-1">
-      <label for="menu-1">Tree and organ<br> size traits</label>
-      <div class="menu-content">
-        <ul>
-          <label for="hmax"> Hmax:(m)</label><br>
-          <input id="hmax" type="text" v-model="postBody.hmax" placeholder="0 < Hmax < 127" min="0" max="127">
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspMaximum tree height<br>
-              <span class="separator"></span>
-              Unit: m<br>
-              <span class="separator"></span>
-              Constraint: (R0,127)
-            </p></span><br>
-
-          <label for="swmax"> SWmax:(m)</label><br>
-          <input id="swmax" type="text" v-model="postBody.swmax" placeholder="SWmax > 0" min="0"  >
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspMaximum sapwood width<br>
-              <span class="separator"></span>
-              Unit: m<br>
-              <span class="separator"></span>
-              Constraint: (0,+&#8734)
-            </p></span><br>
-
-          <label for="rr"> rr: (m)</label><br>
-          <input id="rr" type="text" v-model="postBody.rr" placeholder="rr > 0" min="0" >
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspAverage fine root radius<br>
-              <span class="separator"></span>
-              Unit: m<br>
-              <span class="separator"></span>
-              Constraint: (0,+&#8734)
-            </p></span><br>
-
-      <div class="groupDivider">
-     </div>
-
-        </ul>
-      </div>
-    </div>
-
-    <div class="divider">
-      </div>
-
-    <div class="collapsible-menu">
-      <input type="checkbox" id="menu-2">
-      <label for="menu-2">Structural traits</label>
-      <div class="menu-content">
-        <ul>
-          <label for="rhomax"> WD: (g dw m-3)</label><br>
-          <input id="rhomax" type="text" v-model="postBody.rhomax" placeholder="WD > 0" min="0">
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspWood density<br>
-              <span class="separator"></span>
-              Unit: g dw m-3<br>
-              <span class="separator"></span>
-              Constraint: (0,+&#8734)
-            </p></span><br>
-
-          <label for="gammaw"> gammaW: (m3g dw-1)</label><br>
-          <input id="gammaw" type="text" v-model="postBody.gammaw" placeholder="gammaW">
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbsp(Inverse) density of sapwood structural tissue<br>
-              <span class="separator"></span>
-              Unit: m3g dw-1<br>
-              <span class="separator"></span>
-              Constraint: none
-            </p></span><br>
-
-          <label for="sla"> sla: (m2g dw-1)</label><br>
-          <input id="sla" type="text" v-model="postBody.sla" placeholder="sla > 0" min="0" >
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspSpecific leaf area<br>
-              <span class="separator"></span>
-              Unit: m2g dw-1<br>
-              <span class="separator"></span>
-              Constraint: (0,+&#8734)
-            </p></span><br>
-
-      <div class="groupDivider">
-     </div>
-
-        </ul>
-      </div>
-    </div>
-
-
-    <div class="divider">
-      </div>
-
-    <div class="collapsible-menu">
-      <input type="checkbox" id="menu-3">
-      <label for="menu-3">Physiological traits</label>
-      <div class="menu-content">
-        <ul>
-          <label for="gammac"> gammaC: (g gluc m-3)</label><br>
-          <input id="gammac" type="text" v-model="postBody.gammac" placeholder="gammac > 0" min="0" >
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspMaximum labile carbon storage capacity of living sapwood cells<br>
-              <span class="separator"></span>
-              Unit: g dw m-3<br>
-              <span class="separator"></span>
-              Constraint: (0,+&#8734)
-          </p></span><br>
-
-          <label for="cgl"> cgL: (g gluc g dw-1)</label><br>
-          <input id="cgl" type="text" v-model="postBody.cgl" placeholder="cgL > 0" min="0">
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspConstruction costs of producing leaves<br>
-              <span class="separator"></span>
-              Unit: g gluc g dw-1<br>
-              <span class="separator"></span>
-              Constraint: (0,+&#8734)
-          </p></span><br>
-
-          <label for="cgr"> cgR: (g gluc g dw-1)</label><br>
-          <input id="cgr" type="text" v-model="postBody.cgr" placeholder="cgr > 0" min="0" >
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspConstruction costs of producing fine roots<br>
-              <span class="separator"></span>
-              Unit: g gluc g dw-1<br>
-              <span class="separator"></span>
-              Constraint: (0,+&#8734)
-          </p></span><br>
-
-          <label for="cgw"> cgW: (g gluc g dw-1)</label><br>
-          <input id="cgw" type="text" v-model="postBody.cgw" placeholder="cgw > 0" min="0" >
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspConstruction costs of producing sapwood<br>
-              <span class="separator"></span>
-              Unit: g gluc g dw-1<br>
-              <span class="separator"></span>
-              Constraint: (0,+&#8734)
-          </p></span><br>
-
-          <label for="deltal"> deltaL: (g gluc g dw-1)</label><br>
-          <input id="deltal" type="text" v-model="postBody.deltal" placeholder="deltal > 0" min="0" >
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspLabile carbon storage capacity of leaves<br>
-              <span class="separator"></span>
-              Unit: g gluc g dw-1<br>
-              <span class="separator"></span>
-              Constraint: (0,+&#8734)
-          </p></span><br>
-
-          <label for="deltar"> deltaR: (g gluc g dw-1)</label><br>
-          <input id="deltar" type="text" v-model="postBody.deltar" placeholder="deltar > 0" min="0" >
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspLabile carbon storage capacity of fine roots<br>
-              <span class="separator"></span>
-              Unit: g gluc g dw-1<br>
-              <span class="separator"></span>
-              Constraint: (0,+&#8734)
-          </p></span><br>
-
-          <label for="rhor"> rhor: (g dw m-3)</label><br>
-          <input id="rhor" type="text" v-model="postBody.rhor" placeholder="rhor > 0" min="0" >
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspTissue density of fine roots<br>
-              <span class="separator"></span>
-              Unit: g dw m-3<br>
-              <span class="separator"></span>
-              Constraint: (0,+&#8734)
-          </p></span><br>
-
-          <label for="rml"> rmL: (g gluc g dw-1year-1)</label><br>
-          <input id="rml" type="text" v-model="postBody.rml" placeholder="rmL > 0" min="0">
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspMaintenance respiration rate of leaves<br>
-              <span class="separator"></span>
-              Unit: g gluc g dw-1year-1<br>
-              <span class="separator"></span>
-              Constraint: (0,+&#8734)
-          </p></span><br>
-
-          <label for="rms"> rmS: (g gluc g dw-1year-1)</label><br>
-          <input id="rms" type="text" v-model="postBody.rms" placeholder="rmS > 0" min="0" >
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspMaintenance respiration rate of sapwood<br>
-              <span class="separator"></span>
-              Unit: g gluc g dw-1year-1<br>
-              <span class="separator"></span>
-              Constraint: (0,+&#8734)
-          </p></span><br>
-
-          <label for="rmr"> rmR: (g gluc g dw-1year-1)</label><br>
-          <input id="rmr" type="text" v-model="postBody.rmr" placeholder="rmR > 0" min="0" >
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspMaintenance respiration rate of fine roots<br>
-              <span class="separator"></span>
-              Unit: g gluc g dw-1year-1<br>
-              <span class="separator"></span>
-              Constraint: (0,+&#8734)
-          </p></span><br>
-
-          <label for="k"> k: (g gluc g dw-1year-1)</label><br>
-          <input id="k" type="text" v-model="postBody.k" placeholder="k > 0" min="0" >
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspLight extinction coefficient<br>
-              <span class="separator"></span>
-              Unit: none<br>
-              <span class="separator"></span>
-              Constraint: (0,+&#8734)
-          </p></span><br>
-
-          <label for="epsg"> epsg (RUE): (g gluc MJ-1)</label><br>
-          <input id="epsg" type="text" v-model="postBody.epsg" placeholder="0 < epsg < 15.73" min="0" max="15.73">
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspRadiation-use efficiency<br>
-              <span class="separator"></span>
-              Unit: g gluc MJ-1<br>
-              <span class="separator"></span>
-              Constraint: (0,15.73)
-          </p></span><br>
-
-      <div class="groupDivider">
-     </div>
-
-        </ul>
-      </div>
-    </div>
-
-    <div class="divider">
-      </div>
-
-    <div class="collapsible-menu">
-      <input type="checkbox" id="menu-4">
-      <label for="menu-4">Turn-over and <br>senescence traits</label>
-      <div class="menu-content">
-        <ul>
-          <label for="sl"> sL: (year-1)</label><br>
-          <input id="sl" type="text" v-model="postBody.sl" placeholder="sL > 0" min="0" >
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspSenescence rate of leaves<br>
-              <span class="separator"></span>
-              Unit: year-1<br>
-              <span class="separator"></span>
-              Constraint: (0,+&#8734)
-          </p></span><br>
-
-          <label for="sr"> sR: (year-1)</label><br>
-          <input id="sr" type="text" v-model="postBody.sr" placeholder="sR > 0" min="0">
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspSenescence rate of fine roots<br>
-              <span class="separator"></span>
-              Unit: year-1<br>
-              <span class="separator"></span>
-              Constraint: (0,+&#8734)
-          </p></span><br>
-
-          <label for="so"> sO: (year-1)</label><br>
-          <input id="so" type="text" v-model="postBody.so" placeholder="sO > 0" min="0" >
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspSenescence rate of or coarse roots and branches<br>
-              <span class="separator"></span>
-              Unit: year-1<br>
-              <span class="separator"></span>
-              Constraint: (0,+&#8734)
-          </p></span><br>
-
-          <label for="initialRadius"> Initial radius: (m)</label><br>
-          <input id="initialRadius" type="text" v-model="postBody.radius" placeholder="radius > 0" min="0" >
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspInitial radius<br>
-              <span class="separator"></span>
-              Unit: m<br>
-              <span class="separator"></span>
-              Constraint: (0,+&#8734)
-          </p></span><br>
-
-      <div class="groupDivider">
-     </div>
-
-        </ul>
-      </div>
-    </div>
-    <div id="sliderdiv" class="slidecontainer">
-
-      <div class="divider">
-      </div>
-      <div class="divider">
-      </div>
-
-      <label> Light Level: {{postBody.io}}</label><br><br>
-      0<input id="io"type="range" min="0" max="2060" v-model="postBody.io" class="timeStepSlider">2060
-
-
-      <div class="divider">
-      </div>
-      <div class="divider">
-      </div>
-
-      <label for="t">Total Time: {{postBody.t}} </label><br><br>
-      0<input id="io" class="timeStepSlider" type="range" min="1" max="450" v-model="postBody.t">450
-      <!-- <input id="t" type="text" v-model="postBody.t" placeholder="Time in Years" class="time" min="0" max="100"> -->
-
-
-    </div>
-
-    <div class="divider">
-      </div>
-
-    <div id="error-message"><br>
-         {{this.errorMessage}}
-    </div>
-
-    <div class="divider">
-      </div>
-
-    <button id="postDataBtn" :disabled='isDisabled()' @click="postData()" name="button">PostData</button>
-    <button @click="getData()" name="button">GetData</button>
-    <!--<button @click="run()">RUN</Button><br>-->
-    <br>
-    </div>
-
+    <!-- Output Box -->
     <div class="outputDisplayContainer">
       <!--<button @click="loadTextures()">Load Textures</Button>-->
       <div class="setSceneContainer">
@@ -643,6 +669,7 @@
         <!--<label>growth_st: {{ this.resultJson.growth_st[this.dataIndex] }}               </label><br>-->
       </div>
     </div>
+    <!-- END: Output Box -->
 
   </div>
 </template>
@@ -1315,6 +1342,14 @@ methods: {
       }
     }, // END: setScene()
 
+    hideInstructions() {
+      document.getElementById("instructionsText").style.display = "none"
+    }, // END: hideInstructions()
+
+    showInstructions() {
+      document.getElementById("instructionsText").style.display = "block"
+    }, // END: hideInstructions()
+
     update() {
       // THREE.js function
       //this.trunk.rotation.y += 0.01
@@ -1607,10 +1642,39 @@ methods: {
     height:120px;
   }
 
+  .instructionsContainer {
+    display: block;
+    width: 95%;
+    margin: auto;
+    margin-bottom: 5px;
+    padding: 2%;
+    float: left;
+    background-color: #b9b9b9;
+    border-radius: 10px;
+    float: left;
+    position: relative;
+    text-align: left;
+  }
+
+  .instructionsContainer button {
+    display: inline-block;
+    width: 75px;
+    height: 30px;
+    padding: 5px 5px;
+    margin: 2px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 12px;
+    color: green;
+    font-family: "Lucida Console", Monaco, monospace;
+    background-color: #FFF;
+  }
+
   .inputField {
     display: inline-block;
     padding: 20px 10px 20px 10px;
-    margin: 2px;
+    margin: auto;
     border: none;
     border-radius: 10px;
     font-size: 16px;
@@ -1655,7 +1719,6 @@ methods: {
     padding: 2%;
     float: right;
     background-color: #b9b9b9;
-    border-color: green;
     border-radius: 10px;
     float: right;
     position: relative;
