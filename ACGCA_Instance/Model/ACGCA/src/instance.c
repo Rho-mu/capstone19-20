@@ -72,7 +72,7 @@ void run_model(double *input, double *gp2,
     // there are two r0's
     double r1 = input[37];
     double *r0 = &r1;
-    int t0 = input[36]; // NEED TO CHECK THIS VARIABLE
+    int t0 = 10; // NEED TO CHECK THIS VARIABLE
     int *t = &t0;
     // need to check the variables here
 
@@ -135,7 +135,7 @@ void run_model(double *input, double *gp2,
 
     gp.BH = gp2[0];
     gp.deltat=gp2[1];
-    gp.T=gp2[2];
+    gp.T=input[36];
     gp.tolerance=gp2[3];
     //gparms gp2;
     //gp2.BH = 1.37;
@@ -273,8 +273,9 @@ void run_model(double *input, double *gp2,
 
 
 
+
     int outputIter = 0;
-    for(int iter = 1; iter < (ceil(gp.T/gp.deltat) + 1); iter+=16)
+    for(int iter = 0; iter < (ceil(gp.T/gp.deltat) + 1); iter+=16)
     {
       APARout2[outputIter] = APARout3[iter];
       h2[outputIter] = h3[iter];
@@ -326,5 +327,7 @@ void run_model(double *input, double *gp2,
       outputIter++;
     }
     outputIter = 0;
+
+
 
 }

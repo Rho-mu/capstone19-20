@@ -1,23 +1,13 @@
 <template>
   <div>
 
-    <div class="divider">
-      </div>
-
     <div class="inputField">
 
       <div class="title-wrapper" id="input-title">
       Control Panel
       </div>
 
-      <span class="help-tip" id="mention">
-      <p>
-      <span id="mention-text">Mention</span>
-      <br><br>
-
-       </p>
-       </span>
-
+      <br>
       <div class="divider">
       </div>
       <div class="divider">
@@ -557,7 +547,7 @@
       </div>
 
       <label for="t">Total Time: {{postBody.t}} </label><br><br>
-      0<input id="io" class="timeStepSlider" type="range" min="1" max="29" v-model="postBody.t">29
+      0<input id="io" class="timeStepSlider" type="range" min="1" max="450" v-model="postBody.t">450
       <!-- <input id="t" type="text" v-model="postBody.t" placeholder="Time in Years" class="time" min="0" max="100"> -->
 
 
@@ -596,6 +586,7 @@
       </div>
 
       <h3> Move the slider to see the growth of the tree!</h3>
+      <h4>Year: {{this.dataIndex}}</h4>
 
       <input type="range" min="1" v-model="dataIndex" @input="draw()" id="timeStepSlider" class="timeStepSlider"><br><br>
       <div class="treeCanvasport" id="treeCanvasport"></div>
@@ -848,7 +839,7 @@ methods: {
     setDefault(defaultType) {
 
       // Set default time, light level, and initial radius
-      this.postBody.t=29
+      this.postBody.t=100
       this.postBody.radius=0.05
       this.postBody.io=1000
 

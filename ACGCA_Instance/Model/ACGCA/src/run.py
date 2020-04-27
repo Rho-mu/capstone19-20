@@ -330,7 +330,7 @@ def run_alg(input):
     }
 
 
-    print(o.fl2[9])
+
     return output
 
 
