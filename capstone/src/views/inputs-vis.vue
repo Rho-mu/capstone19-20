@@ -1350,6 +1350,9 @@ methods: {
       if(this.isDisable){
          this.errorMessage="ERROR: Please fill out all of the fields";
       }
+      else{
+        this.errorMessage=""
+      }
 
     }, // END: checkForNull()
     

@@ -8,12 +8,26 @@
 
         <input type="text" v-model="newUser.last_Name" placeholder="Last Name" required><br>
 
-        <input type="text" v-model="newUser.occupation" placeholder="Affiliation"required><br>
+        <input type="text" v-model="newUser.occupation" placeholder="Affiliation (e.g., Tempe State University, Taylor High School)"required><br>
 
-        <input type="text" v-model="newUser.locale" placeholder="Locale"required><br>
+        <input type="text" v-model="newUser.locale" placeholder="City, State, Country"required><br>
 
-        <input type="text" v-model="newUser.role" placeholder="Affiliation Role" required><br>
+        <label for="roles">Choose an Affiliation Role:</label><br>
+        <select v-model="newUser.role" class="roles">
+          <option value="Student(K-12)">Student (K-12)</option>
+          <option value="Student(Undergraduate)">Student (Undergraduate)</option>
+          <option value="Student(Graduate)">Student (Graduate)</option>
+          <option value="Instructor(K-12)">Instructor (K-12)</option>
+          <option value="Instructor(Undergraduate)">Instructor (Undergraduate)</option>
+          <option value="Instructor(graduate-level)">Instructor (Graduate-Level)</option>
+          <option value="Researcher(Bachelors or masters)">Researcher (Bachelors or Masters level)</option>
+          <option value="Researcher(PhD Level)">Researcher (PhD Level)</option>
+          <option value="Natural Resource Manager, Conservationist, or Practitioner">Natural Resource Manager, Conservationist, or Practitioner</option>
+          <option value="Other">Other</option>
 
+        </select>
+        <br>
+        <br>
         <button type="submit" value="Submit">Submit</button>
       </div>
       <div>
@@ -102,5 +116,8 @@ input {
 @keyframes fadeIn {
     0% { opacity:0; }
     100% { opacity:100%; }
+}
+.roles {
+  width: 22%;
 }
 </style>
