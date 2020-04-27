@@ -1,17 +1,10 @@
 <template>
   <div>
-
     <div class="inputField">
-
-      <div class="title-wrapper" id="input-title">
+      <div id="input-title">
       Control Panel
       </div>
 
-      <br>
-      <div class="divider">
-      </div>
-      <div class="divider">
-      </div>
       <div class="divider">
       </div>
       <div class="divider">
@@ -530,7 +523,7 @@
         </ul>
       </div>
     </div>
-    <div id="sliderdiv" class="slidecontainer">
+    <div id="sliderdiv">
 
       <div class="divider">
       </div>
@@ -1552,12 +1545,9 @@ methods: {
 
   #sliderdiv{
     text-align:left;
+    font-size: 12px;
   }
 
-  .slidecontainer {
-    width: 100%;
-
-  }
 
   .slider {
     -webkit-appearance: none;
@@ -1570,21 +1560,12 @@ methods: {
   }
   /*title wrapper*/
 
-  .title-wrapper {
-    text-align: center;
-    display:inline-block;
-    font-size: 30px;
-    width:98%;
-    border-radius: 20px;
-    background-color: #4CAF50;
-    font-family: "Lucida Console", Monaco, monospace;
-    padding:5px;
-  }
-
   #input-title {
-    font-size: 25px;
+    text-align: center;
+    display: inline-block;
+    font-size: 20px;
     width:80%;
-    float:left;
+
     background-color: #b9b9b9;
     height:30px;
   }
@@ -1766,7 +1747,7 @@ methods: {
 
   .collapsible-menu label {
     font-family: "Lucida Console", Monaco, monospace;
-    font-size: 20px;
+    font-size: 15px;
     display: inline-block;
     cursor: pointer;
     padding: 10px 0px 5px 0px;
