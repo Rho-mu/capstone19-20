@@ -17,14 +17,15 @@
       There are six possible physiological states in the ACGCA model: healthy, static, shrinking, recovering, recovered, or dead (Ogle and Pacala 2009). Each state is described by a set of difference equations satisfying mass-balance relationshipts between structural and labile carbon pools. The only environmental driver included in the model is parmax (annual radiation for a site).
       <br><br>
       For a full description of the model see Ogle and Pacala (2009) and the accompanying supplemental material. The model has also been used in several other studies (Fell et al. 2018 and Gemoets et al 2013).
-      <br><br>
-      <p id="return">
+      <br><br><br>
+      <p class="return">
         <button class="testButton" @click="moveToLogin"id="returnButton">Returning?</button>
       </p>
-      <p id="survey">
-        <button @click="moveToSignUp" id="surveyButton">New?</button>
+      <p class="survey">
+        <button class="testButton" @click="moveToSignUp" id="surveyButton">New?</button>
       </p>
     </div>
+    <br>
     <div id="topLeft">
       ACGCA Model
 
@@ -81,7 +82,7 @@ export default {
   color: white;
 
 }
-#return {
+.return {
   position: absolute;
   top:100%;
   left: 15%;
@@ -89,10 +90,10 @@ export default {
   font-size: 18px;
   color: black;
 }
-#survey {
+.survey {
   position: absolute;
   top:100%;
-  right: 10%;
+  right: 5%;
   transform: translate(-50%, -50%);
   font-size: 18px;
   color: black;
@@ -121,7 +122,7 @@ export default {
   color: white;
 }
 
-#testButton {
+.testButton {
   background-color: #44c767;
   border-radius: 28px;
   border: 1px solid #18ab29;
@@ -130,6 +131,15 @@ export default {
   font-family:Arial;
   font-size: 17px;
   display: inline-block;
+}
+
+.survey button:hover {
+  background-color: #EEE;
+  color: black;
+}
+.return button:hover {
+  background-color: #EEE;
+  color: black;
 }
 
 </style>

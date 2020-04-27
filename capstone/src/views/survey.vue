@@ -97,9 +97,10 @@ button {
 }
 input {
   margin: 10px 0;
-  width: 20%;
+  width: 25%;
   padding: 15px;
 }
+
 
 @-webkit-keyframes fadeIn {
     0% {
