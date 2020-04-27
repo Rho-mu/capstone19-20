@@ -100,7 +100,7 @@ def run_alg(input):
             ('io',ctypes.c_double),
             ]
 
-    N = (int(input['t']))*16
+    N = (int(input['t'])) + 1
 
     class Outputs(ctypes.Structure):
         _fields_ = [
@@ -222,7 +222,6 @@ def run_alg(input):
     model.argtypes = [
     ctypes.POINTER(Inputs),
     ctypes.POINTER(gparm),
-    ctypes.POINTER(Outputs),
     ctypes.POINTER(ctypes.c_double),
     ctypes.POINTER(ctypes.c_double),
     ctypes.POINTER(ctypes.c_double),
@@ -273,7 +272,7 @@ def run_alg(input):
     ]
 
 
-    model(p,g,o,o.APARout,o.h,o.hh2,o.hC2,o.hB2,o.hBH2,o.r,o.rB2,o.rC2,o.rBH,
+    model(p,g,o.APARout,o.h,o.hh2,o.hC2,o.hB2,o.hBH2,o.r,o.rB2,o.rC2,o.rBH,
         o.sw2,o.vts2,o.vt2,o.vth2,o.sa2,o.la2,o.ra2,o.dr2,o.xa2,o.bl2,o.br2,
         o.bt2,o.bts2,o.bth2,o.boh2,o.bos2,o.bo2,o.bs2,o.cs2,o.clr2,o.fl2,o.fr2,
         o.ft2,o.fo2,o.rfl2,o.rfr2,o.rfs2,o.egrow2,o.ex2,o.rtrans2,o.light2,
@@ -331,6 +330,7 @@ def run_alg(input):
     }
 
 
+    print(o.fl2[9])
     return output
 
 

@@ -13,7 +13,7 @@
         <input type="text" v-model="newUser.locale" placeholder="City, State, Country"required><br>
 
         <label for="roles">Choose an Affiliation Role:</label><br>
-        <select v-model="newUser.role" class="roles">
+        <select v-model="newUser.role" class="roles" required>
           <option value="Student(K-12)">Student (K-12)</option>
           <option value="Student(Undergraduate)">Student (Undergraduate)</option>
           <option value="Student(Graduate)">Student (Graduate)</option>

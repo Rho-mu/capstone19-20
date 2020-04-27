@@ -7,7 +7,7 @@
     <div class="inputField">
 
       <div class="title-wrapper" id="input-title">
-      Control Pannel
+      Control Panel
       </div>
 
       <span class="help-tip" id="mention">
@@ -547,12 +547,7 @@
       <div class="divider">
       </div>
 
-      <label for="io"> Light Level:</label>
-      <input id="iodisplay" type="text" v-model="postBody.io" >
-      <div class="divider">
-      </div>
-       <div class="divider">
-      </div>
+      <label> Light Level: {{postBody.io}}</label><br><br>
       0<input id="io"type="range" min="0" max="2060" v-model="postBody.io" class="timeStepSlider">2060
 
 
@@ -561,8 +556,9 @@
       <div class="divider">
       </div>
 
-      <label for="t">Total Time: (year)</label><br>
-      <input id="t" type="text" v-model="postBody.t" placeholder="Time in Years" class="time" min="0" max="100">
+      <label for="t">Total Time: {{postBody.t}} </label><br><br>
+      0<input id="io" class="timeStepSlider" type="range" min="1" max="29" v-model="postBody.t">29
+      <!-- <input id="t" type="text" v-model="postBody.t" placeholder="Time in Years" class="time" min="0" max="100"> -->
 
 
     </div>
@@ -1190,7 +1186,7 @@ methods: {
       console.log("crown color:",crownColor)
 
       var crownMat = new THREE.MeshLambertMaterial( {color: crownColor} )
-      
+
       crownMat.opacity = this.resultJson.LAI2[year]/maxLAI2
       console.log("crown opacity:", crownMat.opacity)
 
@@ -1376,7 +1372,7 @@ methods: {
       }
 
     }, // END: checkForNull()
-    
+
     hardLimit(){
       if (this.postBody.phih < 0) this.postBody.phih= 0;
 
@@ -1409,7 +1405,7 @@ methods: {
       if (this.postBody.r40 < r0) this.postBody.r40 = r0;
       }
 
-      //Group A end 
+      //Group A end
 
       if (this.postBody.hmax < 0) this.postBody.hmax= 0;
       if (this.postBody.hmax> 127) this.postBody.hmax= 127;

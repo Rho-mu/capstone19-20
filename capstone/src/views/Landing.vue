@@ -17,7 +17,7 @@
       There are six possible physiological states in the ACGCA model: healthy, static, shrinking, recovering, recovered, or dead (Ogle and Pacala 2009). Each state is described by a set of difference equations satisfying mass-balance relationshipts between structural and labile carbon pools. The only environmental driver included in the model is parmax (annual radiation for a site).
       <br><br>
       For a full description of the model see Ogle and Pacala (2009) and the accompanying supplemental material. The model has also been used in several other studies (Fell et al. 2018 and Gemoets et al 2013).
-      
+      <br><br>
       <p id="return">
         <button class="testButton" @click="moveToLogin"id="returnButton">Returning?</button>
       </p>
@@ -77,8 +77,8 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 18px;
-  color: black;
+  font-size: 14px;
+  color: white;
 
 }
 #return {
@@ -103,8 +103,9 @@ export default {
   right: 0;
   position: absolute;
   display: block;
-  height: 100px;
-  width: 100px;
+
+  height: 80px;
+  width: 80px;
 }
 
 
@@ -116,7 +117,7 @@ export default {
   position: absolute;
   top: 55px;
   left: 16px;
-  font-size: 28px;
+  font-size: 24px;
   color: white;
 }
 
