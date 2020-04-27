@@ -148,19 +148,6 @@
               Constraint: (0,1)
             </p></span><br>
 
-          <label for="alpha"> alpha:</label><br>
-          <input id="alpha" type="text" v-model="postBody.alpha" placeholder="alpha > 0" min="0" >
-          <span class="help-tip">
-            <p>
-              &nbspInformation Box<br>
-              <span class="separator"></span>
-              Name:&nbspCrown curvature parameter<br>
-              <span class="separator"></span>
-              Unit: none<br>
-              <span class="separator"></span>
-              Constraint: (0,+&#8734)
-            </p></span><br>
-
           <label for="r0"> R0:</label><br>
           <input id="r0" type="text" v-model="postBody.r0" placeholder="R0 > 0" min="0" >
           <span class="help-tip">
@@ -186,6 +173,22 @@
               <span class="separator"></span>
               Constraint: (R0,+&#8734)
             </p></span><br>
+
+          <label for="alpha"> alpha:</label><br>
+          <input id="alpha" type="text" v-model="postBody.alpha" placeholder="alpha > 0" min="0" >
+          <span class="help-tip">
+            <p>
+              &nbspInformation Box<br>
+              <span class="separator"></span>
+              Name:&nbspCrown curvature parameter<br>
+              <span class="separator"></span>
+              Unit: none<br>
+              <span class="separator"></span>
+              Constraint: (0,+&#8734)
+            </p></span><br>
+
+      <div class="groupDivider">
+     </div>
 
         </ul>
       </div>
@@ -238,6 +241,9 @@
               Constraint: (0,+&#8734)
             </p></span><br>
 
+      <div class="groupDivider">
+     </div>
+
         </ul>
       </div>
     </div>
@@ -289,9 +295,13 @@
               Constraint: (0,+&#8734)
             </p></span><br>
 
+      <div class="groupDivider">
+     </div>
+
         </ul>
       </div>
     </div>
+
 
     <div class="divider">
       </div>
@@ -457,6 +467,9 @@
               Constraint: (0,15.73)
           </p></span><br>
 
+      <div class="groupDivider">
+     </div>
+
         </ul>
       </div>
     </div>
@@ -520,6 +533,9 @@
               <span class="separator"></span>
               Constraint: (0,+&#8734)
           </p></span><br>
+
+      <div class="groupDivider">
+     </div>
 
         </ul>
       </div>
@@ -1570,6 +1586,10 @@ methods: {
 
   .divider {
     height:10px;
+  }
+
+  .groupDivider {
+    height:120px;
   }
 
   .inputField {
