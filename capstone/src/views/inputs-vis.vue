@@ -1351,7 +1351,7 @@ methods: {
          this.errorMessage="ERROR: Please fill out all of the fields";
       }
 
-    },
+    }, // END: checkForNull()
     
     hardLimit(){
       if (this.postBody.phih < 0) this.postBody.phih= 0;
@@ -1447,7 +1447,7 @@ methods: {
       //Group E end
 
 
-    },
+    }, // END: hardLimit()
 
     isDisabled() {
       this.checkForNull();
