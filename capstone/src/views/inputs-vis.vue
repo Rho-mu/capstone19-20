@@ -644,7 +644,7 @@
       </div>
     </div>
 
-</div>
+  </div>
 </template>
 
 <script>
@@ -1055,22 +1055,29 @@ methods: {
       var year = this.dataIndex // The current timestep on the slider. Named "year" to make it easier to read.
 
       // This stuff should be calculated once after getData.
-      // Find max height of tree over its life to scale the scene to.
+      // Find max radius and height of tree over its life to scale the scene to.
       // Find max LAI2 to normalize it for opacity.
       var maxHeight = 0
       var maxLAI2 = 0
       for( var i = 1; i <= this.postBody.t; i++ )
       {
+        // Find max height.
         if( maxHeight < this.resultJson.h[i] )
         {
           maxHeight = this.resultJson.h[i]
         }
-        if( maxLAI2 < this.resultJson.LAI2[i] )
+        // Find max radius.
+        if( maxLAI2 < this.resultJson.r[i] )
         {
-          maxLAI2 = this.resultJson.LAI2[i]
+          maxLAI2 = this.resultJson.r[i]
+        }
+        // Find max LAI2.
+        if( maxHeight < this.resultJson.LAI2[i] )
+        {
+          maxHeight = this.resultJson.LAI2[i]
         }
       }
-      console.log("Max LAI2:", maxLAI2)
+      //console.log("Max LAI2:", maxLAI2)
 
       // Clear scene of old drawings
       while(this.treeScene.children.length > 0){   // Clear scene of old tree
@@ -1172,17 +1179,17 @@ methods: {
         // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
         crownGeo = new THREE.ConeGeometry( rcbase, h-hC, geoSegments )
       }
-      var crownColor = new THREE.Color()
-      crownColor.setRGB(0, this.resultJson.LAI2[year]/maxLAI2, 0)
-      console.log("crown color:",crownColor)
+      //var crownColor = new THREE.Color()
+      //crownColor.setRGB(0, this.resultJson.LAI2[year]/maxLAI2, 0)
+      //console.log("crown color:",crownColor)
 
-      var crownMat = new THREE.MeshLambertMaterial( {color: crownColor} )
+      var crownMat = new THREE.MeshLambertMaterial( {color: 0x00FF00} )
+      //var crownMat = new THREE.MeshLambertMaterial( {color: crownColor} )
 
       crownMat.transparent = true
       crownMat.opacity = this.resultJson.LAI2[year]/maxLAI2
       console.log("crown opacity:", crownMat.opacity)
-
-      //var crownMat = new THREE.MeshLambertMaterial( {color: 0x00FF00} )
+      
       this.crown = new THREE.Mesh( crownGeo, crownMat )
       this.crown.position.y = crownPos
       this.crown.position.x = 0
@@ -1209,45 +1216,60 @@ methods: {
 
       // Find max radius and scale scene to that size
       var maxRadius = this.resultJson.r[this.postBody.t]
-      this.ringCam.position.z = maxRadius*2
+      this.ringCam.position.z = maxRadius
+      //this.ringCam.position.z = this.resultJson.r[this.dataIndex] * 1.1
       this.ringCam.lookAt(0, 0, 0)
 
       var heartwoodRadius = this.resultJson.r[this.dataIndex] - this.resultJson.sw2[this.dataIndex] // Gets the heart wood radius at the current year on the slider
-      console.log("sw:", this.resultJson.sw2[this.dataIndex], "\nr:", this.resultJson.r[this.dataIndex], "\nhw:", heartwoodRadius)
+      //console.log("sw:", this.resultJson.sw2[this.dataIndex], "\nr:", this.resultJson.r[this.dataIndex], "\nhw:", heartwoodRadius)
+
 
       for( var i = 1; i <= this.dataIndex; i++ )
       {
+        var ringGeo
+
         // RingGeometry(innerRadius : Float, outerRadius : Float, thetaSegments : Integer, phiSegments : Integer, thetaStart : Float, thetaLength : Float)
-        var ringGeo = new THREE.RingGeometry( this.resultJson.r[i-1], this.resultJson.r[i], 32 )
+        if(i == 1)
+        {
+          // Sets the initial ring to a circle. Otherwise, there would be a hole of r0 raidus in the center.
+          ringGeo = new THREE.CircleGeometry(this.resultJson.r[i], geoSegments)
+        }
+        else
+        {
+          ringGeo = new THREE.RingGeometry( this.resultJson.r[i-1], this.resultJson.r[i], geoSegments, 1 )
+        }
 
         // color
         var ringColor = new THREE.Color()
         if( this.resultJson.r[i] < heartwoodRadius ) // If the current ring is part of the heart wood..
         {
           // Alternate between lighter colors
-          if(i % 2 == 0) { ringColor = 0x925A40 }
-          else { ringColor = 0x642C11 }
+          if(i % 2 == 0) { ringColor = 0xad593b }
+          else { ringColor = 0x521700 }
         }
-        else                                        // If the current ring is part of the sap wood..
+        else                                         // If the current ring is part of the sap wood..
         {
           // Alternate between darker colors
-          if(i % 2 == 0) { ringColor = 0x7E572D }
-          else { ringColor = 0x43280B }
+          if(i % 2 == 0) { ringColor = 0x997354 }
+          else { ringColor = 0x331700 }
         }
 
         var ringMat = new THREE.MeshBasicMaterial( {color: ringColor} )
         var ring = new THREE.Mesh( ringGeo, ringMat )
         this.newScene.add( ring )
-      }
+      } // END: for i
     }, // END: drawRings()
 
     addLight() {
       // Ambient light for all objects.
+      // AmbientLight( color : Integer, intensity : Float )
       var light = new THREE.AmbientLight( 0x404040 )
       this.treeScene.add( light )
 
       // Point light for casting shadows.
-      var pointLight = new THREE.PointLight( 0xffffff, 1, 100 )
+      // PointLight( color : Integer, intensity : Float, distance : Number, decay : Float )
+      var pointLight = new THREE.PointLight( 0xffffff, this.postBody.io/2060*2.5, 100 )
+      console.log("light:",this.postBody.io/2060*2.5)
       pointLight.position.set( 10, 10, 10 )
       this.treeScene.add( pointLight )
     }, // END: addLight
