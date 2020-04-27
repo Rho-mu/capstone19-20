@@ -1189,7 +1189,7 @@ methods: {
       crownMat.transparent = true
       crownMat.opacity = this.resultJson.LAI2[year]/maxLAI2
       console.log("crown opacity:", crownMat.opacity)
-      
+
       this.crown = new THREE.Mesh( crownGeo, crownMat )
       this.crown.position.y = crownPos
       this.crown.position.x = 0
@@ -1632,7 +1632,7 @@ methods: {
     font-size: 16px;
     color: black;
     font-family: "Lucida Console", Monaco, monospace;
-    background-color:green;
+    background-color: #44c767;
   }
 
   .inputField button:hover {
