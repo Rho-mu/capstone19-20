@@ -1051,21 +1051,27 @@ methods: {
 
     drawTree() {
       // Find max height of tree over its life to scale the scene to.
+      // Find max LAI2 to normalize it for opacity.
       var maxHeight = 0
+      var maxLAI2 = 0
       for( var i = 1; i < this.postBody.t; i++ )
       {
         if( maxHeight < this.resultJson.h[i*this.timeStep] )
         {
           maxHeight = this.resultJson.h[i*this.timeStep]
         }
+        if( maxLAI2 < this.resultJson.LAI2[i*this.timeStep] )
+        {
+          maxLAI2 = this.resultJson.LAI2[i*this.timeStep]
+        }
       }
 
       // Clear scene of old drawings
-      while(this.treeScene.children.length > 0){                  // Clear scene of old tree
+      while(this.treeScene.children.length > 0){   // Clear scene of old tree
         this.treeScene.remove(this.treeScene.children[0])
       }
-      this.newScene = new THREE.Scene()                           // Create new scene for new tree
-      this.treeScene.add( this.newScene )                         // Add new scene to root scene
+      this.newScene = new THREE.Scene()            // Create new scene for new tree
+      this.treeScene.add( this.newScene )          // Add new scene to root scene
 
       this.addBox()
       this.addLight()
@@ -1080,10 +1086,8 @@ methods: {
       var hC = this.resultJson.hC2[timestep]   // Height that trunk transitions from paraboloid to cone (trunk to crown)
       hC = this.postBody.eta * h
       var r = this.resultJson.r[timestep]      // Radius of trunk at base
-      //r = r * 7 // Temporary use to negate weird data
       var rB = this.resultJson.rB2[timestep]   // Radius of trunk when transitioning from neilooid to paraboloid (base to trunk)
       var rC = this.resultJson.rC2[timestep]   // Radius of trunk when transitioning from parapoloid to cone (trunk to crown)
-      //rC = rC * 7 // Temporary use to negate weird data
 
       /// Crown variables (overlaid on "cone" part of trunk)
       var hmax = this.postBody.hmax                 // Input.
@@ -1093,8 +1097,8 @@ methods: {
       var alpha = this.postBody.alpha               // Input.
       var r0 = this.postBody.r0                     // Input.
       var r40 = this.postBody.r40                   // Input.
-      var rBH = this.resultJson.rBH[timestep]           // Output.
-      // var h = this.treeData[timestep].h              // Output. Delcared above
+      var rBH = this.resultJson.rBH[timestep]       // Output.
+      // var h = this.treeData[timestep].h          // Output. Delcared above
       const BH = 1.37                               // Breast height. Contsant 1.37 meters
 
       // if h > BH --> rcmax = r0 + ((r40 - r0) * (2 * rBH * 100) / 40)
@@ -1106,8 +1110,10 @@ methods: {
       }
       else if( h < BH )
       {
-        rcmax = (r0 * r) / ((hmax / phih) * ln(hmax/(hmax - BH)))
+        rcmax = r0 + ((r40 - r0) * (2 * rBH * 100) / 40)
+        // rcmax = (r0 * r) / ((hmax / phih) * Math.log(hmax/(hmax - BH)))
       }
+      console.log("rcmax",rcmax)
 
       var eta = this.postBody.eta     // Input.
       var alpha = this.postBody.alpha // Input. Curvature of the crown.
@@ -1124,11 +1130,11 @@ methods: {
         rcbase = rcmax
       }
 
-      console.log("year:",year,"timestep:",timestep,"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,
-      "\nrBH:",rBH,"\nrcmax:",rcmax,"\nrcbase:",rcbase)
+      //console.log("year:",year,"timestep:",timestep,"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,
+      //"\nrBH:",rBH,"\nrcmax:",rcmax,"\nrcbase:",rcbase)
 
       // Supplemental parameters
-      var geoSegments = 20                  // Segments of geometry
+      var geoSegments = 20            // Segments of geometry
       var trunkPos = hC/2             // Trunk position on the screen. Needs to be based on max height.
       var crownPos = h - (h - hC)/2   // Crown position on the screen. Bottom of crown needs to be on the same x plan as top of trunk.
 
@@ -1148,7 +1154,7 @@ methods: {
         // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
         crownGeo = new THREE.ConeGeometry( rcbase, h-hC, geoSegments )
       }
-      else if( this.crownShape == "sphere") // Currently doesn't work very well. Needs tuning.
+      else if( this.crownShape == "sphere") // Currently looks weird. Needs tuning.
       {
         // SphereGeometry(radius : Float, widthSegments : Integer, heightSegments : Integer)
         crownGeo = new THREE.SphereGeometry( rcbase, geoSegments*1.5, geoSegments*1.5 )
@@ -1164,9 +1170,14 @@ methods: {
         crownGeo = new THREE.ConeGeometry( rcbase, h-hC, geoSegments )
       }
       var crownColor = new THREE.Color()
-      crownColor.setRGB(0, this.resultJson.LAI2[year] * 0.1, 0)
-      var crownMat = new THREE.MeshLambertMaterial( {color: crownColor} )
+      crownColor.setRGB(0, this.resultJson.LAI2[year]/maxLAI2, 0)
       console.log("crown color:",crownColor)
+
+      var crownMat = new THREE.MeshLambertMaterial( {color: crownColor} )
+      
+      crownMat.opacity = this.resultJson.LAI2[year]/maxLAI2
+      console.log("crown opacity:", crownMat.opacity)
+
       //var crownMat = new THREE.MeshLambertMaterial( {color: 0x00FF00} )
       this.crown = new THREE.Mesh( crownGeo, crownMat )
       this.crown.position.y = crownPos
