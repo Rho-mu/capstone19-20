@@ -565,12 +565,12 @@
 
     <button id="postDataBtn" :disabled='isDisabled()' @click="postData()" name="button">PostData</button>
     <button @click="getData()" name="button">GetData</button>
-    <button @click="run()">RUN</Button><br>
-      <br>
+    <!--<button @click="run()">RUN</Button><br>-->
+    <br>
     </div>
 
     <div class="outputDisplayContainer">
-      <button @click="loadTextures()">Load Textures</Button>
+      <!--<button @click="loadTextures()">Load Textures</Button>-->
       <div class="setSceneContainer">
         <button @click="setScene('ringScene')" class="ringSceneButton" id="ringSceneButton">RINGS</button>
         <button @click="setScene('treeScene')" class="treeSceneButton" id="treeSceneButton">TREE</button>
