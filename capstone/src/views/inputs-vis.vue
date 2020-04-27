@@ -755,7 +755,6 @@ export default {
         },
 
         dataIndex: "1",
-        timeStep: "16",
         treeData: json.trees,
         crownShape: "cone",
         currentScene: this.treeScene,
@@ -1062,21 +1061,25 @@ methods: {
     }, // END: draw()
 
     drawTree() {
+      var year = this.dataIndex // The current timestep on the slider. Named "year" to make it easier to read.
+
+      // This stuff should be calculated once after getData.
       // Find max height of tree over its life to scale the scene to.
       // Find max LAI2 to normalize it for opacity.
       var maxHeight = 0
       var maxLAI2 = 0
-      for( var i = 1; i < this.postBody.t; i++ )
+      for( var i = 1; i <= this.postBody.t; i++ )
       {
-        if( maxHeight < this.resultJson.h[i*this.timeStep] )
+        if( maxHeight < this.resultJson.h[i] )
         {
-          maxHeight = this.resultJson.h[i*this.timeStep]
+          maxHeight = this.resultJson.h[i]
         }
-        if( maxLAI2 < this.resultJson.LAI2[i*this.timeStep] )
+        if( maxLAI2 < this.resultJson.LAI2[i] )
         {
-          maxLAI2 = this.resultJson.LAI2[i*this.timeStep]
+          maxLAI2 = this.resultJson.LAI2[i]
         }
       }
+      console.log("Max LAI2:", maxLAI2)
 
       // Clear scene of old drawings
       while(this.treeScene.children.length > 0){   // Clear scene of old tree
@@ -1088,30 +1091,27 @@ methods: {
       this.addBox()
       this.addLight()
 
-      var year = this.dataIndex
-      var timestep = year * 16 - 1
-
       /// Trunk variables
-      var h = this.resultJson.h[timestep]      // Total tree height
-      var hB = this.resultJson.hB2[timestep]   // Height that trunk transitions from neiloid to paraboloid (base to trunk)
+      var h = this.resultJson.h[year]      // Total tree height
+      var hB = this.resultJson.hB2[year]   // Height that trunk transitions from neiloid to paraboloid (base to trunk)
       hB = this.postBody.etaB * h
-      var hC = this.resultJson.hC2[timestep]   // Height that trunk transitions from paraboloid to cone (trunk to crown)
+      var hC = this.resultJson.hC2[year]   // Height that trunk transitions from paraboloid to cone (trunk to crown)
       hC = this.postBody.eta * h
-      var r = this.resultJson.r[timestep]      // Radius of trunk at base
-      var rB = this.resultJson.rB2[timestep]   // Radius of trunk when transitioning from neilooid to paraboloid (base to trunk)
-      var rC = this.resultJson.rC2[timestep]   // Radius of trunk when transitioning from parapoloid to cone (trunk to crown)
+      var r = this.resultJson.r[year]      // Radius of trunk at base
+      var rB = this.resultJson.rB2[year]   // Radius of trunk when transitioning from neilooid to paraboloid (base to trunk)
+      var rC = this.resultJson.rC2[year]   // Radius of trunk when transitioning from parapoloid to cone (trunk to crown)
 
       /// Crown variables (overlaid on "cone" part of trunk)
-      var hmax = this.postBody.hmax                 // Input.
-      var phih = this.postBody.phih                 // Input.
-      var eta = this.postBody.eta                   // Input.
-      var m = this.postBody.m                       // Input.
-      var alpha = this.postBody.alpha               // Input.
-      var r0 = this.postBody.r0                     // Input.
-      var r40 = this.postBody.r40                   // Input.
-      var rBH = this.resultJson.rBH[timestep]       // Output.
-      // var h = this.treeData[timestep].h          // Output. Delcared above
-      const BH = 1.37                               // Breast height. Contsant 1.37 meters
+      var hmax = this.postBody.hmax        // Input.
+      var phih = this.postBody.phih        // Input.
+      var eta = this.postBody.eta          // Input.
+      var m = this.postBody.m              // Input.
+      var alpha = this.postBody.alpha      // Input.
+      var r0 = this.postBody.r0            // Input.
+      var r40 = this.postBody.r40          // Input.
+      var rBH = this.resultJson.rBH[year]  // Output.
+      // var h = this.treeData[year].h     // Output. Delcared above
+      const BH = 1.37                      // Breast height. Contsant 1.37 meters
 
       // if h > BH --> rcmax = r0 + ((r40 - r0) * (2 * rBH * 100) / 40)
       // if h < BH --> rcmax = (r0 * r) / ((hmax / phih) * ln(hmax/(hmax - BH)))
@@ -1142,8 +1142,8 @@ methods: {
         rcbase = rcmax
       }
 
-      //console.log("year:",year,"timestep:",timestep,"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,
-      //"\nrBH:",rBH,"\nrcmax:",rcmax,"\nrcbase:",rcbase)
+      console.log("year:",year,"\nLAI2:",this.resultJson.LAI2[year],"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,
+      "\nrBH:",rBH,"\nrcmax:",rcmax,"\nrcbase:",rcbase)
 
       // Supplemental parameters
       var geoSegments = 20            // Segments of geometry
@@ -1187,6 +1187,7 @@ methods: {
 
       var crownMat = new THREE.MeshLambertMaterial( {color: crownColor} )
 
+      crownMat.transparent = true
       crownMat.opacity = this.resultJson.LAI2[year]/maxLAI2
       console.log("crown opacity:", crownMat.opacity)
 
