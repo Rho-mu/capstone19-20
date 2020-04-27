@@ -1044,7 +1044,7 @@ methods: {
 
       var boxGeometry = new THREE.BoxGeometry( 1, 1, 1 );
       var box = new THREE.Mesh( boxGeometry, myMaterial )
-      box.position.x = r + 2
+      box.position.x = r + 1.1
       this.treeScene.add( box )
     }, // END: addBox()
 
@@ -1198,9 +1198,9 @@ methods: {
       ///// Crown /////
 
       // Resize camera based on max tree height
-      this.currentCam.position.y = maxHeight / 2
-      this.currentCam.position.z = maxHeight
-      this.currentCam.lookAt(0, maxHeight/2, 0)
+      this.currentCam.position.y = maxHeight / 1.8
+      this.currentCam.position.z = maxHeight * 0.6
+      this.currentCam.lookAt(0, maxHeight/1.8, 0)
       // Add trunk and crown to scene
       this.newScene.add( this.crown )
       this.newScene.add( this.trunk )
