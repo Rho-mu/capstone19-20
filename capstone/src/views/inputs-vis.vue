@@ -2,16 +2,18 @@
   <div>
     <!-- Instructions Box -->
     <div class="instructionsContainer">
-      <button id="instructionsButton" @click="hideInstructions">HIDE</button>
-      <button id="instructionsButton" @click="showInstructions">SHOW</button>
-
-      <h2>Instructions!</h2>
+      <h2>
+        Instructions!
+        <button id="instructionsButton" @click="hideInstructions">HIDE</button>
+        <button id="instructionsButton" @click="showInstructions">SHOW</button>
+      </h2>
 
       <div id="instructionsText">
-        <p>Enter in input values for the ACGCA model in the control pannel on the left. You can also use the provided default values.</p>
-        <p>Once the input fields are are filled, you may press the "Send Inputs" button to send the inputs to the ACGCA model.</p>
-        <p>Then, press the "Get Outputs" button to retrieve the output of the ACGCA model. You may have to try this once every few seconds for it to work.</p>
-        <p>When the output data has been retrieved, use the output box to see your simulated tree.</p>
+        <p>1. Enter in input values for the ACGCA model in the control pannel on the left. You can also use the provided default values to autofill the fields.</p>
+        <p>2. Once the input fields are are filled, you may press the "Send Inputs" button to send the inputs to the ACGCA model.</p>
+        <p>3. Press the "Get Outputs" button to retrieve the output of the ACGCA model. You may have to try this once every few seconds for it to work.</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Try moving the slider in between pressing "Get Outputs" to check if the visualization has appeared.</p>
+        <p>4. When the output data has been retrieved, use the output box to see your simulated tree.</p>
         <br>
         <h3>Output Tools</h3>
         <p>Rings: Shows the tree rings at each year.</p>
@@ -36,7 +38,7 @@
       </div>
       <div class="collapsible-menu">
         <input type="checkbox" id="menu-0">
-        <label for="menu-0">Default Data Sets</label>
+        <label for="menu-0">Default Values</label>
         <div class="menu-content">
         <br>
           <button @click="setDefault('Red Maple')">Red Maple</button>
@@ -581,8 +583,8 @@
       <div class="divider">
         </div>
 
-      <button id="postDataBtn" :disabled='isDisabled()' @click="postData()" name="button">PostData</button>
-      <button @click="getData()" name="button">GetData</button>
+      <button id="postDataBtn" :disabled='isDisabled()' @click="postData()" name="button">Send Inputs</button>
+      <button @click="getData()" name="button">Get Outputs</button>
       <!--<button @click="run()">RUN</Button><br>-->
       <br>
     </div>
