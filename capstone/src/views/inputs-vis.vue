@@ -618,6 +618,10 @@
       <div class="treeCanvasport" id="treeCanvasport"></div>
       <div class="rawDataList" id="rawDataList">
         <br>
+        <download-csv
+            :data  =  "resultJson">
+            Download Data
+        </download-csv>
         <!--<button @click="downloadRawData()" class="dlRawDataButton" id="dlRawDataButton">Download to CSV</button><br><br>-->
         <label>Year: {{ this.dataIndex }}               </label><br>
         <label>APARout: {{ this.resultJson.APARout[this.dataIndex] }}               </label><br>
@@ -678,6 +682,8 @@
 import axios from 'axios'
 import * as THREE from 'three'
 import json from '../json/treeData.json'
+import Vue from 'vue'
+import JsonCSV from 'vue-json-csv'
 
 export default {
   name: 'inputs-vis',
