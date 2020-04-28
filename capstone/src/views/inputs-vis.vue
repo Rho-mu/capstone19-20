@@ -4,17 +4,21 @@
     <div class="instructionsContainer">
       <h2>
         Instructions!
-        <button id="instructionsButton" @click="hideInstructions">HIDE</button>
-        <button id="instructionsButton" @click="showInstructions">SHOW</button>
+        <button id="instructionsButton" @click="hideInstructions()">HIDE</button>
+        <button id="instructionsButton" @click="showInstructions()">SHOW</button>
       </h2>
 
       <div id="instructionsText">
         <p>1. Enter in input values for the ACGCA model in the control pannel on the left. You can also use the provided default values to autofill the fields.</p>
+        <p>2. Once the input fields are are filled, you may press the "RUN" button to run the ACGCA model.</p>
+        <p>3. Wait for the ACGCA model to finish running. When the output data has been retrieved, use the output box to see your simulated tree.</p>
+        <br>
+        <!--<p>1. Enter in input values for the ACGCA model in the control pannel on the left. You can also use the provided default values to autofill the fields.</p>
         <p>2. Once the input fields are are filled, you may press the "Send Inputs" button to send the inputs to the ACGCA model.</p>
         <p>3. Press the "Get Outputs" button to retrieve the output of the ACGCA model. You may have to try this once every few seconds for it to work.</p>
         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Try moving the slider in between pressing "Get Outputs" to check if the visualization has appeared.</p>
         <p>4. When the output data has been retrieved, use the output box to see your simulated tree.</p>
-        <br>
+        <br>-->
         <h3>Output Tools</h3>
         <p>Rings: Shows the tree rings at each year.</p>
         <p>Tree: Shows the tree at each year.
@@ -583,9 +587,9 @@
       <div class="divider">
         </div>
 
-      <button id="postDataBtn" :disabled='isDisabled()' @click="postData()" name="button">Send Inputs</button>
-      <button @click="getData()" name="button">Get Outputs</button>
-      <!--<button @click="run()">RUN</Button><br>-->
+      <button id="postDataBtn" :disabled='isDisabled()' @click="postData()" name="button">RUN</button>
+      <!--<button @click="getData()" name="button">Get Outputs</button>
+      <button @click="run()">RUN</Button><br>-->
       <br>
     </div>
     <!-- END: Input Fields Box -->
@@ -774,25 +778,16 @@ export default {
         currentScene: this.treeScene,
         currentCam: this.treeCam,
         barkTexture: "",
-
         isDisable: false,
         etaBDisable:true,
-        errorMessage:"",
-        tempc: 0
+        errorMessage:""
       }
     }, // END: data()
 
 methods: {
 
-    run() {
-      // postData
-      // done posting
-      // loop getData until result json is retrieved
-      // done getting
-    }, // END: run()
-
     postData() {
-      console.log("posting")
+      console.log("Posting inputs..")
       axios.post('https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user', {
         headers: {
           'Content-Type': 'application/json',
@@ -803,13 +798,15 @@ methods: {
       })
       .then(response => {
         this.runID = response.headers['x-run-id'],
-        console.log("from post -- runID: ", this.runID)
+        //console.log("from post -- runID: ", this.runID)
+        console.log("Posted inputs!")
+
+        document.getElementById("timeStepSlider").setAttribute("max", this.postBody.t) // Sets max value for timestep slider.
+        this.getData() // Call getData() to start looking for model outputs.
       })
-      console.log("posted")
     }, // END: postData()
 
-    getData() {
-      console.log("getData")
+    getData() {      
       axios.get('https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user', {
         headers: {
           'Content-Type': 'application/json',
@@ -818,13 +815,19 @@ methods: {
       })
       .then((response) => {
 
-        console.log(this.runID)
+        //console.log("runID:", this.runID)
         this.getJson = response.data
 
-        if (this.getJson == undefined)
+        //console.log("json:", this.getJson)
+
+        // If the JSON is not found quit out and try again in 2 seconds.
+        if(this.getJson == "Not Found")
         {
-          return;
+          console.log("Polling for output data..")
+          setTimeout(this.getData, 2000)
+          return
         }
+
         var parsedobj = JSON.parse(JSON.stringify(this.resultJson))
 
         let newStr = this.getJson.replace(/=/g, "\":")
@@ -851,13 +854,23 @@ methods: {
         this.resultJson = Result
         // let newStr3 = "{\"" + newStr2 + "}"
         // this.resultJson = JSON.parse(newStr3)
-        console.log("ResultJson: \n", this.resultJson)
+        console.log("Output data retrieved!")
+        //console.log("ResultJson: \n", this.resultJson)
 
+        this.afterGet() // Sets up some stuff for the visualization now that the output data has been retrieved.
       },
           (error) => { console.log(error.request)}
-      )
-      console.log("data retrieved")
+      )      
     }, // END: getData()
+
+    afterGet() {
+      // Called at the bottom of getData()
+      // This function does some set up once all the data has been retrieved.
+
+      this.draw()
+      
+
+    }, // END: afterGet()
 
     setDefault(defaultType) {
 
@@ -948,8 +961,6 @@ methods: {
       this.treeCanvas = document.getElementById( "treeCanvasport" )
       this.outputDisplayContainer = document.getElementById("outputDisplayContainer")
 
-      console.log("window:",window.innerWidth,window.innerHeight)
-      console.log("this.treeCanvas:",this.treeCanvas.innerWidth,this.treeCanvas.innerHeight)
       //console.log("outputCanvas:", this.outputDisplayContainer.innerWidth  , this.outputDisplayContainer.innerHeight  )
       var canvasWidth = window.innerWidth * 0.7
       var canvasHeight = window.innerHeight * 0.7
@@ -1062,8 +1073,7 @@ methods: {
       this.treeScene.add( box )
     }, // END: addBox()
 
-    draw(scene) {
-      document.getElementById("timeStepSlider").setAttribute("max", this.postBody.t) // Should be moved to end of getData().
+    draw() {
       if(this.currentScene == this.treeScene)
       {
         this.drawTree()
@@ -1344,7 +1354,7 @@ methods: {
 
     showInstructions() {
       document.getElementById("instructionsText").style.display = "block"
-    }, // END: hideInstructions()
+    }, // END: showInstructions()
 
     update() {
       // THREE.js function
