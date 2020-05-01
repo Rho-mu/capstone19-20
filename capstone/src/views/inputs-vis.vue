@@ -855,7 +855,7 @@ methods: {
         // let newStr3 = "{\"" + newStr2 + "}"
         // this.resultJson = JSON.parse(newStr3)
         console.log("Output data retrieved!")
-        //console.log("ResultJson: \n", this.resultJson)
+        console.log("ResultJson: \n", this.resultJson)
 
         this.afterGet() // Sets up some stuff for the visualization now that the output data has been retrieved.
       },
@@ -1153,8 +1153,7 @@ methods: {
       }
       else if( h < BH )
       {
-        rcmax = r0 + ((r40 - r0) * (2 * rBH * 100) / 40)
-        // rcmax = (r0 * r) / ((hmax / phih) * Math.log(hmax/(hmax - BH)))
+        rcmax = (r0 * r) / ((hmax / phih) * Math.log(hmax/(hmax - BH)))
       }
       console.log("rcmax",rcmax)
 
@@ -1173,8 +1172,7 @@ methods: {
         rcbase = rcmax
       }
 
-      console.log("year:",year,"\nLAI2:",this.resultJson.LAI2[year],"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,
-      "\nrBH:",rBH,"\nrcmax:",rcmax,"\nrcbase:",rcbase)
+      console.log("year:",year,"\nLAI2:",this.resultJson.LAI2[year],"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,"\nrBH:",rBH,"\nrcmax:",rcmax,"\nrcbase:",rcbase)
 
       // Supplemental parameters
       var geoSegments = 20            // Segments of geometry
@@ -1188,6 +1186,7 @@ methods: {
       this.trunk = new THREE.Mesh( trunkGeo, trunkMat )
       this.trunk.position.y = trunkPos
       this.trunk.position.x = 0
+      //console.log("Trunk -", "\nradiusTop:", rC, "\nradiusBottom:", r, "\nheight:", hC,)
       ///// Trunk /////
 
       ///// Crown /////
@@ -1212,20 +1211,17 @@ methods: {
         // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
         crownGeo = new THREE.ConeGeometry( rcbase, h-hC, geoSegments )
       }
-      //var crownColor = new THREE.Color()
-      //crownColor.setRGB(0, this.resultJson.LAI2[year]/maxLAI2, 0)
-      //console.log("crown color:",crownColor)
+      //console.log("crownShape:", this.crownShape)
 
       var crownMat = new THREE.MeshLambertMaterial( {color: 0x00FF00} )
-      //var crownMat = new THREE.MeshLambertMaterial( {color: crownColor} )
-
       crownMat.transparent = true
       crownMat.opacity = this.resultJson.LAI2[year]/maxLAI2
-      console.log("crown opacity:", crownMat.opacity)
+      //console.log("crown opacity:", crownMat.opacity)
 
       this.crown = new THREE.Mesh( crownGeo, crownMat )
       this.crown.position.y = crownPos
       this.crown.position.x = 0
+      //console.log("Crown -", "\nradius:", rcbase, "\nheight:", h-hC,)
       ///// Crown /////
 
       // Resize camera based on max tree height
@@ -1249,8 +1245,8 @@ methods: {
 
       // Find max radius and scale scene to that size
       var maxRadius = this.resultJson.r[this.postBody.t]
-      this.ringCam.position.z = maxRadius
-      //this.ringCam.position.z = this.resultJson.r[this.dataIndex] * 1.1
+      //this.ringCam.position.z = maxRadius
+      this.ringCam.position.z = this.resultJson.r[this.dataIndex] * 1.1
       this.ringCam.lookAt(0, 0, 0)
 
       var heartwoodRadius = this.resultJson.r[this.dataIndex] - this.resultJson.sw2[this.dataIndex] // Gets the heart wood radius at the current year on the slider
