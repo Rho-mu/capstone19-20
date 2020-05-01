@@ -618,10 +618,7 @@
       <div class="treeCanvasport" id="treeCanvasport"></div>
       <div class="rawDataList" id="rawDataList">
         <br>
-        <download-csv
-            :data  =  "resultJson">
-            Download Data
-        </download-csv>
+        
         <!--<button @click="downloadRawData()" class="dlRawDataButton" id="dlRawDataButton">Download to CSV</button><br><br>-->
         <label>Year: {{ this.dataIndex }}               </label><br>
         <label>APARout: {{ this.resultJson.APARout[this.dataIndex] }}               </label><br>
@@ -671,7 +668,17 @@
         <label>status2: {{ this.resultJson.status2[this.dataIndex] }}               </label><br>
         <!--<label>errorind: {{ this.resultJson.errorind[this.dataIndex] }}               </label><br>-->
         <!--<label>growth_st: {{ this.resultJson.growth_st[this.dataIndex] }}               </label><br>-->
+        <div>
+        	<p>click transfer first and then click download</p>
+         <button @click="downloadRawData()" class="dlRawDataButton" id="dlRawDataButton">transfer</button><br><br>
+
+          <download-csv
+                        :data="jsonData"
+                        >
+                    <button class="button" >download</button>
+          </download-csv>
       </div>
+    </div>
     </div>
     <!-- END: Output Box -->
 
@@ -685,8 +692,10 @@ import json from '../json/treeData.json'
 import Vue from 'vue'
 import JsonCSV from 'vue-json-csv'
 
+//Vue.component('downloadCsv', JsonCSV)
 export default {
   name: 'inputs-vis',
+  components: {'download-csv': JsonCSV},
   data() {
     return {
     postBody: {
@@ -729,55 +738,105 @@ export default {
         runID: '',
         getJson: [],
         resultJson: {
-            "APARout":'',
-            "h":'',
-            "hh2":'',
-            "hC2":'',
-            "hB2":'',
-            "hBH2":'',
-            "r":'',
-            "rB2":'',
-            "rC2":'',
-            "rBH":'',
-            "sw2":'',
-            "vts2":'',
-            "vt2":'',
-            "vth2":'',
-            "sa2":'',
-            "la2":'',
-            "ra2":'',
-            "dr2":'',
-            "xa2":'',
-            "bl2":'',
-            "br2":'',
-            "bt2":'',
-            "bts2":'',
-            "bth2":'',
-            "boh2":'',
-            "bos2":'',
-            "bo2":'',
-            "bs2":'',
-            "cs2":'',
-            "clr2":'',
-            "fl2":'',
-            "fr2":'',
-            "ft2":'',
-            "fo2":'',
-            "rfl2":'',
-            "rfr2":'',
-            "rfs2":'',
-            "egrow2":'',
-            "ex2":'',
-            "rtrans2":'',
-            "light2":'',
-            "nut2":'',
-            "deltas2":'',
-            "LAI2":'',
-            "status2":'',
-            "errorind":'',
+            "APARout":' ',
+            "h":' ',
+            "hh2":' ',
+            "hC2":' ',
+            "hB2":' ',
+            "hBH2":' ',
+            "r":' ',
+            "rB2":' ',
+            "rC2":' ',
+            "rBH":' ',
+            "sw2":' ',
+            "vts2":' ',
+            "vt2":' ',
+            "vth2":' ',
+            "sa2":' ',
+            "la2":' ',
+            "ra2":' ',
+            "dr2":' ',
+            "xa2":' ',
+            "bl2":' ',
+            "br2":' ',
+            "bt2":' ',
+            "bts2":' ',
+            "bth2":' ',
+            "boh2":' ',
+            "bos2":' ',
+            "bo2":' ',
+            "bs2":' ',
+            "cs2":' ',
+            "clr2":' ',
+            "fl2":' ',
+            "fr2":' ',
+            "ft2":' ',
+            "fo2":' ',
+            "rfl2":' ',
+            "rfr2":' ',
+            "rfs2":' ',
+            "egrow2":' ',
+            "ex2":' ',
+            "rtrans2":' ',
+            "light2":' ',
+            "nut2":' ',
+            "deltas2":' ',
+            "LAI2":' ',
+            "status2":' ',
+            "errorind":' ',
             //"growth_st":''
         },
-
+        jsonData: [{
+            "APARout":' ',
+            "h":' ',
+            "hh2":' ',
+            "hC2":' ',
+            "hB2":' ',
+            "hBH2":' ',
+            "r":' ',
+            "rB2":' ',
+            "rC2":' ',
+            "rBH":' ',
+            "sw2":' ',
+            "vts2":' ',
+            "vt2":' ',
+            "vth2":' ',
+            "sa2":' ',
+            "la2":' ',
+            "ra2":' ',
+            "dr2":' ',
+            "xa2":' ',
+            "bl2":' ',
+            "br2":' ',
+            "bt2":' ',
+            "bts2":' ',
+            "bth2":' ',
+            "boh2":' ',
+            "bos2":' ',
+            "bo2":' ',
+            "bs2":' ',
+            "cs2":' ',
+            "clr2":' ',
+            "fl2":' ',
+            "fr2":' ',
+            "ft2":' ',
+            "fo2":' ',
+            "rfl2":' ',
+            "rfr2":' ',
+            "rfs2":' ',
+            "egrow2":' ',
+            "ex2":' ',
+            "rtrans2":' ',
+            "light2":' ',
+            "nut2":' ',
+            "deltas2":' ',
+            "LAI2":' ',
+            "status2":' ',
+            "errorind":' ',
+            //"growth_st":''
+        }],
+        dataFile: 'my_export.csv',
+        isExported: false,
         dataIndex: "1",
         treeData: json.trees,
         crownShape: "cone",
@@ -786,7 +845,6 @@ export default {
         barkTexture: "",
         isDisable: false,
         etaBDisable:true,
-        errorMessage:""
       }
     }, // END: data()
 
@@ -877,7 +935,13 @@ methods: {
       
 
     }, // END: afterGet()
-
+    exported(event) {
+        console.log(event)
+        this.isExported = true
+        setTimeout(() => {
+          this.isExported = false
+        }, 3 * 1000)
+      },
     setDefault(defaultType) {
 
       // Set default time, light level, and initial radius
@@ -1538,7 +1602,10 @@ methods: {
 
     downloadRawData() {
       // Downloads the raw data output from resultJson to a .csv file
-
+    for(let i in this.resultJson){
+    this.jsonData.push(this.resultJson[i])
+    }
+    console.log("object is transferred to array");
 
     }, // END: downloadRawData()
 
