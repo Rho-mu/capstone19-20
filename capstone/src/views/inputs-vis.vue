@@ -928,13 +928,15 @@ methods: {
       
 
     }, // END: afterGet()
+
     exported(event) {
         console.log(event)
         this.isExported = true
         setTimeout(() => {
           this.isExported = false
         }, 3 * 1000)
-      },
+    }, // END: exported()
+
     setDefault(defaultType) {
 
       // Set default time, light level, and initial radius
@@ -1297,16 +1299,15 @@ methods: {
       var geoSegments = 16
 
       // Clear scene of previous drawings
-      while(this.ringScene.children.length > 0){                  // Clear scene of old tree
+      while(this.ringScene.children.length > 0){                  // Clear scene of old rings
         this.ringScene.remove(this.ringScene.children[0])
       }
-      this.newScene = new THREE.Scene()                           // Create new scene for new tree
+      this.newScene = new THREE.Scene()                           // Create new scene for new rings
       this.ringScene.add( this.newScene )                         // Add new scene to root scene
 
-      // Find max radius and scale scene to that size
-      var maxRadius = this.resultJson.r[this.postBody.t]
-      this.ringCam.position.z = maxRadius * 1.1
-      //this.ringCam.position.z = this.resultJson.r[this.dataIndex] * 1.1
+      this.ringCam.position.z = this.resultJson.r[this.dataIndex] * 1.1
+
+      
       this.ringCam.lookAt(0, 0, 0)
 
       var heartwoodRadius = this.resultJson.r[this.dataIndex] - this.resultJson.sw2[this.dataIndex] // Gets the heart wood radius at the current year on the slider
