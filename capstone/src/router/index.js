@@ -44,7 +44,7 @@ const routes = [
     name: 'InputsVis',
     component: InputsVis, // this will require Auth
     meta: {
-      requiresAuth: true
+      requiresAuth: false
     }
   }
 ]
