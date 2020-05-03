@@ -13,12 +13,6 @@
         <p>2. Once the input fields are are filled, you may press the "RUN" button to run the ACGCA model.</p>
         <p>3. Wait for the ACGCA model to finish running. When the output data has been retrieved, use the output box to see your simulated tree.</p>
         <br>
-        <!--<p>1. Enter in input values for the ACGCA model in the control pannel on the left. You can also use the provided default values to autofill the fields.</p>
-        <p>2. Once the input fields are are filled, you may press the "Send Inputs" button to send the inputs to the ACGCA model.</p>
-        <p>3. Press the "Get Outputs" button to retrieve the output of the ACGCA model. You may have to try this once every few seconds for it to work.</p>
-        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Try moving the slider in between pressing "Get Outputs" to check if the visualization has appeared.</p>
-        <p>4. When the output data has been retrieved, use the output box to see your simulated tree.</p>
-        <br>-->
         <h3>Output Tools</h3>
         <p>Rings: Shows the tree rings at each year.</p>
         <p>Tree: Shows the tree at each year.
@@ -960,9 +954,6 @@ methods: {
     }, // END: set_default()
 
     initialize() {
-      // Change the slider to have as many steps as timeSteps from the ACGCA model.
-      document.getElementById("timeStepSlider").setAttribute("max", 10)
-
       /////////////// Tree Scene ///////////////
       this.treeCanvas = document.getElementById( "treeCanvasport" )
       this.outputDisplayContainer = document.getElementById("outputDisplayContainer")
@@ -1251,8 +1242,8 @@ methods: {
 
       // Find max radius and scale scene to that size
       var maxRadius = this.resultJson.r[this.postBody.t]
-      //this.ringCam.position.z = maxRadius
-      this.ringCam.position.z = this.resultJson.r[this.dataIndex] * 1.1
+      this.ringCam.position.z = maxRadius * 1.1
+      //this.ringCam.position.z = this.resultJson.r[this.dataIndex] * 1.1
       this.ringCam.lookAt(0, 0, 0)
 
       var heartwoodRadius = this.resultJson.r[this.dataIndex] - this.resultJson.sw2[this.dataIndex] // Gets the heart wood radius at the current year on the slider
@@ -2019,3 +2010,4 @@ methods: {
 
 
 </style>
+
