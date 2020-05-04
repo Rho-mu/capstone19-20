@@ -838,6 +838,7 @@ export default {
         barkTexture: "",
         isDisable: false,
         etaBDisable:true,
+        errorMessage: ""
       }
     }, // END: data()
 
