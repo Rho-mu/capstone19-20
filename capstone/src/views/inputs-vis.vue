@@ -663,13 +663,12 @@
         <!--<label>errorind: {{ this.resultJson.errorind[this.dataIndex] }}               </label><br>-->
         <!--<label>growth_st: {{ this.resultJson.growth_st[this.dataIndex] }}               </label><br>-->
         <div>
-        	<p>click transfer first and then click download</p>
-         <button @click="downloadRawData()" class="dlRawDataButton" id="dlRawDataButton">transfer</button><br><br>
+         
 
           <download-csv
                         :data="jsonData"
                         >
-                    <button class="button" >download</button>
+                    <button class="button" @click="downloadRawData()">download</button>
           </download-csv>
       </div>
     </div>
@@ -1591,11 +1590,13 @@ methods: {
 
     downloadRawData() {
       // Downloads the raw data output from resultJson to a .csv file
+
     for(let i in this.resultJson){
     this.jsonData.push(this.resultJson[i])
     }
     console.log("object is transferred to array");
-
+    console.log("number is %f",this.jsonData[2]);
+    console.log("number is %f",this.resultJson[2]);
     }, // END: downloadRawData()
 
   }, // END: Methods
