@@ -664,12 +664,15 @@
         <!--<label>growth_st: {{ this.resultJson.growth_st[this.dataIndex] }}               </label><br>-->
         <div>
          
-
+          
           <download-csv
-                        :data="jsonData"
+                        :data="this.array"
+                        name = "treeData.csv"
                         >
-                    <button class="button" @click="downloadRawData()">download</button>
+                    <button class="button" @click="downloadRawData()">Download</button>
           </download-csv>
+        
+          
       </div>
     </div>
     </div>
@@ -779,7 +782,7 @@ export default {
             "errorind":' ',
             //"growth_st":''
         },
-        jsonData: [{
+        array: [{
             "APARout":' ',
             "h":' ',
             "hh2":' ',
@@ -828,6 +831,7 @@ export default {
             "errorind":' ',
             //"growth_st":''
         }],
+        arr : [],
         dataFile: 'my_export.csv',
         isExported: false,
         dataIndex: "1",
@@ -1589,13 +1593,12 @@ methods: {
 
     downloadRawData() {
       // Downloads the raw data output from resultJson to a .csv file
-
     for(let i in this.resultJson){
-    this.jsonData.push(this.resultJson[i])
+      let o = {name : i, v : this.resultJson[i]};
+      this.array.push(this.resultJson[i])
     }
+    console.log(this.array);
     console.log("object is transferred to array");
-    console.log("number is %f",this.jsonData[2]);
-    console.log("number is %f",this.resultJson[2]);
     }, // END: downloadRawData()
 
   }, // END: Methods
