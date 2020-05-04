@@ -9,15 +9,15 @@
       </h2>
 
       <div id="instructionsText">
-        <p>1. Enter in input values for the ACGCA model in the control pannel on the left. You can also use the provided default values to autofill the fields.</p>
-        <p>2. Once the input fields are are filled, you may press the "RUN" button to run the ACGCA model.</p>
+        <p>1. Enter input values for the ACGCA model in the control panel on the left. You can also use the provided default values to autofill the fields.</p>
+        <p>2. Once the input fields are are filled, press the "RUN" button to run the ACGCA model.</p>
         <p>3. Wait for the ACGCA model to finish running. When the output data has been retrieved, use the output box to see your simulated tree.</p>
         <br>
         <h3>Output Tools</h3>
         <p>Rings: Shows the tree rings at each year.</p>
         <p>Tree: Shows the tree at each year.
-            <p>Cone: Changes the tree crown to a cone.</P>
-            <p>Cylinder: Changes the tree crown to a Cylinder.</P>
+        <p>Cone: Changes the tree crown to a cone.</P>
+        <p>Cylinder: Changes the tree crown to a Cylinder.</P>
         </p>
         <p>Data: Shows the raw data from the ACGCA model at each year.</p>
       </div>
