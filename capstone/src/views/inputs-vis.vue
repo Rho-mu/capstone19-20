@@ -782,7 +782,7 @@ export default {
             "errorind":' ',
             //"growth_st":''
         },
-        array: [{
+        jsonData: [{
             "APARout":' ',
             "h":' ',
             "hh2":' ',
@@ -831,7 +831,7 @@ export default {
             "errorind":' ',
             //"growth_st":''
         }],
-        arr : [],
+        array : [],
         dataFile: 'my_export.csv',
         isExported: false,
         dataIndex: "1",
