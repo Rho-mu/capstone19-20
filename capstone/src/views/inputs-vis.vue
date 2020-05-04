@@ -1306,8 +1306,9 @@ methods: {
       this.newScene = new THREE.Scene()                           // Create new scene for new rings
       this.ringScene.add( this.newScene )                         // Add new scene to root scene
 
-      this.ringCam.position.z = this.resultJson.r[this.dataIndex] * 1.1
-
+      // Find max radius and scale scene to that size
+      var maxadius = this.resultJson.r[this.postBody.t]
+      this.ringCam.position.z = maxRadius * 1.1
       
       this.ringCam.lookAt(0, 0, 0)
 
