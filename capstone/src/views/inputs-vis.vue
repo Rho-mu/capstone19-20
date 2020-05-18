@@ -582,8 +582,6 @@
         </div>
 
       <button id="postDataBtn" :disabled='isDisabled()' @click="postData()" name="button">RUN</button>
-      <!--<button @click="getData()" name="button">Get Outputs</button>
-      <button @click="run()">RUN</Button><br>-->
       <br>
     </div>
     <!-- END: Input Fields Box -->
@@ -612,7 +610,7 @@
       <div class="treeCanvasport" id="treeCanvasport"></div>
       <div class="rawDataList" id="rawDataList">
         <br>
-        
+
         <!--<button @click="downloadRawData()" class="dlRawDataButton" id="dlRawDataButton">Download to CSV</button><br><br>-->
         <label>Year: {{ this.dataIndex }}               </label><br>
         <label>APARout: {{ this.resultJson.APARout[this.dataIndex] }}               </label><br>
@@ -663,16 +661,16 @@
         <!--<label>errorind: {{ this.resultJson.errorind[this.dataIndex] }}               </label><br>-->
         <!--<label>growth_st: {{ this.resultJson.growth_st[this.dataIndex] }}               </label><br>-->
         <div>
-         
-          
+
+
           <download-csv
                         :data="this.array"
                         name = "treeData.csv"
                         >
                     <button class="button" @click="downloadRawData()">Download</button>
           </download-csv>
-        
-          
+
+
       </div>
     </div>
     </div>
@@ -868,7 +866,7 @@ methods: {
       })
     }, // END: postData()
 
-    getData() {      
+    getData() {
       axios.get('https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user', {
         headers: {
           'Content-Type': 'application/json',
@@ -886,6 +884,10 @@ methods: {
         if(this.getJson == "Not Found")
         {
           console.log("Polling for output data..")
+          // Shows loading dots to let the user know that the program is running.
+          setTimeout(function() {document.getElementById("postDataBtn").innerHTML = "."}, 500)
+          setTimeout(function() {document.getElementById("postDataBtn").innerHTML = ". ."}, 1000)
+          setTimeout(function() {document.getElementById("postDataBtn").innerHTML = ". . ."}, 1500)
           setTimeout(this.getData, 2000)
           return
         }
@@ -922,16 +924,15 @@ methods: {
         this.afterGet() // Sets up some stuff for the visualization now that the output data has been retrieved.
       },
           (error) => { console.log(error.request)}
-      )      
+      )
     }, // END: getData()
 
     afterGet() {
       // Called at the bottom of getData()
       // This function does some set up once all the data has been retrieved.
 
+      document.getElementById("postDataBtn").innerHTML = ""
       this.draw()
-      
-
     }, // END: afterGet()
 
     exported(event) {
@@ -1313,7 +1314,7 @@ methods: {
       // Find max radius and scale scene to that size
       var maxRadius = this.resultJson.r[this.postBody.t]
       this.ringCam.position.z = maxRadius * 1.1
-      
+
       this.ringCam.lookAt(0, 0, 0)
 
       var heartwoodRadius = this.resultJson.r[this.dataIndex] - this.resultJson.sw2[this.dataIndex] // Gets the heart wood radius at the current year on the slider
@@ -2084,4 +2085,3 @@ methods: {
 
 
 </style>
-
