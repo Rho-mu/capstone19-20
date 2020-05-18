@@ -1,18 +1,19 @@
 <template>
-  <div>
+  <div class="main">
     <!-- Instructions Box -->
     <div class="instructionsContainer">
       <h2>
         Instructions!
-        <button id="instructionsButton" @click="hideInstructions()">HIDE</button>
-        <button id="instructionsButton" @click="showInstructions()">SHOW</button>
+        <br>
+        <button id="hideInstructionsButton" @click="hideInstructions()">HIDE</button>
+        <button id="showInstructionsButton" @click="showInstructions()" style="display: none;">SHOW</button>
       </h2>
 
       <div id="instructionsText">
         <p>1. Enter input values for the ACGCA model in the control panel on the left. You can also use the provided default values to autofill the fields.</p>
         <p>2. Once the input fields are are filled, press the "RUN" button to run the ACGCA model.</p>
         <p>3. Wait for the ACGCA model to finish running. When the output data has been retrieved, use the output box to see your simulated tree.</p>
-        <br>
+
         <h3>Output Tools</h3>
         <p>Rings: Shows the tree rings at each year.</p>
         <p>Tree: Shows the tree at each year.
@@ -35,8 +36,8 @@
       <div class="divider">
       </div>
       <div class="collapsible-menu">
-        <input type="checkbox" id="menu-0">
-        <label for="menu-0">Default Values</label>
+        <input type="checkbox" id="menu-0" @click="changeDropdownArrow('menu-0 arrow')">
+        <label for="menu-0">Default Values <i id="menu-0 arrow" class="arrow" style="transform: rotate(-45deg)"></i></label>
         <div class="menu-content">
         <br>
           <button @click="setDefault('Red Maple')">Red Maple</button>
@@ -610,68 +611,63 @@
       <div class="treeCanvasport" id="treeCanvasport"></div>
       <div class="rawDataList" id="rawDataList">
         <br>
-
-        <!--<button @click="downloadRawData()" class="dlRawDataButton" id="dlRawDataButton">Download to CSV</button><br><br>-->
-        <label>Year: {{ this.dataIndex }}               </label><br>
-        <label>APARout: {{ this.resultJson.APARout[this.dataIndex] }}               </label><br>
+        <label>Year: {{ this.dataIndex }}                               </label><br>
+        <label>APARout: {{ this.resultJson.APARout[this.dataIndex] }}   </label><br>
         <label>h: {{ this.resultJson.h[this.dataIndex] }}               </label><br>
-        <label>hh2: {{ this.resultJson.hh2[this.dataIndex] }}               </label><br>
-        <label>hC2: {{ this.resultJson.hC2[this.dataIndex] }}               </label><br>
-        <label>hB2: {{ this.resultJson.hB2[this.dataIndex] }}               </label><br>
-        <label>hBH2: {{ this.resultJson.hBH2[this.dataIndex] }}               </label><br>
+        <label>hh2: {{ this.resultJson.hh2[this.dataIndex] }}           </label><br>
+        <label>hC2: {{ this.resultJson.hC2[this.dataIndex] }}           </label><br>
+        <label>hB2: {{ this.resultJson.hB2[this.dataIndex] }}           </label><br>
+        <label>hBH2: {{ this.resultJson.hBH2[this.dataIndex] }}         </label><br>
         <label>r: {{ this.resultJson.r[this.dataIndex] }}               </label><br>
-        <label>rB2: {{ this.resultJson.rB2[this.dataIndex] }}               </label><br>
-        <label>rC2: {{ this.resultJson.rC2[this.dataIndex] }}               </label><br>
-        <label>rBH: {{ this.resultJson.rBH[this.dataIndex] }}               </label><br>
-        <label>sw2: {{ this.resultJson.sw2[this.dataIndex] }}               </label><br>
-        <label>vts2: {{ this.resultJson.vts2[this.dataIndex] }}               </label><br>
-        <label>vt2: {{ this.resultJson.vt2[this.dataIndex] }}               </label><br>
-        <label>vth2: {{ this.resultJson.vth2[this.dataIndex] }}               </label><br>
-        <label>sa2: {{ this.resultJson.sa2[this.dataIndex] }}               </label><br>
-        <label>la2: {{ this.resultJson.la2[this.dataIndex] }}               </label><br>
-        <label>ra2: {{ this.resultJson.ra2[this.dataIndex] }}               </label><br>
-        <label>dr2: {{ this.resultJson.dr2[this.dataIndex] }}               </label><br>
-        <label>xa2: {{ this.resultJson.xa2[this.dataIndex] }}               </label><br>
-        <label>bl2: {{ this.resultJson.bl2[this.dataIndex] }}               </label><br>
-        <label>br2: {{ this.resultJson.br2[this.dataIndex] }}               </label><br>
-        <label>bt2: {{ this.resultJson.bt2[this.dataIndex] }}               </label><br>
-        <label>bts2: {{ this.resultJson.bts2[this.dataIndex] }}               </label><br>
-        <label>bth2: {{ this.resultJson.bth2[this.dataIndex] }}               </label><br>
-        <label>boh2: {{ this.resultJson.boh2[this.dataIndex] }}               </label><br>
-        <label>bos2: {{ this.resultJson.bos2[this.dataIndex] }}               </label><br>
-        <label>bo2: {{ this.resultJson.bo2[this.dataIndex] }}               </label><br>
-        <label>bs2: {{ this.resultJson.bs2[this.dataIndex] }}               </label><br>
-        <!--<label>cs2: {{ this.resultJson.cs2[this.dataIndex] }}               </label><br>-->
-        <label>clr2: {{ this.resultJson.clr2[this.dataIndex] }}               </label><br>
-        <label>fl2: {{ this.resultJson.fl2[this.dataIndex] }}               </label><br>
-        <label>fr2: {{ this.resultJson.fr2[this.dataIndex] }}               </label><br>
-        <label>ft2: {{ this.resultJson.ft2[this.dataIndex] }}               </label><br>
-        <label>fo2: {{ this.resultJson.fo2[this.dataIndex] }}               </label><br>
-        <label>rfl2: {{ this.resultJson.rfl2[this.dataIndex] }}               </label><br>
-        <label>rfr2: {{ this.resultJson.rfr2[this.dataIndex] }}               </label><br>
-        <label>rfs2: {{ this.resultJson.rfs2[this.dataIndex] }}               </label><br>
-        <label>egrow2: {{ this.resultJson.egrow2[this.dataIndex] }}               </label><br>
-        <label>ex2: {{ this.resultJson.ex2[this.dataIndex] }}               </label><br>
-        <label>rtrans2: {{ this.resultJson.rtrans2[this.dataIndex] }}               </label><br>
-        <label>light2: {{ this.resultJson.light2[this.dataIndex] }}               </label><br>
-        <label>nut2: {{ this.resultJson.nut2[this.dataIndex] }}               </label><br>
-        <label>deltas2: {{ this.resultJson.deltas2[this.dataIndex] }}               </label><br>
-        <label>LAI2: {{ this.resultJson.LAI2[this.dataIndex] }}               </label><br>
-        <label>status2: {{ this.resultJson.status2[this.dataIndex] }}               </label><br>
-        <!--<label>errorind: {{ this.resultJson.errorind[this.dataIndex] }}               </label><br>-->
-        <!--<label>growth_st: {{ this.resultJson.growth_st[this.dataIndex] }}               </label><br>-->
+        <label>rB2: {{ this.resultJson.rB2[this.dataIndex] }}           </label><br>
+        <label>rC2: {{ this.resultJson.rC2[this.dataIndex] }}           </label><br>
+        <label>rBH: {{ this.resultJson.rBH[this.dataIndex] }}           </label><br>
+        <label>sw2: {{ this.resultJson.sw2[this.dataIndex] }}           </label><br>
+        <label>vts2: {{ this.resultJson.vts2[this.dataIndex] }}         </label><br>
+        <label>vt2: {{ this.resultJson.vt2[this.dataIndex] }}           </label><br>
+        <label>vth2: {{ this.resultJson.vth2[this.dataIndex] }}         </label><br>
+        <label>sa2: {{ this.resultJson.sa2[this.dataIndex] }}           </label><br>
+        <label>la2: {{ this.resultJson.la2[this.dataIndex] }}           </label><br>
+        <label>ra2: {{ this.resultJson.ra2[this.dataIndex] }}           </label><br>
+        <label>dr2: {{ this.resultJson.dr2[this.dataIndex] }}           </label><br>
+        <label>xa2: {{ this.resultJson.xa2[this.dataIndex] }}           </label><br>
+        <label>bl2: {{ this.resultJson.bl2[this.dataIndex] }}           </label><br>
+        <label>br2: {{ this.resultJson.br2[this.dataIndex] }}           </label><br>
+        <label>bt2: {{ this.resultJson.bt2[this.dataIndex] }}           </label><br>
+        <label>bts2: {{ this.resultJson.bts2[this.dataIndex] }}         </label><br>
+        <label>bth2: {{ this.resultJson.bth2[this.dataIndex] }}         </label><br>
+        <label>boh2: {{ this.resultJson.boh2[this.dataIndex] }}         </label><br>
+        <label>bos2: {{ this.resultJson.bos2[this.dataIndex] }}         </label><br>
+        <label>bo2: {{ this.resultJson.bo2[this.dataIndex] }}           </label><br>
+        <label>bs2: {{ this.resultJson.bs2[this.dataIndex] }}           </label><br>
+        <!--<label>cs2: {{ this.resultJson.cs2[this.dataIndex] }}       </label><br>-->
+        <label>clr2: {{ this.resultJson.clr2[this.dataIndex] }}         </label><br>
+        <label>fl2: {{ this.resultJson.fl2[this.dataIndex] }}           </label><br>
+        <label>fr2: {{ this.resultJson.fr2[this.dataIndex] }}           </label><br>
+        <label>ft2: {{ this.resultJson.ft2[this.dataIndex] }}           </label><br>
+        <label>fo2: {{ this.resultJson.fo2[this.dataIndex] }}           </label><br>
+        <label>rfl2: {{ this.resultJson.rfl2[this.dataIndex] }}         </label><br>
+        <label>rfr2: {{ this.resultJson.rfr2[this.dataIndex] }}         </label><br>
+        <label>rfs2: {{ this.resultJson.rfs2[this.dataIndex] }}         </label><br>
+        <label>egrow2: {{ this.resultJson.egrow2[this.dataIndex] }}     </label><br>
+        <label>ex2: {{ this.resultJson.ex2[this.dataIndex] }}           </label><br>
+        <label>rtrans2: {{ this.resultJson.rtrans2[this.dataIndex] }}   </label><br>
+        <label>light2: {{ this.resultJson.light2[this.dataIndex] }}     </label><br>
+        <label>nut2: {{ this.resultJson.nut2[this.dataIndex] }}         </label><br>
+        <label>deltas2: {{ this.resultJson.deltas2[this.dataIndex] }}   </label><br>
+        <label>LAI2: {{ this.resultJson.LAI2[this.dataIndex] }}         </label><br>
+        <label>status2: {{ this.resultJson.status2[this.dataIndex] }}   </label><br>
+        <!--<label>errorind: {{ this.resultJson.errorind[this.dataIndex] }}   </label><br>-->
+        <!--<label>growth_st: {{ this.resultJson.growth_st[this.dataIndex] }} </label><br>-->
+        <br>
         <div>
-
-
           <download-csv
                         :data="this.array"
                         name = "treeData.csv"
                         >
                     <button class="button" @click="downloadRawData()">Download</button>
           </download-csv>
-
-
-      </div>
+        </div>
     </div>
     </div>
     <!-- END: Output Box -->
@@ -1248,14 +1244,21 @@
         var crownPos = h - (h - hC)/2   // Crown position on the screen. Bottom of crown needs to be on the same x plan as top of trunk.
 
         ///// Trunk /////
+        // Trunk Top
+
+        // Trunk Middle
+
+        // Trunk Base
         // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
         var trunkGeo = new THREE.CylinderGeometry( rC, r, hC, geoSegments )
         var trunkMat = new THREE.MeshLambertMaterial( {color: 0xb5651d} )
         this.trunk = new THREE.Mesh( trunkGeo, trunkMat )
         this.trunk.position.y = trunkPos
         this.trunk.position.x = 0
-        //console.log("Trunk -", "\nradiusTop:", rC, "\nradiusBottom:", r, "\nheight:", hC,)
+
         ///// Trunk /////
+
+
 
         ///// Crown /////
         var crownGeo
@@ -1414,11 +1417,28 @@
 
       hideInstructions() {
         document.getElementById("instructionsText").style.display = "none"
+        document.getElementById("hideInstructionsButton").style.display = "none"
+        document.getElementById("showInstructionsButton").style.display = "block"
       }, // END: hideInstructions()
 
       showInstructions() {
         document.getElementById("instructionsText").style.display = "block"
+        document.getElementById("showInstructionsButton").style.display = "none"
+        document.getElementById("hideInstructionsButton").style.display = "block"
       }, // END: showInstructions()
+
+      changeDropdownArrow(menuArrow) {
+        var arrow = document.getElementById(menuArrow) // Get the correct arrow.
+
+        if( arrow.style.transform == "rotate(-45deg)" )
+        {
+          arrow.style.transform = "rotate(45deg)" // Rotate down.
+        }
+        else if( arrow.style.transform == "rotate(45deg)" )
+        {
+          arrow.style.transform = "rotate(-45deg)" // Rotate up.
+        }
+      }, // END: changeDropdownArrow()
 
       update() {
         // THREE.js function
@@ -1621,25 +1641,34 @@
 </script>
 
 <style lang="css" scoped>
+  .main {
+    font-family: "open sans";
+  }
+
+  .arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+  }
+/*
+  .left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+  }
+
+  .up {
+    transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+  }
+
+  .down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+  }*/
 
   input[type=text] {
     border-radius:5px;
-  }
-
-  input[type=text]::-webkit-input-placeholder {
-    font-family: "Lucida Console", Monaco, monospace;
-  }
-
-  input[type=text]:-ms-input-placeholder {
-    font-family: "Lucida Console", Monaco, monospace;
-  }
-
-  input[type=text]:-moz-placeholder {
-    font-family: "Lucida Console", Monaco, monospace;
-  }
-
-  input[type=text]::-moz-placeholder {
-    font-family: "Lucida Console", Monaco, monospace;
   }
 
   #iodisplay{
@@ -1670,7 +1699,6 @@
     text-align:left;
     font-size: 12px;
   }
-
 
   .slider {
     -webkit-appearance: none;
@@ -1736,7 +1764,6 @@
     cursor: pointer;
     font-size: 12px;
     color: green;
-    font-family: "Lucida Console", Monaco, monospace;
     background-color: #FFF;
   }
 
@@ -1748,12 +1775,11 @@
     border-radius: 10px;
     font-size: 16px;
     color:black;
-    font-family: "Lucida Console", Monaco, monospace;
     width:17%;
     background-color: #b9b9b9;
   }
 
-    .inputField button {
+  .inputField button {
     display: inline-block;
     width: 100px;
     height: 50px;
@@ -1764,7 +1790,6 @@
     cursor: pointer;
     font-size: 16px;
     color: black;
-    font-family: "Lucida Console", Monaco, monospace;
     background-color: #44c767;
   }
 
@@ -1804,7 +1829,6 @@
     cursor: pointer;
     font-size: 16px;
     color: green;
-    font-family: "Lucida Console", Monaco, monospace;
     background-color: #FFF;
   }
 
@@ -1866,7 +1890,6 @@
   .menu-content {
     max-height: 0;
     overflow: hidden;
-    font-family: "Lucida Console", Monaco, monospace;
     padding: 0 5px 5px 5px;
     text-align: left;
   }
@@ -1897,7 +1920,6 @@
   }
 
   .collapsible-menu label {
-    font-family: "Lucida Console", Monaco, monospace;
     font-size: 15px;
     display: inline-block;
     cursor: pointer;
@@ -1916,7 +1938,6 @@
     cursor: pointer;
     font-size: 16px;
     color: black;
-    font-family: "Lucida Console", Monaco, monospace;
     background-color: #FFF;
 
   }
@@ -1924,7 +1945,6 @@
   .menu-content label {
     font-size:15px;
   }
-
 
   input#menu-0 {
     display: none;
