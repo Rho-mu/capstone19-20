@@ -680,19 +680,19 @@
 </template>
 
 <script>
-import axios from 'axios'
-import * as THREE from 'three'
-import json from '../json/treeData.json'
-import Vue from 'vue'
-import JsonCSV from 'vue-json-csv'
+  import axios from 'axios'
+  import * as THREE from 'three'
+  import json from '../json/treeData.json'
+  import Vue from 'vue'
+  import JsonCSV from 'vue-json-csv'
 
-//Vue.component('downloadCsv', JsonCSV)
-export default {
-  name: 'inputs-vis',
-  components: {'download-csv': JsonCSV},
-  data() {
-    return {
-    postBody: {
+  //Vue.component('downloadCsv', JsonCSV)
+  export default {
+    name: 'inputs-vis',
+    components: {'download-csv': JsonCSV},
+    data() {
+      return {
+      postBody: {
           hmax: '',
           phih: '',
           eta: '',
@@ -844,773 +844,780 @@ export default {
       }
     }, // END: data()
 
-methods: {
+    methods: {
 
-    postData() {
-      console.log("Posting inputs..")
-      axios.post('https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user', {
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': 'AZIzU9ni0x5vG6Rsub9qLaDxH6z26Zrz9bwvteiW',
-          'Access-Control-Allow-Origin': '*'
-        },
-        body: this.postBody
-      })
-      .then(response => {
-        this.runID = response.headers['x-run-id'],
-        //console.log("from post -- runID: ", this.runID)
-        console.log("Posted inputs!")
+      postData() {
+        console.log("Posting inputs..")
+        axios.post('https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user', {
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': 'AZIzU9ni0x5vG6Rsub9qLaDxH6z26Zrz9bwvteiW',
+            'Access-Control-Allow-Origin': '*'
+          },
+          body: this.postBody
+        })
+        .then(response => {
+          this.runID = response.headers['x-run-id'],
+          //console.log("from post -- runID: ", this.runID)
+          console.log("Posted inputs!")
 
-        document.getElementById("timeStepSlider").setAttribute("max", this.postBody.t) // Sets max value for timestep slider.
-        this.getData() // Call getData() to start looking for model outputs.
-      })
-    }, // END: postData()
+          document.getElementById("timeStepSlider").setAttribute("max", this.postBody.t) // Sets max value for timestep slider.
+          this.getData() // Call getData() to start looking for model outputs.
+        })
+      }, // END: postData()
 
-    getData() {
-      axios.get('https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user', {
-        headers: {
-          'Content-Type': 'application/json',
-          'x-run-id': this.runID
-        }
-      })
-      .then((response) => {
-
-        //console.log("runID:", this.runID)
-        this.getJson = response.data
-
-        //console.log("json:", this.getJson)
-
-        // If the JSON is not found quit out and try again in 2 seconds.
-        if(this.getJson == "Not Found")
-        {
-          console.log("Polling for output data..")
-          // Shows loading dots to let the user know that the program is running.
-          setTimeout(function() {document.getElementById("postDataBtn").innerHTML = "."}, 500)
-          setTimeout(function() {document.getElementById("postDataBtn").innerHTML = ". ."}, 1000)
-          setTimeout(function() {document.getElementById("postDataBtn").innerHTML = ". . ."}, 1500)
-          setTimeout(this.getData, 2000)
-          return
-        }
-
-        var parsedobj = JSON.parse(JSON.stringify(this.resultJson))
-
-        let newStr = this.getJson.replace(/=/g, "\":")
-        let newStr2 = newStr.replace(/&/g, ",\"")
-        let newStr3 = newStr2.split(",")
-        let VarName = ""
-        let Values = []
-        let Result = {}
-        for(let iter = 0; iter < newStr3.length; iter++)
-        {
-          let item = newStr3[iter]
-          let index_array = item.split(":")
-          let varName = index_array[0].substring(1, index_array[0].length-1)
-          let value = parseFloat(index_array[1])
-          if (varName != VarName)
-          {
-            Result[VarName] = Values
-            Values = []
-            VarName = varName
+      getData() {
+        axios.get('https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user', {
+          headers: {
+            'Content-Type': 'application/json',
+            'x-run-id': this.runID
           }
-          Values.push(value)
-        }
+        })
+        .then((response) => {
 
-        this.resultJson = Result
-        // let newStr3 = "{\"" + newStr2 + "}"
-        // this.resultJson = JSON.parse(newStr3)
-        console.log("Output data retrieved!")
-        console.log("ResultJson: \n", this.resultJson)
+          //console.log("runID:", this.runID)
+          this.getJson = response.data
 
-        this.afterGet() // Sets up some stuff for the visualization now that the output data has been retrieved.
-      },
-          (error) => { console.log(error.request)}
-      )
-    }, // END: getData()
+          //console.log("json:", this.getJson)
 
-    afterGet() {
-      // Called at the bottom of getData()
-      // This function does some set up once all the data has been retrieved.
+          // If the JSON is not found quit out and try again in 2 seconds.
+          if(this.getJson == "Not Found")
+          {
+            console.log("Polling for output data..")
+            // Shows loading dots to let the user know that the program is running.
+            setTimeout(function() {document.getElementById("postDataBtn").innerHTML = "."}, 500)
+            setTimeout(function() {document.getElementById("postDataBtn").innerHTML = ". ."}, 1000)
+            setTimeout(function() {document.getElementById("postDataBtn").innerHTML = ". . ."}, 1500)
+            setTimeout(this.getData, 2000)
+            return
+          }
 
-      document.getElementById("postDataBtn").innerHTML = ""
-      this.draw()
-    }, // END: afterGet()
+          var parsedobj = JSON.parse(JSON.stringify(this.resultJson))
 
-    exported(event) {
-        console.log(event)
-        this.isExported = true
-        setTimeout(() => {
-          this.isExported = false
-        }, 3 * 1000)
-    }, // END: exported()
+          let newStr = this.getJson.replace(/=/g, "\":")
+          let newStr2 = newStr.replace(/&/g, ",\"")
+          let newStr3 = newStr2.split(",")
+          let VarName = ""
+          let Values = []
+          let Result = {}
+          for(let iter = 0; iter < newStr3.length; iter++)
+          {
+            let item = newStr3[iter]
+            let index_array = item.split(":")
+            let varName = index_array[0].substring(1, index_array[0].length-1)
+            let value = parseFloat(index_array[1])
+            if (varName != VarName)
+            {
+              Result[VarName] = Values
+              Values = []
+              VarName = varName
+            }
+            Values.push(value)
+          }
 
-    setDefault(defaultType) {
+          this.resultJson = Result
+          // let newStr3 = "{\"" + newStr2 + "}"
+          // this.resultJson = JSON.parse(newStr3)
+          console.log("Output data retrieved!")
+          console.log("ResultJson: \n", this.resultJson)
 
-      // Set default time, light level, and initial radius
-      this.postBody.t=100
-      this.postBody.radius=0.05
-      this.postBody.io=1000
-
-      // Sets default values in the input fields based on the button that user clicks
-      if(defaultType == "Red Maple") // Red Maple button
-      {
-        this.postBody.hmax=27.5;
-        this.postBody.phih=263;
-        this.postBody.eta=0.64;
-        this.postBody.swmax=0.1;
-        this.postBody.lamda=0.95;
-        this.postBody.rhomax=525000;
-        this.postBody.f2=7000;
-        this.postBody.f1=4;
-        this.postBody.gammac=131000;
-        this.postBody.gammaw=6.67e-7;
-        this.postBody.gammax=0.12;
-        this.postBody.cgl=1.45;
-        this.postBody.cgr=1.25
-        this.postBody.cgw=1.37
-        this.postBody.deltal=0.095
-        this.postBody.deltar=0.15
-        this.postBody.sl=1
-        this.postBody.sla=0.0141
-        this.postBody.sr=1
-        this.postBody.so=0.05
-        this.postBody.rr=0.00015
-        this.postBody.rhor=160000
-        this.postBody.rml=1.25
-        this.postBody.rms=0.025
-        this.postBody.rmr=0.75
-        this.postBody.etaB=0.045
-        this.postBody.k=0.7
-        this.postBody.epsg=6.75
-        this.postBody.m=0.95
-        this.postBody.alpha=0.365
-        this.postBody.r0=1.909
-        this.postBody.r40=5.592
-      } // END: if Red Maple
-
-      else if(defaultType == "Loblolly Pine")  // Loblolly Pine button
-      {
-        this.postBody.hmax=42
-        this.postBody.phih=220
-        this.postBody.eta=0.71
-        this.postBody.swmax=0.06
-        this.postBody.lamda=0.95
-        this.postBody.rhomax=380000
-        this.postBody.f2=2100
-        this.postBody.f1=4
-        this.postBody.gammac=265000
-        this.postBody.gammaw=6.67e-7
-        this.postBody.gammax=0.62
-        this.postBody.cgl=1.51
-        this.postBody.cgr=1.3
-        this.postBody.cgw=1.47
-        this.postBody.deltal=0.11
-        this.postBody.deltar=0.08
-        this.postBody.sl=0.33
-        this.postBody.sla=0.00602
-        this.postBody.sr=0.5
-        this.postBody.so=0.05
-        this.postBody.rr=0.00027
-        this.postBody.rhor=200000
-        this.postBody.rml=1.9
-        this.postBody.rms=0.05
-        this.postBody.rmr=1.5
-        this.postBody.etaB=0.045
-        this.postBody.k=0.55
-        this.postBody.epsg=4.5
-        this.postBody.m=0.95
-        this.postBody.alpha=0.308
-        this.postBody.r0=1.434
-        this.postBody.r40=3.873
-      } // END: if Loblolly Pine
-    }, // END: set_default()
-
-    initialize() {
-      /////////////// Tree Scene ///////////////
-      this.treeCanvas = document.getElementById( "treeCanvasport" )
-      this.outputDisplayContainer = document.getElementById("outputDisplayContainer")
-
-      //console.log("outputCanvas:", this.outputDisplayContainer.innerWidth  , this.outputDisplayContainer.innerHeight  )
-      var canvasWidth = window.innerWidth * 0.7
-      var canvasHeight = window.innerHeight * 0.7
-
-      ///// Tree Scene /////
-      // Create scene for trees
-      this.treeScene = new THREE.Scene()
-      this.treeScene.background = new THREE.Color( 0xcfffff );
-      // Create camera for tree scene
-      // PerspectiveCamera( fov : Number, aspect : Number, near : Number, far : Number )
-      this.treeCam = new THREE.PerspectiveCamera( 90, canvasWidth / canvasHeight, 0.1, 1000 )
-      this.treeCam.position.z = 7
-      this.treeScene.add( this.treeCam )
-      ///// Tree Scene /////
-
-      ///// Ring Scene /////
-      // Create scene for rings
-      this.ringScene = new THREE.Scene()
-      this.ringScene.background = new THREE.Color( 0xdfffcf  );
-      // Create camera for ring scene
-      // PerspectiveCamera( fov : Number, aspect : Number, near : Number, far : Number )
-      this.ringCam = new THREE.PerspectiveCamera( 90, canvasWidth / canvasHeight, 0.1, 1000 )
-      this.ringCam.position.z = 7
-      this.ringScene.add( this.ringCam )
-      ///// Ring Scene /////
-
-      // Create renderer
-      this.treeRenderer = new THREE.WebGLRenderer( {antialias: true} )
-      this.treeRenderer.setSize( canvasWidth, canvasHeight )
-      this.treeCanvas.appendChild( this.treeRenderer.domElement )
-
-      // Create stand-in tree, but don't add it to the scene.
-      this.trunk = new THREE.Mesh( new THREE.CylinderGeometry( 1, 1, 1, 1 ), new THREE.MeshBasicMaterial( {color: 0xb5651d} ) )
-      this.crown = new THREE.Mesh( new THREE.CylinderGeometry( 1, 1, 1, 1 ), new THREE.MeshBasicMaterial( {color: 0xb5651d} ) )
-
-      // Choose default scene
-      this.currentScene = this.treeScene
-      this.currentCam = this.treeCam
-
-      // Attempt at making a ground plane.
-      // PlaneGeometry(width : Float, height : Float, widthSegments : Integer, heightSegments : Integer)
-      /*var groundGEO = new THREE.PlaneGeometry(3, 3, 1)
-      var groundMat = new THREE.MeshBasicMaterial( {color: 0x00FF00} )
-      var ground = new THREE.Mesh( groundGEO, groundMat )
-      this.currentScene.add(ground)
-      ground.position.z = 2
-      ground.rotation.x = 89
-      ground.rotation.y = 0*/
-
-      // Show the tree view as default and hide the raw data view.
-      document.getElementById("treeCanvasport").style.display = "block"
-      document.getElementById("rawDataList").style.display = "none"
-
-      window.addEventListener( 'resize', this.onWindowResize, false )
-    }, // END: initialize()
-
-    loadTextures() {
-      //this.barkTexture = new THREE.TextureLoader().load( '../assets/bark.png' )
-      console.log("starting texture load")
-
-      var myMaterial2
-      // instantiate a loader
-      var loader = new THREE.TextureLoader()
-      loader.crossOrigin = ""
-
-      // load a resource
-      loader.load(
-        // resource URL
-        //'../assets/bark.png',
-        'https://i.imgur.com/XxwCL1S.jpg',
-
-        // onLoad callback
-        function ( texture ) {
-          // in this example we create the material when the texture is loaded
-          myMaterial2 = new THREE.MeshBasicMaterial( {
-            map: texture
-          } )
-          console.log("texture loaded")
+          this.afterGet() // Sets up some stuff for the visualization now that the output data has been retrieved.
         },
+            (error) => { console.log(error.request)}
+        )
+      }, // END: getData()
 
-        // onProgress callback currently not supported
-        undefined,
+      afterGet() {
+        // Called at the bottom of getData()
+        // This function does some set up once all the data has been retrieved.
 
-        // onError callback
-        function ( err ) {
-          console.error( 'An error happened.' )
-        }
-      )
+        document.getElementById("postDataBtn").innerHTML = ""
+        this.draw()
+      }, // END: afterGet()
 
-      console.log("creating box")
-      var boxGeometry2 = new THREE.BoxGeometry( 1, 1, 1 );
-      var box2 = new THREE.Mesh( boxGeometry2, myMaterial2 )
-      box2.position.x = -5
-      box2.position.y = -2.5
-      this.treeScene.add( box2 )
+      exported(event) {
+          console.log(event)
+          this.isExported = true
+          setTimeout(() => {
+            this.isExported = false
+          }, 3 * 1000)
+      }, // END: exported()
 
-    }, // END: loadTextures()
+      setDefault(defaultType) {
 
-    addBox() {
-      //var myTexture = new THREE.TextureLoader().load( '../json/bark.png' )
-      var r = this.resultJson.r[this.dataIndex]      // Radius of trunk at base
-      r = r * 7 // Temporary use to negate weird data
+        // Set default time, light level, and initial radius
+        this.postBody.t=100
+        this.postBody.radius=0.05
+        this.postBody.io=1000
 
-      var myMaterial = new THREE.MeshLambertMaterial( { map: this.barkTexture } )
-      //var myMaterial = new THREE.MeshLambertMaterial( { color: 0xFFFF00 } )
-
-      var boxGeometry = new THREE.BoxGeometry( 1, 1, 1 );
-      var box = new THREE.Mesh( boxGeometry, myMaterial )
-      box.position.x = r + 1.1
-      this.treeScene.add( box )
-    }, // END: addBox()
-
-    draw() {
-      if(this.currentScene == this.treeScene)
-      {
-        this.drawTree()
-      }
-      else if(this.currentScene == this.ringScene)
-      {
-        this.drawRings()
-      }
-    }, // END: draw()
-
-    drawTree() {
-      var year = this.dataIndex // The current timestep on the slider. Named "year" to make it easier to read.
-
-      // This stuff should be calculated once after getData.
-      // Find max radius and height of tree over its life to scale the scene to.
-      // Find max LAI2 to normalize it for opacity.
-      var maxHeight = 0
-      var maxLAI2 = 0
-      for( var i = 1; i <= this.postBody.t; i++ )
-      {
-        // Find max height.
-        if( maxHeight < this.resultJson.h[i] )
+        // Sets default values in the input fields based on the button that user clicks
+        if(defaultType == "Red Maple") // Red Maple button
         {
-          maxHeight = this.resultJson.h[i]
-        }
-        // Find max radius.
-        if( maxLAI2 < this.resultJson.r[i] )
+          this.postBody.hmax=27.5;
+          this.postBody.phih=263;
+          this.postBody.eta=0.64;
+          this.postBody.swmax=0.1;
+          this.postBody.lamda=0.95;
+          this.postBody.rhomax=525000;
+          this.postBody.f2=7000;
+          this.postBody.f1=4;
+          this.postBody.gammac=131000;
+          this.postBody.gammaw=6.67e-7;
+          this.postBody.gammax=0.12;
+          this.postBody.cgl=1.45;
+          this.postBody.cgr=1.25
+          this.postBody.cgw=1.37
+          this.postBody.deltal=0.095
+          this.postBody.deltar=0.15
+          this.postBody.sl=1
+          this.postBody.sla=0.0141
+          this.postBody.sr=1
+          this.postBody.so=0.05
+          this.postBody.rr=0.00015
+          this.postBody.rhor=160000
+          this.postBody.rml=1.25
+          this.postBody.rms=0.025
+          this.postBody.rmr=0.75
+          this.postBody.etaB=0.045
+          this.postBody.k=0.7
+          this.postBody.epsg=6.75
+          this.postBody.m=0.95
+          this.postBody.alpha=0.365
+          this.postBody.r0=1.909
+          this.postBody.r40=5.592
+        } // END: if Red Maple
+
+        else if(defaultType == "Loblolly Pine")  // Loblolly Pine button
         {
-          maxLAI2 = this.resultJson.r[i]
-        }
-        // Find max LAI2.
-        if( maxHeight < this.resultJson.LAI2[i] )
+          this.postBody.hmax=42
+          this.postBody.phih=220
+          this.postBody.eta=0.71
+          this.postBody.swmax=0.06
+          this.postBody.lamda=0.95
+          this.postBody.rhomax=380000
+          this.postBody.f2=2100
+          this.postBody.f1=4
+          this.postBody.gammac=265000
+          this.postBody.gammaw=6.67e-7
+          this.postBody.gammax=0.62
+          this.postBody.cgl=1.51
+          this.postBody.cgr=1.3
+          this.postBody.cgw=1.47
+          this.postBody.deltal=0.11
+          this.postBody.deltar=0.08
+          this.postBody.sl=0.33
+          this.postBody.sla=0.00602
+          this.postBody.sr=0.5
+          this.postBody.so=0.05
+          this.postBody.rr=0.00027
+          this.postBody.rhor=200000
+          this.postBody.rml=1.9
+          this.postBody.rms=0.05
+          this.postBody.rmr=1.5
+          this.postBody.etaB=0.045
+          this.postBody.k=0.55
+          this.postBody.epsg=4.5
+          this.postBody.m=0.95
+          this.postBody.alpha=0.308
+          this.postBody.r0=1.434
+          this.postBody.r40=3.873
+        } // END: if Loblolly Pine
+      }, // END: set_default()
+
+      initialize() {
+        /////////////// Tree Scene ///////////////
+        this.treeCanvas = document.getElementById( "treeCanvasport" )
+        this.outputDisplayContainer = document.getElementById("outputDisplayContainer")
+
+        //console.log("outputCanvas:", this.outputDisplayContainer.innerWidth  , this.outputDisplayContainer.innerHeight  )
+        var canvasWidth = window.innerWidth * 0.7
+        var canvasHeight = window.innerHeight * 0.7
+
+        ///// Tree Scene /////
+        // Create scene for trees
+        this.treeScene = new THREE.Scene()
+        this.treeScene.background = new THREE.Color( 0xcfffff );
+        // Create camera for tree scene
+        // PerspectiveCamera( fov : Number, aspect : Number, near : Number, far : Number )
+        this.treeCam = new THREE.PerspectiveCamera( 90, canvasWidth / canvasHeight, 0.1, 1000 )
+        this.treeCam.position.z = 7
+        this.treeScene.add( this.treeCam )
+        ///// Tree Scene /////
+
+        ///// Ring Scene /////
+        // Create scene for rings
+        this.ringScene = new THREE.Scene()
+        this.ringScene.background = new THREE.Color( 0xdfffcf  );
+        // Create camera for ring scene
+        // PerspectiveCamera( fov : Number, aspect : Number, near : Number, far : Number )
+        this.ringCam = new THREE.PerspectiveCamera( 90, canvasWidth / canvasHeight, 0.1, 1000 )
+        this.ringCam.position.z = 7
+        this.ringScene.add( this.ringCam )
+        ///// Ring Scene /////
+
+        // Create renderer
+        this.treeRenderer = new THREE.WebGLRenderer( {antialias: true} )
+        this.treeRenderer.setSize( canvasWidth, canvasHeight )
+        this.treeCanvas.appendChild( this.treeRenderer.domElement )
+
+        // Create stand-in tree, but don't add it to the scene.
+        this.trunk = new THREE.Mesh( new THREE.CylinderGeometry( 1, 1, 1, 1 ), new THREE.MeshBasicMaterial( {color: 0xb5651d} ) )
+        this.crown = new THREE.Mesh( new THREE.CylinderGeometry( 1, 1, 1, 1 ), new THREE.MeshBasicMaterial( {color: 0xb5651d} ) )
+
+        // Choose default scene
+        this.currentScene = this.treeScene
+        this.currentCam = this.treeCam
+
+        // Attempt at making a ground plane.
+        // PlaneGeometry(width : Float, height : Float, widthSegments : Integer, heightSegments : Integer)
+        /*var groundGEO = new THREE.PlaneGeometry(3, 3, 1)
+        var groundMat = new THREE.MeshBasicMaterial( {color: 0x00FF00} )
+        var ground = new THREE.Mesh( groundGEO, groundMat )
+        this.currentScene.add(ground)
+        ground.position.z = 2
+        ground.rotation.x = 89
+        ground.rotation.y = 0*/
+
+        // Show the tree view as default and hide the raw data view.
+        document.getElementById("treeCanvasport").style.display = "block"
+        document.getElementById("rawDataList").style.display = "none"
+
+        window.addEventListener( 'resize', this.onWindowResize, false )
+      }, // END: initialize()
+
+      loadTextures() {
+        //this.barkTexture = new THREE.TextureLoader().load( '../assets/bark.png' )
+        console.log("starting texture load")
+
+        var myMaterial2
+        // instantiate a loader
+        var loader = new THREE.TextureLoader()
+        loader.crossOrigin = ""
+
+        // load a resource
+        loader.load(
+          // resource URL
+          //'../assets/bark.png',
+          'https://i.imgur.com/XxwCL1S.jpg',
+
+          // onLoad callback
+          function ( texture ) {
+            // in this example we create the material when the texture is loaded
+            myMaterial2 = new THREE.MeshBasicMaterial( {
+              map: texture
+            } )
+            console.log("texture loaded")
+          },
+
+          // onProgress callback currently not supported
+          undefined,
+
+          // onError callback
+          function ( err ) {
+            console.error( 'An error happened.' )
+          }
+        )
+
+        console.log("creating box")
+        var boxGeometry2 = new THREE.BoxGeometry( 1, 1, 1 );
+        var box2 = new THREE.Mesh( boxGeometry2, myMaterial2 )
+        box2.position.x = -5
+        box2.position.y = -2.5
+        this.treeScene.add( box2 )
+
+      }, // END: loadTextures()
+
+      addBox() {
+        //var myTexture = new THREE.TextureLoader().load( '../json/bark.png' )
+        var r = this.resultJson.r[this.dataIndex]      // Radius of trunk at base
+        r = r * 7 // Temporary use to negate weird data
+
+        var myMaterial = new THREE.MeshLambertMaterial( { map: this.barkTexture } )
+        //var myMaterial = new THREE.MeshLambertMaterial( { color: 0xFFFF00 } )
+
+        var boxGeometry = new THREE.BoxGeometry( 1, 1, 1 );
+        var box = new THREE.Mesh( boxGeometry, myMaterial )
+        box.position.x = r + 1.1
+        this.treeScene.add( box )
+      }, // END: addBox()
+
+      draw() {
+        if(this.currentScene == this.treeScene)
         {
-          maxHeight = this.resultJson.LAI2[i]
+          this.drawTree()
         }
-      }
-      //console.log("Max LAI2:", maxLAI2)
-
-      // Clear scene of old drawings
-      while(this.treeScene.children.length > 0){   // Clear scene of old tree
-        this.treeScene.remove(this.treeScene.children[0])
-      }
-      this.newScene = new THREE.Scene()            // Create new scene for new tree
-      this.treeScene.add( this.newScene )          // Add new scene to root scene
-
-      this.addBox()
-      this.addLight()
-
-      /// Trunk variables
-      var h = this.resultJson.h[year]      // Total tree height
-      var hB = this.resultJson.hB2[year]   // Height that trunk transitions from neiloid to paraboloid (base to trunk)
-      hB = this.postBody.etaB * h
-      var hC = this.resultJson.hC2[year]   // Height that trunk transitions from paraboloid to cone (trunk to crown)
-      hC = this.postBody.eta * h
-      var r = this.resultJson.r[year]      // Radius of trunk at base
-      var rB = this.resultJson.rB2[year]   // Radius of trunk when transitioning from neilooid to paraboloid (base to trunk)
-      var rC = this.resultJson.rC2[year]   // Radius of trunk when transitioning from parapoloid to cone (trunk to crown)
-
-      /// Crown variables (overlaid on "cone" part of trunk)
-      var hmax = this.postBody.hmax        // Input.
-      var phih = this.postBody.phih        // Input.
-      var eta = this.postBody.eta          // Input.
-      var m = this.postBody.m              // Input.
-      var alpha = this.postBody.alpha      // Input.
-      var r0 = this.postBody.r0            // Input.
-      var r40 = this.postBody.r40          // Input.
-      var rBH = this.resultJson.rBH[year]  // Output.
-      // var h = this.treeData[year].h     // Output. Delcared above
-      const BH = 1.37                      // Breast height. Contsant 1.37 meters
-
-      // if h > BH --> rcmax = r0 + ((r40 - r0) * (2 * rBH * 100) / 40)
-      // if h < BH --> rcmax = (r0 * r) / ((hmax / phih) * ln(hmax/(hmax - BH)))
-      var rcmax // Maximum potential radius at a crown ratio of m
-      if( h > BH )
-      {
-        rcmax = r0 + ((r40 - r0) * (2 * rBH * 100) / 40)
-      }
-      else if( h < BH )
-      {
-        rcmax = (r0 * r) / ((hmax / phih) * Math.log(hmax/(hmax - BH)))
-      }
-      console.log("rcmax",rcmax)
-
-      var eta = this.postBody.eta     // Input.
-      var alpha = this.postBody.alpha // Input. Curvature of the crown.
-
-      // if m > (1 - eta) --> rcbase = rcmax * ((1 - eta) / m)^alpha
-      // otherwise --> rcbase = 1 - eta
-      var rcbase // Radius at the base of the crown.
-      if( m > (1 - eta))
-      {
-        rcbase = rcmax * Math.pow(((1 - eta) / m), alpha)
-      }
-      else
-      {
-        rcbase = rcmax
-      }
-
-      console.log("year:",year,"\nLAI2:",this.resultJson.LAI2[year],"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,"\nrBH:",rBH,"\nrcmax:",rcmax,"\nrcbase:",rcbase)
-
-      // Supplemental parameters
-      var geoSegments = 20            // Segments of geometry
-      var trunkPos = hC/2             // Trunk position on the screen. Needs to be based on max height.
-      var crownPos = h - (h - hC)/2   // Crown position on the screen. Bottom of crown needs to be on the same x plan as top of trunk.
-
-      ///// Trunk /////
-      // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
-      var trunkGeo = new THREE.CylinderGeometry( rC, r, hC, geoSegments )
-      var trunkMat = new THREE.MeshLambertMaterial( {color: 0xb5651d} )
-      this.trunk = new THREE.Mesh( trunkGeo, trunkMat )
-      this.trunk.position.y = trunkPos
-      this.trunk.position.x = 0
-      //console.log("Trunk -", "\nradiusTop:", rC, "\nradiusBottom:", r, "\nheight:", hC,)
-      ///// Trunk /////
-
-      ///// Crown /////
-      var crownGeo
-      if( this.crownShape == "cone" )
-      {
-        // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
-        crownGeo = new THREE.ConeGeometry( rcbase, h-hC, geoSegments )
-      }
-      else if( this.crownShape == "sphere") // Currently looks weird. Needs tuning.
-      {
-        // SphereGeometry(radius : Float, widthSegments : Integer, heightSegments : Integer)
-        crownGeo = new THREE.SphereGeometry( rcbase, geoSegments*1.5, geoSegments*1.5 )
-      }
-      else if( this.crownShape == "cylinder" )
-      {
-        // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
-        crownGeo = new THREE.CylinderGeometry( rcbase, rcbase, h-hC, geoSegments );
-      }
-      else // Default to cone shaped crown
-      {
-        // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
-        crownGeo = new THREE.ConeGeometry( rcbase, h-hC, geoSegments )
-      }
-      //console.log("crownShape:", this.crownShape)
-
-      var crownMat = new THREE.MeshLambertMaterial( {color: 0x00FF00} )
-      crownMat.transparent = true
-      crownMat.opacity = this.resultJson.LAI2[year]/maxLAI2
-      //console.log("crown opacity:", crownMat.opacity)
-
-      this.crown = new THREE.Mesh( crownGeo, crownMat )
-      this.crown.position.y = crownPos
-      this.crown.position.x = 0
-      //console.log("Crown -", "\nradius:", rcbase, "\nheight:", h-hC,)
-      ///// Crown /////
-
-      // Resize camera based on max tree height
-      this.currentCam.position.y = maxHeight / 1.8
-      this.currentCam.position.z = maxHeight * 0.6
-      this.currentCam.lookAt(0, maxHeight/1.8, 0)
-      // Add trunk and crown to scene
-      this.newScene.add( this.crown )
-      this.newScene.add( this.trunk )
-    }, // END: drawTree()
-
-    drawRings() {
-      var geoSegments = 16
-
-      // Clear scene of previous drawings
-      while(this.ringScene.children.length > 0){                  // Clear scene of old rings
-        this.ringScene.remove(this.ringScene.children[0])
-      }
-      this.newScene = new THREE.Scene()                           // Create new scene for new rings
-      this.ringScene.add( this.newScene )                         // Add new scene to root scene
-
-      // Find max radius and scale scene to that size
-      var maxRadius = this.resultJson.r[this.postBody.t]
-      this.ringCam.position.z = maxRadius * 1.1
-
-      this.ringCam.lookAt(0, 0, 0)
-
-      var heartwoodRadius = this.resultJson.r[this.dataIndex] - this.resultJson.sw2[this.dataIndex] // Gets the heart wood radius at the current year on the slider
-      //console.log("sw:", this.resultJson.sw2[this.dataIndex], "\nr:", this.resultJson.r[this.dataIndex], "\nhw:", heartwoodRadius)
-
-
-      for( var i = 1; i <= this.dataIndex; i++ )
-      {
-        var ringGeo
-
-        // RingGeometry(innerRadius : Float, outerRadius : Float, thetaSegments : Integer, phiSegments : Integer, thetaStart : Float, thetaLength : Float)
-        if(i == 1)
+        else if(this.currentScene == this.ringScene)
         {
-          // Sets the initial ring to a circle. Otherwise, there would be a hole of r0 raidus in the center.
-          ringGeo = new THREE.CircleGeometry(this.resultJson.r[i], geoSegments)
+          this.drawRings()
+        }
+      }, // END: draw()
+
+      drawTree() {
+        var year = this.dataIndex // The current timestep on the slider. Named "year" to make it easier to read.
+
+        // This stuff should be calculated once after getData.
+        // Find max radius and height of tree over its life to scale the scene to.
+        // Find max LAI2 to normalize it for opacity.
+        var maxHeight = 0
+        var maxLAI2 = 0
+        for( var i = 1; i <= this.postBody.t; i++ )
+        {
+          // Find max height.
+          if( maxHeight < this.resultJson.h[i] )
+          {
+            maxHeight = this.resultJson.h[i]
+          }
+          // Find max radius.
+          if( maxLAI2 < this.resultJson.r[i] )
+          {
+            maxLAI2 = this.resultJson.r[i]
+          }
+          // Find max LAI2.
+          if( maxHeight < this.resultJson.LAI2[i] )
+          {
+            maxHeight = this.resultJson.LAI2[i]
+          }
+        }
+        //console.log("Max LAI2:", maxLAI2)
+
+        // Clear scene of old drawings
+        while(this.treeScene.children.length > 0){   // Clear scene of old tree
+          this.treeScene.remove(this.treeScene.children[0])
+        }
+        this.newScene = new THREE.Scene()            // Create new scene for new tree
+        this.treeScene.add( this.newScene )          // Add new scene to root scene
+
+        this.addBox()
+        this.addLight()
+
+        /// Trunk variables
+        var h = this.resultJson.h[year]      // Total tree height
+        var hB = this.resultJson.hB2[year]   // Height that trunk transitions from neiloid to paraboloid (base to trunk)
+        hB = this.postBody.etaB * h
+        var hC = this.resultJson.hC2[year]   // Height that trunk transitions from paraboloid to cone (trunk to crown)
+        hC = this.postBody.eta * h
+        var r = this.resultJson.r[year]      // Radius of trunk at base
+        var rB = this.resultJson.rB2[year]   // Radius of trunk when transitioning from neilooid to paraboloid (base to trunk)
+        var rC = this.resultJson.rC2[year]   // Radius of trunk when transitioning from parapoloid to cone (trunk to crown)
+
+        /// Crown variables (overlaid on "cone" part of trunk)
+        var hmax = this.postBody.hmax        // Input.
+        var phih = this.postBody.phih        // Input.
+        var eta = this.postBody.eta          // Input.
+        var m = this.postBody.m              // Input.
+        var alpha = this.postBody.alpha      // Input.
+        var r0 = this.postBody.r0            // Input.
+        var r40 = this.postBody.r40          // Input.
+        var rBH = this.resultJson.rBH[year]  // Output.
+        // var h = this.treeData[year].h     // Output. Delcared above
+        const BH = 1.37                      // Breast height. Contsant 1.37 meters
+
+        // if h > BH --> rcmax = r0 + ((r40 - r0) * (2 * rBH * 100) / 40)
+        // if h < BH --> rcmax = (r0 * r) / ((hmax / phih) * ln(hmax/(hmax - BH)))
+        var rcmax // Maximum potential radius at a crown ratio of m
+        if( h > BH )
+        {
+          rcmax = r0 + ((r40 - r0) * (2 * rBH * 100) / 40)
+        }
+        else if( h < BH )
+        {
+          rcmax = (r0 * r) / ((hmax / phih) * Math.log(hmax/(hmax - BH)))
+        }
+        console.log("rcmax",rcmax)
+
+        var eta = this.postBody.eta     // Input.
+        var alpha = this.postBody.alpha // Input. Curvature of the crown.
+
+        // if m > (1 - eta) --> rcbase = rcmax * ((1 - eta) / m)^alpha
+        // otherwise --> rcbase = 1 - eta
+        var rcbase // Radius at the base of the crown.
+        if( m > (1 - eta))
+        {
+          rcbase = rcmax * Math.pow(((1 - eta) / m), alpha)
         }
         else
         {
-          ringGeo = new THREE.RingGeometry( this.resultJson.r[i-1], this.resultJson.r[i], geoSegments, 1 )
+          rcbase = rcmax
         }
 
-        // color
-        var ringColor = new THREE.Color()
-        if( this.resultJson.r[i] < heartwoodRadius ) // If the current ring is part of the heart wood..
+        console.log("year:",year,"\nLAI2:",this.resultJson.LAI2[year],"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,"\nrBH:",rBH,"\nrcmax:",rcmax,"\nrcbase:",rcbase)
+
+        // Supplemental parameters
+        var geoSegments = 20            // Segments of geometry
+        var trunkPos = hC/2             // Trunk position on the screen. Needs to be based on max height.
+        var crownPos = h - (h - hC)/2   // Crown position on the screen. Bottom of crown needs to be on the same x plan as top of trunk.
+
+        ///// Trunk /////
+        // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
+        var trunkGeo = new THREE.CylinderGeometry( rC, r, hC, geoSegments )
+        var trunkMat = new THREE.MeshLambertMaterial( {color: 0xb5651d} )
+        this.trunk = new THREE.Mesh( trunkGeo, trunkMat )
+        this.trunk.position.y = trunkPos
+        this.trunk.position.x = 0
+        //console.log("Trunk -", "\nradiusTop:", rC, "\nradiusBottom:", r, "\nheight:", hC,)
+        ///// Trunk /////
+
+        ///// Crown /////
+        var crownGeo
+        if( this.crownShape == "cone" )
         {
-          // Alternate between lighter colors
-          if(i % 2 == 0) { ringColor = 0xad593b }
-          else { ringColor = 0x521700 }
+          // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
+          crownGeo = new THREE.ConeGeometry( rcbase, h-hC, geoSegments )
         }
-        else                                         // If the current ring is part of the sap wood..
+        else if( this.crownShape == "sphere") // Currently looks weird. Needs tuning.
         {
-          // Alternate between darker colors
-          if(i % 2 == 0) { ringColor = 0x997354 }
-          else { ringColor = 0x331700 }
+          // SphereGeometry(radius : Float, widthSegments : Integer, heightSegments : Integer)
+          crownGeo = new THREE.SphereGeometry( rcbase, geoSegments*1.5, geoSegments*1.5 )
         }
+        else if( this.crownShape == "cylinder" )
+        {
+          // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
+          crownGeo = new THREE.CylinderGeometry( rcbase, rcbase, h-hC, geoSegments );
+        }
+        else // Default to cone shaped crown
+        {
+          // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
+          crownGeo = new THREE.ConeGeometry( rcbase, h-hC, geoSegments )
+        }
+        //console.log("crownShape:", this.crownShape)
 
-        var ringMat = new THREE.MeshBasicMaterial( {color: ringColor} )
-        var ring = new THREE.Mesh( ringGeo, ringMat )
-        this.newScene.add( ring )
-      } // END: for i
-    }, // END: drawRings()
+        var crownMat = new THREE.MeshLambertMaterial( {color: 0x00FF00} )
+        crownMat.transparent = true
+        crownMat.opacity = this.resultJson.LAI2[year]/maxLAI2
+        //console.log("crown opacity:", crownMat.opacity)
 
-    addLight() {
-      // Ambient light for all objects.
-      // AmbientLight( color : Integer, intensity : Float )
-      var light = new THREE.AmbientLight( 0x404040 )
-      this.treeScene.add( light )
+        this.crown = new THREE.Mesh( crownGeo, crownMat )
+        this.crown.position.y = crownPos
+        this.crown.position.x = 0
+        //console.log("Crown -", "\nradius:", rcbase, "\nheight:", h-hC,)
+        ///// Crown /////
 
-      // Point light for casting shadows.
-      // PointLight( color : Integer, intensity : Float, distance : Number, decay : Float )
-      var pointLight = new THREE.PointLight( 0xffffff, this.postBody.io/2060*2.5, 100 )
-      console.log("light:",this.postBody.io/2060*2.5)
-      pointLight.position.set( 10, 10, 10 )
-      this.treeScene.add( pointLight )
-    }, // END: addLight
+        // Resize camera based on max tree height
+        this.currentCam.position.y = maxHeight / 1.8
+        this.currentCam.position.z = maxHeight * 0.6
+        this.currentCam.lookAt(0, maxHeight/1.8, 0)
+        // Add trunk and crown to scene
+        this.newScene.add( this.crown )
+        this.newScene.add( this.trunk )
+      }, // END: drawTree()
 
-    setCrownShape(shape) {
-      this.crownShape = shape
-      console.log("crownShape:", shape)
-      this.drawTree()
-    }, // END: setCrownShape()
+      drawRings() {
+        var geoSegments = 16
 
-    setScene(scene) {
-      if(scene == "treeScene") {
-        document.getElementById("treeCanvasport").style.display = "block"
-        document.getElementById("rawDataList").style.display = "none"
+        // Clear scene of previous drawings
+        while(this.ringScene.children.length > 0){                  // Clear scene of old rings
+          this.ringScene.remove(this.ringScene.children[0])
+        }
+        this.newScene = new THREE.Scene()                           // Create new scene for new rings
+        this.ringScene.add( this.newScene )                         // Add new scene to root scene
 
-        document.getElementById("coneButton").style.display = "inline-block"
-        //document.getElementById("sphereButton").style.display = "inline-block"
-        document.getElementById("cylinderButton").style.display = "inline-block"
+        // Find max radius and scale scene to that size
+        var maxRadius = this.resultJson.r[this.postBody.t]
+        this.ringCam.position.z = maxRadius * 1.1
 
-        this.currentScene = this.treeScene
-        this.currentCam = this.treeCam
+        this.ringCam.lookAt(0, 0, 0)
+
+        var heartwoodRadius = this.resultJson.r[this.dataIndex] - this.resultJson.sw2[this.dataIndex] // Gets the heart wood radius at the current year on the slider
+        //console.log("sw:", this.resultJson.sw2[this.dataIndex], "\nr:", this.resultJson.r[this.dataIndex], "\nhw:", heartwoodRadius)
+
+
+        for( var i = 1; i <= this.dataIndex; i++ )
+        {
+          var ringGeo
+
+          // RingGeometry(innerRadius : Float, outerRadius : Float, thetaSegments : Integer, phiSegments : Integer, thetaStart : Float, thetaLength : Float)
+          if(i == 1)
+          {
+            // Sets the initial ring to a circle. Otherwise, there would be a hole of r0 raidus in the center.
+            ringGeo = new THREE.CircleGeometry(this.resultJson.r[i], geoSegments)
+          }
+          else
+          {
+            ringGeo = new THREE.RingGeometry( this.resultJson.r[i-1], this.resultJson.r[i], geoSegments, 1 )
+          }
+
+          // color
+          var ringColor = new THREE.Color()
+          if( this.resultJson.r[i] < heartwoodRadius ) // If the current ring is part of the heart wood..
+          {
+            // Alternate between lighter colors
+            if(i % 2 == 0) { ringColor = 0xad593b }
+            else { ringColor = 0x521700 }
+          }
+          else                                         // If the current ring is part of the sap wood..
+          {
+            // Alternate between darker colors
+            if(i % 2 == 0) { ringColor = 0x997354 }
+            else { ringColor = 0x331700 }
+          }
+
+          var ringMat = new THREE.MeshBasicMaterial( {color: ringColor} )
+          var ring = new THREE.Mesh( ringGeo, ringMat )
+          this.newScene.add( ring )
+        } // END: for i
+      }, // END: drawRings()
+
+      addLight() {
+        // Ambient light for all objects.
+        // AmbientLight( color : Integer, intensity : Float )
+        var light = new THREE.AmbientLight( 0x404040 )
+        this.treeScene.add( light )
+
+        // Point light for casting shadows.
+        // PointLight( color : Integer, intensity : Float, distance : Number, decay : Float )
+        var pointLight = new THREE.PointLight( 0xffffff, this.postBody.io/2060*2.5, 100 )
+        console.log("light:",this.postBody.io/2060*2.5)
+        pointLight.position.set( 10, 10, 10 )
+        this.treeScene.add( pointLight )
+      }, // END: addLight
+
+      setCrownShape(shape) {
+        this.crownShape = shape
+        console.log("crownShape:", shape)
         this.drawTree()
-      }
-      else if(scene == "ringScene") {
-        document.getElementById("treeCanvasport").style.display = "block"
-        document.getElementById("rawDataList").style.display = "none"
+      }, // END: setCrownShape()
 
-        document.getElementById("coneButton").style.display = "none"
-        //document.getElementById("sphereButton").style.display = "none"
-        document.getElementById("cylinderButton").style.display = "none"
+      setScene(scene) {
+        if(scene == "treeScene") {
+          document.getElementById("treeCanvasport").style.display = "block"
+          document.getElementById("rawDataList").style.display = "none"
 
-        this.currentScene = this.ringScene
-        this.currentCam = this.ringCam
-        this.drawRings()
-      }
-      else if(scene == "rawDataScene") {
-        document.getElementById("treeCanvasport").style.display = "none"
-        document.getElementById("rawDataList").style.display = "block"
+          document.getElementById("coneButton").style.display = "inline-block"
+          //document.getElementById("sphereButton").style.display = "inline-block"
+          document.getElementById("cylinderButton").style.display = "inline-block"
 
-        document.getElementById("coneButton").style.display = "none"
-        //document.getElementById("sphereButton").style.display = "none"
-        document.getElementById("cylinderButton").style.display = "none"
-      }
-    }, // END: setScene()
+          this.currentScene = this.treeScene
+          this.currentCam = this.treeCam
+          this.drawTree()
+        }
+        else if(scene == "ringScene") {
+          document.getElementById("treeCanvasport").style.display = "block"
+          document.getElementById("rawDataList").style.display = "none"
 
-    hideInstructions() {
-      document.getElementById("instructionsText").style.display = "none"
-    }, // END: hideInstructions()
+          document.getElementById("coneButton").style.display = "none"
+          //document.getElementById("sphereButton").style.display = "none"
+          document.getElementById("cylinderButton").style.display = "none"
 
-    showInstructions() {
-      document.getElementById("instructionsText").style.display = "block"
-    }, // END: showInstructions()
+          this.currentScene = this.ringScene
+          this.currentCam = this.ringCam
+          this.drawRings()
+        }
+        else if(scene == "rawDataScene") {
+          document.getElementById("treeCanvasport").style.display = "none"
+          document.getElementById("rawDataList").style.display = "block"
 
-    update() {
-      // THREE.js function
-      //this.trunk.rotation.y += 0.01
-      //this.crown.rotation.y += 0.01
-    }, // END: update()
+          document.getElementById("coneButton").style.display = "none"
+          //document.getElementById("sphereButton").style.display = "none"
+          document.getElementById("cylinderButton").style.display = "none"
+        }
+      }, // END: setScene()
 
-    onWindowResize() {
-      // Adjusts the renderer size when the window is resized.
-			this.currentCam.aspect = window.innerWidth / window.innerHeight
-			this.currentCam.updateProjectionMatrix()
+      hideInstructions() {
+        document.getElementById("instructionsText").style.display = "none"
+      }, // END: hideInstructions()
 
-			this.treeRenderer.setSize( window.innerWidth * 0.7, window.innerHeight * 0.7)
-    }, // END: onWindowResize()
+      showInstructions() {
+        document.getElementById("instructionsText").style.display = "block"
+      }, // END: showInstructions()
 
-    animate() {
-      // THREE.js function
-      requestAnimationFrame(this.animate)
-      this.update()
-      this.treeRenderer.render(this.currentScene, this.currentCam)
-    }, // END: animate()
+      update() {
+        // THREE.js function
+        //this.trunk.rotation.y += 0.01
+        //this.crown.rotation.y += 0.01
+      }, // END: update()
 
-    checkForNull(){
-      var temporaryIsDisable=false
+      onWindowResize() {
+        // Adjusts the renderer size when the window is resized.
+  			this.currentCam.aspect = window.innerWidth / window.innerHeight
+  			this.currentCam.updateProjectionMatrix()
 
+  			this.treeRenderer.setSize( window.innerWidth * 0.7, window.innerHeight * 0.7)
+      }, // END: onWindowResize()
 
-      //start checking null
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.hmax==="");
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.phih==="");
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.eta==="");
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.swmax==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.lamda==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.rhomax==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.f2==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.f1==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.gammac==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.gammaw==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.gammax==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.cgl==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.cgr==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.cgw==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.deltal==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.deltar==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.sl==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.sla==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.so==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.sr==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.rr==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.rhor==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.rml==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.rms==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.rmr==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.etaB==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.k==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.epsg==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.m==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.alpha==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.r0==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.r40==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.radius==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.io==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.t==="") ;
-      this.isDisable=temporaryIsDisable;
+      animate() {
+        // THREE.js function
+        requestAnimationFrame(this.animate)
+        this.update()
+        this.treeRenderer.render(this.currentScene, this.currentCam)
+      }, // END: animate()
 
-      if(this.isDisable){
-         this.errorMessage="ERROR: Please fill out all of the fields";
-      }
-      else{
-        this.errorMessage=""
-      }
-
-    }, // END: checkForNull()
-
-    hardLimit(){
-      if (this.postBody.phih < 0) this.postBody.phih= 0;
-
-      if (this.postBody.eta < 0) this.postBody.eta = 0;
-      if (this.postBody.eta > 1) this.postBody.eta= 1;
-
-      if (this.postBody.lamda < 0) this.postBody.lamda = 0;
-      if (this.postBody.lamda > 1) this.postBody.lamda= 1;
-
-      if (this.postBody.f2 < 0) this.postBody.f2 = 0;
-
-      if (this.postBody.f1 < 0) this.postBody.f1 = 0;
-
-      if (this.postBody.gammax < 0) this.postBody.gammax = 0;
-      if (this.postBody.gammax > 1) this.postBody.gammax= 1;
-
-      if (this.postBody.etaB < 0) this.postBody.etaB = 0;
-      if(this.postBody.eta!=""){
-      if (this.postBody.etaB > eta) this.postBody.etaB= eta;
-      }
-
-      if (this.postBody.m < 0) this.postBody.m = 0;
-      if (this.postBody.m > 1) this.postBody.m= 1;
-
-      if (this.postBody.alpha < 0) this.postBody.alpha = 0;
-
-      if (this.postBody.r0 < 0) this.postBody.r0 = 0;
-
-      if(this.postBody.r0!=""){
-      if (this.postBody.r40 < r0) this.postBody.r40 = r0;
-      }
-
-      //Group A end
-
-      if (this.postBody.hmax < 0) this.postBody.hmax= 0;
-      if (this.postBody.hmax> 127) this.postBody.hmax= 127;
-
-      if (this.postBody.swmax < 0) this.postBody.swmax= 0;
-
-      if (this.postBody.rr < 0) this.postBody.rr= 0;
-
-      //Group B end
-
-      if (this.postBody.rhomax < 0) this.postBody.rhomax= 0;
-
-      if (this.postBody.gammaw < 0) this.postBody.gammaw= 0;
-
-      if (this.postBody.sla < 0) this.postBody.sla= 0;
-
-      //Group C end
-
-      if (this.postBody.gammac < 0) this.postBody.gammac= 0;
-
-      if (this.postBody.cgl < 0) this.postBody.cgl= 0;
-
-      if (this.postBody.cgr < 0) this.postBody.cgr= 0;
-
-      if (this.postBody.cgw < 0) this.postBody.cgw= 0;
-
-      if (this.postBody.deltal < 0) this.postBody.deltal= 0;
-
-      if (this.postBody.deltar < 0) this.postBody.deltar= 0;
-
-      if (this.postBody.rhor < 0) this.postBody.rhor= 0;
-
-      if (this.postBody.rml < 0) this.postBody.rml= 0;
-
-      if (this.postBody.rms < 0) this.postBody.rms= 0;
-
-      if (this.postBody.rmr < 0) this.postBody.rmr= 0;
-
-      if (this.postBody.k < 0) this.postBody.k= 0;
-
-      if (this.postBody.epsg < 0) this.postBody.epsg= 0;
-      if (this.postBody.epsg> 15.73) this.postBody.epsg= 15.73;
-
-      //Group D end
-
-      if (this.postBody.sl < 0) this.postBody.sl= 0;
-
-      if (this.postBody.sr < 0) this.postBody.sr= 0;
-
-      if (this.postBody.so < 0) this.postBody.so= 0;
-
-      if (this.postBody.radius < 0) this.postBody.gammac= 0;
-
-      if (this.postBody.io < 0) this.postBody.io = 0;
-      if (this.postBody.io > 2060) this.postBody.io= 2060;
-
-      if (this.postBody.t < 0) this.postBody.cgr= 0;
-
-      //Group E end
+      checkForNull(){
+        var temporaryIsDisable=false
 
 
-    }, // END: hardLimit()
+        //start checking null
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.hmax==="");
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.phih==="");
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.eta==="");
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.swmax==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.lamda==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.rhomax==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.f2==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.f1==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.gammac==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.gammaw==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.gammax==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.cgl==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.cgr==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.cgw==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.deltal==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.deltar==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.sl==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.sla==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.so==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.sr==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.rr==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.rhor==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.rml==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.rms==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.rmr==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.etaB==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.k==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.epsg==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.m==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.alpha==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.r0==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.r40==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.radius==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.io==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.t==="") ;
+        this.isDisable=temporaryIsDisable;
 
-    isDisabled() {
-      this.checkForNull();
-      this.hardLimit();
-      return this.isDisable;
-    }, // END: isDisabled()
+        if(this.isDisable){
+           this.errorMessage="ERROR: Please fill out all of the fields";
+        }
+        else{
+          this.errorMessage=""
+        }
 
-    downloadRawData() {
-      // Downloads the raw data output from resultJson to a .csv file
-    for(let i in this.resultJson){
-      let o = {name : i, v : this.resultJson[i]};
-      this.array.push(this.resultJson[i])
-    }
-    console.log(this.array);
-    console.log("object is transferred to array");
-    }, // END: downloadRawData()
+      }, // END: checkForNull()
 
-  }, // END: Methods
+      hardLimit(){
+        if (this.postBody.phih < 0) this.postBody.phih= 0;
 
-  mounted() {
-    this.initialize()
-    this.animate()
-  } // END: mounted
-} // END: export default
+        if (this.postBody.eta < 0) this.postBody.eta = 0;
+        if (this.postBody.eta > 1) this.postBody.eta= 1;
+
+        if (this.postBody.lamda < 0) this.postBody.lamda = 0;
+        if (this.postBody.lamda > 1) this.postBody.lamda= 1;
+
+        if (this.postBody.f2 < 0) this.postBody.f2 = 0;
+
+        if (this.postBody.f1 < 0) this.postBody.f1 = 0;
+
+        if (this.postBody.gammax < 0) this.postBody.gammax = 0;
+        if (this.postBody.gammax > 1) this.postBody.gammax= 1;
+
+        if (this.postBody.etaB < 0) this.postBody.etaB = 0;
+        if(this.postBody.eta!=""){
+        if (this.postBody.etaB > eta) this.postBody.etaB= eta;
+        }
+
+        if (this.postBody.m < 0) this.postBody.m = 0;
+        if (this.postBody.m > 1) this.postBody.m= 1;
+
+        if (this.postBody.alpha < 0) this.postBody.alpha = 0;
+
+        if (this.postBody.r0 < 0) this.postBody.r0 = 0;
+
+        if(this.postBody.r0!=""){
+        if (this.postBody.r40 < r0) this.postBody.r40 = r0;
+        }
+
+        //Group A end
+
+        if (this.postBody.hmax < 0) this.postBody.hmax= 0;
+        if (this.postBody.hmax> 127) this.postBody.hmax= 127;
+
+        if (this.postBody.swmax < 0) this.postBody.swmax= 0;
+
+        if (this.postBody.rr < 0) this.postBody.rr= 0;
+
+        //Group B end
+
+        if (this.postBody.rhomax < 0) this.postBody.rhomax= 0;
+
+        if (this.postBody.gammaw < 0) this.postBody.gammaw= 0;
+
+        if (this.postBody.sla < 0) this.postBody.sla= 0;
+
+        //Group C end
+
+        if (this.postBody.gammac < 0) this.postBody.gammac= 0;
+
+        if (this.postBody.cgl < 0) this.postBody.cgl= 0;
+
+        if (this.postBody.cgr < 0) this.postBody.cgr= 0;
+
+        if (this.postBody.cgw < 0) this.postBody.cgw= 0;
+
+        if (this.postBody.deltal < 0) this.postBody.deltal= 0;
+
+        if (this.postBody.deltar < 0) this.postBody.deltar= 0;
+
+        if (this.postBody.rhor < 0) this.postBody.rhor= 0;
+
+        if (this.postBody.rml < 0) this.postBody.rml= 0;
+
+        if (this.postBody.rms < 0) this.postBody.rms= 0;
+
+        if (this.postBody.rmr < 0) this.postBody.rmr= 0;
+
+        if (this.postBody.k < 0) this.postBody.k= 0;
+
+        if (this.postBody.epsg < 0) this.postBody.epsg= 0;
+        if (this.postBody.epsg> 15.73) this.postBody.epsg= 15.73;
+
+        //Group D end
+
+        if (this.postBody.sl < 0) this.postBody.sl= 0;
+
+        if (this.postBody.sr < 0) this.postBody.sr= 0;
+
+        if (this.postBody.so < 0) this.postBody.so= 0;
+
+        if (this.postBody.radius < 0) this.postBody.gammac= 0;
+
+        if (this.postBody.io < 0) this.postBody.io = 0;
+        if (this.postBody.io > 2060) this.postBody.io= 2060;
+
+        if (this.postBody.t < 0) this.postBody.cgr= 0;
+
+        //Group E end
+
+
+      }, // END: hardLimit()
+
+      isDisabled() {
+        this.checkForNull();
+        this.hardLimit();
+        return this.isDisable;
+      }, // END: isDisabled()
+
+      downloadRawData() {
+        // Downloads the raw data output from resultJson to a .csv file
+        for(let i in this.resultJson){
+          let o = {name : i, v : this.resultJson[i]};
+          this.array.push(this.resultJson[i])
+        }
+        console.log(this.array);
+        console.log("object is transferred to array");
+      }, // END: downloadRawData()
+
+      reset() {
+        // Resets the inputs and visualization so that the user doesn't have to reload the whole page.
+
+
+      } // END: reset()
+
+    }, // END: Methods
+
+    mounted() {
+      this.initialize()
+      this.animate()
+    } // END: mounted
+
+  } // END: export default
 </script>
 
 <style lang="css" scoped>
@@ -2081,7 +2088,5 @@ methods: {
     width: 100%;
     height: 25px;
   }
-
-
 
 </style>
