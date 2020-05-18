@@ -582,7 +582,7 @@
       <div class="divider">
         </div>
 
-      <button id="postDataBtn" :disabled='isDisabled()' @click="postData()" name="button">RUN</button>
+      <button class="runButton" id="runButton" :disabled='isDisabled()' @click="postData()" name="button">RUN</button>
       <br>
     </div>
     <!-- END: Input Fields Box -->
@@ -881,9 +881,10 @@
           {
             console.log("Polling for output data..")
             // Shows loading dots to let the user know that the program is running.
-            setTimeout(function() {document.getElementById("postDataBtn").innerHTML = "."}, 500)
-            setTimeout(function() {document.getElementById("postDataBtn").innerHTML = ". ."}, 1000)
-            setTimeout(function() {document.getElementById("postDataBtn").innerHTML = ". . ."}, 1500)
+            var runButton = document.getElementById("runButton")
+            setTimeout(function() {runButton.style.fontSize = "30px"; runButton.innerHTML = "." }, 500)
+            setTimeout(function() {runButton.innerHTML = ". ."}, 1000)
+            setTimeout(function() {runButton.innerHTML = ". . ."}, 1500)
             setTimeout(this.getData, 2000)
             return
           }
@@ -927,7 +928,7 @@
         // Called at the bottom of getData()
         // This function does some set up once all the data has been retrieved.
 
-        document.getElementById("postDataBtn").innerHTML = ""
+        document.getElementById("runButton").innerHTML = ""
         this.draw()
       }, // END: afterGet()
 
@@ -1641,8 +1642,14 @@
 </script>
 
 <style lang="css" scoped>
+
+  .runButton {
+    font-size: 50px;
+    font-weight: bold;
+  }
+
   .main {
-    font-family: "open sans";
+    font-family: sans-serif;
   }
 
   .arrow {
@@ -1651,21 +1658,9 @@
     display: inline-block;
     padding: 3px;
   }
-/*
-  .left {
-    transform: rotate(135deg);
-    -webkit-transform: rotate(135deg);
-  }
 
-  .up {
-    transform: rotate(-135deg);
-    -webkit-transform: rotate(-135deg);
-  }
 
-  .down {
-    transform: rotate(45deg);
-    -webkit-transform: rotate(45deg);
-  }*/
+
 
   input[type=text] {
     border-radius:5px;
