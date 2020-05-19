@@ -4,7 +4,6 @@
     <div class="instructionsContainer">
       <h2>
         Instructions!
-        <br>
         <button id="hideInstructionsButton" @click="hideInstructions()">HIDE</button>
         <button id="showInstructionsButton" @click="showInstructions()" style="display: none;">SHOW</button>
       </h2>
@@ -662,8 +661,8 @@
         <div class="lightSlider">
           <label> Light Level: {{ postBody.io }}</label>
           <p>0<input id="io"type="range" min="0" max="2060" v-model="postBody.io" class="timeStepSlider">2060</p>
-          <label> Light Level: {{ (postBody.io / 20.6).toFixed(0)}}</label>
-          <p>0<input id="io"type="range" min="0" max="2060" v-model="postBody.io" class="timeStepSlider">100</p>
+          <label> Light Level: {{ (postBody.io / 20.6).toFixed(0)}}%</label>
+          <p>0<input id="io"type="range" min="0" max="2060" v-model="postBody.io" @input="draw()" class="timeStepSlider">100</p>
         </div><br>
 
         <div class="timeSlider">
@@ -1020,6 +1019,7 @@
         // This function does some set up once all the data has been retrieved.
 
         document.getElementById("runButton").innerHTML = ""
+
         this.draw()
       }, // END: afterGet()
 
@@ -1149,7 +1149,7 @@
         ///// Tree Scene /////
         // Create scene for trees
         this.treeScene = new THREE.Scene()
-        this.treeScene.background = new THREE.Color( 0xcfffff );
+        this.treeScene.background = new THREE.Color( 0xcfffff )
         // Create camera for tree scene
         // PerspectiveCamera( fov : Number, aspect : Number, near : Number, far : Number )
         this.treeCam = new THREE.PerspectiveCamera( 90, canvasWidth / canvasHeight, 0.1, 1000 )
@@ -1160,7 +1160,7 @@
         ///// Ring Scene /////
         // Create scene for rings
         this.ringScene = new THREE.Scene()
-        this.ringScene.background = new THREE.Color( 0xdfffcf  );
+        this.ringScene.background = new THREE.Color( 0xdfffcf  )
         // Create camera for ring scene
         // PerspectiveCamera( fov : Number, aspect : Number, near : Number, far : Number )
         this.ringCam = new THREE.PerspectiveCamera( 90, canvasWidth / canvasHeight, 0.1, 1000 )
@@ -1266,8 +1266,14 @@
       }, // END: draw()
 
       drawTree() {
-        var year = this.dataIndex // The current timestep on the slider. Named "year" to make it easier to read.
+        // Move to afterGet() once tuned.
+        var bgColor = new THREE.Color()
+        bgColor.r = this.postBody.io/2060
+        bgColor.g = this.postBody.io/2060+0.4
+        bgColor.b = 1
+        this.treeScene.background = bgColor
 
+        var year = this.dataIndex // The current timestep on the slider. Named "year" to make it easier to read.
         // This stuff should be calculated once after getData.
         // Find max radius and height of tree over its life to scale the scene to.
         // Find max LAI2 to normalize it for opacity.
@@ -1485,10 +1491,10 @@
 
         // Point light for casting shadows.
         // PointLight( color : Integer, intensity : Float, distance : Number, decay : Float )
-        var pointLight = new THREE.PointLight( 0xffffff, this.postBody.io/2060*2.5, 100 )
+        /*var pointLight = new THREE.PointLight( 0xffffff, this.postBody.io/2060*2.5, 100 )
         console.log("light:",this.postBody.io/2060*2.5)
         pointLight.position.set( 10, 10, 10 )
-        this.treeScene.add( pointLight )
+        this.treeScene.add( pointLight )*/
       }, // END: addLight
 
       setCrownShape(shape) {
@@ -1792,8 +1798,9 @@
 /* Instructions Container CSS */
   .instructionsContainer {
     display: block;
-    width: 95%;
+    width: 95.4%;
     margin: auto;
+    margin-left: 0.5%;
     margin-bottom: 5px;
     padding: 2%;
     float: left;
@@ -1802,6 +1809,12 @@
     float: left;
     position: relative;
     text-align: left;
+  }
+
+  .instructionsContainer button{
+    width: 70px !important;
+    height: 40px !important;
+    font-size: 14px !important;
   }
 
 /* Input Container CSS */
