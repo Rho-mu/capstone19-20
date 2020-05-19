@@ -323,7 +323,7 @@
           <br><br><br>
         </div><br>
 
-      <!--
+      <!-- old collapsible menus
       <div class="collapsible-menu">
         <input type="checkbox" id="menu-0" @click="changeDropdownArrow('menu-0 arrow')">
         <label for="menu-0">Default Values <i id="menu-0 arrow" class="arrow" style="transform: rotate(-45deg)"></i></label>
@@ -644,39 +644,32 @@
       -->
 
       <div id="sliderdiv" class="slidecontainer">
+        <div class="initRadius">
+          <label for="initialRadius"> Initial radius (m): </label><br>
+              <input id="initialRadius" type="text" v-model="postBody.radius" placeholder="radius > 0" min="0" >
+              <span class="help-tip">
+                <p>
+                  &nbspInformation Box<br>
+                  <span class="separator"></span>
+                  Name:&nbspInitial radius<br>
+                  <span class="separator"></span>
+                  Unit: m<br>
+                  <span class="separator"></span>
+                  Constraint: (0,+&#8734)
+              </p></span>
+        </div><br><br>
 
-        <div class="divider">
+        <div class="lightSlider">
+          <label> Light Level: {{ postBody.io }}</label>
+          <p>0<input id="io"type="range" min="0" max="2060" v-model="postBody.io" class="timeStepSlider">2060</p>
+          <label> Light Level: {{ (postBody.io / 20.6).toFixed(0)}}</label>
+          <p>0<input id="io"type="range" min="0" max="2060" v-model="postBody.io" class="timeStepSlider">100</p>
+        </div><br>
+
+        <div class="timeSlider">
+          <label for="t">Total Time: {{postBody.t}} </label>
+          <p>0<input id="io" class="timeStepSlider" type="range" min="1" max="450" v-model="postBody.t">450</p>
         </div>
-        <div class="divider">
-        </div>
-
-        <label for="initialRadius"> Initial radius: (m)</label><br>
-            <input id="initialRadius" type="text" v-model="postBody.radius" placeholder="radius > 0" min="0" >
-            <span class="help-tip">
-              <p>
-                &nbspInformation Box<br>
-                <span class="separator"></span>
-                Name:&nbspInitial radius<br>
-                <span class="separator"></span>
-                Unit: m<br>
-                <span class="separator"></span>
-                Constraint: (0,+&#8734)
-            </p></span><br><br>
-
-        <label> Light Level: {{postBody.io}}</label><br><br>
-        0<input id="io"type="range" min="0" max="2060" v-model="postBody.io" class="timeStepSlider">2060
-
-
-        <div class="divider">
-        </div>
-        <div class="divider">
-        </div>
-
-        <label for="t">Total Time: {{postBody.t}} </label><br><br>
-        0<input id="io" class="timeStepSlider" type="range" min="1" max="450" v-model="postBody.t">450
-        <!-- <input id="t" type="text" v-model="postBody.t" placeholder="Time in Years" class="time" min="0" max="100"> -->
-
-
       </div>
 
       <div id="error-message"><br>
@@ -700,9 +693,6 @@
         <button @click="setCrownShape('cone')" class="coneButton" id="coneButton">CONE</button>
         <button @click="setCrownShape('cylinder')" class="cylinderButton" id="cylinderButton">CYLINDER</button>
         <!--<button @click="setCrownShape('sphere')" class="sphereButton" id="sphereButton">SPHERE</button> Hidden for demo-->
-      </div>
-
-      <div class="divider">
       </div>
 
       <h3> Move the slider to see the growth of the tree!</h3>
@@ -1122,7 +1112,9 @@
         } // END: if Loblolly Pine
       }, // END: set_default()
 
-      initialize() {
+      initializeWebpage() {
+        this.postBody.io = 1000 // Set light level to 1000.
+        this.postBody.t = 100   // Set time to 100.
 
         /////////////// collapsible Menus ///////////////
         var coll = document.getElementsByClassName("collapsible")
@@ -1143,7 +1135,9 @@
             }
           })
         }
+      }, // END: initializeWebpage()
 
+      initializeVisualization() {
         /////////////// Tree Scene ///////////////
         this.treeCanvas = document.getElementById( "treeCanvasport" )
         this.outputContainer = document.getElementById("outputContainer")
@@ -1202,7 +1196,7 @@
         document.getElementById("rawDataList").style.display = "none"
 
         window.addEventListener( 'resize', this.onWindowResize, false )
-      }, // END: initialize()
+      }, // END: initializeVisualization()
 
       loadTextures() {
         //this.barkTexture = new THREE.TextureLoader().load( '../assets/bark.png' )
@@ -1756,7 +1750,8 @@
     }, // END: Methods
 
     mounted() {
-      this.initialize()
+      this.initializeVisualization()
+      this.initializeWebpage()
       this.animate()
     } // END: mounted
 
@@ -1765,6 +1760,7 @@
 
 <style lang="css" scoped>
 
+/* Main CSS */
   .main {
     font-family: sans-serif;
   }
@@ -1793,8 +1789,40 @@
     color: black;
   }
 
+/* Instructions Container CSS */
+  .instructionsContainer {
+    display: block;
+    width: 95%;
+    margin: auto;
+    margin-bottom: 5px;
+    padding: 2%;
+    float: left;
+    background-color: #b9b9b9;
+    border-radius: 10px;
+    float: left;
+    position: relative;
+    text-align: left;
+  }
+
+/* Input Container CSS */
+  .inputContainer {
+    display: inline-block;
+    padding: 20px 10px 20px 10px;
+    margin: auto;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    color:black;
+    width:17%;
+    background-color: #b9b9b9;
+  }
+
   .inputContainer button {
     width: 100%;
+  }
+
+  .slidecontainer {
+    text-align: left !important;
   }
 
   .runButton {
@@ -1839,6 +1867,75 @@
     height:120px;
   }
 
+  #error-message{
+    color: red;
+  }
+
+/* Output Container CSS */
+  .outputContainer {
+    width: 77%;
+    height: 80%;
+    margin: auto;
+    padding: 2%;
+    float: right;
+    background-color: #b9b9b9;
+    border-radius: 10px;
+    float: right;
+    position: relative;
+  }
+
+  .timeStepSlider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 15px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+  }
+
+  #timeStepSlider::-webkit-slider-thumb {
+    background: url('../assets/Logo-Black.png');
+    width:45px;
+    height:45px;
+  }
+
+  #timeStepSlider::-moz-range-thumb{
+    background: url('../assets/Logo-Black.png');
+    width:45px;
+    height:45px;
+  }
+
+  .timeStepSlider:hover {
+    opacity: 1;
+  }
+
+  .timeStepSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #4CAF50;
+    cursor: pointer;
+    border-radius: 50%;
+  }
+
+  .timeStepSlider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #4CAF50;
+    cursor: pointer;
+    border-radius: 50%;
+  }
+
+  .rawDataList {
+    width: 100%;
+    text-align: center;
+  }
+
+/* Other CSS */
   #iodisplay{
       border: none;
       background: transparent;
@@ -1861,11 +1958,6 @@
     background: url('../assets/Logo-Black.png');
     width:36px;
     height:36px;
-  }
-
-  #sliderdiv{
-    text-align:left;
-    font-size: 12px;
   }
 
   .slider {
@@ -1899,102 +1991,7 @@
     color:coral
   }
 
-  .divider {
-    height:10px;
-  }
 
-  .instructionsContainer {
-    display: block;
-    width: 95%;
-    margin: auto;
-    margin-bottom: 5px;
-    padding: 2%;
-    float: left;
-    background-color: #b9b9b9;
-    border-radius: 10px;
-    float: left;
-    position: relative;
-    text-align: left;
-  }
-
-  .inputContainer {
-    display: inline-block;
-    padding: 20px 10px 20px 10px;
-    margin: auto;
-    border: none;
-    border-radius: 10px;
-    font-size: 16px;
-    color:black;
-    width:17%;
-    background-color: #b9b9b9;
-  }
-
-  #error-message{
-    color: red;
-  }
-
-  .outputContainer {
-    width: 77%;
-    height: 80%;
-    margin: auto;
-    padding: 2%;
-    float: right;
-    background-color: #b9b9b9;
-    border-radius: 10px;
-    float: right;
-    position: relative;
-  }
-
-  .rawDataList {
-    width: 100%;
-    text-align: center;
-  }
-
-  .timeStepSlider {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 15px;
-    border-radius: 5px;
-    background: #d3d3d3;
-    outline: none;
-    opacity: 0.7;
-    -webkit-transition: .2s;
-    transition: opacity .2s;
-  }
-
-  #timeStepSlider::-webkit-slider-thumb {
-    background: url('../assets/Logo-Black.png');
-    width:45px;
-    height:45px;
-  }
-
-    #timeStepSlider::-moz-range-thumb{
-    background: url('../assets/Logo-Black.png');
-    width:45px;
-    height:45px;
-  }
-
-  .timeStepSlider:hover {
-    opacity: 1;
-  }
-
-  .timeStepSlider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 25px;
-    height: 25px;
-    background: #4CAF50;
-    cursor: pointer;
-    border-radius: 50%;
-  }
-
-  .timeStepSlider::-moz-range-thumb {
-    width: 25px;
-    height: 25px;
-    background: #4CAF50;
-    cursor: pointer;
-    border-radius: 50%;
-  }
 
   .menu-content {
     max-height: 0;
@@ -2102,7 +2099,6 @@
     animation: fadeIn 0.3s ease-in-out;
   }
 
-
   .help-tip p{
     display:none;
     text-align: left;
@@ -2120,7 +2116,6 @@
     z-index: 100;  /*this z index makes the help tip on top of every other things*/
   }
 
-  
   .help-tip p:after{ //Prevents the tooltip from being hidden
       width:100%;
       height:40px;
