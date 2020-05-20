@@ -2,17 +2,19 @@
   <div class="main">
     <!-- Instructions Box -->
     <div class="instructionsContainer">
-      <h2>
-        Instructions!
-        <button id="hideInstructionsButton" @click="hideInstructions()">HIDE</button>
-        <button id="showInstructionsButton" @click="showInstructions()" style="display: none;">SHOW</button>
-      </h2>
+      <div class="instructionsButtons">
+        <h2>
+          Instructions!
+          <button id="hideInstructionsButton" @click="showHideInstructions('hide')">HIDE</button>
+          <button id="showInstructionsButton" @click="showHideInstructions('show')" style="display: none;">SHOW</button>
+        </h2>
+      </div>
 
       <div id="instructionsText">
         <p>1. Enter input values for the ACGCA model in the control panel on the left. You can also use the provided default values to autofill the fields.</p>
         <p>2. Once the input fields are are filled, press the "RUN" button to run the ACGCA model.</p>
         <p>3. Wait for the ACGCA model to finish running. When the output data has been retrieved, use the output box to see your simulated tree.</p>
-
+        <br>
         <h3>Output Tools</h3>
         <p>Rings: Shows the tree rings at each year.</p>
         <p>Tree: Shows the tree at each year.
@@ -1538,30 +1540,21 @@
         }
       }, // END: setScene()
 
-      hideInstructions() {
-        document.getElementById("instructionsText").style.display = "none"
-        document.getElementById("hideInstructionsButton").style.display = "none"
-        document.getElementById("showInstructionsButton").style.display = "block"
-      }, // END: hideInstructions()
-
-      showInstructions() {
-        document.getElementById("instructionsText").style.display = "block"
-        document.getElementById("showInstructionsButton").style.display = "none"
-        document.getElementById("hideInstructionsButton").style.display = "block"
-      }, // END: showInstructions()
-
-      changeDropdownArrow(menuArrow) {
-        var arrow = document.getElementById(menuArrow) // Get the correct arrow.
-
-        if( arrow.style.transform == "rotate(-45deg)" )
+      showHideInstructions(type) {
+        // Shows ot hides the instructions absed on which button was pressed.
+        if( type == "hide" )
         {
-          arrow.style.transform = "rotate(45deg)" // Rotate down.
+          document.getElementById("instructionsText").style.display = "none"
+          document.getElementById("hideInstructionsButton").style.display = "none"
+          document.getElementById("showInstructionsButton").style.display = "inline"
         }
-        else if( arrow.style.transform == "rotate(45deg)" )
+        else
         {
-          arrow.style.transform = "rotate(-45deg)" // Rotate up.
+          document.getElementById("instructionsText").style.display = "inline"
+          document.getElementById("showInstructionsButton").style.display = "none"
+          document.getElementById("hideInstructionsButton").style.display = "inline"
         }
-      }, // END: changeDropdownArrow()
+      }, // END: showHideInstructions()
 
       update() {
         // THREE.js function
@@ -1766,7 +1759,7 @@
 
 <style lang="css" scoped>
 
-/* Main CSS */
+  /* Main CSS */
   .main {
     font-family: sans-serif;
   }
@@ -1795,7 +1788,7 @@
     color: black;
   }
 
-/* Instructions Container CSS */
+  /* Instructions Container CSS */
   .instructionsContainer {
     display: block;
     width: 95.4%;
@@ -1813,11 +1806,11 @@
 
   .instructionsContainer button{
     width: 70px !important;
-    height: 40px !important;
+    height: 35px !important;
     font-size: 14px !important;
   }
 
-/* Input Container CSS */
+  /* Input Container CSS */
   .inputContainer {
     display: inline-block;
     padding: 20px 10px 20px 10px;
@@ -1884,7 +1877,7 @@
     color: red;
   }
 
-/* Output Container CSS */
+  /* Output Container CSS */
   .outputContainer {
     width: 77%;
     height: 80%;
@@ -1948,7 +1941,7 @@
     text-align: center;
   }
 
-/* Other CSS */
+  /* Other CSS */
   #iodisplay{
       border: none;
       background: transparent;
