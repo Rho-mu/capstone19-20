@@ -36,6 +36,7 @@
         <div class="content">
           <br>
           <button @click="setDefault('Red Maple')">Red Maple</button>
+          <br><br>
           <button @click="setDefault('Loblolly Pine')">Loblolly Pine</button>
           <br><br>
         </div><br>
@@ -1769,7 +1770,6 @@
     width: 100px;
     height: 50px;
     padding: 10px 10px;
-    margin: 2px;
     border: none;
     border-radius: 15px;
     cursor: pointer;
@@ -1802,6 +1802,7 @@
     float: left;
     position: relative;
     text-align: left;
+    /*background-image: url("../assets/minimalist-forest.jpg");*/
   }
 
   .instructionsContainer button{
@@ -1821,6 +1822,7 @@
     color:black;
     width:17%;
     background-color: #b9b9b9;
+    /*background-image: linear-gradient(lightblue, lightgreen);*/
   }
 
   .inputContainer button {
@@ -1888,6 +1890,7 @@
     border-radius: 10px;
     float: right;
     position: relative;
+    /*background-image: linear-gradient(lightblue, lightgreen);*/
   }
 
   .timeStepSlider {
