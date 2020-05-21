@@ -1,5 +1,6 @@
 <template>
   <div>
+    <instructionsContainer></instructionsContainer>
     <inputContainer></inputContainer>
     <br>
     <inputsvis></inputsvis>
@@ -9,14 +10,15 @@
 <script>
 import inputsvis from './inputs-vis.vue'
 import inputContainer from './inputContainer.vue'
-//import outputContainer from './outputContainer.vue'
+import instructionsContainer from './instructionsContainer.vue'
 
 export default {
   name: 'acgca',
 
   components: {
     inputsvis,
-    inputContainer
+    inputContainer,
+    instructionsContainer
   },
 
   data() {

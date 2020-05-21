@@ -379,7 +379,7 @@ export default {
         t: '',
         radius: '',
         io: ''
-      },
+      }, // END: postBody
       isDisable: false,
       errorMessage: "",
       runID: '',
@@ -432,12 +432,11 @@ export default {
           "status2":' ',
           "errorind":' ',
           //"growth_st":''
-      }
-    }
-  },
+      } // END: resultJson
+    } // END: return
+  }, // END: data()
 
   methods: {
-
     setDefault(defaultType) {
       // Set default time, light level, and initial radius
       this.postBody.t=100
@@ -751,8 +750,8 @@ export default {
       this.hardLimit();
       return this.isDisable;
     }, // END: isDisabled()
-  }
-}
+  } // END: methods
+} // END: export default
 </script>
 
 <style>
