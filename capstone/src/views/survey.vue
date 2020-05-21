@@ -103,20 +103,20 @@ input {
 
 
 @-webkit-keyframes fadeIn {
-    0% {
-        opacity:0;
-        transform: scale(0.6);
-    }
+  0% {
+    opacity:0;
+    transform: scale(0.6);
+  }
 
-    100% {
-        opacity:100%;
-        transform: scale(1);
-    }
+  100% {
+    opacity:100%;
+    transform: scale(1);
+  }
 }
 
 @keyframes fadeIn {
-    0% { opacity:0; }
-    100% { opacity:100%; }
+  0% { opacity:0; }
+  100% { opacity:100%; }
 }
 .roles {
   width: 22%;

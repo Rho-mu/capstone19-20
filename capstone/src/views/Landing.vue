@@ -6,6 +6,8 @@
       <img src="@/assets/logo.png" id="logo">
     </div>
     <div id="center">
+      <h1 class="title">ACGCA Model</h1>
+      <br>
       <h2>Brief overview of the ACGCA model</h2>
       <p>
       The Allometrically Constrained Growth and Carbon Allocation (ACGCA) model is an individual-based model of tree growth and mortality.
@@ -87,8 +89,6 @@ export default {
   }
 
 }
-
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -140,9 +140,9 @@ export default {
 
 #logo {
   top: 0;
-  right: 0;
+  right: 20px;
   position: absolute;
-  display: block;
+
 
   height: 80px;
   width: 80px;
