@@ -2,7 +2,6 @@
 import firebase from 'firebase'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-//import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import SignUp from '../views/SignUp.vue'
 import Survey from '../views/Survey.vue'
@@ -44,7 +43,7 @@ const routes = [
     name: 'InputsVis',
     component: InputsVis, // this will require Auth
     meta: {
-      requiresAuth: true
+      requiresAuth: false
     }
   }
 ]
