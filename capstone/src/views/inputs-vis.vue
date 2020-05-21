@@ -663,7 +663,8 @@
           <label> Light Level: {{ postBody.io }}</label>
           <p>0<input id="io"type="range" min="0" max="2060" v-model="postBody.io" class="timeStepSlider">2060</p>
           <label> Light Level: {{ (postBody.io / 20.6).toFixed(0)}}%</label>
-          <p>0<input id="io"type="range" min="0" max="2060" v-model="postBody.io" @input="draw()" class="timeStepSlider">100</p>
+          <p>0% <input id="io"type="range" min="0" max="2060" v-model="postBody.io" @input="draw()" class="timeStepSlider"> 100%</p>
+
         </div>
 
         <div class="timeSlider">
