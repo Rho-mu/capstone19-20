@@ -2,8 +2,7 @@
   <div>
     <instructionsContainer></instructionsContainer>
     <inputContainer></inputContainer>
-    <br>
-    <inputsvis></inputsvis>
+    <br><inputsvis></inputsvis><!--Going to delete once all the component are split-->
   </div>
 </template>
 
