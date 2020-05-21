@@ -3,11 +3,11 @@
     <!-- Instructions Box -->
     <div class="instructionsContainer">
       <div class="instructionsButtons">
-        <h2>
+        <h3>
           Instructions!
           <button id="hideInstructionsButton" @click="showHideInstructions('hide')">HIDE</button>
           <button id="showInstructionsButton" @click="showHideInstructions('show')" style="display: none;">SHOW</button>
-        </h2>
+        </h3>
       </div>
 
       <div id="instructionsText">
@@ -15,7 +15,7 @@
         <p>2. Once the input fields are are filled, press the "RUN" button to run the ACGCA model.</p>
         <p>3. Wait for the ACGCA model to finish running. When the output data has been retrieved, use the output box to see your simulated tree.</p>
         <br>
-        <h3>Output Tools</h3>
+        <h4>Output Tools</h4>
         <p>Rings: Shows the tree rings at each year.</p>
         <p>Tree: Shows the tree at each year.
         <p>Cone: Changes the tree crown to a cone.</P>
@@ -28,9 +28,7 @@
 
     <!-- Input Fields Box -->
     <div class="inputContainer">
-      <div id="input-title">
-      Control Panel
-      </div>
+      <h3>Control Panel</h3>
 
       <button class="collapsible">Default Values</button>
         <div class="content">
@@ -647,7 +645,7 @@
 
       <div id="sliderdiv" class="slidecontainer">
         <div class="initRadius">
-          <label for="initialRadius"> Initial radius (m): </label><br>
+          <label for="initialRadius"> Initial Radius (m): </label><br>
               <input id="initialRadius" type="text" v-model="postBody.radius" placeholder="radius > 0" min="0" >
               <span class="help-tip">
                 <p>
@@ -659,14 +657,14 @@
                   <span class="separator"></span>
                   Constraint: (0,+&#8734)
               </p></span>
-        </div><br><br>
+        </div><br>
 
         <div class="lightSlider">
           <label> Light Level: {{ postBody.io }}</label>
           <p>0<input id="io"type="range" min="0" max="2060" v-model="postBody.io" class="timeStepSlider">2060</p>
           <label> Light Level: {{ (postBody.io / 20.6).toFixed(0)}}%</label>
-          <p>0<input id="io"type="range" min="0" max="2060" v-model="postBody.io" @input="draw()" class="timeStepSlider">100</p>
-        </div><br>
+          <p>0% <input id="io"type="range" min="0" max="2060" v-model="postBody.io" @input="draw()" class="timeStepSlider"> 100%</p>
+        </div>
 
         <div class="timeSlider">
           <label for="t">Total Time: {{postBody.t}} </label>
@@ -677,6 +675,7 @@
       <div id="error-message"><br>
           {{this.errorMessage}}
       </div>
+      <br>
 
       <button class="runButton" id="runButton" :disabled='isDisabled()' @click="postData()" name="button">RUN</button>
       <br>
@@ -697,8 +696,8 @@
         <!--<button @click="setCrownShape('sphere')" class="sphereButton" id="sphereButton">SPHERE</button> Hidden for demo-->
       </div>
 
-      <h3> Move the slider to see the growth of the tree!</h3>
-      <h4>Year: {{this.dataIndex}}</h4>
+      <h4> Move the slider to see the growth of the tree!</h4>
+      <h5>Year: {{this.dataIndex}}</h5>
 
       <input type="range" min="1" v-model="dataIndex" @input="draw()" id="timeStepSlider" class="timeStepSlider"><br><br>
       <div class="treeCanvasport" id="treeCanvasport"></div>
@@ -1767,8 +1766,8 @@
 
   .main button {
     display: inline-block;
-    width: 100px;
-    height: 50px;
+    width: 80px;
+    height: 40px;
     padding: 10px 10px;
     border: none;
     border-radius: 15px;
@@ -1816,7 +1815,6 @@
     display: inline-block;
     padding: 20px 10px 20px 10px;
     margin: auto;
-    border: none;
     border-radius: 10px;
     font-size: 16px;
     color:black;
@@ -1827,15 +1825,22 @@
 
   .inputContainer button {
     width: 100%;
+    font-size: 13px;
   }
 
   .slidecontainer {
     text-align: left !important;
+
   }
 
+  .slidecontainer input {
+    width: 80%;
+    height: 15px;
+
+  }
   .runButton {
     width: 40% !important;
-    font-size: 22px !important;
+    font-size: 18px !important;
     font-weight: bold;
     color: white;
   }
@@ -1955,18 +1960,19 @@
 
   #io{
     width:80%;
+    height: 10px;
   }
 
   #io::-webkit-slider-thumb {
     background: url('../assets/Logo-Black.png');
-    width:36px;
-    height:36px;
+    width:30px;
+    height:30px;
   }
 
   #io::-moz-range-thumb{
     background: url('../assets/Logo-Black.png');
-    width:36px;
-    height:36px;
+    width:30px;
+    height:30px;
   }
 
   .slider {
@@ -1978,17 +1984,6 @@
     -webkit-transition: .2s;
     transition: opacity .2s;
   }
-  /*title wrapper*/
-
-  #input-title {
-    text-align: center;
-    display: inline-block;
-    font-size: 20px;
-    width:80%;
-
-    background-color: #b9b9b9;
-    height:30px;
-  }
 
   #mention p {
      width:200px;
@@ -1999,8 +1994,6 @@
     font-weight: bold;
     color:coral
   }
-
-
 
   .menu-content {
     max-height: 0;
@@ -2059,7 +2052,6 @@
   input#menu0 {
     display: none;
   }
-
 
 
   /* Toggle Effect */
@@ -2160,23 +2152,6 @@
       border-color: white;
   }
 
-  @-webkit-keyframes fadeIn {
-      0% {
-          opacity:0;
-          transform: scale(0.6);
-      }
-
-      100% {
-          opacity:100%;
-          transform: scale(1);
-      }
-  }
-
-  @keyframes fadeIn {
-      0% { opacity:0; }
-      100% { opacity:100%; }
-  }
-
   span .separator {
       border-top: 3px solid #333;
       border-radius:1px;
@@ -2189,6 +2164,31 @@
   .time {
     width: 100%;
     height: 25px;
+  }
+
+  .crownShapeContainer button {
+    margin-top: 5px;
+    font-size: 13px;
+  }
+
+  label {
+    font-size: 15px;
+  }
+
+  .collapsible button {
+    font-size: 10px;
+  }
+
+  .lightSlider p {
+    font-size: 13px;
+  }
+
+  .timeSlider p {
+    font-size: 13px;
+  }
+
+  .setSceneContainer button {
+    font-size: 13px;
   }
 
 </style>

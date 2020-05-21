@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h2>Hello, world!</h2>
     <div class="inputContainer">
       <div class="containerTitle">Control Panel</div>
 
