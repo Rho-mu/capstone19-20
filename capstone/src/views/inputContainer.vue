@@ -313,22 +313,20 @@
         </div><br><br>
 
         <div class="lightSlider">
-          <label> Light Level: {{ postBody.io }}</label>
-          <p>0<input type="range" class="inputSlider" min="0" max="2060" v-model="postBody.io" >2060</p>
-          <!--<label> Light Level: {{ (postBody.io / 20.6).toFixed(0)}}%</label>
-          <p>0<input id="io"type="range" min="0" max="2060" v-model="postBody.io" @input="draw()" class="timeStepSlider">100</p>-->
+          <label> Light Level: {{ (postBody.io / 20.6).toFixed(0)}}%</label>
+          <p>0 <input type="range" class="inputSlider"  min="0" max="2060" v-model="postBody.io"> 100%</p><!--@input="draw()" Used for testing, but don't have it connected yet.-->
         </div><br>
 
         <div class="timeSlider">
           <label for="t">Total Time: {{postBody.t}} </label>
-          <p>0<input type="range" class="inputSlider" min="1" max="450" v-model="postBody.t">450</p>
+          <p>0 <input type="range" class="inputSlider" min="1" max="450" v-model="postBody.t"> 450</p>
         </div>
       </div>
 
       <div id="error-message"><br>
           {{this.errorMessage}}
       </div>
-
+      <br>
       <button class="runButton" id="runButton" :disabled='isDisabled()' @click="postData()" name="button">RUN</button>
       <br>
     </div>
@@ -778,12 +776,12 @@ export default {
   /* Buttons */
   .inputContainer button {
     display: inline-block;
-    height: 50px;
+    height: 40px;
     padding: 10px 10px;
     border: none;
     border-radius: 15px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 13px;
     background-color: #FFF;
     width: 100%;
   }
@@ -800,6 +798,7 @@ export default {
   /* Run Button */
   .runButton {
     width: 40% !important;
+    height: 50px !important;
     font-size: 22px !important;
     font-weight: bold;
     color: black;
@@ -968,4 +967,24 @@ export default {
       100% { opacity:100%; }
   }
   /* END: Help tip */
+
+  label {
+    font-size: 15px;
+  }
+
+  .collapsible button {
+    font-size: 10px;
+  }
+
+  .lightSlider p {
+    font-size: 13px;
+  }
+
+  .timeSlider p {
+    font-size: 13px;
+  }
+
+  .setSceneContainer button {
+    font-size: 13px;
+  }
 </style>
