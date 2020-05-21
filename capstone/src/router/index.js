@@ -7,6 +7,7 @@ import SignUp from '../views/SignUp.vue'
 import Survey from '../views/Survey.vue'
 import Landing from '../views/Landing.vue'
 import InputsVis from '../views/inputs-vis.vue'
+import Acgca from '../views/acgca.vue'
 
 Vue.use(VueRouter)
 
@@ -42,6 +43,14 @@ const routes = [
     path: '/inputs-vis',
     name: 'InputsVis',
     component: InputsVis, // this will require Auth
+    meta: {
+      requiresAuth: false
+    }
+  },
+  {
+    path: '/acgca',
+    name: 'Acgca',
+    component: Acgca, // this will require Auth
     meta: {
       requiresAuth: false
     }

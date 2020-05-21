@@ -1,8 +1,15 @@
 <template>
   <div>
+    <h2>instructionsContainer.vue import</h2>
     <instructionsContainer></instructionsContainer>
+    <br>
+
+    <h2>inputContainer.vue import</h2>
     <inputContainer></inputContainer>
-    <br><inputsvis></inputsvis><!--Going to delete once all the component are split-->
+    <br>
+    
+    <h2>inputs-vis.vue import</h2>
+    <inputsvis></inputsvis><!--Going to delete once all the component are split-->
   </div>
 </template>
 
