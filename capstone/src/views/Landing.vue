@@ -163,12 +163,12 @@ export default {
 
 .testButton {
   background-color: #44c767;
-  border-radius: 28px;
+  border-radius: 20px;
   border: 1px solid #18ab29;
-  padding: 15px 32px;
+  padding: 15px 30px;
   color:#ffffff;
   font-family:Arial;
-  font-size: 17px;
+  font-size: 13px;
   display: inline-block;
 }
 

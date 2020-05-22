@@ -1,7 +1,7 @@
 <template>
   <div class="sign-up">
     <img src="../assets/Logo-Black.png"><br>
-    <p>Let's create a new account !</p>
+    <h4>Let's create a new account !</h4>
     <input type="text" v-model="email" placeholder="Email"><br>
     <input type="password" v-model="password" placeholder="Password"><br>
     <button @click="signUp">Sign Up</button>
@@ -46,12 +46,28 @@ export default {
   }
   button {
     margin-top: 10px;
-    width: 10%;
-    cursor: pointer;
+    background-color: #44c767;
+    border-radius: 20px;
+    border: 1px solid #18ab29;
+    padding: 10px 30px;
+    color:#ffffff;
+    font-family:Arial;
+    font-size: 13px;
+    display: inline-block;
+  }
+
+  button:hover {
+    background-color: #EEE;
+    color: black;
+  }
+
+  button:hover {
+    background-color: #EEE;
+    color: black;
   }
   span {
     display: block;
     margin-top: 20px;
-    font-size: 11px;
+    font-size: 12px;
   }
 </style>

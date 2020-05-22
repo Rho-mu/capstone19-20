@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <img src="../assets/Logo-Black.png"><br>
-    <h3>Sign In</h3>
+    <h4>Sign In</h4>
     <input type="text" v-model="email" placeholder="Email"><br>
     <input type="password" v-model="password" placeholder="Password"><br>
     <button @click="login">Submit</button>
@@ -37,22 +37,34 @@
 </script>
 
 <style scoped>
-  .login {
-    margin-top: 40px;
-  }
   input {
     margin: 10px 0;
     width: 20%;
     padding: 15px;
   }
   button {
-    margin-top: 20px;
-    width: 10%;
-    cursor: pointer;
+    margin-top: 10px;
+    background-color: #44c767;
+    border-radius: 20px;
+    border: 1px solid #18ab29;
+    padding: 10px 30px;
+    color:#ffffff;
+    font-family:Arial;
+    font-size: 13px;
+    display: inline-block;
+  }
+
+  button:hover {
+    background-color: #EEE;
+    color: black;
+  }
+
+  button:hover {
+    background-color: #EEE;
+    color: black;
   }
   p {
-    margin-top: 40px;
-    font-size: 13px;
+    font-size: 12px;
   }
   p a {
     text-decoration: underline;
