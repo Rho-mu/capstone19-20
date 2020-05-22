@@ -59,9 +59,8 @@ export default {
 <style>
   .instructionsContainer {
     display: block;
-    width: 95.4%;
+    width: 97%;
     margin: auto;
-    margin-left: 0.5%;
     margin-bottom: 5px;
     padding: 1.5%;
     float: left;

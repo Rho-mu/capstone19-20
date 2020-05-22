@@ -1,34 +1,54 @@
 <template>
   <div>
-    <h2>instructionsContainer.vue import</h2>
     <instructionsContainer></instructionsContainer>
-    <br>
 
-    <h2>inputContainer.vue import</h2>
-    <inputContainer></inputContainer>
-    <br>
-    
-    <h2>inputs-vis.vue import</h2>
-    <inputsvis></inputsvis><!--Going to delete once all the component are split-->
+
+    <inputContainer
+      v-on:resultJsonToParent="setResultJsonData"
+      v-on:postBodyToParent="setPostBodyData">
+    </inputContainer>
+
+
+    <!--<outputContainer
+      :resultJson="resultJson"
+      :postBody="postBody">
+    </outputContainer>-->
   </div>
 </template>
 
 <script>
 import inputsvis from './inputs-vis.vue'
-import inputContainer from './inputContainer.vue'
 import instructionsContainer from './instructionsContainer.vue'
+import inputContainer from './inputContainer.vue'
+import outputContainer from './outputContainer.vue'
 
 export default {
   name: 'acgca',
 
   components: {
     inputsvis,
+    instructionsContainer,
     inputContainer,
-    instructionsContainer
+    outputContainer
   },
 
   data() {
+    return {
+      resultJson: '',
+      postBody: ''
+    }
+  },
 
+  methods: {
+    setResultJsonData(data) {
+      // When resultJsonToParent is triggered in the inputContainer tag, it calls this function.
+      this.resultJson = data // Sets resultJson to the output sent from inputContainer.
+    },
+
+    setPostBodyData(data) {
+      // When resultJsonToParent is triggered in the inputContainer tag, it calls this function.
+      this.postBody = data // Sets resultJson to the output sent from inputContainer.
+    }
   }
 }
 </script>

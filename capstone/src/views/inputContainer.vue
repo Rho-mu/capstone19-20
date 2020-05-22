@@ -334,422 +334,455 @@
 </template>
 
 <script>
-import axios from 'axios'
+  import axios from 'axios'
 
-export default {
-  name: 'inputContainer',
+  export default {
+    name: 'inputContainer',
 
-  data() {
-    return {
-      postBody: {
-        hmax: '',
-        phih: '',
-        eta: '',
-        swmax: '',
-        lamda: '',
-        rhomax: '',
-        f2: '',
-        f1: '',
-        gammac: '',
-        gammaw: '',
-        gammax: '',
-        cgl: '',
-        cgr: '',
-        cgw: '',
-        deltal: '',
-        deltar: '',
-        sl: '',
-        sla: '',
-        so: '',
-        sr: '',
-        rr: '',
-        rhor: '',
-        rml: '',
-        rms: '',
-        rmr: '',
-        etaB: '',
-        k: '',
-        epsg: '',
-        m: '',
-        alpha: '',
-        r0: '',
-        r40: '',
-        t: '',
-        radius: '',
-        io: ''
-      }, // END: postBody
-      isDisable: false,
-      errorMessage: "",
-      runID: '',
-      getJson: [],
-      resultJson: {
-          "APARout":' ',
-          "h":' ',
-          "hh2":' ',
-          "hC2":' ',
-          "hB2":' ',
-          "hBH2":' ',
-          "r":' ',
-          "rB2":' ',
-          "rC2":' ',
-          "rBH":' ',
-          "sw2":' ',
-          "vts2":' ',
-          "vt2":' ',
-          "vth2":' ',
-          "sa2":' ',
-          "la2":' ',
-          "ra2":' ',
-          "dr2":' ',
-          "xa2":' ',
-          "bl2":' ',
-          "br2":' ',
-          "bt2":' ',
-          "bts2":' ',
-          "bth2":' ',
-          "boh2":' ',
-          "bos2":' ',
-          "bo2":' ',
-          "bs2":' ',
-          "cs2":' ',
-          "clr2":' ',
-          "fl2":' ',
-          "fr2":' ',
-          "ft2":' ',
-          "fo2":' ',
-          "rfl2":' ',
-          "rfr2":' ',
-          "rfs2":' ',
-          "egrow2":' ',
-          "ex2":' ',
-          "rtrans2":' ',
-          "light2":' ',
-          "nut2":' ',
-          "deltas2":' ',
-          "LAI2":' ',
-          "status2":' ',
-          "errorind":' ',
-          //"growth_st":''
-      } // END: resultJson
-    } // END: return
-  }, // END: data()
+    data() {
+      return {
+        postBody: {
+          hmax: '',
+          phih: '',
+          eta: '',
+          swmax: '',
+          lamda: '',
+          rhomax: '',
+          f2: '',
+          f1: '',
+          gammac: '',
+          gammaw: '',
+          gammax: '',
+          cgl: '',
+          cgr: '',
+          cgw: '',
+          deltal: '',
+          deltar: '',
+          sl: '',
+          sla: '',
+          so: '',
+          sr: '',
+          rr: '',
+          rhor: '',
+          rml: '',
+          rms: '',
+          rmr: '',
+          etaB: '',
+          k: '',
+          epsg: '',
+          m: '',
+          alpha: '',
+          r0: '',
+          r40: '',
+          t: '',
+          radius: '',
+          io: ''
+        }, // END: postBody
+        isDisable: false,
+        errorMessage: "",
+        runID: '',
+        getJson: [],
+        resultJson: {
+            "APARout":' ',
+            "h":' ',
+            "hh2":' ',
+            "hC2":' ',
+            "hB2":' ',
+            "hBH2":' ',
+            "r":' ',
+            "rB2":' ',
+            "rC2":' ',
+            "rBH":' ',
+            "sw2":' ',
+            "vts2":' ',
+            "vt2":' ',
+            "vth2":' ',
+            "sa2":' ',
+            "la2":' ',
+            "ra2":' ',
+            "dr2":' ',
+            "xa2":' ',
+            "bl2":' ',
+            "br2":' ',
+            "bt2":' ',
+            "bts2":' ',
+            "bth2":' ',
+            "boh2":' ',
+            "bos2":' ',
+            "bo2":' ',
+            "bs2":' ',
+            "cs2":' ',
+            "clr2":' ',
+            "fl2":' ',
+            "fr2":' ',
+            "ft2":' ',
+            "fo2":' ',
+            "rfl2":' ',
+            "rfr2":' ',
+            "rfs2":' ',
+            "egrow2":' ',
+            "ex2":' ',
+            "rtrans2":' ',
+            "light2":' ',
+            "nut2":' ',
+            "deltas2":' ',
+            "LAI2":' ',
+            "status2":' ',
+            "errorind":' ',
+            //"growth_st":''
+        } // END: resultJson
+      } // END: return
+    }, // END: data()
 
-  methods: {
-    setDefault(defaultType) {
-      // Set default time, light level, and initial radius
-      this.postBody.t=100
-      this.postBody.radius=0.05
-      this.postBody.io=1000
+    methods: {
+      initializeWebpage() {
+        this.postBody.io = 1030 // Set light level to 1000.
+        this.postBody.t = 100   // Set time to 100.
 
-      // Sets default values in the input fields based on the button that user clicks
-      if(defaultType == "Red Maple") // Red Maple button
-      {
-        this.postBody.hmax=27.5;
-        this.postBody.phih=263;
-        this.postBody.eta=0.64;
-        this.postBody.swmax=0.1;
-        this.postBody.lamda=0.95;
-        this.postBody.rhomax=525000;
-        this.postBody.f2=7000;
-        this.postBody.f1=4;
-        this.postBody.gammac=131000;
-        this.postBody.gammaw=6.67e-7;
-        this.postBody.gammax=0.12;
-        this.postBody.cgl=1.45;
-        this.postBody.cgr=1.25
-        this.postBody.cgw=1.37
-        this.postBody.deltal=0.095
-        this.postBody.deltar=0.15
-        this.postBody.sl=1
-        this.postBody.sla=0.0141
-        this.postBody.sr=1
-        this.postBody.so=0.05
-        this.postBody.rr=0.00015
-        this.postBody.rhor=160000
-        this.postBody.rml=1.25
-        this.postBody.rms=0.025
-        this.postBody.rmr=0.75
-        this.postBody.etaB=0.045
-        this.postBody.k=0.7
-        this.postBody.epsg=6.75
-        this.postBody.m=0.95
-        this.postBody.alpha=0.365
-        this.postBody.r0=1.909
-        this.postBody.r40=5.592
-      } // END: if Red Maple
+        /////////////// collapsible Menus ///////////////
+        var coll = document.getElementsByClassName("collapsible")
+        var i
 
-      else if(defaultType == "Loblolly Pine")  // Loblolly Pine button
-      {
-        this.postBody.hmax=42
-        this.postBody.phih=220
-        this.postBody.eta=0.71
-        this.postBody.swmax=0.06
-        this.postBody.lamda=0.95
-        this.postBody.rhomax=380000
-        this.postBody.f2=2100
-        this.postBody.f1=4
-        this.postBody.gammac=265000
-        this.postBody.gammaw=6.67e-7
-        this.postBody.gammax=0.62
-        this.postBody.cgl=1.51
-        this.postBody.cgr=1.3
-        this.postBody.cgw=1.47
-        this.postBody.deltal=0.11
-        this.postBody.deltar=0.08
-        this.postBody.sl=0.33
-        this.postBody.sla=0.00602
-        this.postBody.sr=0.5
-        this.postBody.so=0.05
-        this.postBody.rr=0.00027
-        this.postBody.rhor=200000
-        this.postBody.rml=1.9
-        this.postBody.rms=0.05
-        this.postBody.rmr=1.5
-        this.postBody.etaB=0.045
-        this.postBody.k=0.55
-        this.postBody.epsg=4.5
-        this.postBody.m=0.95
-        this.postBody.alpha=0.308
-        this.postBody.r0=1.434
-        this.postBody.r40=3.873
-      } // END: if Loblolly Pine
-    }, // END: set_default()
-
-    postData() {
-      console.log("Posting inputs..")
-      axios.post('https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user', {
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': 'AZIzU9ni0x5vG6Rsub9qLaDxH6z26Zrz9bwvteiW',
-          'Access-Control-Allow-Origin': '*'
-        },
-        body: this.postBody
-      })
-      .then(response => {
-        this.runID = response.headers['x-run-id'],
-        //console.log("from post -- runID: ", this.runID)
-        console.log("Posted inputs!")
-
-        document.getElementById("timeStepSlider").setAttribute("max", this.postBody.t) // Sets max value for timestep slider.
-        this.getData() // Call getData() to start looking for model outputs.
-      })
-    }, // END: postData()
-
-    getData() {
-      axios.get('https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user', {
-        headers: {
-          'Content-Type': 'application/json',
-          'x-run-id': this.runID
+        for (i = 0; i < coll.length; i++) {
+          coll[i].addEventListener("click",
+          function() {
+            this.classList.toggle("active")
+            var content = this.nextElementSibling
+            if (content.style.maxHeight)
+            {
+              content.style.maxHeight = null
+            }
+            else
+            {
+              content.style.maxHeight = content.scrollHeight + "px"
+            }
+          })
         }
-      })
-      .then((response) => {
+      }, // END: initializeWebpage()
 
-        //console.log("runID:", this.runID)
-        this.getJson = response.data
+      setDefault(defaultType) {
+        // Set default time, light level, and initial radius
+        this.postBody.t=100
+        this.postBody.radius=0.05
+        this.postBody.io=1030
 
-        //console.log("json:", this.getJson)
-
-        // If the JSON is not found quit out and try again in 2 seconds.
-        if(this.getJson == "Not Found")
+        // Sets default values in the input fields based on the button that user clicks
+        if(defaultType == "Red Maple") // Red Maple button
         {
-          console.log("Polling for output data..")
-          // Shows loading dots to let the user know that the program is running.
-          var runButton = document.getElementById("runButton")
-          setTimeout(function() {runButton.style.fontSize = "30px"; runButton.innerHTML = "." }, 500)
-          setTimeout(function() {runButton.innerHTML = ". ."}, 1000)
-          setTimeout(function() {runButton.innerHTML = ". . ."}, 1500)
-          setTimeout(this.getData, 2000)
-          return
-        }
+          this.postBody.hmax=27.5;
+          this.postBody.phih=263;
+          this.postBody.eta=0.64;
+          this.postBody.swmax=0.1;
+          this.postBody.lamda=0.95;
+          this.postBody.rhomax=525000;
+          this.postBody.f2=7000;
+          this.postBody.f1=4;
+          this.postBody.gammac=131000;
+          this.postBody.gammaw=6.67e-7;
+          this.postBody.gammax=0.12;
+          this.postBody.cgl=1.45;
+          this.postBody.cgr=1.25
+          this.postBody.cgw=1.37
+          this.postBody.deltal=0.095
+          this.postBody.deltar=0.15
+          this.postBody.sl=1
+          this.postBody.sla=0.0141
+          this.postBody.sr=1
+          this.postBody.so=0.05
+          this.postBody.rr=0.00015
+          this.postBody.rhor=160000
+          this.postBody.rml=1.25
+          this.postBody.rms=0.025
+          this.postBody.rmr=0.75
+          this.postBody.etaB=0.045
+          this.postBody.k=0.7
+          this.postBody.epsg=6.75
+          this.postBody.m=0.95
+          this.postBody.alpha=0.365
+          this.postBody.r0=1.909
+          this.postBody.r40=5.592
+        } // END: if Red Maple
 
-        var parsedobj = JSON.parse(JSON.stringify(this.resultJson))
-
-        let newStr = this.getJson.replace(/=/g, "\":")
-        let newStr2 = newStr.replace(/&/g, ",\"")
-        let newStr3 = newStr2.split(",")
-        let VarName = ""
-        let Values = []
-        let Result = {}
-        for(let iter = 0; iter < newStr3.length; iter++)
+        else if(defaultType == "Loblolly Pine")  // Loblolly Pine button
         {
-          let item = newStr3[iter]
-          let index_array = item.split(":")
-          let varName = index_array[0].substring(1, index_array[0].length-1)
-          let value = parseFloat(index_array[1])
-          if (varName != VarName)
-          {
-            Result[VarName] = Values
-            Values = []
-            VarName = varName
+          this.postBody.hmax=42
+          this.postBody.phih=220
+          this.postBody.eta=0.71
+          this.postBody.swmax=0.06
+          this.postBody.lamda=0.95
+          this.postBody.rhomax=380000
+          this.postBody.f2=2100
+          this.postBody.f1=4
+          this.postBody.gammac=265000
+          this.postBody.gammaw=6.67e-7
+          this.postBody.gammax=0.62
+          this.postBody.cgl=1.51
+          this.postBody.cgr=1.3
+          this.postBody.cgw=1.47
+          this.postBody.deltal=0.11
+          this.postBody.deltar=0.08
+          this.postBody.sl=0.33
+          this.postBody.sla=0.00602
+          this.postBody.sr=0.5
+          this.postBody.so=0.05
+          this.postBody.rr=0.00027
+          this.postBody.rhor=200000
+          this.postBody.rml=1.9
+          this.postBody.rms=0.05
+          this.postBody.rmr=1.5
+          this.postBody.etaB=0.045
+          this.postBody.k=0.55
+          this.postBody.epsg=4.5
+          this.postBody.m=0.95
+          this.postBody.alpha=0.308
+          this.postBody.r0=1.434
+          this.postBody.r40=3.873
+        } // END: if Loblolly Pine
+      }, // END: set_default()
+
+      postData() {
+        console.log("Posting inputs..")
+        axios.post('https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user', {
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': 'AZIzU9ni0x5vG6Rsub9qLaDxH6z26Zrz9bwvteiW',
+            'Access-Control-Allow-Origin': '*'
+          },
+          body: this.postBody
+        })
+        .then(response => {
+          this.runID = response.headers['x-run-id'],
+          //console.log("from post -- runID: ", this.runID)
+          console.log("Posted inputs!")
+
+          //document.getElementById("timeStepSlider").setAttribute("max", this.postBody.t) // Sets max value for timestep slider.
+          this.getData() // Call getData() to start looking for model outputs.
+        })
+      }, // END: postData()
+
+      getData() {
+        axios.get('https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user', {
+          headers: {
+            'Content-Type': 'application/json',
+            'x-run-id': this.runID
           }
-          Values.push(value)
+        })
+        .then((response) => {
+
+          //console.log("runID:", this.runID)
+          this.getJson = response.data
+
+          //console.log("json:", this.getJson)
+
+          // If the JSON is not found quit out and try again in 2 seconds.
+          if(this.getJson == "Not Found")
+          {
+            console.log("Polling for output data..")
+            // Shows loading dots to let the user know that the program is running.
+            var runButton = document.getElementById("runButton")
+            setTimeout(function() {runButton.style.fontSize = "30px"; runButton.innerHTML = "." }, 500)
+            setTimeout(function() {runButton.innerHTML = ". ."}, 1000)
+            setTimeout(function() {runButton.innerHTML = ". . ."}, 1500)
+            setTimeout(this.getData, 2000)
+            return
+          }
+
+          var parsedobj = JSON.parse(JSON.stringify(this.resultJson))
+
+          let newStr = this.getJson.replace(/=/g, "\":")
+          let newStr2 = newStr.replace(/&/g, ",\"")
+          let newStr3 = newStr2.split(",")
+          let VarName = ""
+          let Values = []
+          let Result = {}
+          for(let iter = 0; iter < newStr3.length; iter++)
+          {
+            let item = newStr3[iter]
+            let index_array = item.split(":")
+            let varName = index_array[0].substring(1, index_array[0].length-1)
+            let value = parseFloat(index_array[1])
+            if (varName != VarName)
+            {
+              Result[VarName] = Values
+              Values = []
+              VarName = varName
+            }
+            Values.push(value)
+          }
+
+          this.resultJson = Result
+          // let newStr3 = "{\"" + newStr2 + "}"
+          // this.resultJson = JSON.parse(newStr3)
+          console.log("Output data retrieved!")
+          console.log("ResultJson: \n", this.resultJson)
+
+          document.getElementById("runButton").innerHTML = "RUN"
+
+          //this.afterGet() // Sets up some stuff for the visualization now that the output data has been retrieved.
+          this.$emit('resultJsonToParent', this.resultJson) // Sends the result json to acgca.vue to be used in outputContainer.
+          this.$emit('postBodyToParent', this.postBody) // Sends the postBody to acgca.vue to be used in outputContainer.
+        },
+            (error) => { console.log(error.request)}
+        )
+      }, // END: getData()
+
+      checkForNull(){
+        var temporaryIsDisable=false
+
+        //start checking null
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.hmax==="");
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.phih==="");
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.eta==="");
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.swmax==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.lamda==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.rhomax==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.f2==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.f1==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.gammac==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.gammaw==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.gammax==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.cgl==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.cgr==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.cgw==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.deltal==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.deltar==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.sl==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.sla==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.so==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.sr==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.rr==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.rhor==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.rml==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.rms==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.rmr==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.etaB==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.k==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.epsg==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.m==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.alpha==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.r0==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.r40==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.radius==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.io==="") ;
+        temporaryIsDisable=temporaryIsDisable || (this.postBody.t==="") ;
+        this.isDisable=temporaryIsDisable;
+
+        if(this.isDisable){
+           this.errorMessage="ERROR: Please fill out all of the fields";
+        }
+        else{
+          this.errorMessage=""
         }
 
-        this.resultJson = Result
-        // let newStr3 = "{\"" + newStr2 + "}"
-        // this.resultJson = JSON.parse(newStr3)
-        console.log("Output data retrieved!")
-        console.log("ResultJson: \n", this.resultJson)
+      }, // END: checkForNull()
 
-        //this.afterGet() // Sets up some stuff for the visualization now that the output data has been retrieved.
-      },
-          (error) => { console.log(error.request)}
-      )
-    }, // END: getData()
+      hardLimit(){
+        if (this.postBody.phih < 0) this.postBody.phih= 0;
 
-    checkForNull(){
-      var temporaryIsDisable=false
+        if (this.postBody.eta < 0) this.postBody.eta = 0;
+        if (this.postBody.eta > 1) this.postBody.eta= 1;
 
-      //start checking null
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.hmax==="");
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.phih==="");
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.eta==="");
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.swmax==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.lamda==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.rhomax==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.f2==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.f1==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.gammac==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.gammaw==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.gammax==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.cgl==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.cgr==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.cgw==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.deltal==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.deltar==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.sl==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.sla==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.so==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.sr==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.rr==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.rhor==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.rml==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.rms==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.rmr==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.etaB==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.k==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.epsg==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.m==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.alpha==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.r0==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.r40==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.radius==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.io==="") ;
-      temporaryIsDisable=temporaryIsDisable || (this.postBody.t==="") ;
-      this.isDisable=temporaryIsDisable;
+        if (this.postBody.lamda < 0) this.postBody.lamda = 0;
+        if (this.postBody.lamda > 1) this.postBody.lamda= 1;
 
-      if(this.isDisable){
-         this.errorMessage="ERROR: Please fill out all of the fields";
-      }
-      else{
-        this.errorMessage=""
-      }
+        if (this.postBody.f2 < 0) this.postBody.f2 = 0;
 
-    }, // END: checkForNull()
+        if (this.postBody.f1 < 0) this.postBody.f1 = 0;
 
-    hardLimit(){
-      if (this.postBody.phih < 0) this.postBody.phih= 0;
+        if (this.postBody.gammax < 0) this.postBody.gammax = 0;
+        if (this.postBody.gammax > 1) this.postBody.gammax= 1;
 
-      if (this.postBody.eta < 0) this.postBody.eta = 0;
-      if (this.postBody.eta > 1) this.postBody.eta= 1;
+        if (this.postBody.etaB < 0) this.postBody.etaB = 0;
+        if(this.postBody.eta!=""){
+        if (this.postBody.etaB > eta) this.postBody.etaB= eta;
+        }
 
-      if (this.postBody.lamda < 0) this.postBody.lamda = 0;
-      if (this.postBody.lamda > 1) this.postBody.lamda= 1;
+        if (this.postBody.m < 0) this.postBody.m = 0;
+        if (this.postBody.m > 1) this.postBody.m= 1;
 
-      if (this.postBody.f2 < 0) this.postBody.f2 = 0;
+        if (this.postBody.alpha < 0) this.postBody.alpha = 0;
 
-      if (this.postBody.f1 < 0) this.postBody.f1 = 0;
+        if (this.postBody.r0 < 0) this.postBody.r0 = 0;
 
-      if (this.postBody.gammax < 0) this.postBody.gammax = 0;
-      if (this.postBody.gammax > 1) this.postBody.gammax= 1;
+        if(this.postBody.r0!=""){
+        if (this.postBody.r40 < r0) this.postBody.r40 = r0;
+        }
 
-      if (this.postBody.etaB < 0) this.postBody.etaB = 0;
-      if(this.postBody.eta!=""){
-      if (this.postBody.etaB > eta) this.postBody.etaB= eta;
-      }
+        //Group A end
 
-      if (this.postBody.m < 0) this.postBody.m = 0;
-      if (this.postBody.m > 1) this.postBody.m= 1;
+        if (this.postBody.hmax < 0) this.postBody.hmax= 0;
+        if (this.postBody.hmax> 127) this.postBody.hmax= 127;
 
-      if (this.postBody.alpha < 0) this.postBody.alpha = 0;
+        if (this.postBody.swmax < 0) this.postBody.swmax= 0;
 
-      if (this.postBody.r0 < 0) this.postBody.r0 = 0;
+        if (this.postBody.rr < 0) this.postBody.rr= 0;
 
-      if(this.postBody.r0!=""){
-      if (this.postBody.r40 < r0) this.postBody.r40 = r0;
-      }
+        //Group B end
 
-      //Group A end
+        if (this.postBody.rhomax < 0) this.postBody.rhomax= 0;
 
-      if (this.postBody.hmax < 0) this.postBody.hmax= 0;
-      if (this.postBody.hmax> 127) this.postBody.hmax= 127;
+        if (this.postBody.gammaw < 0) this.postBody.gammaw= 0;
 
-      if (this.postBody.swmax < 0) this.postBody.swmax= 0;
+        if (this.postBody.sla < 0) this.postBody.sla= 0;
 
-      if (this.postBody.rr < 0) this.postBody.rr= 0;
+        //Group C end
 
-      //Group B end
+        if (this.postBody.gammac < 0) this.postBody.gammac= 0;
 
-      if (this.postBody.rhomax < 0) this.postBody.rhomax= 0;
+        if (this.postBody.cgl < 0) this.postBody.cgl= 0;
 
-      if (this.postBody.gammaw < 0) this.postBody.gammaw= 0;
+        if (this.postBody.cgr < 0) this.postBody.cgr= 0;
 
-      if (this.postBody.sla < 0) this.postBody.sla= 0;
+        if (this.postBody.cgw < 0) this.postBody.cgw= 0;
 
-      //Group C end
+        if (this.postBody.deltal < 0) this.postBody.deltal= 0;
 
-      if (this.postBody.gammac < 0) this.postBody.gammac= 0;
+        if (this.postBody.deltar < 0) this.postBody.deltar= 0;
 
-      if (this.postBody.cgl < 0) this.postBody.cgl= 0;
+        if (this.postBody.rhor < 0) this.postBody.rhor= 0;
 
-      if (this.postBody.cgr < 0) this.postBody.cgr= 0;
+        if (this.postBody.rml < 0) this.postBody.rml= 0;
 
-      if (this.postBody.cgw < 0) this.postBody.cgw= 0;
+        if (this.postBody.rms < 0) this.postBody.rms= 0;
 
-      if (this.postBody.deltal < 0) this.postBody.deltal= 0;
+        if (this.postBody.rmr < 0) this.postBody.rmr= 0;
 
-      if (this.postBody.deltar < 0) this.postBody.deltar= 0;
+        if (this.postBody.k < 0) this.postBody.k= 0;
 
-      if (this.postBody.rhor < 0) this.postBody.rhor= 0;
+        if (this.postBody.epsg < 0) this.postBody.epsg= 0;
+        if (this.postBody.epsg> 15.73) this.postBody.epsg= 15.73;
 
-      if (this.postBody.rml < 0) this.postBody.rml= 0;
+        //Group D end
 
-      if (this.postBody.rms < 0) this.postBody.rms= 0;
+        if (this.postBody.sl < 0) this.postBody.sl= 0;
 
-      if (this.postBody.rmr < 0) this.postBody.rmr= 0;
+        if (this.postBody.sr < 0) this.postBody.sr= 0;
 
-      if (this.postBody.k < 0) this.postBody.k= 0;
+        if (this.postBody.so < 0) this.postBody.so= 0;
 
-      if (this.postBody.epsg < 0) this.postBody.epsg= 0;
-      if (this.postBody.epsg> 15.73) this.postBody.epsg= 15.73;
+        if (this.postBody.radius < 0) this.postBody.gammac= 0;
 
-      //Group D end
+        if (this.postBody.io < 0) this.postBody.io = 0;
+        if (this.postBody.io > 2060) this.postBody.io= 2060;
 
-      if (this.postBody.sl < 0) this.postBody.sl= 0;
+        if (this.postBody.t < 0) this.postBody.cgr= 0;
 
-      if (this.postBody.sr < 0) this.postBody.sr= 0;
-
-      if (this.postBody.so < 0) this.postBody.so= 0;
-
-      if (this.postBody.radius < 0) this.postBody.gammac= 0;
-
-      if (this.postBody.io < 0) this.postBody.io = 0;
-      if (this.postBody.io > 2060) this.postBody.io= 2060;
-
-      if (this.postBody.t < 0) this.postBody.cgr= 0;
-
-      //Group E end
+        //Group E end
 
 
-    }, // END: hardLimit()
+      }, // END: hardLimit()
 
-    isDisabled() {
-      this.checkForNull();
-      this.hardLimit();
-      return this.isDisable;
-    }, // END: isDisabled()
-  } // END: methods
-} // END: export default
+      isDisabled() {
+        this.checkForNull();
+        this.hardLimit();
+        return this.isDisable;
+      }, // END: isDisabled()
+    }, // END: methods
+
+    mounted() {
+      this.initializeWebpage()
+    } // END: mounted
+  } // END: export default
 </script>
 
 <style>
@@ -762,6 +795,7 @@ export default {
 
   .inputContainer {
     display: inline-block;
+    float:left;
     padding: 20px 10px 20px 10px;
     margin: auto;
     border: none;
