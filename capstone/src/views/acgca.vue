@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="acgca">
     <instructionsContainer></instructionsContainer>
 
 
@@ -53,6 +53,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
 
 </style>

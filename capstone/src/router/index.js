@@ -17,7 +17,7 @@ const routes = [
     name: 'Survey',
     component: Survey,
     meta: {
-      requiresAuth: true
+      requiresAuth: false
     }
   },
   {

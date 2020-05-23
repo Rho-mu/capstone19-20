@@ -37,11 +37,15 @@
 </script>
 
 <style scoped>
+  .login {
+    margin-top: 160px;
+  }
   input {
     margin: 10px 0;
     width: 20%;
     padding: 15px;
   }
+
   button {
     margin-top: 10px;
     background-color: #44c767;
@@ -59,10 +63,6 @@
     color: black;
   }
 
-  button:hover {
-    background-color: #EEE;
-    color: black;
-  }
   p {
     font-size: 12px;
   }

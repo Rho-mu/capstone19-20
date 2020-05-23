@@ -1,16 +1,16 @@
 <template>
-  <div id="app">
+  <div class="survey">
     <form @submit="submitName">
       <div>
         <img src="../assets/Logo-Black.png"><br>
-        <p>Please Fill out the Survey</p>
+        <h4>Please Fill out the Survey</h4>
         <input type="text" v-model="newUser.first_Name" placeholder="First Name" required><br>
 
         <input type="text" v-model="newUser.last_Name" placeholder="Last Name" required><br>
 
         <input type="text" v-model="newUser.occupation" placeholder="Affiliation (e.g., Tempe State University, Taylor High School)"required><br>
 
-        <input type="text" v-model="newUser.locale" placeholder="City, State, Country"required><br>
+        <input type="text" v-model="newUser.locale" placeholder="City, State, Country"required><br><br>
 
         <label for="roles">Choose an Affiliation Role:</label><br>
         <select v-model="newUser.role" class="roles" required>
@@ -70,55 +70,43 @@ export default {
 </script>
 
 <style scoped>
-
-
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
-
-button {
-  margin-top: 20px;
-  width: 10%;
-  cursor: pointer;
-}
-input {
-  margin: 10px 0;
-  width: 25%;
-  padding: 15px;
-}
-
-
-@-webkit-keyframes fadeIn {
-  0% {
-    opacity:0;
-    transform: scale(0.6);
+  .survey {
+    margin-top: 80px;
   }
 
-  100% {
-    opacity:100%;
-    transform: scale(1);
+  ul {
+    list-style-type: none;
+    padding: 0;
   }
-}
 
-@keyframes fadeIn {
-  0% { opacity:0; }
-  100% { opacity:100%; }
-}
-.roles {
-  width: 22%;
-}
+  li {
+    display: inline-block;
+    margin: 0 10px;
+  }
+
+  button {
+    margin-top: 10px;
+    background-color: #44c767;
+    border-radius: 20px;
+    border: 1px solid #18ab29;
+    padding: 10px 30px;
+    color:#ffffff;
+    font-family:Arial;
+    font-size: 13px;
+    display: inline-block;
+  }
+
+  button:hover {
+    background-color: #EEE;
+    color: black;
+  }
+  input {
+    margin: 10px 0;
+    width: 25%;
+    padding: 15px;
+  }
+
+  .roles {
+    width: 22%;
+  }
 </style>

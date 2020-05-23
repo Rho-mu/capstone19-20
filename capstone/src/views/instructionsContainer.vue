@@ -2,11 +2,11 @@
   <div>
     <div class="instructionsContainer">
       <div class="instructionsButtons">
-        <h2>
+        <h3>
           Instructions!
           <button id="hideInstructionsButton" @click="showHideInstructions('hide')">HIDE</button>
           <button id="showInstructionsButton" @click="showHideInstructions('show')" style="display: none;">SHOW</button>
-        </h2>
+        </h3>
       </div>
 
       <div id="instructionsText">
@@ -14,7 +14,7 @@
         <p>2. Once the input fields are are filled, press the "RUN" button to run the ACGCA model.</p>
         <p>3. Wait for the ACGCA model to finish running. When the output data has been retrieved, use the output box to see your simulated tree.</p>
         <br>
-        <h3>Output Tools</h3>
+        <h4>Output Tools</h4>
         <p><b>Rings:</b> Shows the tree rings at each year.</p>
         <p><b>Tree:</b> Shows the tree at each year.
         <p><b>Cone:</b> Changes the tree crown to a cone.</P>
@@ -28,13 +28,7 @@
 
 <script>
 export default {
-  name: 'instructionsContainer',
-
-  data() {
-    return {
-
-    } // END: return
-  }, // END: data()
+  name: 'instructionsContainer', 
 
   methods: {
     showHideInstructions(type) {
@@ -59,10 +53,9 @@ export default {
 <style>
   .instructionsContainer {
     display: block;
-    width: 97%;
-    margin: auto;
+    width: 98%;
     margin-bottom: 5px;
-    padding: 1.5%;
+    padding: 1%;
     float: left;
     background-color: #b9b9b9;
     border-radius: 10px;
@@ -72,20 +65,20 @@ export default {
     /*background-image: url("../assets/minimalist-forest.jpg");*/
   }
 
-  .instructionsContainer button{
+  button {
+    margin-top: 10px;
+    background-color: #44c767;
+    border-radius: 20px;
+    border: 1px solid #18ab29;
+    padding: 10px 20px;
+    color:#ffffff;
+    font-family:Arial;
+    font-size: 11px;
     display: inline-block;
-    width: 70px;
-    height: 35px;
-    padding: 10px 10px;
-    border: none;
-    border-radius: 15px;
-    cursor: pointer;
-    font-size: 14px;
-    color: green;
-    background-color: #FFF;
   }
 
-  .instructionsContainer button:hover {
+  button:hover {
     background-color: #EEE;
+    color: black;
   }
 </style>

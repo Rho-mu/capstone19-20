@@ -10,7 +10,7 @@
           <br><br>
           <button @click="setDefault('Loblolly Pine')">Loblolly Pine</button>
           <br><br>
-        </div><br>
+        </div>
 
       <button class="collapsible">Allometries and biomass partitioning</button>
         <div class="content">
@@ -159,7 +159,7 @@
             </p></span><br>
           <div class="paddingForHelptip"></div>
           <br><br>
-        </div><br>
+        </div>
 
       <button class="collapsible">Tree and organ size traits</button>
         <div class="content">
@@ -204,7 +204,7 @@
             </p></span><br>
           <div class="paddingForHelptip"></div>
           <br><br>
-        </div><br>
+        </div>
 
       <button class="collapsible">Structural traits</button>
         <div class="content">
@@ -249,7 +249,7 @@
             </p></span><br>
           <div class="paddingForHelptip"></div>
           <br>
-        </div><br>
+        </div>
 
       <button class="collapsible">Turn-over and senescence traits</button>
         <div class="content">
@@ -296,10 +296,10 @@
           <br><br><br>
         </div><br>
 
-      <div id="sliderdiv" class="slidecontainer">
-        <div class="initRadius">
-          <label for="initialRadius"> Initial radius (m): </label><br>
-              <input id="initialRadius" type="text" v-model="postBody.radius" placeholder="radius > 0" min="0" >
+      <div class="slidecontainer">
+        <div>
+          <label> Initial radius (m): </label><br>
+              <input class="initialradius" type="text" v-model="postBody.radius" placeholder="radius > 0" min="0" >
               <span class="help-tip">
                 <p>
                   &nbspInformation Box<br>
@@ -310,12 +310,12 @@
                   <span class="separator"></span>
                   Constraint: (0,+&#8734)
               </p></span>
-        </div><br><br>
+        </div><br>
 
         <div class="lightSlider">
           <label> Light Level: {{ (postBody.io / 20.6).toFixed(0)}}%</label>
           <p>0 <input type="range" class="inputSlider"  min="0" max="2060" v-model="postBody.io"> 100%</p><!--@input="draw()" Used for testing, but don't have it connected yet.-->
-        </div><br>
+        </div>
 
         <div class="timeSlider">
           <label for="t">Total Time: {{postBody.t}} </label>
@@ -326,8 +326,7 @@
       <div id="error-message"><br>
           {{this.errorMessage}}
       </div>
-      <br>
-      <button class="runButton" id="runButton" :disabled='isDisabled()' @click="postData()" name="button">RUN</button>
+      <button class="runButton" id="runButton" :disabled='isDisabled()' @click="postData()">RUN</button>
       <br>
     </div>
   </div>
@@ -804,11 +803,12 @@
     color:black;
     width:17%;
     background-color: #b9b9b9;
-    /*background-image: linear-gradient(lightblue, lightgreen);*/
+    /* background-image: linear-gradient(lightblue, lightgreen); */
   }
 
   /* Buttons */
   .inputContainer button {
+    color: black;
     display: inline-block;
     height: 40px;
     padding: 10px 10px;
@@ -826,21 +826,27 @@
   /* END: Buttons */
 
   .slidecontainer {
-    text-align: left !important;
+    text-align: left;
+  }
+
+  .initialradius {
+    width: 80%;
   }
 
   /* Run Button */
   .runButton {
-    width: 40% !important;
-    height: 50px !important;
-    font-size: 22px !important;
-    font-weight: bold;
-    color: black;
-    background-color: #087a00 !important;
+    background-color: #44c767 !important;
+    border-radius: 20px;
+    border: 1px solid #18ab29;
+    padding: 10px 30px;
+    color:#ffffff !important;
+    font-family:Arial;
+    font-size: 13px;
+    display: inline-block;
   }
 
   .runButton:hover {
-    background-color: #56bd4f !important;
+    background-color: #EEE !important;
   }
 
   .runButton:disabled {
@@ -856,7 +862,8 @@
 
   /* Collapsible Menus */
   .collapsible {
-    color: black !important;
+
+    color: black;
     border: none;
     text-align: left;
   }
@@ -881,6 +888,23 @@
     border-radius: 15px;
   }
 
+  .content button {
+    margin-top: 10px;
+    background-color: #44c767;
+    border-radius: 20px;
+    border: 1px solid #18ab29;
+    padding: 10px 30px;
+    color:#ffffff;
+    font-family:Arial;
+    font-size: 13px;
+    display: inline-block;
+  }
+
+  .content button:hover {
+    background-color: #EEE;
+    color: black;
+  }
+
   input[type=text] {
     border-radius:5px;
     padding-left: 5px;
@@ -890,7 +914,7 @@
   /* Sliders for light level and time */
   .inputSlider {
     -webkit-appearance: none;
-    width: 70%;
+    width: 075%;
     height: 15px;
     border-radius: 5px;
     background: #d3d3d3;
@@ -917,7 +941,7 @@
   .inputSlider::-moz-range-thumb {
     width: 25px;
     height: 25px;
-    background: #4CAF50;
+    background: #44c767;
     cursor: pointer;
     border-radius: 50%;
   }
@@ -928,7 +952,7 @@
     position: relative;
     display: inline-block;
     text-align: center;
-    background-color: #BCDBEA;
+    background-color: #44c767;
     border-radius: 50%;
     width: 24px;
     height: 24px;
@@ -978,7 +1002,7 @@
   }
 
   .separator {
-      border-top: 3px solid #333;
+      border-top: 1px solid #333;
       border-radius:1px;
       width: 100%;
       height: 3px;
@@ -1008,6 +1032,7 @@
 
   .collapsible button {
     font-size: 10px;
+    color: black;
   }
 
   .lightSlider p {

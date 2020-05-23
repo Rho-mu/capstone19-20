@@ -7,8 +7,8 @@
     </div>
     <div id="center">
       <h1 class="title">ACGCA Model</h1>
-      <br>
-      <h2>Brief overview of the ACGCA model</h2>
+
+      <h3>Brief overview of the ACGCA model</h3>
       <p>
       The Allometrically Constrained Growth and Carbon Allocation (ACGCA) model is an individual-based model of tree growth and mortality.
       The ACGCA model makes use of plant functional traits and allometric relationships between different tissue types or organs (i.e. leaves, roots, and stems)
@@ -162,10 +162,11 @@ export default {
 }
 
 .testButton {
+  margin-top: 10px;
   background-color: #44c767;
   border-radius: 20px;
   border: 1px solid #18ab29;
-  padding: 15px 30px;
+  padding: 10px 30px;
   color:#ffffff;
   font-family:Arial;
   font-size: 13px;
@@ -176,6 +177,7 @@ export default {
   background-color: #EEE;
   color: black;
 }
+
 .return button:hover {
   background-color: #EEE;
   color: black;

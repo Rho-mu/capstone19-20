@@ -36,14 +36,16 @@ export default {
 </script>
 
 <style scoped>
-  .signUp {
-    margin-top: 40px;
+  .sign-up {
+    margin-top: 160px;
   }
+
   input {
     margin: 10px 0;
     width: 20%;
     padding: 15px;
   }
+
   button {
     margin-top: 10px;
     background-color: #44c767;
@@ -61,10 +63,6 @@ export default {
     color: black;
   }
 
-  button:hover {
-    background-color: #EEE;
-    color: black;
-  }
   span {
     display: block;
     margin-top: 20px;
