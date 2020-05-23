@@ -28,7 +28,7 @@
 
 <script>
 export default {
-  name: 'instructionsContainer', 
+  name: 'instructionsContainer',
 
   methods: {
     showHideInstructions(type) {
@@ -51,6 +51,9 @@ export default {
 </script>
 
 <style>
+  h3 {
+    font-family: sans-serif;
+  }
   .instructionsContainer {
     display: block;
     width: 98%;
@@ -69,7 +72,7 @@ export default {
     margin-top: 10px;
     background-color: #44c767;
     border-radius: 20px;
-    border: 1px solid #18ab29;
+    border: none;
     padding: 10px 20px;
     color:#ffffff;
     font-family:Arial;

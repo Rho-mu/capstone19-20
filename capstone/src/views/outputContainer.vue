@@ -19,7 +19,6 @@
       <div class="treeCanvasport" id="treeCanvasport"></div>
       <div class="rawDataList" id="rawDataList">
         <br>
-        <label>Year: {{ this.dataIndex }}                               </label><br>
         <label>APARout: {{ this.resultJson.APARout[this.dataIndex] }}   </label><br>
         <label>h: {{ this.resultJson.h[this.dataIndex] }}               </label><br>
         <label>hh2: {{ this.resultJson.hh2[this.dataIndex] }}           </label><br>
@@ -64,13 +63,13 @@
         <label>nut2: {{ this.resultJson.nut2[this.dataIndex] }}         </label><br>
         <label>deltas2: {{ this.resultJson.deltas2[this.dataIndex] }}   </label><br>
         <label>LAI2: {{ this.resultJson.LAI2[this.dataIndex] }}         </label><br>
-        <label>status2: {{ this.resultJson.status2[this.dataIndex] }}   </label><br>
+        <!-- <label>status2: {{ this.resultJson.status2[this.dataIndex] }}   </label><br> -->
         <!--<label>errorind: {{ this.resultJson.errorind[this.dataIndex] }}   </label><br>-->
         <!--<label>growth_st: {{ this.resultJson.growth_st[this.dataIndex] }} </label><br>-->
         <br>
         <div>
-          <download-csv :data="this.array" name = "treeData.csv">
-            <button class="button" @click="downloadRawData()">Download</button>
+          <download-csv class="downloadbutton" :data="this.array" name = "treeData.csv">
+            <button @click="downloadRawData()">Download</button>
           </download-csv>
         </div>
       </div>
@@ -563,24 +562,25 @@
     border-radius: 10px;
     float: right;
     position: relative;
-    /*background-image: linear-gradient(lightblue, lightgreen);*/
+    /* background-image: linear-gradient(lightblue, lightgreen); */
   }
 
   .outputContainer button {
-    display: inline-block;
-    width: 80px;
-    height: 40px;
-    padding: 10px 10px;
+    margin-top: 5px;
+    background-color: #44c767;
+    border-radius: 20px;
     border: none;
-    border-radius: 15px;
-    cursor: pointer;
-    font-size: 16px;
-    color: green;
-    background-color: #FFF;
+    padding: 10px 35px;
+    color:#ffffff;
+    font-family:Arial;
+    font-size: 18px;
+    display: inline-block;
+    font-size: 12px;
   }
 
   .outputContainer button:hover {
     background-color: #EEE;
+    color: black;
   }
 
   .timeStepSlider {
@@ -599,7 +599,7 @@
     opacity: 1;
   }
 
-  .timeStepSlider::-webkit-slider-thumb {
+  /* .timeStepSlider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 25px;
@@ -607,7 +607,7 @@
     background: #4CAF50;
     cursor: pointer;
     border-radius: 50%;
-  }
+  } */
 
   .timeStepSlider::-moz-range-thumb {
     width: 25px;
@@ -622,12 +622,4 @@
     text-align: center;
   }
 
-  .crownShapeContainer button {
-    margin-top: 5px;
-    font-size: 13px;
-  }
-
-  .setSceneContainer button {
-    font-size: 13px;
-  }
 </style>

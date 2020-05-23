@@ -299,7 +299,7 @@
       <div class="slidecontainer">
         <div>
           <label> Initial radius (m): </label><br>
-              <input class="initialradius" type="text" v-model="postBody.radius" placeholder="radius > 0" min="0" >
+              <input type="text" v-model="postBody.radius" placeholder="radius > 0" min="0" >
               <span class="help-tip">
                 <p>
                   &nbspInformation Box<br>
@@ -579,7 +579,7 @@
             console.log("Polling for output data..")
             // Shows loading dots to let the user know that the program is running.
             var runButton = document.getElementById("runButton")
-            setTimeout(function() {runButton.style.fontSize = "30px"; runButton.innerHTML = "." }, 500)
+            setTimeout(function() {runButton.innerHTML = "." }, 500)
             setTimeout(function() {runButton.innerHTML = ". ."}, 1000)
             setTimeout(function() {runButton.innerHTML = ". . ."}, 1500)
             setTimeout(this.getData, 2000)
@@ -790,6 +790,7 @@
     display: inline-block;
     font-size: 20px;
     padding-bottom: 10px;
+    font-weight: bold;
   }
 
   .inputContainer {
@@ -829,24 +830,24 @@
     text-align: left;
   }
 
-  .initialradius {
-    width: 80%;
+  .slidecontainer input {
+    width: 78%;
+    height: 15px;
+    border-radius: 10px;
+    border-width: thin;
+
   }
 
   /* Run Button */
   .runButton {
     background-color: #44c767 !important;
-    border-radius: 20px;
-    border: 1px solid #18ab29;
     padding: 10px 30px;
     color:#ffffff !important;
-    font-family:Arial;
-    font-size: 13px;
-    display: inline-block;
   }
 
   .runButton:hover {
     background-color: #EEE !important;
+    color: black !important;
   }
 
   .runButton:disabled {
@@ -862,7 +863,6 @@
 
   /* Collapsible Menus */
   .collapsible {
-
     color: black;
     border: none;
     text-align: left;
@@ -892,7 +892,7 @@
     margin-top: 10px;
     background-color: #44c767;
     border-radius: 20px;
-    border: 1px solid #18ab29;
+    border: none;
     padding: 10px 30px;
     color:#ffffff;
     font-family:Arial;
@@ -915,7 +915,7 @@
   .inputSlider {
     -webkit-appearance: none;
     width: 075%;
-    height: 15px;
+    height: 10px;
     border-radius: 5px;
     background: #d3d3d3;
     outline: none;
@@ -926,16 +926,6 @@
 
   .inputSlider:hover {
     opacity: 1;
-  }
-
-  .inputSlider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width:45px;
-    height:45px;
-    background: url('../assets/Logo-Black.png');
-    cursor: pointer;
-    border-radius: 50%;
   }
 
   .inputSlider::-moz-range-thumb {

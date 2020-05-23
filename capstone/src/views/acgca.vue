@@ -9,10 +9,10 @@
     </inputContainer>
 
 
-    <!--<outputContainer
+    <outputContainer
       :resultJson="resultJson"
       :postBody="postBody">
-    </outputContainer>-->
+    </outputContainer>
   </div>
 </template>
 

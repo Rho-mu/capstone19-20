@@ -88,7 +88,7 @@ export default {
     margin-top: 10px;
     background-color: #44c767;
     border-radius: 20px;
-    border: 1px solid #18ab29;
+    border: none;
     padding: 10px 30px;
     color:#ffffff;
     font-family:Arial;
@@ -104,6 +104,8 @@ export default {
     margin: 10px 0;
     width: 25%;
     padding: 15px;
+    border-radius: 10px;
+    border-width: thin;
   }
 
   .roles {

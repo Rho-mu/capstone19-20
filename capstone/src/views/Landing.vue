@@ -1,12 +1,11 @@
 <template>
-  <div id="hello">
+  <div class="hello">
 
     <br>
-    <div id="content">
-      <img src="@/assets/logo.png" id="logo">
+    <div class="content">
+      <img src="@/assets/logo.png" class="logo">
     </div>
-    <div id="center">
-      <h1 class="title">ACGCA Model</h1>
+    <div class="center">
 
       <h3>Brief overview of the ACGCA model</h3>
       <p>
@@ -58,15 +57,15 @@
           via environmental filtering. Ecological Monographs, 88:372-384.
           </p>
       <br><br><br>
-      <p class="return">
-        <button class="testButton" @click="moveToLogin"id="returnButton">Returning?</button>
+      <p class="login">
+        <button class="testButton" @click="moveToLogin">Returning?</button>
       </p>
-      <p class="survey">
-        <button class="testButton" @click="moveToSignUp" id="surveyButton">New?</button>
+      <p class="signup">
+        <button class="testButton" @click="moveToSignUp">New?</button>
       </p>
     </div>
     <br>
-    <div id="topLeft">
+    <div class="topLeft">
       ACGCA Model
 
     </div>
@@ -95,7 +94,7 @@ export default {
 <style scoped>
 
 
-#hello {
+.hello {
   background-image: url('../assets/Background.png');
   min-height: 100%;
   min-width: 1024px;
@@ -111,17 +110,17 @@ export default {
   z-index: -1;
 }
 
-#center {
+.center {
   position: absolute;
   top: 50%;
   left: 50%;
   width: 80%;
   transform: translate(-50%, -50%);
-  font-size: 12px;
+  font-size: 13px;
   color: white;
-
 }
-.return {
+
+.login {
   position: absolute;
   top:100%;
   left: 15%;
@@ -129,7 +128,8 @@ export default {
   font-size: 18px;
   color: black;
 }
-.survey {
+
+.signup {
   position: absolute;
   top:100%;
   right: 5%;
@@ -138,22 +138,20 @@ export default {
   color: black;
 }
 
-#logo {
+.logo {
   top: 0;
   right: 20px;
   position: absolute;
-
-
   height: 80px;
   width: 80px;
 }
 
 
-#content {
+.content {
   position: relative;
 }
 
-#topLeft {
+.topLeft {
   position: absolute;
   top: 55px;
   left: 16px;
@@ -165,20 +163,17 @@ export default {
   margin-top: 10px;
   background-color: #44c767;
   border-radius: 20px;
-  border: 1px solid #18ab29;
+  border: none;
   padding: 10px 30px;
   color:#ffffff;
-  font-family:Arial;
-  font-size: 13px;
-  display: inline-block;
 }
 
-.survey button:hover {
+.signup button:hover {
   background-color: #EEE;
   color: black;
 }
 
-.return button:hover {
+.login button:hover {
   background-color: #EEE;
   color: black;
 }
