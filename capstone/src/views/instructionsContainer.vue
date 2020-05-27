@@ -2,11 +2,12 @@
   <div>
     <div class="instructionsContainer">
       <div class="instructionsButtons">
-        <h3>
-          Instructions!
-          <button id="hideInstructionsButton" @click="showHideInstructions('hide')">HIDE</button>
-          <button id="showInstructionsButton" @click="showHideInstructions('show')" style="display: none;">SHOW</button>
-        </h3>
+        <h1>
+          ACGCA Simulation and Visualization
+          <br>
+          <button id="hideInstructionsButton" @click="showHideInstructions('hide')">Hide</button>
+          <button id="showInstructionsButton" @click="showHideInstructions('show')" style="display: none;">Instructions +</button>
+        </h1>
       </div>
 
       <div id="instructionsText">
@@ -51,8 +52,9 @@ export default {
 </script>
 
 <style>
-  h3 {
-    font-family: sans-serif;
+  h1 {
+    font-family: Avant Garde,Avantgarde,Century Gothic,CenturyGothic,AppleGothic,sans-serif;
+    text-align: center;
   }
   .instructionsContainer {
     display: block;

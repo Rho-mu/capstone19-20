@@ -16,8 +16,7 @@
       <h5>Year: {{this.dataIndex}}</h5>
 
       <input type="range" min="1" v-model="dataIndex" @input="draw()" id="timeStepSlider" class="timeStepSlider"><br><br>
-      <div id="treeCanvasport" class="treeCanvasport" ></div>
-
+      <div id="treeCanvasport"></div>
       <div class="rawDataList" id="rawDataList">
         <br>
         <label>APARout: {{ this.resultJson.APARout[this.dataIndex] }}   </label><br>
@@ -392,6 +391,7 @@
         } // END: for i
       }, // END: drawRings()
 
+      // adding ambient light to the render
       addLight() {
         // Ambient light for all objects.
         // AmbientLight( color : Integer, intensity : Float )
@@ -406,6 +406,7 @@
         this.treeScene.add( pointLight )*/
       }, // END: addLight
 
+      // test code for adding photos to the threejs render
       addBox() {
         //var myTexture = new THREE.TextureLoader().load( '../json/bark.png' )
         var r = this.resultJson.r[this.dataIndex]      // Radius of trunk at base

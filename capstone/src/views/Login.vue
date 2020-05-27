@@ -5,7 +5,7 @@
     <input type="text" v-model="email" placeholder="Email"><br>
     <input type="password" v-model="password" placeholder="Password"><br>
     <button @click="login">Submit</button>
-    <p>You don't have an account? You can <router-link to="/sign-up">create one</router-link></p>
+    <span>You don't have an account? You can <router-link to="/sign-up">create one</router-link></span>
   </div>
 </template>
 
@@ -62,11 +62,9 @@
     color: black;
   }
 
-  p {
+  span {
+    margin-top: 10px;
+    display: block;
     font-size: 12px;
-  }
-  p a {
-    text-decoration: underline;
-    cursor: pointer;
   }
 </style>

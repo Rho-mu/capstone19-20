@@ -63,8 +63,8 @@ export default {
   }
 
   span {
+    margin-top: 10px;
     display: block;
-    margin-top: 20px;
     font-size: 12px;
   }
 </style>
