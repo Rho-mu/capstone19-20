@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="inputContainer">
-      <div class="containerTitle">Control Panel</div>
+      <div class="containerTitle">Inputs Specification</div>
 
-      <button class="collapsible">Default Values</button>
+      <button class="collapsible">Default values</button>
         <div class="content">
           <br>
-          <button @click="setDefault('Red Maple')">Red Maple</button>
+          <button @click="setDefault('Red Maple')">Red maple</button>
           <br><br>
-          <button @click="setDefault('Loblolly Pine')">Loblolly Pine</button>
+          <button @click="setDefault('Loblolly Pine')">Loblolly pine</button>
           <br><br>
         </div>
 
@@ -164,7 +164,7 @@
       <button class="collapsible">Tree and organ size traits</button>
         <div class="content">
           <br>
-          <label for="hmax"> Hmax:(m)</label><br>
+          <label for="hmax"> Hmax (m):</label><br>
           <input id="hmax" type="text" v-model="postBody.hmax" placeholder="0 < Hmax < 127" min="0" max="127">
           <span class="help-tip">
             <p>
@@ -177,7 +177,7 @@
               Constraint: (R0,127)
             </p></span><br>
 
-          <label for="swmax"> SWmax:(m)</label><br>
+          <label for="swmax"> SWmax (m):</label><br>
           <input id="swmax" type="text" v-model="postBody.swmax" placeholder="SWmax > 0" min="0"  >
           <span class="help-tip">
             <p>
@@ -190,7 +190,7 @@
               Constraint: (0,+&#8734)
             </p></span><br>
 
-          <label for="rr"> rr: (m)</label><br>
+          <label for="rr"> rr (m):</label><br>
           <input id="rr" type="text" v-model="postBody.rr" placeholder="rr > 0" min="0" >
           <span class="help-tip">
             <p>
@@ -209,7 +209,7 @@
       <button class="collapsible">Structural traits</button>
         <div class="content">
           <br>
-          <label for="rhomax"> WD: (g dw m-3)</label><br>
+          <label for="rhomax"> WD (g dw m-3):</label><br>
           <input id="rhomax" type="text" v-model="postBody.rhomax" placeholder="WD > 0" min="0">
           <span class="help-tip">
             <p>
@@ -222,7 +222,7 @@
               Constraint: (0,+&#8734)
             </p></span><br>
 
-          <label for="gammaw"> gammaW: (m3g dw-1)</label><br>
+          <label for="gammaw"> gammaW (m3g dw-1):</label><br>
           <input id="gammaw" type="text" v-model="postBody.gammaw" placeholder="gammaW">
           <span class="help-tip">
             <p>
@@ -235,7 +235,7 @@
               Constraint: none
             </p></span><br>
 
-          <label for="sla"> sla: (m2g dw-1)</label><br>
+          <label for="sla"> sla (m2g dw-1):</label><br>
           <input id="sla" type="text" v-model="postBody.sla" placeholder="sla > 0" min="0" >
           <span class="help-tip">
             <p>
@@ -254,7 +254,7 @@
       <button class="collapsible">Turn-over and senescence traits</button>
         <div class="content">
           <br>
-          <label for="sl"> sL: (year-1)</label><br>
+          <label for="sl"> sL (year-1):</label><br>
           <input id="sl" type="text" v-model="postBody.sl" placeholder="sL > 0" min="0" >
           <span class="help-tip">
             <p>
@@ -267,7 +267,7 @@
               Constraint: (0,+&#8734)
           </p></span><br>
 
-          <label for="sr"> sR: (year-1)</label><br>
+          <label for="sr"> sR (year-1):</label><br>
           <input id="sr" type="text" v-model="postBody.sr" placeholder="sR > 0" min="0">
           <span class="help-tip">
             <p>
@@ -280,7 +280,7 @@
               Constraint: (0,+&#8734)
           </p></span><br>
 
-          <label for="so"> sO: (year-1)</label><br>
+          <label for="so"> sO (year-1):</label><br>
           <input id="so" type="text" v-model="postBody.so" placeholder="sO > 0" min="0" >
           <span class="help-tip">
             <p>
@@ -313,12 +313,12 @@
         </div><br>
 
         <div class="lightSlider">
-          <label> Light Level: {{ (postBody.io / 20.6).toFixed(0)}}%</label>
+          <label> Light level: {{ (postBody.io / 20.6).toFixed(0)}}%</label>
           <p>0 <input type="range" class="inputSlider"  min="0" max="2060" v-model="postBody.io"> 100%</p><!--@input="draw()" Used for testing, but don't have it connected yet.-->
         </div>
 
         <div class="timeSlider">
-          <label for="t">Total Time: {{postBody.t}} </label>
+          <label for="t">Total time: {{postBody.t}} </label>
           <p>0 <input type="range" class="inputSlider" min="1" max="450" v-model="postBody.t"> 450</p>
         </div>
       </div>
@@ -789,8 +789,7 @@
     text-align: center;
     display: inline-block;
     font-size: 20px;
-    padding-bottom: 10px;
-    font-weight: bold;
+    padding-bottom: 10px;    
   }
 
   .inputContainer {

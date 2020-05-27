@@ -16,7 +16,7 @@
       <h5>Year: {{this.dataIndex}}</h5>
 
       <input type="range" min="1" v-model="dataIndex" @input="draw()" id="timeStepSlider" class="timeStepSlider"><br><br>
-      <div class="treeCanvasport" id="treeCanvasport"></div>
+      <div id="treeCanvasport"></div>
       <div class="rawDataList" id="rawDataList">
         <br>
         <label>APARout: {{ this.resultJson.APARout[this.dataIndex] }}   </label><br>
@@ -102,7 +102,7 @@
     methods: {
       initializeVisualization() {
         /////////////// Tree Scene ///////////////
-        this.treeCanvas = document.getElementById( "treeCanvasport" )
+        this.treeCanvas = document.querySelector('#treeCanvasport');
         console.log("treeCanvas:", this.treeCanvas)
 
         //console.log("outputCanvas:", this.outputContainer.innerWidth  , this.outputContainer.innerHeight  )
@@ -390,6 +390,7 @@
         } // END: for i
       }, // END: drawRings()
 
+      // adding ambient light to the render
       addLight() {
         // Ambient light for all objects.
         // AmbientLight( color : Integer, intensity : Float )
@@ -404,6 +405,7 @@
         this.treeScene.add( pointLight )*/
       }, // END: addLight
 
+      // test code for adding photos to the threejs render
       addBox() {
         //var myTexture = new THREE.TextureLoader().load( '../json/bark.png' )
         var r = this.resultJson.r[this.dataIndex]      // Radius of trunk at base
@@ -544,9 +546,12 @@
     }, // END: methods
 
     mounted() {
-      this.setTempDefaultResultJson()
-      this.initializeVisualization()
-      this.animate()
+      this.$nextTick(() => {
+        console.log(document.getElementById("treeCanvasport"))
+        this.setTempDefaultResultJson()
+        this.initializeVisualization()
+        this.animate()
+      })
     } // END: mounted
   } // END: export default
 </script>
