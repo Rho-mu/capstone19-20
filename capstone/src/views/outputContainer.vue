@@ -19,54 +19,56 @@
       <div id="treeCanvasport"></div>
       <div class="rawDataList" id="rawDataList">
         <br>
-        <label>APARout: {{ this.resultJson.APARout[this.dataIndex] }}   </label><br>
-        <label>h: {{ this.resultJson.h[this.dataIndex] }}               </label><br>
-        <label>hh2: {{ this.resultJson.hh2[this.dataIndex] }}           </label><br>
-        <label>hC2: {{ this.resultJson.hC2[this.dataIndex] }}           </label><br>
-        <label>hB2: {{ this.resultJson.hB2[this.dataIndex] }}           </label><br>
-        <label>hBH2: {{ this.resultJson.hBH2[this.dataIndex] }}         </label><br>
-        <label>r: {{ this.resultJson.r[this.dataIndex] }}               </label><br>
-        <label>rB2: {{ this.resultJson.rB2[this.dataIndex] }}           </label><br>
-        <label>rC2: {{ this.resultJson.rC2[this.dataIndex] }}           </label><br>
-        <label>rBH: {{ this.resultJson.rBH[this.dataIndex] }}           </label><br>
-        <label>sw2: {{ this.resultJson.sw2[this.dataIndex] }}           </label><br>
-        <label>vts2: {{ this.resultJson.vts2[this.dataIndex] }}         </label><br>
-        <label>vt2: {{ this.resultJson.vt2[this.dataIndex] }}           </label><br>
-        <label>vth2: {{ this.resultJson.vth2[this.dataIndex] }}         </label><br>
-        <label>sa2: {{ this.resultJson.sa2[this.dataIndex] }}           </label><br>
-        <label>la2: {{ this.resultJson.la2[this.dataIndex] }}           </label><br>
-        <label>ra2: {{ this.resultJson.ra2[this.dataIndex] }}           </label><br>
-        <label>dr2: {{ this.resultJson.dr2[this.dataIndex] }}           </label><br>
-        <label>xa2: {{ this.resultJson.xa2[this.dataIndex] }}           </label><br>
-        <label>bl2: {{ this.resultJson.bl2[this.dataIndex] }}           </label><br>
-        <label>br2: {{ this.resultJson.br2[this.dataIndex] }}           </label><br>
-        <label>bt2: {{ this.resultJson.bt2[this.dataIndex] }}           </label><br>
-        <label>bts2: {{ this.resultJson.bts2[this.dataIndex] }}         </label><br>
-        <label>bth2: {{ this.resultJson.bth2[this.dataIndex] }}         </label><br>
-        <label>boh2: {{ this.resultJson.boh2[this.dataIndex] }}         </label><br>
-        <label>bos2: {{ this.resultJson.bos2[this.dataIndex] }}         </label><br>
-        <label>bo2: {{ this.resultJson.bo2[this.dataIndex] }}           </label><br>
-        <label>bs2: {{ this.resultJson.bs2[this.dataIndex] }}           </label><br>
-        <!--<label>cs2: {{ this.resultJson.cs2[this.dataIndex] }}       </label><br>-->
-        <label>clr2: {{ this.resultJson.clr2[this.dataIndex] }}         </label><br>
-        <label>fl2: {{ this.resultJson.fl2[this.dataIndex] }}           </label><br>
-        <label>fr2: {{ this.resultJson.fr2[this.dataIndex] }}           </label><br>
-        <label>ft2: {{ this.resultJson.ft2[this.dataIndex] }}           </label><br>
-        <label>fo2: {{ this.resultJson.fo2[this.dataIndex] }}           </label><br>
-        <label>rfl2: {{ this.resultJson.rfl2[this.dataIndex] }}         </label><br>
-        <label>rfr2: {{ this.resultJson.rfr2[this.dataIndex] }}         </label><br>
-        <label>rfs2: {{ this.resultJson.rfs2[this.dataIndex] }}         </label><br>
-        <label>egrow2: {{ this.resultJson.egrow2[this.dataIndex] }}     </label><br>
-        <label>ex2: {{ this.resultJson.ex2[this.dataIndex] }}           </label><br>
-        <label>rtrans2: {{ this.resultJson.rtrans2[this.dataIndex] }}   </label><br>
-        <label>light2: {{ this.resultJson.light2[this.dataIndex] }}     </label><br>
-        <label>nut2: {{ this.resultJson.nut2[this.dataIndex] }}         </label><br>
-        <label>deltas2: {{ this.resultJson.deltas2[this.dataIndex] }}   </label><br>
-        <label>LAI2: {{ this.resultJson.LAI2[this.dataIndex] }}         </label><br>
-        <!-- <label>status2: {{ this.resultJson.status2[this.dataIndex] }}   </label><br> -->
-        <!--<label>errorind: {{ this.resultJson.errorind[this.dataIndex] }}   </label><br>-->
-        <!--<label>growth_st: {{ this.resultJson.growth_st[this.dataIndex] }} </label><br>-->
-        <br>
+        <div class="rawData">
+          <label>APARout: {{ this.resultJson.APARout[this.dataIndex] }}   </label><br>
+          <label>h: {{ this.resultJson.h[this.dataIndex] }}               </label><br>
+          <label>hh: {{ this.resultJson.hh2[this.dataIndex] }}           </label><br>
+          <label>hC: {{ this.resultJson.hC2[this.dataIndex] }}           </label><br>
+          <label>hB: {{ this.resultJson.hB2[this.dataIndex] }}           </label><br>
+          <label>hBH: {{ this.resultJson.hBH2[this.dataIndex] }}         </label><br>
+          <label>r: {{ this.resultJson.r[this.dataIndex] }}               </label><br>
+          <label>rB: {{ this.resultJson.rB2[this.dataIndex] }}           </label><br>
+          <label>rC: {{ this.resultJson.rC2[this.dataIndex] }}           </label><br>
+          <label>rBH: {{ this.resultJson.rBH[this.dataIndex] }}           </label><br>
+          <label>sw: {{ this.resultJson.sw2[this.dataIndex] }}           </label><br>
+          <label>vts: {{ this.resultJson.vts2[this.dataIndex] }}         </label><br>
+          <label>vt: {{ this.resultJson.vt2[this.dataIndex] }}           </label><br>
+          <label>vth: {{ this.resultJson.vth2[this.dataIndex] }}         </label><br>
+          <label>sa: {{ this.resultJson.sa2[this.dataIndex] }}           </label><br>
+          <label>la: {{ this.resultJson.la2[this.dataIndex] }}           </label><br>
+          <label>ra: {{ this.resultJson.ra2[this.dataIndex] }}           </label><br>
+          <label>dr: {{ this.resultJson.dr2[this.dataIndex] }}           </label><br>
+          <label>xa: {{ this.resultJson.xa2[this.dataIndex] }}           </label><br>
+          <label>bl: {{ this.resultJson.bl2[this.dataIndex] }}           </label><br>
+          <label>br: {{ this.resultJson.br2[this.dataIndex] }}           </label><br>
+          <label>bt: {{ this.resultJson.bt2[this.dataIndex] }}           </label><br>
+          <label>bts: {{ this.resultJson.bts2[this.dataIndex] }}         </label><br>
+          <label>bth: {{ this.resultJson.bth2[this.dataIndex] }}         </label><br>
+          <label>boh: {{ this.resultJson.boh2[this.dataIndex] }}         </label><br>
+          <label>bos: {{ this.resultJson.bos2[this.dataIndex] }}         </label><br>
+          <label>bo: {{ this.resultJson.bo2[this.dataIndex] }}           </label><br>
+          <label>bs: {{ this.resultJson.bs2[this.dataIndex] }}           </label><br>
+          <!--<label>cs2: {{ this.resultJson.cs2[this.dataIndex] }}       </label><br>-->
+          <label>clr: {{ this.resultJson.clr2[this.dataIndex] }}         </label><br>
+          <label>fl: {{ this.resultJson.fl2[this.dataIndex] }}           </label><br>
+          <label>fr: {{ this.resultJson.fr2[this.dataIndex] }}           </label><br>
+          <label>ft: {{ this.resultJson.ft2[this.dataIndex] }}           </label><br>
+          <label>fo: {{ this.resultJson.fo2[this.dataIndex] }}           </label><br>
+          <label>rfl: {{ this.resultJson.rfl2[this.dataIndex] }}         </label><br>
+          <label>rfr: {{ this.resultJson.rfr2[this.dataIndex] }}         </label><br>
+          <label>rfs: {{ this.resultJson.rfs2[this.dataIndex] }}         </label><br>
+          <label>egrow: {{ this.resultJson.egrow2[this.dataIndex] }}     </label><br>
+          <label>ex: {{ this.resultJson.ex2[this.dataIndex] }}           </label><br>
+          <label>rtrans: {{ this.resultJson.rtrans2[this.dataIndex] }}   </label><br>
+          <label>light: {{ this.resultJson.light2[this.dataIndex] }}     </label><br>
+          <label>nut: {{ this.resultJson.nut2[this.dataIndex] }}         </label><br>
+          <label>deltas: {{ this.resultJson.deltas2[this.dataIndex] }}   </label><br>
+          <label>LAI: {{ this.resultJson.LAI2[this.dataIndex] }}         </label><br>
+          <!-- <label>status2: {{ this.resultJson.status2[this.dataIndex] }}   </label><br> -->
+          <!--<label>errorind: {{ this.resultJson.errorind[this.dataIndex] }}   </label><br>-->
+          <!--<label>growth_st: {{ this.resultJson.growth_st[this.dataIndex] }} </label><br>-->
+        </div>
+        <br><br>
         <div>
           <download-csv class="downloadbutton" :data="this.array" name = "treeData.csv">
             <button @click="downloadRawData()">Download</button>
@@ -623,6 +625,11 @@
   .rawDataList {
     width: 100%;
     text-align: center;
+  }
+
+  .rawData {
+    column-count: 3;
+    column-rule: 3px solid green;
   }
 
 </style>
