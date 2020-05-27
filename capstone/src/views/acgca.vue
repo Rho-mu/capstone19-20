@@ -10,8 +10,8 @@
 
 
     <outputContainer
-      :resultJson="resultJson"
-      :postBody="postBody">
+      :resultJsonProp="resultJson"
+      :postBodyProp="postBody">
     </outputContainer>
   </div>
 </template>
