@@ -16,7 +16,8 @@
       <h5>Year: {{this.dataIndex}}</h5>
 
       <input type="range" min="1" v-model="dataIndex" @input="draw()" id="timeStepSlider" class="timeStepSlider"><br><br>
-      <div class="treeCanvasport" id="treeCanvasport"></div>
+      <div id="treeCanvasport" class="treeCanvasport" ></div>
+
       <div class="rawDataList" id="rawDataList">
         <br>
         <label>APARout: {{ this.resultJson.APARout[this.dataIndex] }}   </label><br>
@@ -86,23 +87,24 @@
 
     components: {'download-csv': JsonCSV},
 
-    props: ['resultJson', 'postBody'],
+    props: ['resultJsonProp', 'postBodyProp'],
 
     data() {
       return {
+        resultJson: this.resultJsonProp,
+        postBody: this.postBodyProp,
         dataIndex: "1",
-        crownShape: "cone",
         currentScene: this.treeScene,
         currentCam: this.treeCam,
-        array : [],
-
+        crownShape: "cone",
+        array : []
       } // END: return
     }, // END: data()
 
     methods: {
       initializeVisualization() {
         /////////////// Tree Scene ///////////////
-        this.treeCanvas = document.getElementById( "treeCanvasport" )
+        this.treeCanvas = document.getElementById('treeCanvasport')
         console.log("treeCanvas:", this.treeCanvas)
 
         //console.log("outputCanvas:", this.outputContainer.innerWidth  , this.outputContainer.innerHeight  )
@@ -545,8 +547,8 @@
 
     mounted() {
       this.setTempDefaultResultJson()
-      this.initializeVisualization()
-      this.animate()
+      setTimeout(this.initializeVisualization, 1)
+      setTimeout(this.animate, 2)
     } // END: mounted
   } // END: export default
 </script>
