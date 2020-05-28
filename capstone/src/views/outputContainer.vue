@@ -571,7 +571,7 @@
     margin: auto;
     padding: 2%;
     float: right;
-    background-color: #b9b9b9;
+    background-color: #9f9b9b;
     border-radius: 10px;
     float: right;
     position: relative;

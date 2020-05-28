@@ -789,7 +789,7 @@
     text-align: center;
     display: inline-block;
     font-size: 20px;
-    padding-bottom: 10px;    
+    padding-bottom: 10px;
   }
 
   .inputContainer {
@@ -800,10 +800,10 @@
     border: none;
     border-radius: 10px;
     font-size: 16px;
-    color:black;
+    color:white;
     width:17%;
     background-color: #b9b9b9;
-    /* background-image: linear-gradient(lightblue, lightgreen); */
+    background-image: url("../assets/InputBack.png");
   }
 
   /* Buttons */

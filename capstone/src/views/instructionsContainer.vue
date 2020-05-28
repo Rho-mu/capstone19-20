@@ -55,6 +55,7 @@ export default {
   h1 {
     font-family: Avant Garde,Avantgarde,Century Gothic,CenturyGothic,AppleGothic,sans-serif;
     text-align: center;
+    color: white;
   }
   .instructionsContainer {
     display: block;
@@ -67,7 +68,8 @@ export default {
     float: left;
     position: relative;
     text-align: left;
-    /*background-image: url("../assets/minimalist-forest.jpg");*/
+    background-image: url("../assets/InstructionsBack.png");
+    color: white;
   }
 
   button {
