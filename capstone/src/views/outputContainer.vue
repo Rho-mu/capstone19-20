@@ -15,6 +15,7 @@
       <h4> Move the slider to see the growth of the tree!</h4>
       <h5>Year: {{this.dataIndex}}</h5>
 
+
       <input type="range" min="1" v-model="dataIndex" @input="draw()" id="timeStepSlider" class="timeStepSlider"><br><br>
       <div id="treeCanvasport"></div>
       <div class="rawDataList" id="rawDataList">
@@ -88,12 +89,10 @@
 
     components: {'download-csv': JsonCSV},
 
-    props: ['resultJsonProp', 'postBodyProp'],
+    props: ['resultJson', 'postBody'],
 
     data() {
       return {
-        resultJson: this.resultJsonProp,
-        postBody: this.postBodyProp,
         dataIndex: "1",
         currentScene: this.treeScene,
         currentCam: this.treeCam,
@@ -178,9 +177,18 @@
       drawTree() {
         // Move to afterGet() once tuned.
         var bgColor = new THREE.Color()
-        bgColor.r = this.postBody.io/2060
-        bgColor.g = this.postBody.io/2060+0.4
-        bgColor.b = 1
+        if(this.postBody.io == null)
+        {
+          bgColor.r = 0.5
+          bgColor.g = 0.7
+          bgColor.b = 1
+        }
+        else
+        {
+          bgColor.r = this.postBody.io/2060
+          bgColor.g = this.postBody.io/2060+0.4
+          bgColor.b = 1
+        }
         this.treeScene.background = bgColor
 
         var year = this.dataIndex // The current timestep on the slider. Named "year" to make it easier to read.
@@ -402,10 +410,10 @@
 
         // Point light for casting shadows.
         // PointLight( color : Integer, intensity : Float, distance : Number, decay : Float )
-        /*var pointLight = new THREE.PointLight( 0xffffff, this.postBody.io/2060*2.5, 100 )
+        var pointLight = new THREE.PointLight( 0xffffff, this.postBody.io/2060*2.5, 100 )
         console.log("light:",this.postBody.io/2060*2.5)
         pointLight.position.set( 10, 10, 10 )
-        this.treeScene.add( pointLight )*/
+        this.treeScene.add( pointLight )
       }, // END: addLight
 
       // test code for adding photos to the threejs render
@@ -414,8 +422,8 @@
         var r = this.resultJson.r[this.dataIndex]      // Radius of trunk at base
         r = r * 7 // Temporary use to negate weird data
 
-        var myMaterial = new THREE.MeshLambertMaterial( { map: this.barkTexture } )
-        //var myMaterial = new THREE.MeshLambertMaterial( { color: 0xFFFF00 } )
+        //var myMaterial = new THREE.MeshLambertMaterial( { map: this.barkTexture } )
+        var myMaterial = new THREE.MeshLambertMaterial( { color: 0xFFFF00 } )
 
         var boxGeometry = new THREE.BoxGeometry( 1, 1, 1 );
         var box = new THREE.Mesh( boxGeometry, myMaterial )
