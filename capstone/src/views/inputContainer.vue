@@ -800,10 +800,11 @@
     border: none;
     border-radius: 10px;
     font-size: 16px;
-    color:white;
+    color:black;
     width:17%;
     background-color: #b9b9b9;
     background-image: url("../assets/InputBack.png");
+    color: white;
   }
 
   /* Buttons */
@@ -957,7 +958,7 @@
   }
 
   .help-tip:hover p{
-    display: inline;
+    display: inline-block;
     transform-origin: 100% 0%;
 
     -webkit-animation: fadeIn 0.3s ease-in-out;
@@ -1022,6 +1023,7 @@
   .collapsible button {
     font-size: 10px;
     color: black;
+    z-index: 0;
   }
 
   .lightSlider p {

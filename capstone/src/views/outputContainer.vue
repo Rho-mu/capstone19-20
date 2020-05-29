@@ -574,7 +574,7 @@
     border-radius: 10px;
     float: right;
     position: relative;
-    /* background-image: linear-gradient(lightblue, lightgreen); */
+    background-image: url("../assets/OutputBackground.png");
   }
 
   .outputContainer button {
@@ -637,6 +637,14 @@
   .rawData {
     column-count: 3;
     column-rule: 3px solid green;
+  }
+
+  h4 {
+    color: white;
+  }
+
+  h5 {
+    color: white;
   }
 
 </style>
