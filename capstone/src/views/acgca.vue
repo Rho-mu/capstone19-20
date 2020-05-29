@@ -46,8 +46,8 @@ export default {
     },
 
     setPostBodyData(data) {
-      // When resultJsonToParent is triggered in the inputContainer tag, it calls this function.
-      this.postBody = data // Sets resultJson to the output sent from inputContainer.
+      // When postBodyToParent is triggered in the inputContainer tag, it calls this function.
+      this.postBody = data // Sets postBody to the output sent from inputContainer.
     }
   }
 }
