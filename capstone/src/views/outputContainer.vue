@@ -410,8 +410,7 @@
 
         // Point light for casting shadows.
         // PointLight( color : Integer, intensity : Float, distance : Number, decay : Float )
-        var pointLight = new THREE.PointLight( 0xffffff, this.postBody.io/2060*2.5, 100 )
-        console.log("light:",this.postBody.io/2060*2.5)
+        var pointLight = new THREE.PointLight( 0xffffff, 1, 100 )
         pointLight.position.set( 10, 10, 10 )
         this.treeScene.add( pointLight )
       }, // END: addLight
