@@ -97,7 +97,8 @@
         currentScene: this.treeScene,
         currentCam: this.treeCam,
         crownShape: "cone",
-        array : []
+        array : [],
+        loop: 0
       } // END: return
     }, // END: data()
 
@@ -557,6 +558,14 @@
 
     mounted() {
       this.setTempDefaultResultJson()
+      // while(this.loop == 0)
+      // {
+      //   if(this.loadingFlag == 1)
+      //   {
+      //     this.loop = 1;
+      //     this.animate();
+      //   }
+      // }
       setTimeout(this.initializeVisualization, 1)
       setTimeout(this.animate, 2)
     } // END: mounted
