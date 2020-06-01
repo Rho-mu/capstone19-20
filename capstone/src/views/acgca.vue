@@ -5,13 +5,15 @@
 
     <inputContainer
       v-on:resultJsonToParent="setResultJsonData"
-      v-on:postBodyToParent="setPostBodyData">
+      v-on:postBodyToParent="setPostBodyData"
+      v-on:postFlagToParent="setLoadingData">
     </inputContainer>
 
 
     <outputContainer
       :resultJson="resultJson"
-      :postBody="postBody">
+      :postBody="postBody"
+      :loadingFlag="loadingFlag">
     </outputContainer>
   </div>
 </template>
@@ -35,7 +37,8 @@ export default {
   data() {
     return {
       resultJson: '',
-      postBody: ''
+      postBody: '',
+      loadingFlag: 0
     }
   },
 
@@ -48,7 +51,14 @@ export default {
     setPostBodyData(data) {
       // When postBodyToParent is triggered in the inputContainer tag, it calls this function.
       this.postBody = data // Sets postBody to the output sent from inputContainer.
+    },
+
+    setLoadingData(data) {
+      this.loadingFlag = data
     }
+  },
+  mounted: function() {
+    console.log(this.loadingFlag)
   }
 }
 </script>

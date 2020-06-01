@@ -97,7 +97,8 @@
         currentScene: this.treeScene,
         currentCam: this.treeCam,
         crownShape: "cone",
-        array : []
+        array : [],
+        loop: 0
       } // END: return
     }, // END: data()
 

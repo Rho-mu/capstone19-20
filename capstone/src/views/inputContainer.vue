@@ -157,8 +157,8 @@
               <span class="separator"></span>
               Constraint: (0,+&#8734)
             </p></span><br>
-          <div class="paddingForHelptip"></div>
-          <br><br>
+          <!-- <div class="paddingForHelptip"></div>
+          <br><br> -->
         </div>
 
       <button class="collapsible">Tree and organ size traits</button>
@@ -381,6 +381,7 @@
         errorMessage: "",
         runID: '',
         getJson: [],
+        loadingFlag: 0,
         resultJson: {
             "APARout":' ',
             "h":' ',
@@ -583,10 +584,12 @@
             setTimeout(function() {runButton.innerHTML = ". ."}, 1000)
             setTimeout(function() {runButton.innerHTML = ". . ."}, 1500)
             setTimeout(this.getData, 2000)
+
             return
           }
 
           var parsedobj = JSON.parse(JSON.stringify(this.resultJson))
+
 
           let newStr = this.getJson.replace(/=/g, "\":")
           let newStr2 = newStr.replace(/&/g, ",\"")
@@ -614,12 +617,14 @@
           // this.resultJson = JSON.parse(newStr3)
           console.log("Output data retrieved!")
           console.log("ResultJson: \n", this.resultJson)
+          this.loadingFlag = 1
 
           document.getElementById("runButton").innerHTML = "RUN"
 
           //this.afterGet() // Sets up some stuff for the visualization now that the output data has been retrieved.
           this.$emit('resultJsonToParent', this.resultJson) // Sends the result json to acgca.vue to be used in outputContainer.
           this.$emit('postBodyToParent', this.postBody) // Sends the postBody to acgca.vue to be used in outputContainer.
+          this.$emit('postFlagToParent', this.loadingFlag)
         },
             (error) => { console.log(error.request)}
         )
@@ -858,7 +863,8 @@
   /* END: Run Button */
 
   #error-message{
-    color: red;
+    color: white;
+    font-weight: bold;
   }
 
   /* Collapsible Menus */
