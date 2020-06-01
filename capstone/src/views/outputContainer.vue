@@ -89,7 +89,7 @@
 
     components: {'download-csv': JsonCSV},
 
-    props: ['resultJson', 'postBody'],
+    props: ['resultJson', 'postBody', 'startDraw'],
 
     data() {
       return {
@@ -552,11 +552,24 @@
           "errorind":' ',
           //"growth_st":''
         }
-      } // END: setTempDefaultResultJson()
+      }, // END: setTempDefaultResultJson()
+
+      checkForStartDraw() {
+        // Keeps checking for startDraw (from the input container)
+        // to draw once getData() is complete.
+        if( this.startDraw == true ) {
+          this.draw()
+        }
+        else
+        {
+          setTimeout(this.checkForStartDraw, 100)
+        }
+      } // END: checkForStartDraw()
     }, // END: methods
 
     mounted() {
       this.setTempDefaultResultJson()
+      this.checkForStartDraw()
       setTimeout(this.initializeVisualization, 1)
       setTimeout(this.animate, 2)
     } // END: mounted
