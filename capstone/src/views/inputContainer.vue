@@ -584,7 +584,6 @@
             setTimeout(function() {runButton.innerHTML = ". ."}, 1000)
             setTimeout(function() {runButton.innerHTML = ". . ."}, 1500)
             setTimeout(this.getData, 2000)
-
             return
           }
 
@@ -625,6 +624,7 @@
           this.$emit('resultJsonToParent', this.resultJson) // Sends the result json to acgca.vue to be used in outputContainer.
           this.$emit('postBodyToParent', this.postBody) // Sends the postBody to acgca.vue to be used in outputContainer.
           this.$emit('postFlagToParent', this.loadingFlag)
+          this.$emit('startDrawToParent', true)
         },
             (error) => { console.log(error.request)}
         )
