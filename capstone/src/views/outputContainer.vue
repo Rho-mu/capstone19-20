@@ -226,6 +226,7 @@
 
         this.addBox()
         this.addLight()
+        this.addScale()
 
         /// Trunk variables
         var h = this.resultJson.h[year]      // Total tree height
@@ -401,7 +402,6 @@
         } // END: for i
       }, // END: drawRings()
 
-      // adding ambient light to the render
       addLight() {
         // Ambient light for all objects.
         // AmbientLight( color : Integer, intensity : Float )
@@ -415,20 +415,37 @@
         this.treeScene.add( pointLight )
       }, // END: addLight
 
-      // test code for adding photos to the threejs render
       addBox() {
         //var myTexture = new THREE.TextureLoader().load( '../json/bark.png' )
         var r = this.resultJson.r[this.dataIndex]      // Radius of trunk at base
         r = r * 7 // Temporary use to negate weird data
 
-        //var myMaterial = new THREE.MeshLambertMaterial( { map: this.barkTexture } )
-        var myMaterial = new THREE.MeshLambertMaterial( { color: 0xFFFF00 } )
+        var boxGeo = new THREE.BoxGeometry( 1, 1, 1 )
 
-        var boxGeometry = new THREE.BoxGeometry( 1, 1, 1 );
-        var box = new THREE.Mesh( boxGeometry, myMaterial )
-        box.position.x = r + 1.1
+        //var myMaterial = new THREE.MeshLambertMaterial( { map: this.barkTexture } )
+        var boxMat = new THREE.MeshLambertMaterial( { color: 0xFFFF00 } )
+
+        var box = new THREE.Mesh( boxGeo, boxMat )
+        box.position.x = r * 1.1
         this.treeScene.add( box )
       }, // END: addBox()
+
+      addScale() {
+        var canvasWidth = window.innerWidth * 0.7
+        var canvasHeight = window.innerHeight * 0.7
+
+        var points = []
+        points.push( new THREE.Vector3( 10, 0, 0 ) )
+        points.push( new THREE.Vector3( 10, 10, 0 ) )
+
+        var lineGeo = new THREE.BufferGeometry().setFromPoints( points )
+
+        var lineMat = new THREE.LineBasicMaterial( {color: 0x0000ff} )
+
+        var line = new THREE.Line( lineGeo, lineMat )
+
+        this.treeScene.add( line )
+      }, // END: addScale()
 
       setCrownShape(shape) {
         this.crownShape = shape
