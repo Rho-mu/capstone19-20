@@ -55,7 +55,7 @@ export default {
       // When postBodyToParent is triggered in the inputContainer tag, it calls this function.
       this.postBody = data // Sets postBody to the output sent from inputContainer.
     },
-    
+
     setLoadingData(data) {
       this.loadingFlag = data
     },

@@ -2,7 +2,6 @@
   <div>
     <div class="inputContainer">
       <div class="containerTitle">Inputs Specification</div>
-
       <button class="collapsible">Default values</button>
         <div class="content">
           <br>
@@ -555,6 +554,7 @@
           //console.log("from post -- runID: ", this.runID)
           console.log("Posted inputs!")
 
+
           //document.getElementById("timeStepSlider").setAttribute("max", this.postBody.t) // Sets max value for timestep slider.
           this.getData() // Call getData() to start looking for model outputs.
         })
@@ -568,6 +568,7 @@
           }
         })
         .then((response) => {
+          this.loadingFlag = 1
 
           //console.log("runID:", this.runID)
           this.getJson = response.data
@@ -584,11 +585,11 @@
             setTimeout(function() {runButton.innerHTML = ". ."}, 1000)
             setTimeout(function() {runButton.innerHTML = ". . ."}, 1500)
             setTimeout(this.getData, 2000)
+            loadingFlag = 1
             return
           }
 
           var parsedobj = JSON.parse(JSON.stringify(this.resultJson))
-
 
           let newStr = this.getJson.replace(/=/g, "\":")
           let newStr2 = newStr.replace(/&/g, ",\"")
@@ -616,7 +617,6 @@
           // this.resultJson = JSON.parse(newStr3)
           console.log("Output data retrieved!")
           console.log("ResultJson: \n", this.resultJson)
-          this.loadingFlag = 1
 
           document.getElementById("runButton").innerHTML = "RUN"
 
@@ -809,6 +809,7 @@
     width:17%;
     background-color: #b9b9b9;
     background-image: url("../assets/InputBack.png");
+    background-repeat: repeat-x;
     color: white;
   }
 

@@ -97,7 +97,8 @@
         currentScene: this.treeScene,
         currentCam: this.treeCam,
         crownShape: "cone",
-        array : []
+        array : [],
+        loopFlag: 0,
       } // END: return
     }, // END: data()
 
@@ -650,8 +651,21 @@
     mounted() {
       this.setTempDefaultResultJson()
       this.checkForStartDraw()
-      setTimeout(this.initializeVisualization, 1)
-      setTimeout(this.animate, 2)
+    },
+    updated() {
+      while(this.loopFlag == 0)
+      {
+        if(this.loadingFlag = 1)
+        {
+          this.loopFlag = 1
+
+          this.initializeVisualization()
+          this.animate()
+          // setTimeout(this.initializeVisualization, 1)
+          // setTimeout(this.animate, 2)
+
+        }
+      }
     } // END: mounted
   } // END: export default
 </script>
