@@ -114,7 +114,7 @@
         ///// Tree Scene /////
         // Create scene for trees
         this.treeScene = new THREE.Scene()
-        this.treeScene.background = new THREE.Color( 0xcfffff )
+        this.treeScene.background = new THREE.Color( 0xcfffff ) // make 1, 0.9, 0.5
         // Create camera for tree scene
         // PerspectiveCamera( fov : Number, aspect : Number, near : Number, far : Number )
         this.treeCam = new THREE.PerspectiveCamera( 90, canvasWidth / canvasHeight, 0.1, 1000 )
@@ -224,9 +224,9 @@
         this.newScene = new THREE.Scene()            // Create new scene for new tree
         this.treeScene.add( this.newScene )          // Add new scene to root scene
 
-        this.addBox()
+        //this.addBox()
         this.addLight()
-        this.addScale()
+        this.addTreeScale()
 
         /// Trunk variables
         var h = this.resultJson.h[year]      // Total tree height
@@ -261,7 +261,7 @@
         {
           rcmax = (r0 * r) / ((hmax / phih) * Math.log(hmax/(hmax - BH)))
         }
-        console.log("rcmax",rcmax)
+        //console.log("r cmax",rcmax)
 
         var eta = this.postBody.eta     // Input.
         var alpha = this.postBody.alpha // Input. Curvature of the crown.
@@ -278,7 +278,7 @@
           rcbase = rcmax
         }
 
-        console.log("year:",year,"\nLAI2:",this.resultJson.LAI2[year],"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,"\nrBH:",rBH,"\nrcmax:",rcmax,"\nrcbase:",rcbase)
+        //console.log("year:",year,"\nLAI2:",this.resultJson.LAI2[year],"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,"\nrBH:",rBH,"\nrcmax:",rcmax,"\nrcbase:",rcbase)
 
         // Supplemental parameters
         var geoSegments = 20            // Segments of geometry
@@ -362,6 +362,8 @@
 
         this.ringCam.lookAt(0, 0, 0)
 
+        this.addRingScale()
+
         var heartwoodRadius = this.resultJson.r[this.dataIndex] - this.resultJson.sw2[this.dataIndex] // Gets the heart wood radius at the current year on the slider
         //console.log("sw:", this.resultJson.sw2[this.dataIndex], "\nr:", this.resultJson.r[this.dataIndex], "\nhw:", heartwoodRadius)
 
@@ -430,22 +432,83 @@
         this.treeScene.add( box )
       }, // END: addBox()
 
-      addScale() {
+      addTreeScale() {
         var canvasWidth = window.innerWidth * 0.7
-        var canvasHeight = window.innerHeight * 0.7
 
-        var points = []
-        points.push( new THREE.Vector3( 10, 0, 0 ) )
-        points.push( new THREE.Vector3( 10, 10, 0 ) )
+        var vertPoints = [] // The vertical line of the scale.
+        vertPoints.push( new THREE.Vector3( canvasWidth/100, 0, 0 ) )
+        vertPoints.push( new THREE.Vector3( canvasWidth/100, 10, 0 ) )
 
-        var lineGeo = new THREE.BufferGeometry().setFromPoints( points )
+        var topPoints = [] // The top line of the scale.
+        topPoints.push( new THREE.Vector3( canvasWidth/100 - 1, 10, 0 ) )
+        topPoints.push( new THREE.Vector3( canvasWidth/100 + 1, 10, 0 ) )
+
+        var botPoints = [] // The bottom line of the scale.
+        botPoints.push( new THREE.Vector3( canvasWidth/100 - 1, 0, 0 ) )
+        botPoints.push( new THREE.Vector3( canvasWidth/100 + 1, 0, 0 ) )
+
+        var vertLineGeo = new THREE.BufferGeometry().setFromPoints( vertPoints )
+        var topLineGeo = new THREE.BufferGeometry().setFromPoints( topPoints )
+        var botLineGeo = new THREE.BufferGeometry().setFromPoints( botPoints )
 
         var lineMat = new THREE.LineBasicMaterial( {color: 0x0000ff} )
 
-        var line = new THREE.Line( lineGeo, lineMat )
+        var vertLine = new THREE.Line( vertLineGeo, lineMat )
+        var topLine = new THREE.Line( topLineGeo, lineMat )
+        var botLine = new THREE.Line( botLineGeo, lineMat )
 
-        this.treeScene.add( line )
-      }, // END: addScale()
+        this.treeScene.add( vertLine )
+        this.treeScene.add( topLine )
+        this.treeScene.add( botLine )
+
+        // Text
+        /*var loader = new THREE.FontLoader();
+
+        loader.load( 'fonts/helvetiker_regular.typeface.json', function ( font ) {
+
+        	var geometry = new THREE.TextGeometry( 'Hello three.js!', {
+        		font: font,
+        		size: 80,
+        		height: 5,
+        		curveSegments: 12,
+        		bevelEnabled: true,
+        		bevelThickness: 10,
+        		bevelSize: 8,
+        		bevelOffset: 0,
+        		bevelSegments: 5
+        	} )
+        } )*/
+      }, // END: addTreeScale()
+
+      addRingScale() {
+        var canvasWidth = window.innerWidth * 0.7
+
+        var vertPoints = [] // The vertical line of the scale.
+        vertPoints.push( new THREE.Vector3( canvasWidth/3000, 0, 0 ) )
+        vertPoints.push( new THREE.Vector3( canvasWidth/3000, 0.1, 0 ) )
+
+        var topPoints = [] // The top line of the scale.
+        topPoints.push( new THREE.Vector3( canvasWidth/3000 - 0.02, 0.1, 0 ) )
+        topPoints.push( new THREE.Vector3( canvasWidth/3000 + 0.02, 0.1, 0 ) )
+
+        var botPoints = [] // The bottom line of the scale.
+        botPoints.push( new THREE.Vector3( canvasWidth/3000 - 0.02, 0, 0 ) )
+        botPoints.push( new THREE.Vector3( canvasWidth/3000 + 0.02, 0, 0 ) )
+
+        var vertLineGeo = new THREE.BufferGeometry().setFromPoints( vertPoints )
+        var topLineGeo = new THREE.BufferGeometry().setFromPoints( topPoints )
+        var botLineGeo = new THREE.BufferGeometry().setFromPoints( botPoints )
+
+        var lineMat = new THREE.LineBasicMaterial( {color: 0x0000ff} )
+
+        var vertLine = new THREE.Line( vertLineGeo, lineMat )
+        var topLine = new THREE.Line( topLineGeo, lineMat )
+        var botLine = new THREE.Line( botLineGeo, lineMat )
+
+        this.ringScene.add( vertLine )
+        this.ringScene.add( topLine )
+        this.ringScene.add( botLine )
+      }, // END: addRingScale()
 
       setCrownShape(shape) {
         this.crownShape = shape
