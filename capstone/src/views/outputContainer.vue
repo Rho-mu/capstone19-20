@@ -1,7 +1,8 @@
 <template>
   <div>
-    <div class="outputContainer">
-      <!--<button @click="loadTextures()">Load Textures</Button>-->
+    <div class="outputContainer" id="outputContainer">
+      <!--<button @click="initializeVisualization()">init</Button>
+      <button @click="resetVisualization()">reset</Button>-->
       <div class="setSceneContainer">
         <button @click="setScene('ringScene')" class="ringSceneButton" id="ringSceneButton">RINGS</button>
         <button @click="setScene('treeScene')" class="treeSceneButton" id="treeSceneButton">TREE</button>
@@ -17,7 +18,9 @@
 
 
       <input type="range" min="1" v-model="dataIndex" @input="draw()" id="timeStepSlider" class="timeStepSlider"><br><br>
-      <div id="treeCanvasport"></div>
+      <div id="treeCanvasport">
+        <div id="info">10m</div>
+      </div>
       <div class="rawDataList" id="rawDataList">
         <br>
         <div class="rawData">
@@ -96,6 +99,7 @@
         dataIndex: "1",
         currentScene: this.treeScene,
         currentCam: this.treeCam,
+        maxHeight: 15,
         crownShape: "cone",
         array : [],
         loopFlag: 0,
@@ -106,7 +110,7 @@
       initializeVisualization() {
         /////////////// Tree Scene ///////////////
         this.treeCanvas = document.getElementById('treeCanvasport')
-        console.log("treeCanvas:", this.treeCanvas)
+        //console.log("treeCanvas:", this.treeCanvas)
 
         //console.log("outputCanvas:", this.outputContainer.innerWidth  , this.outputContainer.innerHeight  )
         var canvasWidth = window.innerWidth * 0.7
@@ -162,7 +166,42 @@
         document.getElementById("rawDataList").style.display = "none"
 
         window.addEventListener( 'resize', this.onWindowResize, false )
+
+        //this.addTreeScale()
+        //this.addRingScale()
+        //this.testSize()
       }, // END: initializeVisualization()
+
+      postGetSetup() {
+        // Does some setup once getData() is done and data has been retrieved.
+
+        // This stuff should be calculated once after getData.
+        // Find max radius and height of tree over its life to scale the scene to.
+        // Find max LAI2 to normalize it for opacity.
+        var maxHeight = 0
+        var maxLAI2 = 0
+        for( var i = 1; i <= this.postBody.t; i++ )
+        {
+          // Find max height.
+          if( this.maxHeight < this.resultJson.h[i] )
+          {
+            this.maxHeight = this.resultJson.h[i]
+          }
+          // Find max radius.
+          /*if( maxLAI2 < this.resultJson.r[i] )
+          {
+            maxLAI2 = this.resultJson.r[i]
+          }
+
+          // Find max LAI2.
+          if( maxHeight < this.resultJson.LAI2[i] )
+          {
+            maxHeight = this.resultJson.LAI2[i]
+          }*/
+        }
+        //console.log("Max LAI2:", maxLAI2)
+
+      }, // END: postGetSetup()
 
       draw() {
         if(this.currentScene == this.treeScene)
@@ -201,20 +240,21 @@
         for( var i = 1; i <= this.postBody.t; i++ )
         {
           // Find max height.
-          if( maxHeight < this.resultJson.h[i] )
+          if( this.maxHeight < this.resultJson.h[i] )
           {
-            maxHeight = this.resultJson.h[i]
+            this.maxHeight = this.resultJson.h[i]
           }
           // Find max radius.
-          if( maxLAI2 < this.resultJson.r[i] )
+          /*if( maxLAI2 < this.resultJson.r[i] )
           {
             maxLAI2 = this.resultJson.r[i]
           }
+
           // Find max LAI2.
           if( maxHeight < this.resultJson.LAI2[i] )
           {
             maxHeight = this.resultJson.LAI2[i]
-          }
+          }*/
         }
         //console.log("Max LAI2:", maxLAI2)
 
@@ -339,9 +379,12 @@
         ///// Crown /////
 
         // Resize camera based on max tree height
-        this.currentCam.position.y = maxHeight / 1.8
-        this.currentCam.position.z = maxHeight * 0.6
-        this.currentCam.lookAt(0, maxHeight/1.8, 0)
+        //this.testSize()
+        this.currentCam.position.y = this.maxHeight / 1.8
+        console.log("y", this.currentCam.position.y )
+        this.currentCam.position.z = this.maxHeight * 0.6
+        console.log("z", this.currentCam.position.z )
+        this.currentCam.lookAt(0, this.maxHeight/1.8, 0)
         // Add trunk and crown to scene
         this.newScene.add( this.crown )
         this.newScene.add( this.trunk )
@@ -433,8 +476,115 @@
         this.treeScene.add( box )
       }, // END: addBox()
 
+      testSize() {
+        console.log("window.innerWidth", window.innerWidth)
+        console.log("window.innerHeight", window.innerHeight)
+        console.log("renderer width", this.currentCam.getFilmWidth())
+        console.log("renderer height", this.currentCam.getFilmHeight())
+
+        var canvasWidth = window.innerWidth * 0.7
+        var canvasHeight = window.innerHeight * 0.7
+        //console.log("canvasWidth", canvasWidth)
+        //console.log("canvasHeight", canvasHeight)
+
+        var points = [] // The vertical line of the scale.
+        points.push( new THREE.Vector3( 0, 0, 0 ) )
+
+        points.push( new THREE.Vector3( 1, 0, 0 ) )
+        points.push( new THREE.Vector3( 1, 1, 0 ) )
+        points.push( new THREE.Vector3( 1, 0, 0 ) )
+
+        points.push( new THREE.Vector3( 2, 0, 0 ) )
+        points.push( new THREE.Vector3( 2, 1, 0 ) )
+        points.push( new THREE.Vector3( 2, 0, 0 ) )
+
+        points.push( new THREE.Vector3( 3, 0, 0 ) )
+        points.push( new THREE.Vector3( 3, 1, 0 ) )
+        points.push( new THREE.Vector3( 3, 0, 0 ) )
+
+        points.push( new THREE.Vector3( 4, 0, 0 ) )
+        points.push( new THREE.Vector3( 4, 1, 0 ) )
+        points.push( new THREE.Vector3( 4, 0, 0 ) )
+
+        points.push( new THREE.Vector3( 5, 0, 0 ) )
+        points.push( new THREE.Vector3( 5, 1, 0 ) )
+        points.push( new THREE.Vector3( 5, 0, 0 ) )
+
+        points.push( new THREE.Vector3( 6, 0, 0 ) )
+        points.push( new THREE.Vector3( 6, 1, 0 ) )
+        points.push( new THREE.Vector3( 6, 0, 0 ) )
+
+        points.push( new THREE.Vector3( 7, 0, 0 ) )
+        points.push( new THREE.Vector3( 7, 1, 0 ) )
+        points.push( new THREE.Vector3( 7, 0, 0 ) )
+
+        points.push( new THREE.Vector3( 8, 0, 0 ) )
+        points.push( new THREE.Vector3( 8, 1, 0 ) )
+        points.push( new THREE.Vector3( 8, 0, 0 ) )
+
+        points.push( new THREE.Vector3( 9, 0, 0 ) )
+        points.push( new THREE.Vector3( 9, 1, 0 ) )
+        points.push( new THREE.Vector3( 9, 0, 0 ) )
+
+        points.push( new THREE.Vector3( 10, 0, 0 ) )
+        points.push( new THREE.Vector3( 10, 1, 0 ) )
+        points.push( new THREE.Vector3( 10, 0, 0 ) )
+
+        // up
+        points.push( new THREE.Vector3( 0, 0, 0 ) )
+
+        points.push( new THREE.Vector3( 0, 1, 0 ) )
+        points.push( new THREE.Vector3( -1, 1, 0 ) )
+        points.push( new THREE.Vector3( 0, 1, 0 ) )
+
+        points.push( new THREE.Vector3( 0, 2, 0 ) )
+        points.push( new THREE.Vector3( -1, 2, 0 ) )
+        points.push( new THREE.Vector3( 0, 2, 0 ) )
+
+        points.push( new THREE.Vector3( 0, 3, 0 ) )
+        points.push( new THREE.Vector3( -1, 3, 0 ) )
+        points.push( new THREE.Vector3( 0, 3, 0 ) )
+
+        points.push( new THREE.Vector3( 0, 4, 0 ) )
+        points.push( new THREE.Vector3( -1, 4, 0 ) )
+        points.push( new THREE.Vector3( 0, 4, 0 ) )
+
+        points.push( new THREE.Vector3( 0, 5, 0 ) )
+        points.push( new THREE.Vector3( -1, 5, 0 ) )
+        points.push( new THREE.Vector3( 0, 5, 0 ) )
+
+        points.push( new THREE.Vector3( 0, 6, 0 ) )
+        points.push( new THREE.Vector3( -1, 6, 0 ) )
+        points.push( new THREE.Vector3( 0, 6, 0 ) )
+
+        points.push( new THREE.Vector3( 0, 7, 0 ) )
+        points.push( new THREE.Vector3( -1, 7, 0 ) )
+        points.push( new THREE.Vector3( 0, 7, 0 ) )
+
+        points.push( new THREE.Vector3( 0, 8, 0 ) )
+        points.push( new THREE.Vector3( -1, 8, 0 ) )
+        points.push( new THREE.Vector3( 0, 8, 0 ) )
+
+        points.push( new THREE.Vector3( 0, 9, 0 ) )
+        points.push( new THREE.Vector3( -1, 9, 0 ) )
+        points.push( new THREE.Vector3( 0, 9, 0 ) )
+
+        points.push( new THREE.Vector3( 0, 10, 0 ) )
+        points.push( new THREE.Vector3( -1, 10, 0 ) )
+        points.push( new THREE.Vector3( 0, 10, 0 ) )
+
+
+        var geometry = new THREE.BufferGeometry().setFromPoints( points )
+        var material = new THREE.LineBasicMaterial( {color: 0x000000} )
+
+        var line = new THREE.Line( geometry, material )
+
+        this.currentScene.add( line )
+      },
+
       addTreeScale() {
         var canvasWidth = window.innerWidth * 0.7
+        var canvasHeight = window.innerHeight * 0.7
 
         var vertPoints = [] // The vertical line of the scale.
         vertPoints.push( new THREE.Vector3( canvasWidth/100, 0, 0 ) )
@@ -639,19 +789,26 @@
         // Keeps checking for startDraw (from the input container)
         // to draw once getData() is complete.
         if( this.startDraw == true ) {
+          //this.postGetSetup()
           this.draw()
         }
         else
         {
           setTimeout(this.checkForStartDraw, 100)
         }
-      } // END: checkForStartDraw()
+      }, // END: checkForStartDraw()
+
+      resetVisualization() {
+        // Resets the visualization so that it's easier for the user to rerun the simulation.
+
+      } // END: resetVisualization()
     }, // END: methods
 
     mounted() {
       this.setTempDefaultResultJson()
       this.checkForStartDraw()
     },
+
     updated() {
       while(this.loopFlag == 0)
       {
@@ -752,6 +909,17 @@
 
   h5 {
     color: white;
+  }
+
+  #info {
+    color: blue;
+    font-weight: bold;
+  	position: absolute;
+  	bottom: 4%;
+    right: 6%;
+  	text-align: center;
+  	z-index: 100;
+  	display:block;
   }
 
 </style>
