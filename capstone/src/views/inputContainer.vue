@@ -585,7 +585,7 @@
             setTimeout(function() {runButton.innerHTML = ". ."}, 1000)
             setTimeout(function() {runButton.innerHTML = ". . ."}, 1500)
             setTimeout(this.getData, 2000)
-            loadingFlag = 1
+            this.loadingFlag = 1
             return
           }
 
