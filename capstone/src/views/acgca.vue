@@ -15,7 +15,9 @@
       :resultJson="resultJson"
       :postBody="postBody"
       :loadingFlag="loadingFlag"
-      :startDraw="startDraw">
+      :startDraw="startDraw"
+      :resetFlag="resetFlag"
+      >
     </outputContainer>
   </div>
 </template>
@@ -41,7 +43,8 @@ export default {
       resultJson: '',
       postBody: '',
       loadingFlag: 0,
-      startDraw: ''
+      startDraw: '',
+      resetFlag: 0
     }
   },
 
@@ -62,12 +65,11 @@ export default {
 
     setStartDrawData(data) {
       this.startDraw = data
+    },
+    postResetFlagToParent(data) {
+      this.resetFlag = data;
     }
   },
-
-  mounted: function() {
-    console.log(this.loadingFlag)
-  }
 }
 </script>
 

@@ -51,7 +51,7 @@ export default {
 } // END: export default
 </script>
 
-<style>
+<style scoped>
   h1 {
     font-family: Avant Garde,Avantgarde,Century Gothic,CenturyGothic,AppleGothic,sans-serif;
     text-align: center;
@@ -70,22 +70,5 @@ export default {
     text-align: left;
     background-image: url("../assets/InstructionsBack.png");
     color: white;
-  }
-
-  button {
-    margin-top: 10px;
-    background-color: #44c767;
-    border-radius: 20px;
-    border: none;
-    padding: 10px 20px;
-    color:#ffffff;
-    font-family:Arial;
-    font-size: 11px;
-    display: inline-block;
-  }
-
-  button:hover {
-    background-color: #EEE;
-    color: black;
   }
 </style>

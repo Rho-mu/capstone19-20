@@ -326,6 +326,7 @@
           {{this.errorMessage}}
       </div>
       <button class="runButton" id="runButton" :disabled='isDisabled()' @click="postData()">RUN</button>
+      <button class="resetButton" @click="resetData()">Reset</button>
       <br>
     </div>
   </div>
@@ -381,6 +382,7 @@
         runID: '',
         getJson: [],
         loadingFlag: 0,
+        resetFlag: 0,
         resultJson: {
             "APARout":' ',
             "h":' ',
@@ -434,6 +436,43 @@
     }, // END: data()
 
     methods: {
+      resetData() {
+        this.postBody.hmax=''
+        this.postBody.phih=''
+        this.postBody.eta=''
+        this.postBody.swmax=''
+        this.postBody.lamda=''
+        this.postBody.rhomax=''
+        this.postBody.f2=''
+        this.postBody.f1=''
+        this.postBody.gammac=''
+        this.postBody.gammaw=''
+        this.postBody.gammax=''
+        this.postBody.cgl=''
+        this.postBody.cgr=''
+        this.postBody.cgw=''
+        this.postBody.deltal=''
+        this.postBody.deltar=''
+        this.postBody.sl=''
+        this.postBody.sla=''
+        this.postBody.sr=''
+        this.postBody.so=''
+        this.postBody.rr=''
+        this.postBody.rhor=''
+        this.postBody.rml=''
+        this.postBody.rms=''
+        this.postBody.rmr=''
+        this.postBody.etaB=''
+        this.postBody.k=''
+        this.postBody.epsg=''
+        this.postBody.m=''
+        this.postBody.alpha=''
+        this.postBody.r0=''
+        this.postBody.r40=''
+        this.resetFlag = 1
+        this.$emit('postResetFlagToParent', this.resetFlag)
+      },
+
       initializeWebpage() {
         this.postBody.io = 1030 // Set light level to 1000.
         this.postBody.t = 100   // Set time to 100.
@@ -468,17 +507,17 @@
         // Sets default values in the input fields based on the button that user clicks
         if(defaultType == "Red Maple") // Red Maple button
         {
-          this.postBody.hmax=27.5;
-          this.postBody.phih=263;
-          this.postBody.eta=0.64;
-          this.postBody.swmax=0.1;
-          this.postBody.lamda=0.95;
-          this.postBody.rhomax=525000;
-          this.postBody.f2=7000;
-          this.postBody.f1=4;
-          this.postBody.gammac=131000;
-          this.postBody.gammaw=6.67e-7;
-          this.postBody.gammax=0.12;
+          this.postBody.hmax=27.5
+          this.postBody.phih=263
+          this.postBody.eta=0.64
+          this.postBody.swmax=0.1
+          this.postBody.lamda=0.95
+          this.postBody.rhomax=525000
+          this.postBody.f2=7000
+          this.postBody.f1=4
+          this.postBody.gammac=131000
+          this.postBody.gammaw=6.67e-7
+          this.postBody.gammax=0.12
           this.postBody.cgl=1.45;
           this.postBody.cgr=1.25
           this.postBody.cgw=1.37
@@ -585,7 +624,6 @@
             setTimeout(function() {runButton.innerHTML = ". ."}, 1000)
             setTimeout(function() {runButton.innerHTML = ". . ."}, 1500)
             setTimeout(this.getData, 2000)
-            this.loadingFlag = 1
             return
           }
 
@@ -625,6 +663,7 @@
           this.$emit('postBodyToParent', this.postBody) // Sends the postBody to acgca.vue to be used in outputContainer.
           this.$emit('postFlagToParent', this.loadingFlag)
           this.$emit('startDrawToParent', true)
+
         },
             (error) => { console.log(error.request)}
         )
@@ -789,7 +828,7 @@
   } // END: export default
 </script>
 
-<style>
+<style scoped>
   .containerTitle {
     text-align: center;
     display: inline-block;
@@ -813,7 +852,7 @@
     color: white;
   }
 
-  /* Buttons */
+
   .inputContainer button {
     color: black;
     display: inline-block;
@@ -830,7 +869,7 @@
   .inputContainer button:hover {
     background-color: #EEE;
   }
-  /* END: Buttons */
+
 
   .slidecontainer {
     text-align: left;
@@ -844,7 +883,7 @@
 
   }
 
-  /* Run Button */
+
   .runButton {
     background-color: #44c767 !important;
     padding: 10px 30px;
@@ -861,14 +900,14 @@
     color: white;
     background-color: lightgray !important;
   }
-  /* END: Run Button */
+
 
   #error-message{
     color: white;
     font-weight: bold;
   }
 
-  /* Collapsible Menus */
+
   .collapsible {
     color: black;
     border: none;
@@ -876,14 +915,14 @@
   }
 
   .collapsible:after {
-    content: '\02795'; /* Unicode character for "plus" sign (+) */
+    content: '\02795';
     font-size: 10px !important;
     color: white;
     float: right;
   }
 
   .active:after {
-    content: "\2796"; /* Unicode character for "minus" sign (-) */
+    content: "\2796";
   }
 
   .content {
@@ -916,9 +955,7 @@
     border-radius:5px;
     padding-left: 5px;
   }
-  /* END: Collapsible Menus */
 
-  /* Sliders for light level and time */
   .inputSlider {
     -webkit-appearance: none;
     width: 075%;
@@ -942,9 +979,7 @@
     cursor: pointer;
     border-radius: 50%;
   }
-  /* END: Sliders for light level and time */
 
-  /* Help tip */
   .help-tip{
     position: relative;
     display: inline-block;
@@ -986,7 +1021,7 @@
     font-size: 13px;
     line-height: 1.4;
     border-radius: 25px;
-    z-index: 100;  /*this z index makes the help tip on top of every other things*/
+    z-index: 100;
   }
 
   .help-tip p:after{ //Prevents the tooltip from being hidden
@@ -1011,7 +1046,7 @@
     height:120px;
   }
 
-  /* Fades in the information boxes */
+
   @-webkit-keyframes fadeIn {
       0% { opacity:0; transform: scale(0.6); }
       100% { opacity:100%; transform: scale(1); }
@@ -1021,7 +1056,7 @@
       0% { opacity:0; }
       100% { opacity:100%; }
   }
-  /* END: Help tip */
+
 
   label {
     font-size: 15px;
