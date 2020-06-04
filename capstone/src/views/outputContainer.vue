@@ -175,7 +175,7 @@
         console.log("initializeVisualization - Complete")
       }, // END: initializeVisualization()
 
-      postGetSetup() {
+      afterGetSetup() {
         // Does some setup once getData() is done and data has been retrieved.
 
         // Change the background color of the tree scene based on the light level.
@@ -215,8 +215,8 @@
             this.maxLAI2 = this.resultJson.LAI2[i]
           }
         }
-        console.log("postGetSetup - Complete")
-      }, // END: postGetSetup()
+        console.log("afterGetSetup - Complete")
+      }, // END: afterGetSetup()
 
       draw() {
         if(this.currentScene == this.treeScene)
@@ -765,14 +765,28 @@
         if( this.startDraw == true )
         {
           console.log("startDraw - True")
-          this.postGetSetup()
+          this.afterGetSetup()
           this.draw()
         }
         else
         {
-          setTimeout(this.checkForStartDraw, 100)
+          setTimeout(this.checkForStartDraw, 200)
         }
       }, // END: checkForStartDraw()
+
+      checkForReset() {
+        // Keeps checking for resetFlag (from the input container)
+        // to reset the visualization when the suer clicks the reset button.
+        if( this.resetFlag == 1 )
+        {
+          console.log("resetFlag - 1")
+          this.resetVisualization()
+        }
+        else
+        {
+          setTimeout(this.checkForReset, 200)
+        }
+      }, // END: checkForReset()
 
       resetVisualization() {
         // Resets the visualization so that it's easier for the user to rerun the simulation.
@@ -799,6 +813,10 @@
         this.startDraw = false
         this.checkForStartDraw()
 
+        // Set resetFlag to 0 and re-call it to check when the reset button is clicked again.
+        this.resetFlag = 0
+        this.checkForReset()
+
         console.log("Reset - Visualization")
       } // END: resetVisualization()
     }, // END: methods
@@ -806,6 +824,7 @@
     mounted() {
       this.setTempDefaultResultJson()
       this.checkForStartDraw()
+      this.checkForReset()
     },
 
     updated() {

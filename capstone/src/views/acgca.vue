@@ -7,7 +7,8 @@
       v-on:resultJsonToParent="setResultJsonData"
       v-on:postBodyToParent="setPostBodyData"
       v-on:postFlagToParent="setLoadingData"
-      v-on:startDrawToParent="setStartDrawData">
+      v-on:startDrawToParent="setStartDrawData"
+      v-on:postResetFlagToParent="postResetFlagToParent">
     </inputContainer>
 
 
@@ -67,7 +68,7 @@ export default {
       this.startDraw = data
     },
     postResetFlagToParent(data) {
-      this.resetFlag = data;
+      this.resetFlag = data
     }
   },
 }
