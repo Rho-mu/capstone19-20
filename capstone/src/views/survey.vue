@@ -1,8 +1,8 @@
 <template>
-  <div class="survey">
+  <div class="surveyPage">
     <form @submit="submitName">
-      <div>
-        <img src="../assets/Logo-Black.png"><br>
+      <div class="survey">
+        <img src="../assets/logo.png"><br>
         <h4>Please Fill out the Survey</h4>
         <input type="text" v-model="newUser.first_Name" placeholder="First Name" required><br>
 
@@ -63,15 +63,37 @@ export default {
   methods: {
     submitName() {
       var keyRef = userRef.push( this.newUser );
-      this.$router.replace('inputs-vis');
+      this.$router.replace('acgca');
     }
   }
 }
 </script>
 
 <style scoped>
+  .surveyPage {
+    background-image: url('../assets/Background.png');
+    min-height: 100%;
+    min-width: 1024px;
+
+    /* Set up proportionate scaling */
+    width: 100%;
+    height: auto;
+
+    /* Set up positioning */
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+
+  img {
+    height: 80px;
+    width: 80px;
+  }
+
   .survey {
     margin-top: 80px;
+    color: white;
   }
 
   ul {
@@ -84,22 +106,6 @@ export default {
     margin: 0 10px;
   }
 
-  button {
-    margin-top: 10px;
-    background-color: #44c767;
-    border-radius: 20px;
-    border: none;
-    padding: 10px 30px;
-    color:#ffffff;
-    font-family:Arial;
-    font-size: 13px;
-    display: inline-block;
-  }
-
-  button:hover {
-    background-color: #EEE;
-    color: black;
-  }
   input {
     margin: 10px 0;
     width: 25%;

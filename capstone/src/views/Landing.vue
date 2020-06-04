@@ -159,23 +159,5 @@ export default {
   color: white;
 }
 
-.testButton {
-  margin-top: 10px;
-  background-color: #44c767;
-  border-radius: 20px;
-  border: none;
-  padding: 10px 30px;
-  color:#ffffff;
-}
-
-.signup button:hover {
-  background-color: #EEE;
-  color: black;
-}
-
-.login button:hover {
-  background-color: #EEE;
-  color: black;
-}
 
 </style>

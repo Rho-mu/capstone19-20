@@ -92,7 +92,7 @@
 
     components: {'download-csv': JsonCSV},
 
-    props: ['resultJson', 'postBody', 'startDraw'],
+    props: ['resultJson', 'postBody', 'startDraw', 'loadingFlag', 'resetFlag'],
 
     data() {
       return {

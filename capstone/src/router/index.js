@@ -6,7 +6,6 @@ import Login from '../views/Login.vue'
 import SignUp from '../views/SignUp.vue'
 import Survey from '../views/Survey.vue'
 import Landing from '../views/Landing.vue'
-import InputsVis from '../views/inputs-vis.vue'
 import Acgca from '../views/acgca.vue'
 
 Vue.use(VueRouter)
@@ -32,20 +31,12 @@ const routes = [
   },
   {
     path: '*', // this redirects anything that doesn't correspond to the login page
-    redirect: '/Landing'
+    redirect: '/landing'
   },
   {
     path: '/landing', // this redirects anything that doesn't correspond to the login page
     name: 'Landing',
     component: Landing
-  },
-  {
-    path: '/inputs-vis',
-    name: 'InputsVis',
-    component: InputsVis, // this will require Auth
-    meta: {
-      requiresAuth: false
-    }
   },
   {
     path: '/acgca',
