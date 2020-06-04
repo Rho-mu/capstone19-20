@@ -24,7 +24,7 @@
       <div class="rawDataList" id="rawDataList">
         <br>
         <div class="rawData">
-          <label>APARout: {{ this.resultJson.APARout[this.dataIndex] }}   </label><br>
+          <!--<label>APARout: {{ this.resultJson.APARout[this.dataIndex] }}   </label><br>-->
           <label>h: {{ this.resultJson.h[this.dataIndex] }}               </label><br>
           <label>hh: {{ this.resultJson.hh2[this.dataIndex] }}           </label><br>
           <label>hC: {{ this.resultJson.hC2[this.dataIndex] }}           </label><br>
@@ -75,7 +75,7 @@
         <br><br>
         <div>
           <download-csv class="downloadbutton" :data="this.array" name = "treeData.csv">
-            <button @click="downloadRawData()">Download</button>
+            <button @click="downloadRawData()">Download data</button>
           </download-csv>
         </div>
       </div>
@@ -99,7 +99,9 @@
         dataIndex: "1",
         currentScene: this.treeScene,
         currentCam: this.treeCam,
-        maxHeight: 15,
+        maxHeight: 0,
+        maxRadius: 0,
+        maxLAI2: 0,
         crownShape: "cone",
         array : [],
         loopFlag: 0,
@@ -170,52 +172,13 @@
         //this.addTreeScale()
         //this.addRingScale()
         //this.testSize()
+        console.log("initializeVisualization - Complete")
       }, // END: initializeVisualization()
 
       postGetSetup() {
         // Does some setup once getData() is done and data has been retrieved.
 
-        // This stuff should be calculated once after getData.
-        // Find max radius and height of tree over its life to scale the scene to.
-        // Find max LAI2 to normalize it for opacity.
-        var maxHeight = 0
-        var maxLAI2 = 0
-        for( var i = 1; i <= this.postBody.t; i++ )
-        {
-          // Find max height.
-          if( this.maxHeight < this.resultJson.h[i] )
-          {
-            this.maxHeight = this.resultJson.h[i]
-          }
-          // Find max radius.
-          /*if( maxLAI2 < this.resultJson.r[i] )
-          {
-            maxLAI2 = this.resultJson.r[i]
-          }
-
-          // Find max LAI2.
-          if( maxHeight < this.resultJson.LAI2[i] )
-          {
-            maxHeight = this.resultJson.LAI2[i]
-          }*/
-        }
-        //console.log("Max LAI2:", maxLAI2)
-
-      }, // END: postGetSetup()
-
-      draw() {
-        if(this.currentScene == this.treeScene)
-        {
-          this.drawTree()
-        }
-        else if(this.currentScene == this.ringScene)
-        {
-          this.drawRings()
-        }
-      }, // END: draw()
-
-      drawTree() {
-        // Move to afterGet() once tuned.
+        // Change the background color of the tree scene based on the light level.
         var bgColor = new THREE.Color()
         if(this.postBody.io == null)
         {
@@ -231,12 +194,8 @@
         }
         this.treeScene.background = bgColor
 
-        var year = this.dataIndex // The current timestep on the slider. Named "year" to make it easier to read.
-        // This stuff should be calculated once after getData.
         // Find max radius and height of tree over its life to scale the scene to.
         // Find max LAI2 to normalize it for opacity.
-        var maxHeight = 0
-        var maxLAI2 = 0
         for( var i = 1; i <= this.postBody.t; i++ )
         {
           // Find max height.
@@ -245,18 +204,33 @@
             this.maxHeight = this.resultJson.h[i]
           }
           // Find max radius.
-          /*if( maxLAI2 < this.resultJson.r[i] )
+          if( this.maxRadius < this.resultJson.r[i] )
           {
-            maxLAI2 = this.resultJson.r[i]
+            this.maxRadius = this.resultJson.r[i]
           }
 
           // Find max LAI2.
-          if( maxHeight < this.resultJson.LAI2[i] )
+          if( this.maxLAI2 < this.resultJson.LAI2[i] )
           {
-            maxHeight = this.resultJson.LAI2[i]
-          }*/
+            this.maxLAI2 = this.resultJson.LAI2[i]
+          }
         }
-        //console.log("Max LAI2:", maxLAI2)
+        console.log("postGetSetup - Complete")
+      }, // END: postGetSetup()
+
+      draw() {
+        if(this.currentScene == this.treeScene)
+        {
+          this.drawTree()
+        }
+        else if(this.currentScene == this.ringScene)
+        {
+          this.drawRings()
+        }
+      }, // END: draw()
+
+      drawTree() {
+        var year = this.dataIndex // The current timestep on the slider. Named "year" to make it easier to read.
 
         // Clear scene of old drawings
         while(this.treeScene.children.length > 0){   // Clear scene of old tree
@@ -302,7 +276,7 @@
         {
           rcmax = (r0 * r) / ((hmax / phih) * Math.log(hmax/(hmax - BH)))
         }
-        //console.log("r cmax",rcmax)
+        //console.log("rcmax",rcmax)
 
         var eta = this.postBody.eta     // Input.
         var alpha = this.postBody.alpha // Input. Curvature of the crown.
@@ -369,7 +343,7 @@
 
         var crownMat = new THREE.MeshLambertMaterial( {color: 0x00FF00} )
         crownMat.transparent = true
-        crownMat.opacity = this.resultJson.LAI2[year]/maxLAI2
+        crownMat.opacity = this.resultJson.LAI2[year]/this.maxLAI2
         //console.log("crown opacity:", crownMat.opacity)
 
         this.crown = new THREE.Mesh( crownGeo, crownMat )
@@ -394,15 +368,13 @@
         var geoSegments = 16
 
         // Clear scene of previous drawings
-        while(this.ringScene.children.length > 0){                  // Clear scene of old rings
+        while(this.ringScene.children.length > 0){           // Clear scene of old rings
           this.ringScene.remove(this.ringScene.children[0])
         }
-        this.newScene = new THREE.Scene()                           // Create new scene for new rings
-        this.ringScene.add( this.newScene )                         // Add new scene to root scene
+        this.newScene = new THREE.Scene()                    // Create new scene for new rings
+        this.ringScene.add( this.newScene )                  // Add new scene to root scene
 
-        // Find max radius and scale scene to that size
-        var maxRadius = this.resultJson.r[this.postBody.t]
-        this.ringCam.position.z = maxRadius * 1.1
+        this.ringCam.position.z = this.maxRadius * 1.1       // Scale scene to maxRadius so that no rings are off-screne.
 
         this.ringCam.lookAt(0, 0, 0)
 
@@ -410,7 +382,6 @@
 
         var heartwoodRadius = this.resultJson.r[this.dataIndex] - this.resultJson.sw2[this.dataIndex] // Gets the heart wood radius at the current year on the slider
         //console.log("sw:", this.resultJson.sw2[this.dataIndex], "\nr:", this.resultJson.r[this.dataIndex], "\nhw:", heartwoodRadius)
-
 
         for( var i = 1; i <= this.dataIndex; i++ )
         {
@@ -663,7 +634,7 @@
 
       setCrownShape(shape) {
         this.crownShape = shape
-        console.log("crownShape:", shape)
+        console.log("Crown Shape Change -", shape)
         this.drawTree()
       }, // END: setCrownShape()
 
@@ -679,6 +650,7 @@
           this.currentScene = this.treeScene
           this.currentCam = this.treeCam
           this.drawTree()
+          console.log("Scene Change - Tree")
         }
         else if(scene == "ringScene") {
           document.getElementById("treeCanvasport").style.display = "block"
@@ -691,6 +663,7 @@
           this.currentScene = this.ringScene
           this.currentCam = this.ringCam
           this.drawRings()
+          console.log("Scene Change - Rings")
         }
         else if(scene == "rawDataScene") {
           document.getElementById("treeCanvasport").style.display = "none"
@@ -699,11 +672,12 @@
           document.getElementById("coneButton").style.display = "none"
           //document.getElementById("sphereButton").style.display = "none"
           document.getElementById("cylinderButton").style.display = "none"
+          console.log("Scene Change - Raw Data")
         }
       }, // END: setScene()
 
       update() {
-        // THREE.js function
+        // THREE.js function used to move objects in the scene.
         //this.trunk.rotation.y += 0.01
         //this.crown.rotation.y += 0.01
       }, // END: update()
@@ -788,8 +762,10 @@
       checkForStartDraw() {
         // Keeps checking for startDraw (from the input container)
         // to draw once getData() is complete.
-        if( this.startDraw == true ) {
-          //this.postGetSetup()
+        if( this.startDraw == true )
+        {
+          console.log("startDraw - True")
+          this.postGetSetup()
           this.draw()
         }
         else
@@ -801,6 +777,7 @@
       resetVisualization() {
         // Resets the visualization so that it's easier for the user to rerun the simulation.
 
+        console.log("Reset - Visualization")
       } // END: resetVisualization()
     }, // END: methods
 
