@@ -1,8 +1,6 @@
 <template>
   <div>
     <div class="outputContainer" id="outputContainer">
-      <button @click="initializeVisualization()">init</Button>
-      <button @click="resetVisualization()">reset</Button>
       <div class="setSceneContainer">
         <button @click="setScene('ringScene')" class="ringSceneButton" id="ringSceneButton">RINGS</button>
         <button @click="setScene('treeScene')" class="treeSceneButton" id="treeSceneButton">TREE</button>
