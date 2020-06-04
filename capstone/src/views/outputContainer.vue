@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="outputContainer" id="outputContainer">
-      <!--<button @click="initializeVisualization()">init</Button>
-      <button @click="resetVisualization()">reset</Button>-->
+      <button @click="initializeVisualization()">init</Button>
+      <button @click="resetVisualization()">reset</Button>
       <div class="setSceneContainer">
         <button @click="setScene('ringScene')" class="ringSceneButton" id="ringSceneButton">RINGS</button>
         <button @click="setScene('treeScene')" class="treeSceneButton" id="treeSceneButton">TREE</button>
@@ -776,6 +776,28 @@
 
       resetVisualization() {
         // Resets the visualization so that it's easier for the user to rerun the simulation.
+
+        // Set output data max's to 0.
+        this.maxHeight = 0
+        this.maxRadius = 0
+        this.maxLAI2 = 0
+
+        // Set result json to be all empty.
+        this.setTempDefaultResultJson()
+
+        // Clear tree scene of all drawings.
+        while(this.treeScene.children.length > 0){
+          this.treeScene.remove(this.treeScene.children[0])
+        }
+
+        // Clear ring scene of all drawings.
+        while(this.ringScene.children.length > 0){
+          this.ringScene.remove(this.ringScene.children[0])
+        }
+
+        // Set startDraw to false and re-call it to check when getData is done again.
+        this.startDraw = false
+        this.checkForStartDraw()
 
         console.log("Reset - Visualization")
       } // END: resetVisualization()
