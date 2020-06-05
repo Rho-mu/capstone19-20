@@ -317,7 +317,7 @@
         </div>
 
         <div class="slider">
-          <label for="t">Total time: {{postBody.t}} </label>
+          <label for="t">Total time (years): {{postBody.t}} </label>
           <p>0 <input type="range" class="inputSlider" min="1" max="450" v-model="postBody.t"> 450</p>
         </div>
       </div>
