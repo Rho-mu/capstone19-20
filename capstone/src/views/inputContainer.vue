@@ -595,8 +595,7 @@
           //console.log("from post -- runID: ", this.runID)
           console.log("Posted inputs!")
 
-
-          //document.getElementById("timeStepSlider").setAttribute("max", this.postBody.t) // Sets max value for timestep slider.
+          document.getElementById("timeStepSlider").setAttribute("max", this.postBody.t) // Sets max value for timestep slider.
           this.getData() // Call getData() to start looking for model outputs.
         })
       }, // END: postData()
