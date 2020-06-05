@@ -470,7 +470,9 @@
         this.postBody.r0=''
         this.postBody.r40=''
         this.resetFlag = 1
+        this.loadingFlag = 0
         this.$emit('postResetFlagToParent', this.resetFlag)
+        this.$emit('postFlagToParent', this.loadingFlag)
       },
 
       initializeWebpage() {
@@ -608,6 +610,8 @@
         })
         .then((response) => {
           this.loadingFlag = 1
+          this.resetFlag = 0;
+
 
           //console.log("runID:", this.runID)
           this.getJson = response.data
@@ -663,6 +667,7 @@
           this.$emit('postBodyToParent', this.postBody) // Sends the postBody to acgca.vue to be used in outputContainer.
           this.$emit('postFlagToParent', this.loadingFlag)
           this.$emit('startDrawToParent', true)
+          this.$emit('postResetFlagToParent', this.resetFlag)
 
         },
             (error) => { console.log(error.request)}

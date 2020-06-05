@@ -823,6 +823,8 @@
       this.setTempDefaultResultJson()
       this.checkForStartDraw()
       this.checkForReset()
+      // setTimeout(this.initializeVisualization, 1)
+      // setTimeout(this.animate, 2)
     },
 
     updated() {
@@ -834,9 +836,6 @@
 
           this.initializeVisualization()
           this.animate()
-          // setTimeout(this.initializeVisualization, 1)
-          // setTimeout(this.animate, 2)
-
         }
       }
     } // END: mounted
