@@ -311,12 +311,12 @@
               </p></span>
         </div><br>
 
-        <div class="lightSlider">
+        <div class="slider">
           <label> Light level: {{ (postBody.io / 20.6).toFixed(0)}}%</label>
           <p>0 <input type="range" class="inputSlider"  min="0" max="2060" v-model="postBody.io"> 100%</p><!--@input="draw()" Used for testing, but don't have it connected yet.-->
         </div>
 
-        <div class="timeSlider">
+        <div class="slider">
           <label for="t">Total time: {{postBody.t}} </label>
           <p>0 <input type="range" class="inputSlider" min="1" max="450" v-model="postBody.t"> 450</p>
         </div>
@@ -848,14 +848,10 @@
     border: none;
     border-radius: 10px;
     font-size: 16px;
-    color:black;
     width:17%;
     background-color: #b9b9b9;
     background-image: url("../assets/InputBack.png");
-    background-repeat: repeat-x;
-    color: white;
   }
-
 
   .inputContainer button {
     color: black;
@@ -874,7 +870,6 @@
     background-color: #EEE;
   }
 
-
   .slidecontainer {
     text-align: left;
   }
@@ -887,30 +882,27 @@
 
   }
 
-
-  .runButton {
-    background-color: #44c767 !important;
+  .runButton:enabled {
+    background-color: #44c767;
     padding: 10px 30px;
-    color:#ffffff !important;
+    color:#ffffff;
   }
 
   .runButton:hover {
-    background-color: #EEE !important;
-    color: black !important;
+    background-color: #EEE;
+    color: black;
   }
 
   .runButton:disabled {
     cursor: auto;
     color: white;
-    background-color: lightgray !important;
+    background-color: lightgray;
   }
-
 
   #error-message{
     color: white;
     font-weight: bold;
   }
-
 
   .collapsible {
     color: black;
@@ -920,7 +912,7 @@
 
   .collapsible:after {
     content: '\02795';
-    font-size: 10px !important;
+    font-size: 10px;
     color: white;
     float: right;
   }
@@ -984,7 +976,7 @@
     border-radius: 50%;
   }
 
-  .help-tip{
+  .help-tip {
     position: relative;
     display: inline-block;
     text-align: center;
@@ -1050,7 +1042,6 @@
     height:120px;
   }
 
-
   @-webkit-keyframes fadeIn {
       0% { opacity:0; transform: scale(0.6); }
       100% { opacity:100%; transform: scale(1); }
@@ -1060,7 +1051,6 @@
       0% { opacity:0; }
       100% { opacity:100%; }
   }
-
 
   label {
     font-size: 15px;
@@ -1072,11 +1062,7 @@
     z-index: 0;
   }
 
-  .lightSlider p {
-    font-size: 13px;
-  }
-
-  .timeSlider p {
+  .slider p {
     font-size: 13px;
   }
 
