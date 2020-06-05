@@ -19,6 +19,11 @@ export default {
   color: white;
 }
 
+img {
+  height: 80px;
+  width: 80px;
+}
+
 button {
   margin-top: 10px;
   background-color: #44c767;

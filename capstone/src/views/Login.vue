@@ -55,11 +55,6 @@
     z-index: -1;
   }
 
-  img {
-    height: 80px;
-    width: 80px;
-  }
-
   .content {
     margin-top: 160px;
     color: white;

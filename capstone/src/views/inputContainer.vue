@@ -322,7 +322,7 @@
         </div>
       </div>
 
-      <div id="error-message"><br>
+      <div class="error-message"><br>
           {{this.errorMessage}}
       </div>
       <button class="runButton" id="runButton" :disabled='isDisabled()' @click="postData()">RUN</button>
@@ -899,7 +899,7 @@
     background-color: lightgray;
   }
 
-  #error-message{
+  .error-message{
     color: white;
     font-weight: bold;
   }

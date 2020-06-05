@@ -146,7 +146,6 @@ export default {
   width: 80px;
 }
 
-
 .content {
   position: relative;
 }
