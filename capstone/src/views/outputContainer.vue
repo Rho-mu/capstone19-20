@@ -22,53 +22,53 @@
       <div class="rawDataList" id="rawDataList">
         <br>
         <div class="rawData">
-          <!--<label>APARout: {{ this.resultJson.APARout[this.dataIndex] }}   </label><br>-->
-          <label>h: {{ this.resultJson.h[this.dataIndex] }}               </label><br>
-          <label>hh: {{ this.resultJson.hh2[this.dataIndex] }}           </label><br>
-          <label>hC: {{ this.resultJson.hC2[this.dataIndex] }}           </label><br>
-          <label>hB: {{ this.resultJson.hB2[this.dataIndex] }}           </label><br>
-          <label>hBH: {{ this.resultJson.hBH2[this.dataIndex] }}         </label><br>
-          <label>r: {{ this.resultJson.r[this.dataIndex] }}               </label><br>
-          <label>rB: {{ this.resultJson.rB2[this.dataIndex] }}           </label><br>
-          <label>rC: {{ this.resultJson.rC2[this.dataIndex] }}           </label><br>
-          <label>rBH: {{ this.resultJson.rBH[this.dataIndex] }}           </label><br>
-          <label>sw: {{ this.resultJson.sw2[this.dataIndex] }}           </label><br>
-          <label>vts: {{ this.resultJson.vts2[this.dataIndex] }}         </label><br>
-          <label>vt: {{ this.resultJson.vt2[this.dataIndex] }}           </label><br>
-          <label>vth: {{ this.resultJson.vth2[this.dataIndex] }}         </label><br>
-          <label>sa: {{ this.resultJson.sa2[this.dataIndex] }}           </label><br>
-          <label>la: {{ this.resultJson.la2[this.dataIndex] }}           </label><br>
-          <label>ra: {{ this.resultJson.ra2[this.dataIndex] }}           </label><br>
-          <label>dr: {{ this.resultJson.dr2[this.dataIndex] }}           </label><br>
-          <label>xa: {{ this.resultJson.xa2[this.dataIndex] }}           </label><br>
-          <label>bl: {{ this.resultJson.bl2[this.dataIndex] }}           </label><br>
-          <label>br: {{ this.resultJson.br2[this.dataIndex] }}           </label><br>
-          <label>bt: {{ this.resultJson.bt2[this.dataIndex] }}           </label><br>
-          <label>bts: {{ this.resultJson.bts2[this.dataIndex] }}         </label><br>
-          <label>bth: {{ this.resultJson.bth2[this.dataIndex] }}         </label><br>
-          <label>boh: {{ this.resultJson.boh2[this.dataIndex] }}         </label><br>
-          <label>bos: {{ this.resultJson.bos2[this.dataIndex] }}         </label><br>
-          <label>bo: {{ this.resultJson.bo2[this.dataIndex] }}           </label><br>
-          <label>bs: {{ this.resultJson.bs2[this.dataIndex] }}           </label><br>
-          <!--<label>cs2: {{ this.resultJson.cs2[this.dataIndex] }}       </label><br>-->
-          <label>clr: {{ this.resultJson.clr2[this.dataIndex] }}         </label><br>
-          <label>fl: {{ this.resultJson.fl2[this.dataIndex] }}           </label><br>
-          <label>fr: {{ this.resultJson.fr2[this.dataIndex] }}           </label><br>
-          <label>ft: {{ this.resultJson.ft2[this.dataIndex] }}           </label><br>
-          <label>fo: {{ this.resultJson.fo2[this.dataIndex] }}           </label><br>
-          <label>rfl: {{ this.resultJson.rfl2[this.dataIndex] }}         </label><br>
-          <label>rfr: {{ this.resultJson.rfr2[this.dataIndex] }}         </label><br>
-          <label>rfs: {{ this.resultJson.rfs2[this.dataIndex] }}         </label><br>
-          <label>egrow: {{ this.resultJson.egrow2[this.dataIndex] }}     </label><br>
-          <label>ex: {{ this.resultJson.ex2[this.dataIndex] }}           </label><br>
-          <label>rtrans: {{ this.resultJson.rtrans2[this.dataIndex] }}   </label><br>
-          <label>light: {{ this.resultJson.light2[this.dataIndex] }}     </label><br>
-          <label>nut: {{ this.resultJson.nut2[this.dataIndex] }}         </label><br>
-          <label>deltas: {{ this.resultJson.deltas2[this.dataIndex] }}   </label><br>
-          <label>LAI: {{ this.resultJson.LAI2[this.dataIndex] }}         </label><br>
-          <!-- <label>status2: {{ this.resultJson.status2[this.dataIndex] }}   </label><br> -->
-          <!--<label>errorind: {{ this.resultJson.errorind[this.dataIndex] }}   </label><br>-->
-          <!--<label>growth_st: {{ this.resultJson.growth_st[this.dataIndex] }} </label><br>-->
+          <!--<label>APARout: {{ this.localResultJson.APARout[this.dataIndex] }}   </label><br>-->
+          <label>h: {{ this.localResultJson.h[this.dataIndex] }}               </label><br>
+          <label>hh: {{ this.localResultJson.hh2[this.dataIndex] }}           </label><br>
+          <label>hC: {{ this.localResultJson.hC2[this.dataIndex] }}           </label><br>
+          <label>hB: {{ this.localResultJson.hB2[this.dataIndex] }}           </label><br>
+          <label>hBH: {{ this.localResultJson.hBH2[this.dataIndex] }}         </label><br>
+          <label>r: {{ this.localResultJson.r[this.dataIndex] }}               </label><br>
+          <label>rB: {{ this.localResultJson.rB2[this.dataIndex] }}           </label><br>
+          <label>rC: {{ this.localResultJson.rC2[this.dataIndex] }}           </label><br>
+          <label>rBH: {{ this.localResultJson.rBH[this.dataIndex] }}           </label><br>
+          <label>sw: {{ this.localResultJson.sw2[this.dataIndex] }}           </label><br>
+          <label>vts: {{ this.localResultJson.vts2[this.dataIndex] }}         </label><br>
+          <label>vt: {{ this.localResultJson.vt2[this.dataIndex] }}           </label><br>
+          <label>vth: {{ this.localResultJson.vth2[this.dataIndex] }}         </label><br>
+          <label>sa: {{ this.localResultJson.sa2[this.dataIndex] }}           </label><br>
+          <label>la: {{ this.localResultJson.la2[this.dataIndex] }}           </label><br>
+          <label>ra: {{ this.localResultJson.ra2[this.dataIndex] }}           </label><br>
+          <label>dr: {{ this.localResultJson.dr2[this.dataIndex] }}           </label><br>
+          <label>xa: {{ this.localResultJson.xa2[this.dataIndex] }}           </label><br>
+          <label>bl: {{ this.localResultJson.bl2[this.dataIndex] }}           </label><br>
+          <label>br: {{ this.localResultJson.br2[this.dataIndex] }}           </label><br>
+          <label>bt: {{ this.localResultJson.bt2[this.dataIndex] }}           </label><br>
+          <label>bts: {{ this.localResultJson.bts2[this.dataIndex] }}         </label><br>
+          <label>bth: {{ this.localResultJson.bth2[this.dataIndex] }}         </label><br>
+          <label>boh: {{ this.localResultJson.boh2[this.dataIndex] }}         </label><br>
+          <label>bos: {{ this.localResultJson.bos2[this.dataIndex] }}         </label><br>
+          <label>bo: {{ this.localResultJson.bo2[this.dataIndex] }}           </label><br>
+          <label>bs: {{ this.localResultJson.bs2[this.dataIndex] }}           </label><br>
+          <!--<label>cs2: {{ this.localResultJson.cs2[this.dataIndex] }}       </label><br>-->
+          <label>clr: {{ this.localResultJson.clr2[this.dataIndex] }}         </label><br>
+          <label>fl: {{ this.localResultJson.fl2[this.dataIndex] }}           </label><br>
+          <label>fr: {{ this.localResultJson.fr2[this.dataIndex] }}           </label><br>
+          <label>ft: {{ this.localResultJson.ft2[this.dataIndex] }}           </label><br>
+          <label>fo: {{ this.localResultJson.fo2[this.dataIndex] }}           </label><br>
+          <label>rfl: {{ this.localResultJson.rfl2[this.dataIndex] }}         </label><br>
+          <label>rfr: {{ this.localResultJson.rfr2[this.dataIndex] }}         </label><br>
+          <label>rfs: {{ this.localResultJson.rfs2[this.dataIndex] }}         </label><br>
+          <label>egrow: {{ this.localResultJson.egrow2[this.dataIndex] }}     </label><br>
+          <label>ex: {{ this.localResultJson.ex2[this.dataIndex] }}           </label><br>
+          <label>rtrans: {{ this.localResultJson.rtrans2[this.dataIndex] }}   </label><br>
+          <label>light: {{ this.localResultJson.light2[this.dataIndex] }}     </label><br>
+          <label>nut: {{ this.localResultJson.nut2[this.dataIndex] }}         </label><br>
+          <label>deltas: {{ this.localResultJson.deltas2[this.dataIndex] }}   </label><br>
+          <label>LAI: {{ this.localResultJson.LAI2[this.dataIndex] }}         </label><br>
+          <!-- <label>status2: {{ this.localResultJson.status2[this.dataIndex] }}   </label><br> -->
+          <!--<label>errorind: {{ this.localResultJson.errorind[this.dataIndex] }}   </label><br>-->
+          <!--<label>growth_st: {{ this.localResultJson.growth_st[this.dataIndex] }} </label><br>-->
         </div>
         <br><br>
         <div>
@@ -103,6 +103,8 @@
         crownShape: "cone",
         array : [],
         loopFlag: 0,
+        localResultJson: '',
+        localLoadingFlag: ''
       } // END: return
     }, // END: data()
 
@@ -176,6 +178,9 @@
       afterGetSetup() {
         // Does some setup once getData() is done and data has been retrieved.
 
+        this.localResultJson = this.resultJson
+        this.localLoadingFlag = this.loadingFlag
+
         // Change the background color of the tree scene based on the light level.
         var bgColor = new THREE.Color()
         if(this.postBody.io == null)
@@ -197,20 +202,20 @@
         for( var i = 1; i <= this.postBody.t; i++ )
         {
           // Find max height.
-          if( this.maxHeight < this.resultJson.h[i] )
+          if( this.maxHeight < this.localResultJson.h[i] )
           {
-            this.maxHeight = this.resultJson.h[i]
+            this.maxHeight = this.localResultJson.h[i]
           }
           // Find max radius.
-          if( this.maxRadius < this.resultJson.r[i] )
+          if( this.maxRadius < this.localResultJson.r[i] )
           {
-            this.maxRadius = this.resultJson.r[i]
+            this.maxRadius = this.localResultJson.r[i]
           }
 
           // Find max LAI2.
-          if( this.maxLAI2 < this.resultJson.LAI2[i] )
+          if( this.maxLAI2 < this.localResultJson.LAI2[i] )
           {
-            this.maxLAI2 = this.resultJson.LAI2[i]
+            this.maxLAI2 = this.localResultJson.LAI2[i]
           }
         }
         console.log("afterGetSetup - Complete")
@@ -242,14 +247,14 @@
         this.addTreeScale()
 
         /// Trunk variables
-        var h = this.resultJson.h[year]      // Total tree height
-        var hB = this.resultJson.hB2[year]   // Height that trunk transitions from neiloid to paraboloid (base to trunk)
+        var h = this.localResultJson.h[year]      // Total tree height
+        var hB = this.localResultJson.hB2[year]   // Height that trunk transitions from neiloid to paraboloid (base to trunk)
         hB = this.postBody.etaB * h
-        var hC = this.resultJson.hC2[year]   // Height that trunk transitions from paraboloid to cone (trunk to crown)
+        var hC = this.localResultJson.hC2[year]   // Height that trunk transitions from paraboloid to cone (trunk to crown)
         hC = this.postBody.eta * h
-        var r = this.resultJson.r[year]      // Radius of trunk at base
-        var rB = this.resultJson.rB2[year]   // Radius of trunk when transitioning from neilooid to paraboloid (base to trunk)
-        var rC = this.resultJson.rC2[year]   // Radius of trunk when transitioning from parapoloid to cone (trunk to crown)
+        var r = this.localResultJson.r[year]      // Radius of trunk at base
+        var rB = this.localResultJson.rB2[year]   // Radius of trunk when transitioning from neilooid to paraboloid (base to trunk)
+        var rC = this.localResultJson.rC2[year]   // Radius of trunk when transitioning from parapoloid to cone (trunk to crown)
 
         /// Crown variables (overlaid on "cone" part of trunk)
         var hmax = this.postBody.hmax        // Input.
@@ -259,7 +264,7 @@
         var alpha = this.postBody.alpha      // Input.
         var r0 = this.postBody.r0            // Input.
         var r40 = this.postBody.r40          // Input.
-        var rBH = this.resultJson.rBH[year]  // Output.
+        var rBH = this.localResultJson.rBH[year]  // Output.
         // var h = this.treeData[year].h     // Output. Delcared above
         const BH = 1.37                      // Breast height. Contsant 1.37 meters
 
@@ -291,7 +296,7 @@
           rcbase = rcmax
         }
 
-        //console.log("year:",year,"\nLAI2:",this.resultJson.LAI2[year],"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,"\nrBH:",rBH,"\nrcmax:",rcmax,"\nrcbase:",rcbase)
+        //console.log("year:",year,"\nLAI2:",this.localResultJson.LAI2[year],"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,"\nrBH:",rBH,"\nrcmax:",rcmax,"\nrcbase:",rcbase)
 
         // Supplemental parameters
         var geoSegments = 20            // Segments of geometry
@@ -341,7 +346,7 @@
 
         var crownMat = new THREE.MeshLambertMaterial( {color: 0x00FF00} )
         crownMat.transparent = true
-        crownMat.opacity = this.resultJson.LAI2[year]/this.maxLAI2
+        crownMat.opacity = this.localResultJson.LAI2[year]/this.maxLAI2
         //console.log("crown opacity:", crownMat.opacity)
 
         this.crown = new THREE.Mesh( crownGeo, crownMat )
@@ -378,8 +383,8 @@
 
         this.addRingScale()
 
-        var heartwoodRadius = this.resultJson.r[this.dataIndex] - this.resultJson.sw2[this.dataIndex] // Gets the heart wood radius at the current year on the slider
-        //console.log("sw:", this.resultJson.sw2[this.dataIndex], "\nr:", this.resultJson.r[this.dataIndex], "\nhw:", heartwoodRadius)
+        var heartwoodRadius = this.localResultJson.r[this.dataIndex] - this.localResultJson.sw2[this.dataIndex] // Gets the heart wood radius at the current year on the slider
+        //console.log("sw:", this.localResultJson.sw2[this.dataIndex], "\nr:", this.localResultJson.r[this.dataIndex], "\nhw:", heartwoodRadius)
 
         for( var i = 1; i <= this.dataIndex; i++ )
         {
@@ -389,16 +394,16 @@
           if(i == 1)
           {
             // Sets the initial ring to a circle. Otherwise, there would be a hole of r0 raidus in the center.
-            ringGeo = new THREE.CircleGeometry(this.resultJson.r[i], geoSegments)
+            ringGeo = new THREE.CircleGeometry(this.localResultJson.r[i], geoSegments)
           }
           else
           {
-            ringGeo = new THREE.RingGeometry( this.resultJson.r[i-1], this.resultJson.r[i], geoSegments, 1 )
+            ringGeo = new THREE.RingGeometry( this.localResultJson.r[i-1], this.localResultJson.r[i], geoSegments, 1 )
           }
 
           // color
           var ringColor = new THREE.Color()
-          if( this.resultJson.r[i] < heartwoodRadius ) // If the current ring is part of the heart wood..
+          if( this.localResultJson.r[i] < heartwoodRadius ) // If the current ring is part of the heart wood..
           {
             // Alternate between lighter colors
             if(i % 2 == 0) { ringColor = 0xad593b }
@@ -432,7 +437,7 @@
 
       addBox() {
         //var myTexture = new THREE.TextureLoader().load( '../json/bark.png' )
-        var r = this.resultJson.r[this.dataIndex]      // Radius of trunk at base
+        var r = this.localResultJson.r[this.dataIndex]      // Radius of trunk at base
         r = r * 7 // Temporary use to negate weird data
 
         var boxGeo = new THREE.BoxGeometry( 1, 1, 1 )
@@ -696,17 +701,17 @@
       }, // END: animate()
 
       downloadRawData() {
-        // Downloads the raw data output from resultJson to a .csv file
-        for(let i in this.resultJson){
-          let o = {name : i, v : this.resultJson[i]};
-          this.array.push(this.resultJson[i])
+        // Downloads the raw data output from localResultJson to a .csv file
+        for(let i in this.localResultJson){
+          let o = {name : i, v : this.localResultJson[i]};
+          this.array.push(this.localResultJson[i])
         }
         console.log(this.array);
         console.log("object is transferred to array");
       }, // END: downloadRawData()
 
-      setTempDefaultResultJson() {
-        this.resultJson = {
+      setTempDefaultlocalResultJson() {
+        this.localResultJson = {
           "APARout":'0',
           "h":'0',
           "hh2":'0',
@@ -755,7 +760,7 @@
           "errorind":'0',
           //"growth_st":'0'
         }
-      }, // END: setTempDefaultResultJson()
+      }, // END: setTempDefaultlocalResultJson()
 
       checkForStartDraw() {
         // Keeps checking for startDraw (from the input container)
@@ -795,7 +800,7 @@
         this.maxLAI2 = 0
 
         // Set result json to be all empty.
-        this.setTempDefaultResultJson()
+        this.setTempDefaultlocalResultJson()
 
         // Clear tree scene of all drawings.
         while(this.treeScene.children.length > 0){
@@ -820,7 +825,7 @@
     }, // END: methods
 
     mounted() {
-      this.setTempDefaultResultJson()
+      this.setTempDefaultlocalResultJson()
       this.checkForStartDraw()
       this.checkForReset()
       // setTimeout(this.initializeVisualization, 1)
@@ -830,7 +835,7 @@
     updated() {
       while(this.loopFlag == 0)
       {
-        if(this.loadingFlag = 1)
+        if(this.localLoadingFlag = 1)
         {
           this.loopFlag = 1
 
@@ -854,24 +859,6 @@
     float: right;
     position: relative;
     background-image: url("../assets/OutputBackground.png");
-  }
-
-  .outputContainer button {
-    margin-top: 5px;
-    background-color: #44c767;
-    border-radius: 20px;
-    border: none;
-    padding: 10px 35px;
-    color:#ffffff;
-    font-family:Arial;
-    font-size: 18px;
-    display: inline-block;
-    font-size: 12px;
-  }
-
-  .outputContainer button:hover {
-    background-color: #EEE;
-    color: black;
   }
 
   .timeStepSlider {
