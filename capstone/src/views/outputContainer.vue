@@ -21,51 +21,51 @@
       </div>
       <div class="rawDataList" id="rawDataList">
         <br>
-        <div class="rawData">
+        <div class="rawData" id="rawData">
+          <label >h: {{ this.localResultJson.h[this.dataIndex] }}              </label><br>
+          <label >hh: {{ this.localResultJson.hh2[this.dataIndex] }}           </label><br>
+          <label >hC: {{ this.localResultJson.hC2[this.dataIndex] }}           </label><br>
+          <label >hB: {{ this.localResultJson.hB2[this.dataIndex] }}           </label><br>
+          <label >hBH: {{ this.localResultJson.hBH2[this.dataIndex] }}         </label><br>
+          <label >r: {{ this.localResultJson.r[this.dataIndex] }}              </label><br>
+          <label >rB: {{ this.localResultJson.rB2[this.dataIndex] }}           </label><br>
+          <label >rC: {{ this.localResultJson.rC2[this.dataIndex] }}           </label><br>
+          <label >rBH: {{ this.localResultJson.rBH[this.dataIndex] }}          </label><br>
+          <label >sw: {{ this.localResultJson.sw2[this.dataIndex] }}           </label><br>
+          <label >vts: {{ this.localResultJson.vts2[this.dataIndex] }}         </label><br>
+          <label >vt: {{ this.localResultJson.vt2[this.dataIndex] }}           </label><br>
+          <label >vth: {{ this.localResultJson.vth2[this.dataIndex] }}         </label><br>
+          <label >sa: {{ this.localResultJson.sa2[this.dataIndex] }}           </label><br>
+          <label >la: {{ this.localResultJson.la2[this.dataIndex] }}           </label><br>
+          <label >ra: {{ this.localResultJson.ra2[this.dataIndex] }}           </label><br>
+          <label >dr: {{ this.localResultJson.dr2[this.dataIndex] }}           </label><br>
+          <label >xa: {{ this.localResultJson.xa2[this.dataIndex] }}           </label><br>
+          <label >bl: {{ this.localResultJson.bl2[this.dataIndex] }}           </label><br>
+          <label >br: {{ this.localResultJson.br2[this.dataIndex] }}           </label><br>
+          <label >bt: {{ this.localResultJson.bt2[this.dataIndex] }}           </label><br>
+          <label >bts: {{ this.localResultJson.bts2[this.dataIndex] }}         </label><br>
+          <label >bth: {{ this.localResultJson.bth2[this.dataIndex] }}         </label><br>
+          <label >boh: {{ this.localResultJson.boh2[this.dataIndex] }}         </label><br>
+          <label >bos: {{ this.localResultJson.bos2[this.dataIndex] }}         </label><br>
+          <label >bo: {{ this.localResultJson.bo2[this.dataIndex] }}           </label><br>
+          <label >bs: {{ this.localResultJson.bs2[this.dataIndex] }}           </label><br>
+          <label >clr: {{ this.localResultJson.clr2[this.dataIndex] }}         </label><br>
+          <label >fl: {{ this.localResultJson.fl2[this.dataIndex] }}           </label><br>
+          <label >fr: {{ this.localResultJson.fr2[this.dataIndex] }}           </label><br>
+          <label >ft: {{ this.localResultJson.ft2[this.dataIndex] }}           </label><br>
+          <label >fo: {{ this.localResultJson.fo2[this.dataIndex] }}           </label><br>
+          <label >rfl: {{ this.localResultJson.rfl2[this.dataIndex] }}         </label><br>
+          <label >rfr: {{ this.localResultJson.rfr2[this.dataIndex] }}         </label><br>
+          <label >rfs: {{ this.localResultJson.rfs2[this.dataIndex] }}         </label><br>
+          <label >rtrans: {{ this.localResultJson.rtrans2[this.dataIndex] }}   </label><br>
+          <label >light: {{ this.localResultJson.light2[this.dataIndex] }}     </label><br>
+          <label >nut: {{ this.localResultJson.nut2[this.dataIndex] }}         </label><br>
+          <label >deltas: {{ this.localResultJson.deltas2[this.dataIndex] }}   </label><br>
+          <label >LAI: {{ this.localResultJson.LAI2[this.dataIndex] }}         </label><br>
           <!--<label>APARout: {{ this.localResultJson.APARout[this.dataIndex] }}   </label><br>-->
-          <label>h: {{ this.localResultJson.h[this.dataIndex] }}               </label><br>
-          <label>hh: {{ this.localResultJson.hh2[this.dataIndex] }}           </label><br>
-          <label>hC: {{ this.localResultJson.hC2[this.dataIndex] }}           </label><br>
-          <label>hB: {{ this.localResultJson.hB2[this.dataIndex] }}           </label><br>
-          <label>hBH: {{ this.localResultJson.hBH2[this.dataIndex] }}         </label><br>
-          <label>r: {{ this.localResultJson.r[this.dataIndex] }}               </label><br>
-          <label>rB: {{ this.localResultJson.rB2[this.dataIndex] }}           </label><br>
-          <label>rC: {{ this.localResultJson.rC2[this.dataIndex] }}           </label><br>
-          <label>rBH: {{ this.localResultJson.rBH[this.dataIndex] }}           </label><br>
-          <label>sw: {{ this.localResultJson.sw2[this.dataIndex] }}           </label><br>
-          <label>vts: {{ this.localResultJson.vts2[this.dataIndex] }}         </label><br>
-          <label>vt: {{ this.localResultJson.vt2[this.dataIndex] }}           </label><br>
-          <label>vth: {{ this.localResultJson.vth2[this.dataIndex] }}         </label><br>
-          <label>sa: {{ this.localResultJson.sa2[this.dataIndex] }}           </label><br>
-          <label>la: {{ this.localResultJson.la2[this.dataIndex] }}           </label><br>
-          <label>ra: {{ this.localResultJson.ra2[this.dataIndex] }}           </label><br>
-          <label>dr: {{ this.localResultJson.dr2[this.dataIndex] }}           </label><br>
-          <label>xa: {{ this.localResultJson.xa2[this.dataIndex] }}           </label><br>
-          <label>bl: {{ this.localResultJson.bl2[this.dataIndex] }}           </label><br>
-          <label>br: {{ this.localResultJson.br2[this.dataIndex] }}           </label><br>
-          <label>bt: {{ this.localResultJson.bt2[this.dataIndex] }}           </label><br>
-          <label>bts: {{ this.localResultJson.bts2[this.dataIndex] }}         </label><br>
-          <label>bth: {{ this.localResultJson.bth2[this.dataIndex] }}         </label><br>
-          <label>boh: {{ this.localResultJson.boh2[this.dataIndex] }}         </label><br>
-          <label>bos: {{ this.localResultJson.bos2[this.dataIndex] }}         </label><br>
-          <label>bo: {{ this.localResultJson.bo2[this.dataIndex] }}           </label><br>
-          <label>bs: {{ this.localResultJson.bs2[this.dataIndex] }}           </label><br>
           <!--<label>cs2: {{ this.localResultJson.cs2[this.dataIndex] }}       </label><br>-->
-          <label>clr: {{ this.localResultJson.clr2[this.dataIndex] }}         </label><br>
-          <label>fl: {{ this.localResultJson.fl2[this.dataIndex] }}           </label><br>
-          <label>fr: {{ this.localResultJson.fr2[this.dataIndex] }}           </label><br>
-          <label>ft: {{ this.localResultJson.ft2[this.dataIndex] }}           </label><br>
-          <label>fo: {{ this.localResultJson.fo2[this.dataIndex] }}           </label><br>
-          <label>rfl: {{ this.localResultJson.rfl2[this.dataIndex] }}         </label><br>
-          <label>rfr: {{ this.localResultJson.rfr2[this.dataIndex] }}         </label><br>
-          <label>rfs: {{ this.localResultJson.rfs2[this.dataIndex] }}         </label><br>
-          <label>egrow: {{ this.localResultJson.egrow2[this.dataIndex] }}     </label><br>
-          <label>ex: {{ this.localResultJson.ex2[this.dataIndex] }}           </label><br>
-          <label>rtrans: {{ this.localResultJson.rtrans2[this.dataIndex] }}   </label><br>
-          <label>light: {{ this.localResultJson.light2[this.dataIndex] }}     </label><br>
-          <label>nut: {{ this.localResultJson.nut2[this.dataIndex] }}         </label><br>
-          <label>deltas: {{ this.localResultJson.deltas2[this.dataIndex] }}   </label><br>
-          <label>LAI: {{ this.localResultJson.LAI2[this.dataIndex] }}         </label><br>
+          <!--<label >egrow: {{ this.localResultJson.egrow2[this.dataIndex] }}     </label><br>-->
+          <!--<label >ex: {{ this.localResultJson.ex2[this.dataIndex] }}           </label><br>-->
           <!-- <label>status2: {{ this.localResultJson.status2[this.dataIndex] }}   </label><br> -->
           <!--<label>errorind: {{ this.localResultJson.errorind[this.dataIndex] }}   </label><br>-->
           <!--<label>growth_st: {{ this.localResultJson.growth_st[this.dataIndex] }} </label><br>-->
@@ -103,7 +103,54 @@
         crownShape: "cone",
         array : [],
         loopFlag: 0,
-        localResultJson: '',
+        localResultJson: {
+          "APARout":'',
+          "h":'',
+          "hh2":'',
+          "hC2":'',
+          "hB2":'',
+          "hBH2":'',
+          "r":'',
+          "rB2":'',
+          "rC2":'',
+          "rBH":'',
+          "sw2":'',
+          "vts2":'',
+          "vt2":'',
+          "vth2":'',
+          "sa2":'',
+          "la2":'',
+          "ra2":'',
+          "dr2":'',
+          "xa2":'',
+          "bl2":'',
+          "br2":'',
+          "bt2":'',
+          "bts2":'',
+          "bth2":'',
+          "boh2":'',
+          "bos2":'',
+          "bo2":'',
+          "bs2":'',
+          "cs2":'',
+          "clr2":'',
+          "fl2":'',
+          "fr2":'',
+          "ft2":'',
+          "fo2":'',
+          "rfl2":'',
+          "rfr2":'',
+          "rfs2":'',
+          "egrow2":'',
+          "ex2":'',
+          "rtrans2":'',
+          "light2":'',
+          "nut2":'',
+          "deltas2":'',
+          "LAI2":'',
+          "status2":'',
+          "errorind":'',
+        },
         localLoadingFlag: ''
       } // END: return
     }, // END: data()
@@ -712,53 +759,53 @@
 
       setTempDefaultlocalResultJson() {
         this.localResultJson = {
-          "APARout":'0',
-          "h":'0',
-          "hh2":'0',
-          "hC2":'0',
-          "hB2":'0',
-          "hBH2":'0',
-          "r":'0',
-          "rB2":'0',
-          "rC2":'0',
-          "rBH":'0',
-          "sw2":'0',
-          "vts2":'0',
-          "vt2":'0',
-          "vth2":'0',
-          "sa2":'0',
-          "la2":'0',
-          "ra2":'0',
-          "dr2":'0',
-          "xa2":'0',
-          "bl2":'0',
-          "br2":'0',
-          "bt2":'0',
-          "bts2":'0',
-          "bth2":'0',
-          "boh2":'0',
-          "bos2":'0',
-          "bo2":'0',
-          "bs2":'0',
-          "cs2":'0',
-          "clr2":'0',
-          "fl2":'0',
-          "fr2":'0',
-          "ft2":'0',
-          "fo2":'0',
-          "rfl2":'0',
-          "rfr2":'0',
-          "rfs2":'0',
-          "egrow2":'0',
-          "ex2":'0',
-          "rtrans2":'0',
-          "light2":'0',
-          "nut2":'0',
-          "deltas2":'0',
-          "LAI2":'0',
-          "status2":'0',
-          "errorind":'0',
-          //"growth_st":'0'
+          "APARout":'',
+          "h":'',
+          "hh2":'',
+          "hC2":'',
+          "hB2":'',
+          "hBH2":'',
+          "r":'',
+          "rB2":'',
+          "rC2":'',
+          "rBH":'',
+          "sw2":'',
+          "vts2":'',
+          "vt2":'',
+          "vth2":'',
+          "sa2":'',
+          "la2":'',
+          "ra2":'',
+          "dr2":'',
+          "xa2":'',
+          "bl2":'',
+          "br2":'',
+          "bt2":'',
+          "bts2":'',
+          "bth2":'',
+          "boh2":'',
+          "bos2":'',
+          "bo2":'',
+          "bs2":'',
+          "cs2":'',
+          "clr2":'',
+          "fl2":'',
+          "fr2":'',
+          "ft2":'',
+          "fo2":'',
+          "rfl2":'',
+          "rfr2":'',
+          "rfs2":'',
+          "egrow2":'',
+          "ex2":'',
+          "rtrans2":'',
+          "light2":'',
+          "nut2":'',
+          "deltas2":'',
+          "LAI2":'',
+          "status2":'',
+          "errorind":'',
+          //"growth_st":''
         }
       }, // END: setTempDefaultlocalResultJson()
 
