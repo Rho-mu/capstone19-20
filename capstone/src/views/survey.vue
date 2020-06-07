@@ -74,12 +74,8 @@ export default {
     background-image: url('../assets/Background.png');
     min-height: 100%;
     min-width: 1024px;
-
-    /* Set up proportionate scaling */
     width: 100%;
     height: auto;
-
-    /* Set up positioning */
     position: fixed;
     top: 0;
     left: 0;

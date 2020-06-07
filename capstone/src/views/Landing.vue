@@ -90,7 +90,7 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style scoped>
 
 
@@ -99,11 +99,11 @@ export default {
   min-height: 100%;
   min-width: 1024px;
 
-  /* Set up proportionate scaling */
+
   width: 100%;
   height: auto;
 
-  /* Set up positioning */
+
   position: fixed;
   top: 0;
   left: 0;

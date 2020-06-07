@@ -1758,9 +1758,8 @@
   } // END: export default
 </script>
 
-<style lang="css" scoped>
+<style scoped>
 
-  /* Main CSS */
   .main {
     font-family: sans-serif;
   }
@@ -1788,7 +1787,6 @@
     color: black;
   }
 
-  /* Instructions Container CSS */
   .instructionsContainer {
     display: block;
     width: 95.4%;
@@ -1802,7 +1800,6 @@
     float: left;
     position: relative;
     text-align: left;
-    /*background-image: url("../assets/minimalist-forest.jpg");*/
   }
 
   .instructionsContainer button{
@@ -1811,7 +1808,6 @@
     font-size: 14px !important;
   }
 
-  /* Input Container CSS */
   .inputContainer {
     display: inline-block;
     padding: 20px 10px 20px 10px;
@@ -1821,7 +1817,6 @@
     color:black;
     width:17%;
     background-color: #b9b9b9;
-    /*background-image: linear-gradient(lightblue, lightgreen);*/
   }
 
   .inputContainer button {
@@ -1853,14 +1848,14 @@
   }
 
   .collapsible:after {
-    content: '\02795'; /* Unicode character for "plus" sign (+) */
+    content: '\02795';
     font-size: 10px !important;
     color: white;
     float: right;
   }
 
   .active:after {
-    content: "\2796"; /* Unicode character for "minus" sign (-) */
+    content: "\2796";
   }
 
   .content {
@@ -1885,7 +1880,7 @@
     color: red;
   }
 
-  /* Output Container CSS */
+
   .outputContainer {
     width: 77%;
     height: 80%;
@@ -1896,7 +1891,7 @@
     border-radius: 10px;
     float: right;
     position: relative;
-    /*background-image: linear-gradient(lightblue, lightgreen);*/
+
   }
 
   .timeStepSlider {
@@ -1950,7 +1945,6 @@
     text-align: center;
   }
 
-  /* Other CSS */
   #iodisplay{
       border: none;
       background: transparent;
@@ -2003,8 +1997,6 @@
     text-align: left;
   }
 
-  /* Toggle Effect */
-
   input:checked ~ .menu-content {
     max-height: 100%;
   }
@@ -2036,8 +2028,6 @@
 
   }
 
-
-
   .menu-content label {
     font-size:15px;
   }
@@ -2053,9 +2043,6 @@
   input#menu0 {
     display: none;
   }
-
-
-  /* Toggle Effect */
 
   input#menu-1 {
     display: none;
@@ -2073,7 +2060,6 @@
     display: none;
   }
 
-  /*help tip*/
   .help-tip{
     position: relative;
     display: inline-block;
@@ -2115,10 +2101,10 @@
     font-size: 13px;
     line-height: 1.4;
     border-radius: 25px;
-    z-index: 100;  /*this z index makes the help tip on top of every other things*/
+    z-index: 100;
   }
 
-  .help-tip p:after{ //Prevents the tooltip from being hidden
+  .help-tip p:after{
       width:100%;
       height:40px;
       content:'';

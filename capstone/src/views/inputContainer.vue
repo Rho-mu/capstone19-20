@@ -208,7 +208,7 @@
       <button class="collapsible">Structural traits</button>
         <div class="content">
           <br>
-          <label for="rhomax"> WD (g dw m-3):</label><br>
+          <label for="rhomax"> WD (g dw m<sup>3</sup>):</label><br>
           <input id="rhomax" type="text" v-model="postBody.rhomax" placeholder="WD > 0" min="0">
           <span class="help-tip">
             <p>
@@ -216,12 +216,12 @@
               <span class="separator"></span>
               Name:&nbspWood density<br>
               <span class="separator"></span>
-              Unit: g dw m-3<br>
+              Unit: g dw m<sup>3</sup><br>
               <span class="separator"></span>
               Constraint: (0,+&#8734)
             </p></span><br>
 
-          <label for="gammaw"> gammaW (m3g dw-1):</label><br>
+          <label for="gammaw"> gammaW (m3g dw<sup>1</sup>):</label><br>
           <input id="gammaw" type="text" v-model="postBody.gammaw" placeholder="gammaW">
           <span class="help-tip">
             <p>
@@ -229,12 +229,12 @@
               <span class="separator"></span>
               Name:&nbsp(Inverse) density of sapwood structural tissue<br>
               <span class="separator"></span>
-              Unit: m3g dw-1<br>
+              Unit: m3g dw<sup>1</sup><br>
               <span class="separator"></span>
               Constraint: none
             </p></span><br>
 
-          <label for="sla"> sla (m2g dw-1):</label><br>
+          <label for="sla"> sla (m2g dw<sup>1</sup>):</label><br>
           <input id="sla" type="text" v-model="postBody.sla" placeholder="sla > 0" min="0" >
           <span class="help-tip">
             <p>
@@ -242,7 +242,7 @@
               <span class="separator"></span>
               Name:&nbspSpecific leaf area<br>
               <span class="separator"></span>
-              Unit: m2g dw-1<br>
+              Unit: m2g dw<sup>1</sup><br>
               <span class="separator"></span>
               Constraint: (0,+&#8734)
             </p></span><br>
@@ -253,7 +253,7 @@
       <button class="collapsible">Turn-over and senescence traits</button>
         <div class="content">
           <br>
-          <label for="sl"> sL (year-1):</label><br>
+          <label for="sl"> sL (year<sup>1</sup>):</label><br>
           <input id="sl" type="text" v-model="postBody.sl" placeholder="sL > 0" min="0" >
           <span class="help-tip">
             <p>
@@ -261,12 +261,12 @@
               <span class="separator"></span>
               Name:&nbspSenescence rate of leaves<br>
               <span class="separator"></span>
-              Unit: year-1<br>
+              Unit: year<sup>1</sup><br>
               <span class="separator"></span>
               Constraint: (0,+&#8734)
           </p></span><br>
 
-          <label for="sr"> sR (year-1):</label><br>
+          <label for="sr"> sR (year<sup>1</sup>):</label><br>
           <input id="sr" type="text" v-model="postBody.sr" placeholder="sR > 0" min="0">
           <span class="help-tip">
             <p>
@@ -274,12 +274,12 @@
               <span class="separator"></span>
               Name:&nbspSenescence rate of fine roots<br>
               <span class="separator"></span>
-              Unit: year-1<br>
+              Unit: year<sup>1</sup><br>
               <span class="separator"></span>
               Constraint: (0,+&#8734)
           </p></span><br>
 
-          <label for="so"> sO (year-1):</label><br>
+          <label for="so"> sO (year<sup>1</sup>):</label><br>
           <input id="so" type="text" v-model="postBody.so" placeholder="sO > 0" min="0" >
           <span class="help-tip">
             <p>
@@ -287,7 +287,7 @@
               <span class="separator"></span>
               Name:&nbspSenescence rate of or coarse roots and branches<br>
               <span class="separator"></span>
-              Unit: year-1<br>
+              Unit: year<sup>1</sup><br>
               <span class="separator"></span>
               Constraint: (0,+&#8734)
           </p></span><br>
@@ -1020,7 +1020,7 @@
     z-index: 100;
   }
 
-  .help-tip p:after{ //Prevents the tooltip from being hidden
+  .help-tip p:after{
       width:100%;
       height:40px;
       content:'';
