@@ -17,7 +17,7 @@
 
       <input type="range" min="1" v-model="dataIndex" @input="draw()" id="timeStepSlider" class="timeStepSlider"><br><br>
       <div id="treeCanvasport">
-        <div id="info">10m</div>
+        <!--<div id="info">10m</div>-->
       </div>
       <div class="rawDataList" id="rawDataList">
         <br>
@@ -84,6 +84,7 @@
 <script>
   import * as THREE from 'three'
   import JsonCSV from 'vue-json-csv'
+  //import loblolly9 from '../json/loblolly9.json'
 
   export default {
     name: 'outputContainer',
@@ -168,7 +169,11 @@
         ///// Tree Scene /////
         // Create scene for trees
         this.treeScene = new THREE.Scene()
-        this.treeScene.background = new THREE.Color( 0xcfffff ) // make 1, 0.9, 0.5
+        var bgColor = new THREE.Color()
+        bgColor.r = 0.5
+        bgColor.g = 0.9
+        bgColor.b = 1
+        this.treeScene.background = bgColor
         // Create camera for tree scene
         // PerspectiveCamera( fov : Number, aspect : Number, near : Number, far : Number )
         this.treeCam = new THREE.PerspectiveCamera( 90, canvasWidth / canvasHeight, 0.1, 1000 )
@@ -218,7 +223,6 @@
 
         //this.addTreeScale()
         //this.addRingScale()
-        //this.testSize()
         console.log("initializeVisualization - Complete")
       }, // END: initializeVisualization()
 
@@ -233,7 +237,7 @@
         if(this.postBody.io == null)
         {
           bgColor.r = 0.5
-          bgColor.g = 0.7
+          bgColor.g = 0.9
           bgColor.b = 1
         }
         else
@@ -244,7 +248,7 @@
         }
         this.treeScene.background = bgColor
 
-        // Find max radius and height of tree over its life to scale the scene to.
+        // Find max height and radius of tree over its life to scale the scene to.
         // Find max LAI2 to normalize it for opacity.
         for( var i = 1; i <= this.postBody.t; i++ )
         {
@@ -253,19 +257,69 @@
           {
             this.maxHeight = this.localResultJson.h[i]
           }
-          // Find max radius.
-          if( this.maxRadius < this.localResultJson.r[i] )
-          {
-            this.maxRadius = this.localResultJson.r[i]
-          }
 
           // Find max LAI2.
           if( this.maxLAI2 < this.localResultJson.LAI2[i] )
           {
             this.maxLAI2 = this.localResultJson.LAI2[i]
           }
+
+          // Find max Radius. The larger value between rcmax (max r of crown) and max r (max r of base of trunk).
+          var h = this.localResultJson.h[i]     // Total tree height
+          const BH = 1.37                       // Breast height. Contsant 1.37 meters
+          var r0 = this.postBody.r0             // Input.
+          var r40 = this.postBody.r40           // Input.
+          var rBH = this.localResultJson.rBH[i] // Output.
+          var r = this.localResultJson.r[i]     // Radius of trunk at base
+          var hmax = this.postBody.hmax         // Input.
+          var phih = this.postBody.phih         // Input.
+
+          var rcmax // Maximum potential radius at a crown ratio of m
+          if( h > BH )
+          {
+            // if h > BH --> rcmax = r0 + ((r40 - r0) * (2 * rBH * 100) / 40)
+            rcmax = r0 + ((r40 - r0) * (2 * rBH * 100) / 40)
+          }
+          else if( h < BH )
+          {
+            // if h < BH --> rcmax = (r0 * r) / ((hmax / phih) * ln(hmax/(hmax - BH)))
+            rcmax = (r0 * r) / ((hmax / phih) * Math.log(hmax/(hmax - BH)))
+          }
+
+          // Check for larger rcmax.
+          if( this.maxRadius < rcmax )
+          {
+            this.maxRadius = rcmax
+          }
+
+          // Check for larger base radius.
+          if( this.maxRadius < this.localResultJson.r[i] )
+          {
+            this.maxRadius = this.localResultJson.r[i]
+          }
+        } // END: for i to t
+
+        // Resize camera based on max tree height or radius
+        var scale = this.maxRadius
+        if( this.maxHeight > this.maxRadius )
+        {
+          scale = this.maxHeight * 0.6
         }
+        else
+        {
+          scale = this.maxRadius * 0.9
+        }
+        this.treeCam.position.y = this.maxHeight / 1.8
+        this.treeCam.position.z = scale
+        this.treeCam.lookAt(0, this.maxHeight/1.8, 0)
+
+        console.log("maxHeight", this.maxHeight)
+        console.log("maxRadius", this.maxRadius)
+        console.log("maxLAI2", this.maxLAI2)
         console.log("afterGetSetup - Complete")
+
+        this.addTreeScale()
+        //this.testSize(this.maxHeight/1.8)
       }, // END: afterGetSetup()
 
       draw() {
@@ -291,7 +345,7 @@
 
         //this.addBox()
         this.addLight()
-        this.addTreeScale()
+        //this.testSize(this.maxHeight/1.8)
 
         /// Trunk variables
         var h = this.localResultJson.h[year]      // Total tree height
@@ -346,22 +400,46 @@
         //console.log("year:",year,"\nLAI2:",this.localResultJson.LAI2[year],"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,"\nrBH:",rBH,"\nrcmax:",rcmax,"\nrcbase:",rcbase)
 
         // Supplemental parameters
-        var geoSegments = 20            // Segments of geometry
-        var trunkPos = hC/2             // Trunk position on the screen. Needs to be based on max height.
-        var crownPos = h - (h - hC)/2   // Crown position on the screen. Bottom of crown needs to be on the same x plan as top of trunk.
+        var geoSegments = 20              // Segments of geometry
+        var crownPos = hC + (h-hC)/2      // Moves the crown so that it's bottom plane is at the top of the middle segment.
+        var trunkBasePos = hB/2           // Moves the trunk's base segment so that it's bottom plane is at (0,0).
+        var trunkMidPos = hB + (hC-hB)/2  // Moves the trunk's middle segment so that it's bottom plane is at the top of the base segment.
+        var trunkTopPos = hC + (h-hC)/2   // Moves the trunk's top segment so that it's bottom plane is at the top of the middle segment.
 
         ///// Trunk /////
         // Trunk Top
+        // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
+        var trunkTopGeo = new THREE.ConeGeometry( rC, h-hC, geoSegments )
+        var trunkTopMat = new THREE.MeshLambertMaterial( {color: 0xb5651d} )
+        this.trunkTop = new THREE.Mesh( trunkTopGeo, trunkTopMat )
+        this.trunkTop.position.y = trunkTopPos
+
+        //console.log(trunkPos)
+        //console.log(crownPos)
+        var points = []
+        points.push( new THREE.Vector3( -this.maxRadius, this.maxHeight, 0 ) )
+        points.push( new THREE.Vector3( this.maxRadius, this.maxHeight, 0 ) )
+        points.push( new THREE.Vector3( this.maxRadius, 0, 0 ) )
+        points.push( new THREE.Vector3( -this.maxRadius, 0, 0 ) )
+        points.push( new THREE.Vector3( -this.maxRadius, this.maxHeight, 0 ) )
+        var lineGeo = new THREE.BufferGeometry().setFromPoints( points )
+        var lineMat = new THREE.LineBasicMaterial( {color: 0x0000ff} )
+        var line = new THREE.Line( lineGeo, lineMat )
+        this.treeScene.add( line )
 
         // Trunk Middle
+        // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
+        var trunkMidGeo = new THREE.CylinderGeometry( rC, rB, hC-hB, geoSegments )
+        var trunkMidMat = new THREE.MeshLambertMaterial( {color: 0xb5651d} )
+        this.trunkMid = new THREE.Mesh( trunkMidGeo, trunkMidMat )
+        this.trunkMid.position.y = trunkMidPos
 
         // Trunk Base
         // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
-        var trunkGeo = new THREE.CylinderGeometry( rC, r, hC, geoSegments )
-        var trunkMat = new THREE.MeshLambertMaterial( {color: 0xb5651d} )
-        this.trunk = new THREE.Mesh( trunkGeo, trunkMat )
-        this.trunk.position.y = trunkPos
-        this.trunk.position.x = 0
+        var trunkBaseGeo = new THREE.CylinderGeometry( rB, r, hB, geoSegments )
+        var trunkBaseMat = new THREE.MeshLambertMaterial( {color: 0xb5651d} )
+        this.trunkBase = new THREE.Mesh( trunkBaseGeo, trunkBaseMat )
+        this.trunkBase.position.y = trunkBasePos
 
         ///// Trunk /////
 
@@ -398,20 +476,14 @@
 
         this.crown = new THREE.Mesh( crownGeo, crownMat )
         this.crown.position.y = crownPos
-        this.crown.position.x = 0
         //console.log("Crown -", "\nradius:", rcbase, "\nheight:", h-hC,)
         ///// Crown /////
 
-        // Resize camera based on max tree height
-        //this.testSize()
-        this.currentCam.position.y = this.maxHeight / 1.8
-        //console.log("y", this.currentCam.position.y )
-        this.currentCam.position.z = this.maxHeight * 0.6
-        //console.log("z", this.currentCam.position.z )
-        this.currentCam.lookAt(0, this.maxHeight/1.8, 0)
         // Add trunk and crown to scene
         this.newScene.add( this.crown )
-        this.newScene.add( this.trunk )
+        this.newScene.add( this.trunkTop )
+        this.newScene.add( this.trunkMid )
+        this.newScene.add( this.trunkBase )
       }, // END: drawTree()
 
       drawRings() {
@@ -497,111 +569,50 @@
         this.treeScene.add( box )
       }, // END: addBox()
 
-      testSize() {
-        console.log("window.innerWidth", window.innerWidth)
-        console.log("window.innerHeight", window.innerHeight)
-        console.log("renderer width", this.currentCam.getFilmWidth())
-        console.log("renderer height", this.currentCam.getFilmHeight())
+      testSize(scale) {
+        //console.log("window.innerWidth", window.innerWidth)
+        //console.log("window.innerHeight", window.innerHeight)
+        //console.log("renderer width", this.treeCam.getFilmWidth())
+        //console.log("renderer height", this.treeCam.getFilmHeight())
 
         var canvasWidth = window.innerWidth * 0.7
         var canvasHeight = window.innerHeight * 0.7
-        //console.log("canvasWidth", canvasWidth)
-        //console.log("canvasHeight", canvasHeight)
+        //console.log("canvasWidth", canvasWidth/100)
+        //console.log("canvasHeight", canvasHeight/100)
+
+        var boxGeo = new THREE.BoxGeometry( 1, 1, 1 )
+
+        var boxMat = new THREE.MeshLambertMaterial( { color: 0xff0000 } )
+        var box = new THREE.Mesh( boxGeo, boxMat )
+        box.position.x = 0
+        box.position.y = 0
+        box.position.z = scale
+        this.treeScene.add( box )
+
+        var boxMat2 = new THREE.MeshLambertMaterial( { color: 0x00ff00 } )
+        var box2 = new THREE.Mesh( boxGeo, boxMat2 )
+        box2.position.x = (canvasWidth/100 - 0.5)*1.8
+        box2.position.y = (canvasHeight/100 - 0.5)*1.8
+        this.treeScene.add( box2 )
+
+        var boxMat3 = new THREE.MeshLambertMaterial( { color: 0x0000ff } )
+        var box3 = new THREE.Mesh( boxGeo, boxMat3 )
+        box3.position.x = (-this.currentCam.getFilmWidth()/3.3557047+0.5)*1.8
+        box3.position.y = (-this.currentCam.getFilmHeight()/3.3557047+0.5)*1.8
+        this.treeScene.add( box3 )
 
         var points = [] // The vertical line of the scale.
-        points.push( new THREE.Vector3( 0, 0, 0 ) )
+        points.push( new THREE.Vector3( (canvasWidth/100-1.5)/1.8, (canvasHeight/100-0.5)/1.8, 0 ) )
+        points.push( new THREE.Vector3( (canvasWidth/100-0.5)/1.8, (canvasHeight/100-0.5)/1.8, 0 ) )
+        points.push( new THREE.Vector3( (canvasWidth/100-0.5)/1.8, 0, 0 ) )
+        points.push( new THREE.Vector3( (canvasWidth/100-1.5)/1.8, 0, 0 ) )
 
-        points.push( new THREE.Vector3( 1, 0, 0 ) )
-        points.push( new THREE.Vector3( 1, 1, 0 ) )
-        points.push( new THREE.Vector3( 1, 0, 0 ) )
+        var lineGeo = new THREE.BufferGeometry().setFromPoints( points )
 
-        points.push( new THREE.Vector3( 2, 0, 0 ) )
-        points.push( new THREE.Vector3( 2, 1, 0 ) )
-        points.push( new THREE.Vector3( 2, 0, 0 ) )
-
-        points.push( new THREE.Vector3( 3, 0, 0 ) )
-        points.push( new THREE.Vector3( 3, 1, 0 ) )
-        points.push( new THREE.Vector3( 3, 0, 0 ) )
-
-        points.push( new THREE.Vector3( 4, 0, 0 ) )
-        points.push( new THREE.Vector3( 4, 1, 0 ) )
-        points.push( new THREE.Vector3( 4, 0, 0 ) )
-
-        points.push( new THREE.Vector3( 5, 0, 0 ) )
-        points.push( new THREE.Vector3( 5, 1, 0 ) )
-        points.push( new THREE.Vector3( 5, 0, 0 ) )
-
-        points.push( new THREE.Vector3( 6, 0, 0 ) )
-        points.push( new THREE.Vector3( 6, 1, 0 ) )
-        points.push( new THREE.Vector3( 6, 0, 0 ) )
-
-        points.push( new THREE.Vector3( 7, 0, 0 ) )
-        points.push( new THREE.Vector3( 7, 1, 0 ) )
-        points.push( new THREE.Vector3( 7, 0, 0 ) )
-
-        points.push( new THREE.Vector3( 8, 0, 0 ) )
-        points.push( new THREE.Vector3( 8, 1, 0 ) )
-        points.push( new THREE.Vector3( 8, 0, 0 ) )
-
-        points.push( new THREE.Vector3( 9, 0, 0 ) )
-        points.push( new THREE.Vector3( 9, 1, 0 ) )
-        points.push( new THREE.Vector3( 9, 0, 0 ) )
-
-        points.push( new THREE.Vector3( 10, 0, 0 ) )
-        points.push( new THREE.Vector3( 10, 1, 0 ) )
-        points.push( new THREE.Vector3( 10, 0, 0 ) )
-
-        // up
-        points.push( new THREE.Vector3( 0, 0, 0 ) )
-
-        points.push( new THREE.Vector3( 0, 1, 0 ) )
-        points.push( new THREE.Vector3( -1, 1, 0 ) )
-        points.push( new THREE.Vector3( 0, 1, 0 ) )
-
-        points.push( new THREE.Vector3( 0, 2, 0 ) )
-        points.push( new THREE.Vector3( -1, 2, 0 ) )
-        points.push( new THREE.Vector3( 0, 2, 0 ) )
-
-        points.push( new THREE.Vector3( 0, 3, 0 ) )
-        points.push( new THREE.Vector3( -1, 3, 0 ) )
-        points.push( new THREE.Vector3( 0, 3, 0 ) )
-
-        points.push( new THREE.Vector3( 0, 4, 0 ) )
-        points.push( new THREE.Vector3( -1, 4, 0 ) )
-        points.push( new THREE.Vector3( 0, 4, 0 ) )
-
-        points.push( new THREE.Vector3( 0, 5, 0 ) )
-        points.push( new THREE.Vector3( -1, 5, 0 ) )
-        points.push( new THREE.Vector3( 0, 5, 0 ) )
-
-        points.push( new THREE.Vector3( 0, 6, 0 ) )
-        points.push( new THREE.Vector3( -1, 6, 0 ) )
-        points.push( new THREE.Vector3( 0, 6, 0 ) )
-
-        points.push( new THREE.Vector3( 0, 7, 0 ) )
-        points.push( new THREE.Vector3( -1, 7, 0 ) )
-        points.push( new THREE.Vector3( 0, 7, 0 ) )
-
-        points.push( new THREE.Vector3( 0, 8, 0 ) )
-        points.push( new THREE.Vector3( -1, 8, 0 ) )
-        points.push( new THREE.Vector3( 0, 8, 0 ) )
-
-        points.push( new THREE.Vector3( 0, 9, 0 ) )
-        points.push( new THREE.Vector3( -1, 9, 0 ) )
-        points.push( new THREE.Vector3( 0, 9, 0 ) )
-
-        points.push( new THREE.Vector3( 0, 10, 0 ) )
-        points.push( new THREE.Vector3( -1, 10, 0 ) )
-        points.push( new THREE.Vector3( 0, 10, 0 ) )
-
-
-        var geometry = new THREE.BufferGeometry().setFromPoints( points )
-        var material = new THREE.LineBasicMaterial( {color: 0x000000} )
-
-        var line = new THREE.Line( geometry, material )
-
-        this.currentScene.add( line )
-      },
+        var lineMat = new THREE.LineBasicMaterial( {color: 0xffffff} )
+        var scale = new THREE.Line( lineGeo, lineMat )
+        this.treeScene.add( scale )
+      }, // END: testSize()
 
       addTreeScale() {
         var canvasWidth = window.innerWidth * 0.7
