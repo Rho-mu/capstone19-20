@@ -16,9 +16,7 @@
 
 
       <input type="range" min="1" v-model="dataIndex" @input="draw()" id="timeStepSlider" class="timeStepSlider"><br><br>
-      <div id="treeCanvasport">
-        <!--<div id="info">10m</div>-->
-      </div>
+      <div id="treeCanvasport"></div>
       <div class="rawDataList" id="rawDataList">
         <br>
         <div class="rawData" id="rawData">
@@ -212,10 +210,7 @@
         document.getElementById("rawDataList").style.display = "none"
 
         window.addEventListener( 'resize', this.onWindowResize, false )
-
         //this.addLight()
-        //this.addUI()
-
         console.log("initializeVisualization - Complete")
       }, // END: initializeVisualization()
 
@@ -293,7 +288,7 @@
         } // END: for i to t
 
         // Resize camera based on max tree height or radius
-        var scale = this.maxRadius
+        var scale = this.maxHeight
         if( this.maxHeight > this.maxRadius )
         {
           scale = this.maxHeight * 0.6
@@ -339,7 +334,7 @@
         this.treeScene.add( this.newScene )          // Add new scene to root scene
 
         //this.addBox()
-        //this.addLight()
+        this.addLight()
         //this.testSize(this.maxHeight*0.6)
 
 
@@ -492,11 +487,10 @@
         this.newScene = new THREE.Scene()                    // Create new scene for new rings
         this.ringScene.add( this.newScene )                  // Add new scene to root scene
 
-        this.ringCam.position.z = this.maxRadius * 1.1       // Scale scene to maxRadius so that no rings are off-screne.
-
+        this.ringCam.position.z = this.localResultJson.r[this.postBody.t] * 1.1   // Scale scene to final radius of the trunk so that no rings are off-screne.
         this.ringCam.lookAt(0, 0, 0)
 
-        this.addRingScale()
+        //this.addRingScale()
 
         var heartwoodRadius = this.localResultJson.r[this.dataIndex] - this.localResultJson.sw2[this.dataIndex] // Gets the heart wood radius at the current year on the slider
         //console.log("sw:", this.localResultJson.sw2[this.dataIndex], "\nr:", this.localResultJson.r[this.dataIndex], "\nhw:", heartwoodRadius)
@@ -552,8 +546,8 @@
 
       addBox() {
         //var myTexture = new THREE.TextureLoader().load( '../json/bark.png' )
-        var r = this.localResultJson.r[this.dataIndex]      // Radius of trunk at base
-        r = r * 7 // Temporary use to negate weird data
+        //var r = this.localResultJson.r[this.dataIndex]      // Radius of trunk at base
+        //r = r * 7 // Temporary use to negate weird data
 
         var boxGeo = new THREE.BoxGeometry( 1, 1, 1 )
 
@@ -561,7 +555,7 @@
         var boxMat = new THREE.MeshLambertMaterial( { color: 0xFFFF00 } )
 
         var box = new THREE.Mesh( boxGeo, boxMat )
-        box.position.x = r * 1.1
+        //box.position.x = r * 1.1
         this.treeScene.add( box )
       }, // END: addBox()
 
@@ -611,11 +605,40 @@
 
       addUI() {
         // Adds a heads-up display scene on top of the tree scene to add scales.
-        var hud = document.createElement('hudcanvas')
+        // Used https://codepen.io/jaamo/details/MaOGZV for reference on how to do this.
 
-        hud.width = this.canvasWidth
-        hud.height = this.canvasHeight
+        // Create canvas element.
+        var hudCanvas = document.createElement('canvas')
+        hudCanvas.width = this.canvasWidth
+        hudCanvas.height = this.canvasHeight
 
+        // Create new scene for HUD with an orthographic camera for 2D effect.
+        this.hudScene = new THREE.Scene()
+        //this.hudScene.background = new THREE.Color( 0xdfffcf )
+        this.hudCamera = new THREE.OrthographicCamera( -this.canvasWidth/2, this.canvasWidth/2, this.canvasHeight/2, -this.canvasHeight/2, 0, 30)
+
+        // Adds some temporary text to the HUD.
+        this.hudBitmap = hudCanvas.getContext('2d')
+        this.hudBitmap.font = "Normal 20px Arial"
+        this.hudBitmap.textAlign = 'center'
+        this.hudBitmap.fillStyle = "rgba(245,0,245,0.2)"
+        this.hudBitmap.fillText('Initializing...', this.canvasWidth/2, this.canvasHeight/2)
+
+        // Create a texture  from the canvas.
+        this.hudTexture = new THREE.Texture( hudCanvas )
+        this.hudTexture.minFilter = THREE.LinearFilter
+        this.hudTexture.needsUpdate = true
+
+        // Create a material from the texture.
+        var hudMat = new THREE.MeshBasicMaterial( {map: this.hudTexture } )
+        hudMat.transparent = true
+
+        // Create a 2D plane with the material that will display the HUD as a texture on the screen.
+        var hudPlaneGeo = new THREE.PlaneGeometry( this.canvasWidth, this.canvasHeight )
+        var hudPlane = new THREE.Mesh( hudPlaneGeo, hudMat )
+        this.hudScene.add( hudPlane )
+
+        console.log("addUI - Complete")
       }, // END: addUI()
 
       addTreeScale() {
@@ -742,6 +765,9 @@
         // THREE.js function used to move objects in the scene.
         //this.trunk.rotation.y += 0.01
         //this.crown.rotation.y += 0.01
+        this.hudBitmap.clearRect(0, 0, this.canvasWidth, this.canvasHeight)
+        this.hudBitmap.fillText("year: "+this.dataIndex, this.canvasWidth/2, this.canvasHeight/2)
+  	    this.hudTexture.needsUpdate = true
       }, // END: update()
 
       onWindowResize() {
@@ -754,9 +780,12 @@
 
       animate() {
         // THREE.js function
-        requestAnimationFrame(this.animate)
-        this.update()
+
+        //this.update()
+        //this.renderer.render(this.hudScene, this.hudCamera)
         this.renderer.render(this.currentScene, this.currentCam)
+
+        requestAnimationFrame(this.animate)
       }, // END: animate()
 
       downloadRawData() {
@@ -899,6 +928,7 @@
           this.loopFlag = 1
 
           this.initializeVisualization()
+          //this.addUI()
           this.animate()
         }
       }
@@ -971,16 +1001,4 @@
   h5 {
     color: white;
   }
-
-  #info {
-    color: blue;
-    font-weight: bold;
-  	position: absolute;
-  	bottom: 4%;
-    right: 6%;
-  	text-align: center;
-  	z-index: 100;
-  	display:block;
-  }
-
 </style>
