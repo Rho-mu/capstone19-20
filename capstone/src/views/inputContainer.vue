@@ -1006,7 +1006,7 @@
   .help-tip p{
     display:none;
     text-align: left;
-    background-color: green;
+    background-color: #44c767;
     padding: 20px;
     width: 700%;
     position: absolute;
