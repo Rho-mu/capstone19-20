@@ -43,7 +43,7 @@ export default {
     min-height: 100%;
     min-width: 1024px;
 
-    
+
     width: 100%;
     height: auto;
 
@@ -77,6 +77,6 @@ export default {
     color: #ffb901;
   }
   .link:hover {
-    color: red;
+    color: white;
   }
 </style>
