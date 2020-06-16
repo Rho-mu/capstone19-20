@@ -210,7 +210,7 @@
         document.getElementById("rawDataList").style.display = "none"
 
         window.addEventListener( 'resize', this.onWindowResize, false )
-        //this.addLight()
+
         console.log("initializeVisualization - Complete")
       }, // END: initializeVisualization()
 
@@ -304,12 +304,11 @@
         //console.log("maxHeight", this.maxHeight)
         //console.log("maxRadius", this.maxRadius)
         //console.log("maxLAI2", this.maxLAI2)
-        console.log("afterGetSetup - Complete")
 
-        //this.testSize(scale)
+
+        //this.testSize()
         //this.addTreeScale()
-
-        //this.testSize(this.maxHeight/1.8)
+        console.log("afterGetSetup - Complete")
       }, // END: afterGetSetup()
 
       draw() {
@@ -405,19 +404,6 @@
         this.trunkTop = new THREE.Mesh( trunkTopGeo, trunkTopMat )
         this.trunkTop.position.y = trunkTopPos
 
-        //console.log(trunkPos)
-        //console.log(crownPos)
-        var points = []
-        points.push( new THREE.Vector3( -this.maxRadius, this.maxHeight, 0 ) )
-        points.push( new THREE.Vector3( this.maxRadius, this.maxHeight, 0 ) )
-        points.push( new THREE.Vector3( this.maxRadius, 0, 0 ) )
-        points.push( new THREE.Vector3( -this.maxRadius, 0, 0 ) )
-        points.push( new THREE.Vector3( -this.maxRadius, this.maxHeight, 0 ) )
-        var lineGeo = new THREE.BufferGeometry().setFromPoints( points )
-        var lineMat = new THREE.LineBasicMaterial( {color: 0x0000ff} )
-        var line = new THREE.Line( lineGeo, lineMat )
-        this.treeScene.add( line )
-
         // Trunk Middle
         // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
         var trunkMidGeo = new THREE.CylinderGeometry( rC, rB, hC-hB, geoSegments )
@@ -475,6 +461,33 @@
         this.newScene.add( this.trunkTop )
         this.newScene.add( this.trunkMid )
         this.newScene.add( this.trunkBase )
+
+
+        ///// Scale /////
+        var  rightEdgeOfScreen = this.treeCam.position.z * (this.canvasWidth/this.canvasHeight)
+        var points = []
+
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, this.maxHeight, 0 ) ) // Max height
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 5, this.maxHeight, 0 ) ) // Max height
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, this.maxHeight, 0 ) ) // Max height
+
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, hB, 0 ) ) // trunk mid
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 5, hB, 0 ) ) // trunk mid
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, hB, 0 ) ) // trunk mid
+
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, hC, 0 ) ) // trunk top
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 5, hC, 0 ) ) // trunk top
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, hC, 0 ) ) // trunk top
+
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, 0, 0 ) ) // trunk base
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 5, 0, 0 ) ) // trunk base
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, 0, 0 ) ) // trunk base
+
+        var lineGeo = new THREE.BufferGeometry().setFromPoints( points )
+        var lineMat = new THREE.LineBasicMaterial( {color: 0xff7b00, linewidth: 30} )
+        var scale = new THREE.Line( lineGeo, lineMat )
+        this.newScene.add( scale )
+        ///// Scale /////
       }, // END: drawTree()
 
       drawRings() {
@@ -559,48 +572,76 @@
         this.treeScene.add( box )
       }, // END: addBox()
 
-      testSize(scale) {
-        //console.log("window.innerWidth", window.innerWidth)
-        //console.log("window.innerHeight", window.innerHeight)
-        console.log("renderer width", this.treeCam.getFilmWidth())
-        console.log("renderer height", this.treeCam.getFilmHeight())
+      addSquare(x, y, color) {
+        var square = new THREE.Shape();
 
-        console.log("canvasWidth", this.canvasWidth/100)
-        console.log("canvasHeight", this.canvasHeight/100)
+        square.moveTo( x - 0.5, y - 0.5 )
+        square.lineTo( x + 0.5, y - 0.5 )
+        square.lineTo( x + 0.5, y + 0.5 )
+        square.lineTo( x - 0.5, y + 0.5 )
+        square.lineTo( x - 0.5, y - 0.5 )
 
-        var boxGeo = new THREE.BoxGeometry( 1, 1, 1 )
+        var geometry = new THREE.ShapeGeometry( square );
+        var material = new THREE.MeshBasicMaterial( { color: color } );
+        var mesh = new THREE.Mesh( geometry, material ) ;
+        this.treeScene.add( mesh );
+      }, //END: addSquare()
+
+      testSize() {
+        var x = 1
+        var y = 1
+        var z = 0.1
+
+        var boxGeo = new THREE.BoxGeometry( x, y, z )
 
         var boxMat = new THREE.MeshLambertMaterial( { color: 0xff0000 } )
         var box = new THREE.Mesh( boxGeo, boxMat )
-        box.position.x = 0
-        box.position.y = this.maxHeight / 2
-        box.position.z = 0
-        this.treeScene.add( box )
+        box.position.x = this.treeCam.position.z * (this.canvasWidth/this.canvasHeight) - x
+        box.position.y = this.treeCam.position.z - y
+        box.position.z = -z
+        //this.treeScene.add( box )
 
         var boxMat2 = new THREE.MeshLambertMaterial( { color: 0x00ff00 } )
         var box2 = new THREE.Mesh( boxGeo, boxMat2 )
-        box2.position.x = this.maxHeight/2 + this.canvasWidth/100
-        box2.position.y = this.maxHeight/2 + this.canvasHeight/100
+        box2.position.x = this.treeCam.position.z * (this.canvasWidth/this.canvasHeight) - x
+        box2.position.y = 0
+        box.position.z = -z
         //box2.position.z = scale
-        this.treeScene.add( box2 )
+        //this.treeScene.add( box2 )
 
         var boxMat3 = new THREE.MeshLambertMaterial( { color: 0x0000ff } )
         var box3 = new THREE.Mesh( boxGeo, boxMat3 )
-        box3.position.x = this.maxHeight/2 + this.currentCam.getFilmWidth()/3.3557047
-        box3.position.y = this.maxHeight/2 + this.currentCam.getFilmHeight()/3.3557047
-        this.treeScene.add( box3 )
+        box3.position.x = 0
+        box3.position.y = this.treeCam.position.z - y
+        box.position.z = -z
+        //this.treeScene.add( box3 )
 
-        var points = [] // The vertical line of the scale.
-        points.push( new THREE.Vector3( (this.canvasWidth/100-1.5)/1.8, (this.canvasHeight/100-0.5)/1.8, 0 ) )
-        points.push( new THREE.Vector3( (this.canvasWidth/100-0.5)/1.8, (this.canvasHeight/100-0.5)/1.8, 0 ) )
-        points.push( new THREE.Vector3( (this.canvasWidth/100-0.5)/1.8, 0, 0 ) )
-        points.push( new THREE.Vector3( (this.canvasWidth/100-1.5)/1.8, 0, 0 ) )
+        //white
+        this.addSquare(0,
+          0,
+          0xffffff)
 
-        var lineGeo = new THREE.BufferGeometry().setFromPoints( points )
+        //red
+        this.addSquare(this.treeCam.position.z * (this.canvasWidth/this.canvasHeight) - (x/2),
+          0,
+          0xff0000)
 
-        var lineMat = new THREE.LineBasicMaterial( {color: 0xffffff} )
-        var scale = new THREE.Line( lineGeo, lineMat )
-        this.treeScene.add( scale )
+        // green
+        this.addSquare(0,
+          this.treeCam.position.z - y + this.maxHeight/2,
+          0x00ff00)
+
+        //blue
+        this.addSquare(this.treeCam.position.z * (this.canvasWidth/this.canvasHeight) - x,
+          this.treeCam.position.z - y + this.maxHeight/2,
+          0x0000ff)
+
+        //yellow
+        this.addSquare(this.treeCam.position.z * (this.canvasWidth/this.canvasHeight) - (x/2),
+          this.maxHeight,
+          0xffff00)
+
+        console.log("testSize - Complete")
       }, // END: testSize()
 
       addUI() {
@@ -669,23 +710,7 @@
         this.treeScene.add( topLine )
         this.treeScene.add( botLine )
 
-        // Text
-        /*var loader = new THREE.FontLoader();
-
-        loader.load( 'fonts/helvetiker_regular.typeface.json', function ( font ) {
-
-        	var geometry = new THREE.TextGeometry( 'Hello three.js!', {
-        		font: font,
-        		size: 80,
-        		height: 5,
-        		curveSegments: 12,
-        		bevelEnabled: true,
-        		bevelThickness: 10,
-        		bevelSize: 8,
-        		bevelOffset: 0,
-        		bevelSegments: 5
-        	} )
-        } )*/
+        console.log("addTreeScale - Complete")
       }, // END: addTreeScale()
 
       addRingScale() {
@@ -716,6 +741,35 @@
         this.ringScene.add( topLine )
         this.ringScene.add( botLine )
       }, // END: addRingScale()
+
+      addText() {
+        var loader = new THREE.FontLoader()
+
+        loader.load( 'fonts/optimer_regular.typeface.json', function ( font ) {
+
+          var text
+
+          var color = 0x006699
+
+          var material = new THREE.MeshBasicMaterial( { color: color } )
+
+          var geometry = new THREE.TextGeometry( 'Hello three.js!', {
+        		font: font,
+        		size: 80,
+        		height: 5,
+        		curveSegments: 12,
+        		bevelEnabled: true,
+        		bevelThickness: 10,
+        		bevelSize: 8,
+        		bevelOffset: 0,
+        		bevelSegments: 5
+        	} )
+
+          text = new THREE.Mesh( geometry, material )
+          this.treeScene.add( text )
+        } ) //end load function
+        console.log("addText - Complete")
+      }, // END: addText()
 
       setCrownShape(shape) {
         this.crownShape = shape
@@ -765,14 +819,14 @@
         // THREE.js function used to move objects in the scene.
         //this.trunk.rotation.y += 0.01
         //this.crown.rotation.y += 0.01
-        this.hudBitmap.clearRect(0, 0, this.canvasWidth, this.canvasHeight)
+        /*this.hudBitmap.clearRect(0, 0, this.canvasWidth, this.canvasHeight)
         this.hudBitmap.fillText("year: "+this.dataIndex, this.canvasWidth/2, this.canvasHeight/2)
-  	    this.hudTexture.needsUpdate = true
+  	    this.hudTexture.needsUpdate = true*/
       }, // END: update()
 
       onWindowResize() {
         // Adjusts the renderer size when the window is resized.
-        this.currentCam.aspect = window.innerWidth / window.innerHeight
+        this.currentCam.aspect = this.canvasWidth / this.canvasHeight
         this.currentCam.updateProjectionMatrix()
 
         this.renderer.setSize( this.canvasWidth, this.canvasHeight)
