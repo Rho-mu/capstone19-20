@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="outputContainer" id="outputContainer">
+      <button @click="addBox()">add box</button>
       <div class="setSceneContainer">
         <button @click="setScene('ringScene')" class="ringSceneButton" id="ringSceneButton">RINGS</button>
         <button @click="setScene('treeScene')" class="treeSceneButton" id="treeSceneButton">TREE</button>
@@ -304,10 +305,6 @@
         //console.log("maxHeight", this.maxHeight)
         //console.log("maxRadius", this.maxRadius)
         //console.log("maxLAI2", this.maxLAI2)
-
-
-        //this.testSize()
-        //this.addTreeScale()
         console.log("afterGetSetup - Complete")
       }, // END: afterGetSetup()
 
@@ -332,9 +329,7 @@
         this.newScene = new THREE.Scene()            // Create new scene for new tree
         this.treeScene.add( this.newScene )          // Add new scene to root scene
 
-        //this.addBox()
         this.addLight()
-        //this.testSize(this.maxHeight*0.6)
 
 
         /// Trunk variables
@@ -471,20 +466,24 @@
         points.push( new THREE.Vector3( rightEdgeOfScreen - 5, this.maxHeight, 0 ) ) // Max height
         points.push( new THREE.Vector3( rightEdgeOfScreen - 1, this.maxHeight, 0 ) ) // Max height
 
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, hB, 0 ) ) // trunk mid
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 5, hB, 0 ) ) // trunk mid
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, hB, 0 ) ) // trunk mid
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, h, 0 ) ) // current height
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 5, h, 0 ) ) // current height
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, h, 0 ) ) // current height
 
         points.push( new THREE.Vector3( rightEdgeOfScreen - 1, hC, 0 ) ) // trunk top
         points.push( new THREE.Vector3( rightEdgeOfScreen - 5, hC, 0 ) ) // trunk top
         points.push( new THREE.Vector3( rightEdgeOfScreen - 1, hC, 0 ) ) // trunk top
+
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, hB, 0 ) ) // trunk mid
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 5, hB, 0 ) ) // trunk mid
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, hB, 0 ) ) // trunk mid
 
         points.push( new THREE.Vector3( rightEdgeOfScreen - 1, 0, 0 ) ) // trunk base
         points.push( new THREE.Vector3( rightEdgeOfScreen - 5, 0, 0 ) ) // trunk base
         points.push( new THREE.Vector3( rightEdgeOfScreen - 1, 0, 0 ) ) // trunk base
 
         var lineGeo = new THREE.BufferGeometry().setFromPoints( points )
-        var lineMat = new THREE.LineBasicMaterial( {color: 0xff7b00, linewidth: 30} )
+        var lineMat = new THREE.LineBasicMaterial( {color: 0x008509, linewidth: 30} )
         var scale = new THREE.Line( lineGeo, lineMat )
         this.newScene.add( scale )
         ///// Scale /////
@@ -502,8 +501,6 @@
 
         this.ringCam.position.z = this.localResultJson.r[this.postBody.t] * 1.1   // Scale scene to final radius of the trunk so that no rings are off-screne.
         this.ringCam.lookAt(0, 0, 0)
-
-        //this.addRingScale()
 
         var heartwoodRadius = this.localResultJson.r[this.dataIndex] - this.localResultJson.sw2[this.dataIndex] // Gets the heart wood radius at the current year on the slider
         //console.log("sw:", this.localResultJson.sw2[this.dataIndex], "\nr:", this.localResultJson.r[this.dataIndex], "\nhw:", heartwoodRadius)
@@ -565,182 +562,22 @@
         var boxGeo = new THREE.BoxGeometry( 1, 1, 1 )
 
         //var myMaterial = new THREE.MeshLambertMaterial( { map: this.barkTexture } )
-        var boxMat = new THREE.MeshLambertMaterial( { color: 0xFFFF00 } )
+        //var boxMat = new THREE.MeshLambertMaterial( { color: 0xFFFF00 } )
+        var sideMats =
+        [
+          new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('../json/bark.png'), side: THREE.DoubleSide } ),
+          new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('../json/bark.png'), side: THREE.DoubleSide } ),
+          new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('../json/bark.png'), side: THREE.DoubleSide } ),
+          new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('../json/bark.png'), side: THREE.DoubleSide } ),
+          new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('../json/bark.png'), side: THREE.DoubleSide } ),
+          new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('../json/bark.png'), side: THREE.DoubleSide } )
+        ]
 
-        var box = new THREE.Mesh( boxGeo, boxMat )
+        //var boxMat = new THREE.MeshFaceMaterial( sideMats )
+        var box = new THREE.Mesh( boxGeo, sideMats )
         //box.position.x = r * 1.1
         this.treeScene.add( box )
       }, // END: addBox()
-
-      addSquare(x, y, color) {
-        var square = new THREE.Shape();
-
-        square.moveTo( x - 0.5, y - 0.5 )
-        square.lineTo( x + 0.5, y - 0.5 )
-        square.lineTo( x + 0.5, y + 0.5 )
-        square.lineTo( x - 0.5, y + 0.5 )
-        square.lineTo( x - 0.5, y - 0.5 )
-
-        var geometry = new THREE.ShapeGeometry( square );
-        var material = new THREE.MeshBasicMaterial( { color: color } );
-        var mesh = new THREE.Mesh( geometry, material ) ;
-        this.treeScene.add( mesh );
-      }, //END: addSquare()
-
-      testSize() {
-        var x = 1
-        var y = 1
-        var z = 0.1
-
-        var boxGeo = new THREE.BoxGeometry( x, y, z )
-
-        var boxMat = new THREE.MeshLambertMaterial( { color: 0xff0000 } )
-        var box = new THREE.Mesh( boxGeo, boxMat )
-        box.position.x = this.treeCam.position.z * (this.canvasWidth/this.canvasHeight) - x
-        box.position.y = this.treeCam.position.z - y
-        box.position.z = -z
-        //this.treeScene.add( box )
-
-        var boxMat2 = new THREE.MeshLambertMaterial( { color: 0x00ff00 } )
-        var box2 = new THREE.Mesh( boxGeo, boxMat2 )
-        box2.position.x = this.treeCam.position.z * (this.canvasWidth/this.canvasHeight) - x
-        box2.position.y = 0
-        box.position.z = -z
-        //box2.position.z = scale
-        //this.treeScene.add( box2 )
-
-        var boxMat3 = new THREE.MeshLambertMaterial( { color: 0x0000ff } )
-        var box3 = new THREE.Mesh( boxGeo, boxMat3 )
-        box3.position.x = 0
-        box3.position.y = this.treeCam.position.z - y
-        box.position.z = -z
-        //this.treeScene.add( box3 )
-
-        //white
-        this.addSquare(0,
-          0,
-          0xffffff)
-
-        //red
-        this.addSquare(this.treeCam.position.z * (this.canvasWidth/this.canvasHeight) - (x/2),
-          0,
-          0xff0000)
-
-        // green
-        this.addSquare(0,
-          this.treeCam.position.z - y + this.maxHeight/2,
-          0x00ff00)
-
-        //blue
-        this.addSquare(this.treeCam.position.z * (this.canvasWidth/this.canvasHeight) - x,
-          this.treeCam.position.z - y + this.maxHeight/2,
-          0x0000ff)
-
-        //yellow
-        this.addSquare(this.treeCam.position.z * (this.canvasWidth/this.canvasHeight) - (x/2),
-          this.maxHeight,
-          0xffff00)
-
-        console.log("testSize - Complete")
-      }, // END: testSize()
-
-      addUI() {
-        // Adds a heads-up display scene on top of the tree scene to add scales.
-        // Used https://codepen.io/jaamo/details/MaOGZV for reference on how to do this.
-
-        // Create canvas element.
-        var hudCanvas = document.createElement('canvas')
-        hudCanvas.width = this.canvasWidth
-        hudCanvas.height = this.canvasHeight
-
-        // Create new scene for HUD with an orthographic camera for 2D effect.
-        this.hudScene = new THREE.Scene()
-        //this.hudScene.background = new THREE.Color( 0xdfffcf )
-        this.hudCamera = new THREE.OrthographicCamera( -this.canvasWidth/2, this.canvasWidth/2, this.canvasHeight/2, -this.canvasHeight/2, 0, 30)
-
-        // Adds some temporary text to the HUD.
-        this.hudBitmap = hudCanvas.getContext('2d')
-        this.hudBitmap.font = "Normal 20px Arial"
-        this.hudBitmap.textAlign = 'center'
-        this.hudBitmap.fillStyle = "rgba(245,0,245,0.2)"
-        this.hudBitmap.fillText('Initializing...', this.canvasWidth/2, this.canvasHeight/2)
-
-        // Create a texture  from the canvas.
-        this.hudTexture = new THREE.Texture( hudCanvas )
-        this.hudTexture.minFilter = THREE.LinearFilter
-        this.hudTexture.needsUpdate = true
-
-        // Create a material from the texture.
-        var hudMat = new THREE.MeshBasicMaterial( {map: this.hudTexture } )
-        hudMat.transparent = true
-
-        // Create a 2D plane with the material that will display the HUD as a texture on the screen.
-        var hudPlaneGeo = new THREE.PlaneGeometry( this.canvasWidth, this.canvasHeight )
-        var hudPlane = new THREE.Mesh( hudPlaneGeo, hudMat )
-        this.hudScene.add( hudPlane )
-
-        console.log("addUI - Complete")
-      }, // END: addUI()
-
-      addTreeScale() {
-
-        var vertPoints = [] // The vertical line of the scale.
-        vertPoints.push( new THREE.Vector3( this.canvasWidth/100, 0, 0 ) )
-        vertPoints.push( new THREE.Vector3( this.canvasWidth/100, 10, 0 ) )
-
-        var topPoints = [] // The top line of the scale.
-        topPoints.push( new THREE.Vector3( this.canvasWidth/100 - 1, 10, 0 ) )
-        topPoints.push( new THREE.Vector3( this.canvasWidth/100 + 1, 10, 0 ) )
-
-        var botPoints = [] // The bottom line of the scale.
-        botPoints.push( new THREE.Vector3( this.canvasWidth/100 - 1, 0, 0 ) )
-        botPoints.push( new THREE.Vector3( this.canvasWidth/100 + 1, 0, 0 ) )
-
-        var vertLineGeo = new THREE.BufferGeometry().setFromPoints( vertPoints )
-        var topLineGeo = new THREE.BufferGeometry().setFromPoints( topPoints )
-        var botLineGeo = new THREE.BufferGeometry().setFromPoints( botPoints )
-
-        var lineMat = new THREE.LineBasicMaterial( {color: 0x0000ff} )
-
-        var vertLine = new THREE.Line( vertLineGeo, lineMat )
-        var topLine = new THREE.Line( topLineGeo, lineMat )
-        var botLine = new THREE.Line( botLineGeo, lineMat )
-
-        this.treeScene.add( vertLine )
-        this.treeScene.add( topLine )
-        this.treeScene.add( botLine )
-
-        console.log("addTreeScale - Complete")
-      }, // END: addTreeScale()
-
-      addRingScale() {
-
-        var vertPoints = [] // The vertical line of the scale.
-        vertPoints.push( new THREE.Vector3( this.canvasWidth/3000, 0, 0 ) )
-        vertPoints.push( new THREE.Vector3( this.canvasWidth/3000, 0.1, 0 ) )
-
-        var topPoints = [] // The top line of the scale.
-        topPoints.push( new THREE.Vector3( this.canvasWidth/3000 - 0.02, 0.1, 0 ) )
-        topPoints.push( new THREE.Vector3( this.canvasWidth/3000 + 0.02, 0.1, 0 ) )
-
-        var botPoints = [] // The bottom line of the scale.
-        botPoints.push( new THREE.Vector3( this.canvasWidth/3000 - 0.02, 0, 0 ) )
-        botPoints.push( new THREE.Vector3( this.canvasWidth/3000 + 0.02, 0, 0 ) )
-
-        var vertLineGeo = new THREE.BufferGeometry().setFromPoints( vertPoints )
-        var topLineGeo = new THREE.BufferGeometry().setFromPoints( topPoints )
-        var botLineGeo = new THREE.BufferGeometry().setFromPoints( botPoints )
-
-        var lineMat = new THREE.LineBasicMaterial( {color: 0x0000ff} )
-
-        var vertLine = new THREE.Line( vertLineGeo, lineMat )
-        var topLine = new THREE.Line( topLineGeo, lineMat )
-        var botLine = new THREE.Line( botLineGeo, lineMat )
-
-        this.ringScene.add( vertLine )
-        this.ringScene.add( topLine )
-        this.ringScene.add( botLine )
-      }, // END: addRingScale()
 
       addText() {
         var loader = new THREE.FontLoader()
@@ -982,7 +819,6 @@
           this.loopFlag = 1
 
           this.initializeVisualization()
-          //this.addUI()
           this.animate()
         }
       }
