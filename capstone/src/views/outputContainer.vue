@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="outputContainer" id="outputContainer">
-      <button @click="addBox()">add box</button>
+      <button @click="addText()">add text</button>
       <div class="setSceneContainer">
         <button @click="setScene('ringScene')" class="ringSceneButton" id="ringSceneButton">RINGS</button>
         <button @click="setScene('treeScene')" class="treeSceneButton" id="treeSceneButton">TREE</button>
@@ -17,7 +17,9 @@
 
 
       <input type="range" min="1" v-model="dataIndex" @input="draw()" id="timeStepSlider" class="timeStepSlider"><br><br>
-      <div id="treeCanvasport"></div>
+      <div id="treeCanvasport">
+        <p id="maxHeightText">{{this.dataIndex}}</p>
+      </div>
       <div class="rawDataList" id="rawDataList">
         <br>
         <div class="rawData" id="rawData">
@@ -83,6 +85,7 @@
 <script>
   import * as THREE from 'three'
   import JsonCSV from 'vue-json-csv'
+  import font_helvetiker_regular from '../assets/fonts/helvetiker_regular.typeface.json'
   //import loblolly9 from '../json/loblolly9.json'
 
   export default {
@@ -580,6 +583,7 @@
       }, // END: addBox()
 
       addText() {
+        /*
         var loader = new THREE.FontLoader()
 
         loader.load( 'fonts/optimer_regular.typeface.json', function ( font ) {
@@ -605,6 +609,74 @@
           text = new THREE.Mesh( geometry, material )
           this.treeScene.add( text )
         } ) //end load function
+        */
+
+        console.log("adding text")
+
+        //var loader = new THREE.FontLoader()
+
+        /*var font = loader.load(
+        	// resource URL
+        	'../assets/fonts/helvetiker_regular.typeface.json',
+
+        	// onLoad callback
+        	function ( font ) {
+            console.log("trying to add")
+            console.log("font:", font)
+
+
+            var geometry = new THREE.TextGeometry( 'Hello three.js!', {
+          		font: parsedFont
+          	} )
+
+            var matLite = new THREE.MeshBasicMaterial( {
+  						color: red
+  					} )
+
+            text = new THREE.Mesh( geometry, material )
+
+        		// do something with the font
+        		this.treeScene.add( text )
+            console.log("text added")
+        	},
+
+        	// onProgress callback
+        	function ( xhr ) {
+        		console.log( (xhr.loaded / xhr.total * 100) + '% loaded' )
+        	},
+
+        	// onError callback
+        	function ( err ) {
+        		console.log( 'An error happened' )
+        	}
+        )*/
+
+
+        /*var loader = new THREE.FileLoader()
+        loader.setResponseType('json')
+
+        var myfont = loader.load(
+          '../assets/fonts/helvetiker_regular.typeface.json'
+        )
+        console.log("font:", myfont)*/
+
+        //var parsedFont = loader.parse(myfont)
+        console.log("parsedFont:", this.font_helvetiker_regular)
+
+        var geometry = new THREE.TextGeometry( 'Hello three.js!', {})
+
+        var material = new THREE.MeshBasicMaterial( {
+          color: red
+        } )
+
+        text = new THREE.Mesh( geometry, material )
+
+        // do something with the font
+        this.treeScene.add( text )
+        console.log("text added")
+
+        //var parsedFont = loader.parse(font)
+
         console.log("addText - Complete")
       }, // END: addText()
 
@@ -663,10 +735,10 @@
 
       onWindowResize() {
         // Adjusts the renderer size when the window is resized.
-        this.currentCam.aspect = this.canvasWidth / this.canvasHeight
+        /*this.currentCam.aspect = this.canvasWidth / this.canvasHeight
         this.currentCam.updateProjectionMatrix()
 
-        this.renderer.setSize( this.canvasWidth, this.canvasHeight)
+        this.renderer.setSize( this.canvasWidth, this.canvasHeight)*/
       }, // END: onWindowResize()
 
       animate() {
@@ -890,5 +962,20 @@
 
   h5 {
     color: white;
+  }
+
+  #maxHeightText {
+    color: red;
+    font-size: 20px;
+    position: absolute;
+    top: 30px;
+    right: 150px;
+  }
+
+  #treeCanvasport {
+    position: relative;
+    text-align: center;
+    width: 100%;
+    height: auto;
   }
 </style>
