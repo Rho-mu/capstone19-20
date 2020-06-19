@@ -98,8 +98,8 @@
     data() {
       return {
         dataIndex: "1",
-        canvasWidth: window.innerWidth*0.7,
-        canvasHeight: window.innerHeight*0.7,
+        canvasWidth: window.innerWidth*0.75,
+        canvasHeight: window.innerHeight*0.75,
         currentScene: this.treeScene,
         currentCam: this.treeCam,
         maxHeight: 0,
