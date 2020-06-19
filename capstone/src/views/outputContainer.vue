@@ -735,17 +735,19 @@
 
       onWindowResize() {
         // Adjusts the renderer size when the window is resized.
-        /*this.currentCam.aspect = this.canvasWidth / this.canvasHeight
+        this.canvasWidth = window.innerWidth * 0.75
+        this.canvasHeight = window.innerHeight * 0.75
+
+        this.currentCam.aspect = this.canvasWidth / this.canvasHeight
         this.currentCam.updateProjectionMatrix()
 
-        this.renderer.setSize( this.canvasWidth, this.canvasHeight)*/
+        this.renderer.setSize( this.canvasWidth, this.canvasHeight)
       }, // END: onWindowResize()
 
       animate() {
         // THREE.js function
 
         //this.update()
-        //this.renderer.render(this.hudScene, this.hudCamera)
         this.renderer.render(this.currentScene, this.currentCam)
 
         requestAnimationFrame(this.animate)
