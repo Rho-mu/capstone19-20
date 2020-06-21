@@ -79,12 +79,6 @@ export default {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: -1;
-  }
-
-  img {
-    height: 80px;
-    width: 80px;
   }
 
   .survey {
@@ -108,6 +102,10 @@ export default {
     padding: 15px;
     border-radius: 10px;
     border-width: thin;
+  }
+
+  label {
+    text-align: center;
   }
 
   .roles {

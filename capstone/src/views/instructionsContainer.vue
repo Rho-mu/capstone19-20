@@ -60,7 +60,7 @@ export default {
   .instructionsContainer {
     display: block;
     width: 98%;
-    margin-bottom: 5px;
+    margin-bottom: 2px;
     padding: 1%;
     float: left;
     background-color: #b9b9b9;
