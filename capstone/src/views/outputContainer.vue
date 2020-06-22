@@ -19,7 +19,16 @@
 
       <input type="range" min="1" v-model="dataIndex" @input="draw()" id="timeStepSlider" class="timeStepSlider"><br><br>
       <div id="treeCanvasport">
-        <p id="maxHeightScaleText">{{this.dataIndex}}</p>
+        <p class="scaleBar" id="maxHeightText">{{this.dataIndex/*this.maxHeight*/}}</p>
+        <p class="scaleBar" id="curHeightText">{{this.dataIndex/*this.localResultJson.h[this.dataIndex]*/}}</p>
+        <p class="scaleBar" id="trunkTopText">{{this.dataIndex/*this.localResultJson.hC[this.dataIndex]*/}}</p>
+        <p class="scaleBar" id="trunkMidText">{{this.dataIndex/*this.localResultJson.hB[this.dataIndex]*/}}</p>
+        <p class="scaleBar" id="trunkBaseText">0</p>
+
+        <p class="scaleBar" id="topleft">top left</p>
+        <p class="scaleBar" id="topright">top right</p>
+        <p class="scaleBar" id="botleft">bot left</p>
+        <p class="scaleBar" id="botright">bot right</p>
       </div>
       <div class="rawDataList" id="rawDataList">
         <br>
@@ -470,25 +479,50 @@
         var  rightEdgeOfScreen = this.treeCam.position.z * (this.canvasWidth/this.canvasHeight)
         var points = []
 
+        // YELLOW //
         points.push( new THREE.Vector3( rightEdgeOfScreen - 1, this.maxHeight, 0 ) ) // Max height
         points.push( new THREE.Vector3( rightEdgeOfScreen - 5, this.maxHeight, 0 ) ) // Max height
         points.push( new THREE.Vector3( rightEdgeOfScreen - 1, this.maxHeight, 0 ) ) // Max height
+        var maxHeightText = document.getElementById("maxHeightText")
+        var maxHeightpx = String(this.canvasHeight) + "px"
+        maxHeightText.style.top = maxHeightpx
+        //console.log("pos-maxHeightText", maxHeightText.style.top)
 
+        // GREEN //
         points.push( new THREE.Vector3( rightEdgeOfScreen - 1, h, 0 ) ) // current height
         points.push( new THREE.Vector3( rightEdgeOfScreen - 5, h, 0 ) ) // current height
         points.push( new THREE.Vector3( rightEdgeOfScreen - 1, h, 0 ) ) // current height
+        var curHeightText = document.getElementById("curHeightText")
+        var curHeightpx = String(this.canvasHeight - h) + "px"
+        curHeightText.style.top = curHeightpx
+        //console.log("pos-curHeightText", curHeightText.style.top)
 
+        // BLUE //
         points.push( new THREE.Vector3( rightEdgeOfScreen - 1, hC, 0 ) ) // trunk top
         points.push( new THREE.Vector3( rightEdgeOfScreen - 5, hC, 0 ) ) // trunk top
         points.push( new THREE.Vector3( rightEdgeOfScreen - 1, hC, 0 ) ) // trunk top
+        var trunkTopText = document.getElementById("trunkTopText")
+        var trunkToppx = String(this.canvasHeight - hC) + "px"
+        trunkTopText.style.top = trunkToppx
+        //console.log("pos-trunkTopText", trunkTopText.style.top)
 
+        // PURPLE //
         points.push( new THREE.Vector3( rightEdgeOfScreen - 1, hB, 0 ) ) // trunk mid
         points.push( new THREE.Vector3( rightEdgeOfScreen - 5, hB, 0 ) ) // trunk mid
         points.push( new THREE.Vector3( rightEdgeOfScreen - 1, hB, 0 ) ) // trunk mid
+        var trunkMidText = document.getElementById("trunkMidText")
+        var trunkMidpx = String(this.canvasHeight - hB) + "px"
+        trunkMidText.style.top = trunkMidpx
+        //console.log("pos-trunkMidText", trunkMidText.style.top)
 
+        // BLACK //
         points.push( new THREE.Vector3( rightEdgeOfScreen - 1, 0, 0 ) ) // trunk base
         points.push( new THREE.Vector3( rightEdgeOfScreen - 5, 0, 0 ) ) // trunk base
         points.push( new THREE.Vector3( rightEdgeOfScreen - 1, 0, 0 ) ) // trunk base
+        var trunkBaseText = document.getElementById("trunkBaseText")
+        var trunkBasepx = "0px"
+        trunkBaseText.style.top = trunkBasepx
+        //console.log("pos-trunkBaseText", trunkBaseText.style.top)
 
         var lineGeo = new THREE.BufferGeometry().setFromPoints( points )
         var lineMat = new THREE.LineBasicMaterial( {color: 0x008509, linewidth: 30} )
@@ -747,6 +781,7 @@
         this.currentCam.updateProjectionMatrix()
 
         this.renderer.setSize( this.canvasWidth, this.canvasHeight)
+        this.draw()
       }, // END: onWindowResize()
 
       animate() {
@@ -975,12 +1010,60 @@
     color: white;
   }
 
-  #maxHeightScaleText {
+  .scaleBar {
     color: red;
     font-size: 20px;
     position: absolute;
+  }
+
+  #maxHeightText {
+    color: yellow;
+    top: 0px;
+    right: 150px;
+  }
+
+  #curHeightText {
+    color: green;
     top: 30px;
     right: 150px;
+  }
+
+  #trunkTopText {
+    color: blue;
+    top: 60px;
+    right: 150px;
+  }
+
+  #trunkMidText {
+    color: purple;
+    top: 90px;
+    right: 150px;
+  }
+
+  #trunkBaseText {
+    color: black;
+    top: 120px;
+    right: 150px;
+  }
+
+  #topleft {
+    top: 0px;
+    left: 0px;
+  }
+
+  #topright {
+    top: 0px;
+    right: 0px;
+  }
+
+  #botleft {
+    bottom: 0px;
+    left: 0px;
+  }
+
+  #botright {
+    bottom: 0px;
+    right: 0px;
   }
 
   #treeCanvasport {
