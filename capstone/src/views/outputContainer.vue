@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="outputContainer" id="outputContainer">
-      <button @click="addText()">add text</button>
+      <button @click="addText()">TEMP: add text</button>
+      <button @click="temp_sd()">TEMP: start draw</button>
       <div class="setSceneContainer">
         <button @click="setScene('ringScene')" class="ringSceneButton" id="ringSceneButton">RINGS</button>
         <button @click="setScene('treeScene')" class="treeSceneButton" id="treeSceneButton">TREE</button>
@@ -18,7 +19,7 @@
 
       <input type="range" min="1" v-model="dataIndex" @input="draw()" id="timeStepSlider" class="timeStepSlider"><br><br>
       <div id="treeCanvasport">
-        <p id="maxHeightText">{{this.dataIndex}}</p>
+        <p id="maxHeightScaleText">{{this.dataIndex}}</p>
       </div>
       <div class="rawDataList" id="rawDataList">
         <br>
@@ -86,7 +87,7 @@
   import * as THREE from 'three'
   import JsonCSV from 'vue-json-csv'
   import font_helvetiker_regular from '../assets/fonts/helvetiker_regular.typeface.json'
-  //import loblolly9 from '../json/loblolly9.json'
+  import loblolly9 from '../json/loblolly9.json'
 
   export default {
     name: 'outputContainer',
@@ -220,6 +221,10 @@
 
       afterGetSetup() {
         // Does some setup once getData() is done and data has been retrieved.
+
+        // For running locally if model stops working.
+        //this.localResultJson = loblolly9
+        //console.log("localResultJson", this.localResultJson)
 
         this.localResultJson = this.resultJson
         this.localLoadingFlag = this.loadingFlag
@@ -874,7 +879,11 @@
         this.checkForReset()
 
         console.log("Reset - Visualization")
-      } // END: resetVisualization()
+      }, // END: resetVisualization()
+
+      temp_sd() {
+        this.startDraw = true
+      },
     }, // END: methods
 
     mounted() {
@@ -966,7 +975,7 @@
     color: white;
   }
 
-  #maxHeightText {
+  #maxHeightScaleText {
     color: red;
     font-size: 20px;
     position: absolute;
