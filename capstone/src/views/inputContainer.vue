@@ -15,7 +15,7 @@
         <div class="panel">
           <br>
           <label> phih:</label><br>
-          <input type="number" v-model="postBody.phih" step="any" placeholder="phih > 0" min="0" required>
+          <input type="number" v-model="postBody.phih" step="any" placeholder="0 < phih" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Slope at H versus r curve at r = 0<br>
@@ -51,7 +51,7 @@
           </div><br>
 
           <label> f2 (RA:LA):</label><br>
-          <input type="number" v-model="postBody.f2" step="any" placeholder="f2 (RA:LA) > 0" min="0" required>
+          <input type="number" v-model="postBody.f2" step="any" placeholder="0 < f2 (RA:LA)" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Fine root area to leaf area ratio<br>
@@ -63,7 +63,7 @@
           </div><br>
 
           <label> f1 (LA:XA):</label><br>
-          <input type="number" v-model="postBody.f1" step="any" placeholder="f1 (LA:XA) > 0" min="0" required>
+          <input type="number" v-model="postBody.f1" step="any" placeholder="0 < f1 (LA:XA)" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Leaf area to xylem confucting area ratio<br>
@@ -75,7 +75,7 @@
           </div><br>
 
           <label> gammaX (XA:SA):</label><br>
-          <input type="number" v-model="postBody.gammax" step="any" placeholder="0 <gammaX (XA:SA)< 1" min="0" max="1" required>
+          <input type="number" v-model="postBody.gammax" step="any" placeholder="0 < gammaX (XA:SA) < 1" min="0" max="1" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Xylem conducting area to sapwood area ratio<br>
@@ -111,7 +111,7 @@
           </div><br>
 
           <label> R0:</label><br>
-          <input type="number" v-model="postBody.r0" step="any" placeholder="R0 > 0" min="0" required>
+          <input type="number" v-model="postBody.r0" step="any" placeholder="0 < R0" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Maximum potential crown radius of a tree with diameter at breast height of 0 cm (i.e., for a tree that is exactly 1.37 m tall)<br>
@@ -123,7 +123,7 @@
           </div><br>
 
           <label> R40:</label><br>
-          <input type="number" v-model="postBody.r40" step="any" placeholder="R40 > R0" min="postBody.r0" required>
+          <input type="number" v-model="postBody.r40" step="any" placeholder="R0 < R40" min="postBody.r0" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Maximum potential crown radius of a tree with diameter at breast height of 40 cm<br>
@@ -135,7 +135,7 @@
           </div><br>
 
           <label> alpha:</label><br>
-          <input type="number" v-model="postBody.alpha" step="any" placeholder="alpha > 0" min="0" required>
+          <input type="number" v-model="postBody.alpha" step="any" placeholder="0 < alpha" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Crown curvature parameter<br>
@@ -163,7 +163,7 @@
           </div><br>
 
           <label> SWmax (m):</label><br>
-          <input type="number" v-model="postBody.swmax" step="any" placeholder="SWmax > 0" min="0" required>
+          <input type="number" v-model="postBody.swmax" step="any" placeholder="0 < SWmax" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Maximum sapwood width<br>
@@ -175,7 +175,7 @@
           </div><br>
 
           <label> rr (m):</label><br>
-          <input type="number" v-model="postBody.rr" step="any" placeholder="rr > 0" min="0" required>
+          <input type="number" v-model="postBody.rr" step="any" placeholder="0 < rr" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Average fine root radius<br>
@@ -192,7 +192,7 @@
         <div class="panel">
           <br>
           <label> WD (g dw m<sup>-3</sup>):</label><br>
-          <input type="number" v-model="postBody.rhomax" step="any" placeholder="WD > 0" min="0" required>
+          <input type="number" v-model="postBody.rhomax" step="any" placeholder="0 < WD" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Wood density<br>
@@ -216,7 +216,7 @@
           </div><br>
 
           <label> sla (m2g dw<sup>-1</sup>):</label><br>
-          <input type="number" v-model="postBody.sla" step="any" placeholder="sla > 0" min="0" required>
+          <input type="number" v-model="postBody.sla" step="any" placeholder="0 < sla" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Specific leaf area<br>
@@ -232,7 +232,7 @@
         <div class="panel">
           <br>
           <label> sL (year<sup>-1</sup>):</label><br>
-          <input type="number" v-model="postBody.sl" step="any" placeholder="sL > 0" min="0" required>
+          <input type="number" v-model="postBody.sl" step="any" placeholder="0 < sL" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Senescence rate of leaves<br>
@@ -244,7 +244,7 @@
           </div><br>
 
           <label> sR (year<sup>-1</sup>):</label><br>
-          <input type="number" v-model="postBody.sr" step="any" placeholder="sR > 0" min="0" required>
+          <input type="number" v-model="postBody.sr" step="any" placeholder="0 < sR" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Senescence rate of fine roots<br>
@@ -256,7 +256,7 @@
           </div><br>
 
           <label> sO (year<sup>-1</sup>):</label><br>
-          <input type="number" v-model="postBody.so" step="any" placeholder="sO > 0" min="0" required>
+          <input type="number" v-model="postBody.so" step="any" placeholder="0 < sO" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Senescence rate of coarse roots and branches<br>
@@ -272,7 +272,7 @@
       <div class="slidecontainer">
         <div>
           <label> Initial radius (m): </label><br>
-          <input type="number" v-model="postBody.radius" step="any" placeholder="radius > 0" min="0" required>
+          <input type="number" v-model="postBody.radius" step="any" placeholder="0 < radius" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Initial trunk radius<br>
@@ -740,14 +740,13 @@
   }
 
   .panel button {
-    margin-top: 10px;
+    color: white;
     background-color: #44c767;
-    border-radius: 20px;
-    border: none;
-    padding: 10px 30px;
-    color:#ffffff;
-    font-family:Arial;
-    display: inline-block;
+  }
+
+  .panel button:hover {
+    background-color: #EEE;
+    color: black;
   }
 
   .inputSlider {
@@ -764,11 +763,6 @@
 
   .inputSlider:hover {
     opacity: 1;
-  }
-
-  .accordion button {
-    color: black;
-    z-index: 0;
   }
 
   /* Tooltip container */
@@ -832,7 +826,8 @@
   }
 
   .accordion:after {
-    content: '\02795'; /* Unicode character for "plus" sign (+) */
+    display: inline-block;
+    content: '\02795';
     font-size: 13px;
     color: #777;
     float: right;
@@ -840,7 +835,8 @@
   }
 
   .active:after {
-    content: "\2796"; /* Unicode character for "minus" sign (-) */
+    display: inline-block;
+    content: "\2796";
   }
 
   label {
