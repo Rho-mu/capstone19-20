@@ -737,6 +737,9 @@
   .panel input {
     float: left;
     width: 80%;
+    border: thin;
+    border-radius: 5px;
+    outline: none;
   }
 
   .panel button {
