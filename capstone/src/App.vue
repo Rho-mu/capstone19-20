@@ -33,7 +33,8 @@ export default {
     color:#ffffff;
     font-family:Arial;
     font-size: 13px;
-    display: inline-block;
+    outline: none;
+    vertical-align: middle;
   }
 
   button:hover {

@@ -14,70 +14,136 @@
       <button type="button" class="accordion">Allometries and biomass partitioning</button>
         <div class="panel">
           <br>
-          <label> phip:</label><br>
+          <label> phih:</label><br>
           <input type="number" v-model="postBody.phih" step="any" placeholder="phih > 0" min="0" required>
           <div class="tooltip">
-            <span class="tooltiptext">Tooltip text</span>
+            <span class="tooltiptext">
+              <b>Description: </b>Slope at H versus r curve at r = 0<br>
+              <hr width="80%">
+              <b>Unit: </b>none
+              <hr width="80%">
+              <b>Constraint: </b>(0,&#8734)
+            </span>
           </div><br>
 
           <label> eta:</label><br>
           <input type="number" v-model="postBody.eta" step="any" placeholder="0 < eta < 1" min="0" max="1" required>
           <div class="tooltip">
-            <span class="tooltiptext">Tooltip text</span>
+            <span class="tooltiptext">
+              <b>Description: </b>Relative height at which trunk transitions from a paraboloid to a cone<br>
+              <hr width="80%">
+              <b>Unit: </b>none
+              <hr width="80%">
+              <b>Constraint: </b>(0,1)
+            </span>
           </div><br>
 
           <label> lamda:</label><br>
           <input type="number" v-model="postBody.lamda" step="any" placeholder="0 < lamda < 1" min="0" max="1" required>
           <div class="tooltip">
-            <span class="tooltiptext">Tooltip text</span>
+            <span class="tooltiptext">
+              <b>Description: </b>Proportionality between trunk and non-trunk biomass<br>
+              <hr width="80%">
+              <b>Unit: </b>none
+              <hr width="80%">
+              <b>Constraint: </b>(0,1)
+            </span>
           </div><br>
 
           <label> f2 (RA:LA):</label><br>
           <input type="number" v-model="postBody.f2" step="any" placeholder="f2 (RA:LA) > 0" min="0" required>
           <div class="tooltip">
-            <span class="tooltiptext">Tooltip text</span>
+            <span class="tooltiptext">
+              <b>Description: </b>Fine root area to leaf area ratio<br>
+              <hr width="80%">
+              <b>Unit: </b>none
+              <hr width="80%">
+              <b>Constraint: </b>(0,&#8734)
+            </span>
           </div><br>
 
           <label> f1 (LA:XA):</label><br>
           <input type="number" v-model="postBody.f1" step="any" placeholder="f1 (LA:XA) > 0" min="0" required>
           <div class="tooltip">
-            <span class="tooltiptext">Tooltip text</span>
+            <span class="tooltiptext">
+              <b>Description: </b>Leaf area to xylem confucting area ratio<br>
+              <hr width="80%">
+              <b>Unit: </b>none
+              <hr width="80%">
+              <b>Constraint: </b>(0,&#8734)
+            </span>
           </div><br>
 
           <label> gammaX (XA:SA):</label><br>
           <input type="number" v-model="postBody.gammax" step="any" placeholder="0 <gammaX (XA:SA)< 1" min="0" max="1" required>
           <div class="tooltip">
-            <span class="tooltiptext">Tooltip text</span>
+            <span class="tooltiptext">
+              <b>Description: </b>Xylem conducting area to sapwood area ratio<br>
+              <hr width="80%">
+              <b>Unit: </b>none
+              <hr width="80%">
+              <b>Constraint: </b>(0,1)
+            </span>
           </div><br>
 
           <label> etaB:</label><br>
           <input type="number" v-model="postBody.etaB" step="any" placeholder="0 < etaB < eta" min="0" required>
           <div class="tooltip">
-            <span class="tooltiptext">Tooltip text</span>
+            <span class="tooltiptext">
+              <b>Description: </b>Relative height at which trunk transitions from a neiloid to a paraboloid<br>
+              <hr width="80%">
+              <b>Unit: </b>none
+              <hr width="80%">
+              <b>Constraint: </b>(0,eta)
+            </span>
           </div><br>
 
           <label> M:</label><br>
           <input type="number" v-model="postBody.m" step="any" placeholder="0 < m < 1" min="0" max="1" required>
           <div class="tooltip">
-            <span class="tooltiptext">Tooltip text</span>
+            <span class="tooltiptext">
+              <b>Description: </b>Maximum relative crown depth<br>
+              <hr width="80%">
+              <b>Unit: </b>none
+              <hr width="80%">
+              <b>Constraint: </b>(0,1)
+            </span>
           </div><br>
 
           <label> R0:</label><br>
           <input type="number" v-model="postBody.r0" step="any" placeholder="R0 > 0" min="0" required>
           <div class="tooltip">
-            <span class="tooltiptext">Tooltip text</span>
+            <span class="tooltiptext">
+              <b>Description: </b>Maximum potential crown radius of a tree with diameter at breast height of 0 cm (i.e., for a tree that is exactly 1.37 m tall)<br>
+              <hr width="80%">
+              <b>Unit: </b>none
+              <hr width="80%">
+              <b>Constraint: </b>(0,&#8734)
+            </span>
           </div><br>
 
           <label> R40:</label><br>
-          <input type="number" v-model="postBody.r40" step="any" placeholder="R40 > R0" min="0" required>
+          <input type="number" v-model="postBody.r40" step="any" placeholder="R40 > R0" min="postBody.r0" required>
           <div class="tooltip">
-            <span class="tooltiptext">Tooltip text</span>
+            <span class="tooltiptext">
+              <b>Description: </b>Maximum potential crown radius of a tree with diameter at breast height of 40 cm<br>
+              <hr width="80%">
+              <b>Unit: </b>none
+              <hr width="80%">
+              <b>Constraint: </b>(R0,&#8734)
+            </span>
           </div><br>
 
           <label> alpha:</label><br>
           <input type="number" v-model="postBody.alpha" step="any" placeholder="alpha > 0" min="0" required>
           <div class="tooltip">
-            <span class="tooltiptext">Tooltip text</span>
+            <span class="tooltiptext">
+              <b>Description: </b>Crown curvature parameter<br>
+              <hr width="80%">
+              <b>Unit: </b>none
+              <hr width="80%">
+              <b>Constraint: </b>(0,&#8734)
+            </span>
           </div><br><br>
         </div>
 
@@ -85,21 +151,39 @@
         <div class="panel">
           <br>
           <label> Hmax (m):</label><br>
-          <input type="number" v-model="postBody.hmax" step="any" placeholder="0 < Hmax < 127" min="0" max="127" required>
+          <input type="number" v-model="postBody.hmax" step="any" placeholder="0 < Hmax < 127" min="postBody.r0" max="127" required>
           <div class="tooltip">
-            <span class="tooltiptext">Tooltip text</span>
+            <span class="tooltiptext">
+              <b>Description: </b>Maximum tree height<br>
+              <hr width="80%">
+              <b>Unit: </b>m
+              <hr width="80%">
+              <b>Constraint: </b>(R0,127)
+            </span>
           </div><br>
 
           <label> SWmax (m):</label><br>
           <input type="number" v-model="postBody.swmax" step="any" placeholder="SWmax > 0" min="0" required>
           <div class="tooltip">
-            <span class="tooltiptext">Tooltip text</span>
+            <span class="tooltiptext">
+              <b>Description: </b>Maximum sapwood width<br>
+              <hr width="80%">
+              <b>Unit: </b>m
+              <hr width="80%">
+              <b>Constraint: </b>(0,&#8734)
+            </span>
           </div><br>
 
           <label> rr (m):</label><br>
           <input type="number" v-model="postBody.rr" step="any" placeholder="rr > 0" min="0" required>
           <div class="tooltip">
-            <span class="tooltiptext">Tooltip text</span>
+            <span class="tooltiptext">
+              <b>Description: </b>Average fine root radius<br>
+              <hr width="80%">
+              <b>Unit: </b>m
+              <hr width="80%">
+              <b>Constraint: </b>(0,&#8734)
+            </span>
           </div><br><br>
 
         </div>
@@ -110,19 +194,37 @@
           <label> WD (g dw m<sup>-3</sup>):</label><br>
           <input type="number" v-model="postBody.rhomax" step="any" placeholder="WD > 0" min="0" required>
           <div class="tooltip">
-            <span class="tooltiptext">Tooltip text</span>
+            <span class="tooltiptext">
+              <b>Description: </b>Wood density<br>
+              <hr width="80%">
+              <b>Unit: </b>g dw m<sup>-3</sup>
+              <hr width="80%">
+              <b>Constraint: </b>(0,&#8734)
+            </span>
           </div><br>
 
           <label> gammaW (m3g dw<sup>-1</sup>):</label><br>
           <input type="number" v-model="postBody.gammaw" placeholder="gammaW" step="any" required>
           <div class="tooltip">
-            <span class="tooltiptext">Tooltip text</span>
+            <span class="tooltiptext">
+              <b>Description: </b>(Inverse) density of sapwood structural tissue<br>
+              <hr width="80%">
+              <b>Unit: </b>m3g dw<sup>-1</sup>
+              <hr width="80%">
+              <b>Constraint: </b>none
+            </span>
           </div><br>
 
           <label> sla (m2g dw<sup>-1</sup>):</label><br>
           <input type="number" v-model="postBody.sla" step="any" placeholder="sla > 0" min="0" required>
           <div class="tooltip">
-            <span class="tooltiptext">Tooltip text</span>
+            <span class="tooltiptext">
+              <b>Description: </b>Specific leaf area<br>
+              <hr width="80%">
+              <b>Unit: </b>m2g dw<sup>-1</sup>
+              <hr width="80%">
+              <b>Constraint: </b>(0,&#8734)
+            </span>
           </div><br><br>
         </div>
 
@@ -132,19 +234,37 @@
           <label> sL (year<sup>-1</sup>):</label><br>
           <input type="number" v-model="postBody.sl" step="any" placeholder="sL > 0" min="0" required>
           <div class="tooltip">
-            <span class="tooltiptext">Tooltip text</span>
+            <span class="tooltiptext">
+              <b>Description: </b>Senescence rate of leaves<br>
+              <hr width="80%">
+              <b>Unit: </b>year<sup>-1</sup>
+              <hr width="80%">
+              <b>Constraint: </b>(0,&#8734)
+            </span>
           </div><br>
 
           <label> sR (year<sup>-1</sup>):</label><br>
           <input type="number" v-model="postBody.sr" step="any" placeholder="sR > 0" min="0" required>
           <div class="tooltip">
-            <span class="tooltiptext">Tooltip text</span>
+            <span class="tooltiptext">
+              <b>Description: </b>Senescence rate of fine roots<br>
+              <hr width="80%">
+              <b>Unit: </b>year<sup>-1</sup>
+              <hr width="80%">
+              <b>Constraint: </b>(0,&#8734)
+            </span>
           </div><br>
 
           <label> sO (year<sup>-1</sup>):</label><br>
           <input type="number" v-model="postBody.so" step="any" placeholder="sO > 0" min="0" required>
           <div class="tooltip">
-            <span class="tooltiptext">Tooltip text</span>
+            <span class="tooltiptext">
+              <b>Description: </b>Senescence rate of coarse roots and branches<br>
+              <hr width="80%">
+              <b>Unit: </b>year<sup>-1</sup>
+              <hr width="80%">
+              <b>Constraint: </b>(0,&#8734)
+            </span>
           </div><br>
 
         </div><br><br>
@@ -154,7 +274,13 @@
           <label> Initial radius (m): </label><br>
           <input type="number" v-model="postBody.radius" step="any" placeholder="radius > 0" min="0" required>
           <div class="tooltip">
-            <span class="tooltiptext">Tooltip text</span>
+            <span class="tooltiptext">
+              <b>Description: </b>Initial trunk radius<br>
+              <hr width="80%">
+              <b>Unit: </b>m
+              <hr width="80%">
+              <b>Constraint: </b>(0,&#8734)
+            </span>
           </div><br>
         </div><br>
 
@@ -594,15 +720,7 @@
   }
 
   .accordion {
-    background-color: #eee;
-    color: #444;
-    cursor: pointer;
-    padding: 18px;
-    width: 100%;
     text-align: left;
-    border: none;
-    outline: none;
-    transition: 0.4s;
   }
 
   .active, .accordion:hover {
