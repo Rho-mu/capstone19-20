@@ -223,10 +223,67 @@
         document.getElementById("treeCanvasport").style.display = "block"
         document.getElementById("rawDataList").style.display = "none"
 
+        // Allow canvas to resize with window.
         window.addEventListener( 'resize', this.onWindowResize, false )
+
+        this.tempview()
 
         console.log("initializeVisualization - Complete")
       }, // END: initializeVisualization()
+
+      tempview() {
+        this.visCanvas = document.getElementById('treeCanvasport')
+
+        var treeBoundBotLeft = new THREE.Vector3(-5, 0, 0)
+        var treeBoundBotRight = new THREE.Vector3(5, 0, 0)
+        var treeBoundTopRight = new THREE.Vector3(5, this.maxHeight, 0)
+        var treeBoundTopLeft = new THREE.Vector3(-5, this.maxHeight, 0)
+
+
+        this.text2 = document.createElement('div')
+        this.text2.style.position = 'absolute'
+        this.text2.style.height = 100
+        this.text2.style.backgroundColor = "blue"
+        this.text2.innerHTML = "text 2"
+        this.visCanvas.appendChild(this.text2)
+
+        this.text2.style.top = 0 + 'px'
+        this.text2.style.left = this.canvasWidth/2 + 'px'
+
+
+
+        this.text3 = document.createElement('div')
+        this.text3.style.position = 'absolute'
+        this.text3.style.backgroundColor = "blue"
+        this.text3.innerHTML = "text 3"
+        this.visCanvas.appendChild(this.text3)
+
+
+        var vector = new THREE.Vector3(0, 0, 0)
+
+        vector.x = (vector.x + 1)/2 * this.canvasWidth
+        vector.y = -(vector.y - 1)/2 * this.canvasHeight
+        this.text3.style.top = vector.y + 'px'
+        this.text3.style.left = vector.x + 'px'
+
+
+
+        var mypoints = []
+        mypoints.push( treeBoundBotLeft )
+        mypoints.push( treeBoundBotRight )
+        mypoints.push( treeBoundTopRight )
+        mypoints.push( treeBoundTopLeft )
+        mypoints.push( treeBoundBotLeft )
+
+        var mylineGeo = new THREE.BufferGeometry().setFromPoints( mypoints )
+        var mylineMat = new THREE.LineBasicMaterial( {color: 0x008509, linewidth: 30} )
+        var myscale = new THREE.Line( mylineGeo, mylineMat )
+        this.treeScene.add( myscale )
+
+        this.treeCam.position.y = this.maxHeight / 2
+        this.treeCam.position.z = this.maxHeight * 0.6
+        this.treeCam.lookAt(0, this.maxHeight/2, 0)
+      },
 
       afterGetSetup() {
         // Does some setup once getData() is done and data has been retrieved.
