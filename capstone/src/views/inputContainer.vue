@@ -27,7 +27,7 @@
           </div><br>
 
           <label> eta:</label><br>
-          <input type="number" v-model="postBody.eta" step="any" placeholder="0 < eta < 1" min="0" max="1" required>
+          <input id="eta" type="number" v-model="postBody.eta" step="any" placeholder="0 < eta < 1" min="0" max="1" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Relative height at which trunk transitions from a paraboloid to a cone<br>
@@ -87,7 +87,7 @@
           </div><br>
 
           <label> etaB:</label><br>
-          <input type="number" :disabled="postBody.eta==''" v-model="postBody.etaB" step="any" placeholder="0 < etaB < eta" min="0" required>
+          <input id="etaB" type="number" :disabled="postBody.eta==''" v-model="postBody.etaB" step="any" placeholder="0 < etaB < eta" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Relative height at which trunk transitions from a neiloid to a paraboloid<br>
@@ -111,7 +111,7 @@
           </div><br>
 
           <label> R0:</label><br>
-          <input id="R0" type="number" onfocusout="isValid" v-model="postBody.r0" step="any" placeholder="0 < R0" min="0" required>
+          <input id="R0" type="number" v-model="postBody.r0" step="any" placeholder="0 < R0" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Maximum potential crown radius of a tree with diameter at breast height of 0 cm (i.e., for a tree that is exactly 1.37 m tall)<br>
@@ -151,7 +151,7 @@
         <div class="panel">
           <br>
           <label> Hmax (m):</label><br>
-          <input type="number" :disabled="postBody.r0==''" v-model="postBody.hmax" step="any" placeholder="0 < Hmax < 127" min="postBody.r0" max="127" required>
+          <input id="hmax" type="number" :disabled="postBody.r0==''" v-model="postBody.hmax" step="any" placeholder="R0 < Hmax < 127" min="postBody.r0" max="127" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Maximum tree height<br>
@@ -305,9 +305,6 @@
 </template>
 
 <script>
-
-
-
   import axios from 'axios'
 
   export default {
@@ -411,7 +408,6 @@
     }, // END: data()
 
     methods: {
-
       resetData() {
         this.postBody.hmax=''
         this.postBody.phih=''
@@ -649,7 +645,13 @@
         )
       }
     }, // END: getData()
+    updated() {
+      document.getElementById("R40").min = document.getElementById("R0").value
+      document.getElementById("etaB").max = document.getElementById("eta").value
+      document.getElementById("hmax").min = document.getElementById("R0").value
+    },
     mounted() {
+
       this.initializeWebpage()
     } // END: mounted
   } // END: export default
