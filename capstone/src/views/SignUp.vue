@@ -63,8 +63,9 @@ export default {
     margin: 10px 0;
     width: 20%;
     padding: 15px;
-    border-radius: 10px;
-    border-width: thin;
+    border-radius: 5px;
+    border: thin;
+    outline: none;
   }
 
   span {

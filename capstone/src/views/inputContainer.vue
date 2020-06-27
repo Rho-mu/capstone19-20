@@ -272,7 +272,7 @@
       <div class="slidecontainer">
         <div>
           <label> Initial radius (m): </label><br>
-          <input type="number" v-model="postBody.radius" step="any" placeholder="0 < radius" min="0" required>
+          <input type="number" class="radius" v-model="postBody.radius" step="any" placeholder="0 < radius" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Initial trunk radius<br>
@@ -651,7 +651,6 @@
       document.getElementById("hmax").min = document.getElementById("R0").value
     },
     mounted() {
-
       this.initializeWebpage()
     } // END: mounted
   } // END: export default
@@ -719,7 +718,7 @@
     background-color: lightgray;
   }
 
-  .error-message{
+  .error-message {
     color: white;
     font-weight: bold;
   }
@@ -845,6 +844,11 @@
   .active:after {
     display: inline-block;
     content: "\2796";
+  }
+
+  .radius {
+    border-radius: 5px;
+    border: thin;
   }
 
   label {

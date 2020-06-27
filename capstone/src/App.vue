@@ -41,5 +41,6 @@ export default {
     background-color: #EEE;
     color: black;
   }
+  
 
 </style>

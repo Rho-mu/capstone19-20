@@ -111,8 +111,6 @@ void growthloop(sparms *p, gparms *gp, double *Io2, double *r0, int *t,
 ){
 
 
-
-	
 	//, double la[],double LAI[], double egrow[], double ex[], int status[]
 	// state variables
 	tstates st;
@@ -155,7 +153,7 @@ void growthloop(sparms *p, gparms *gp, double *Io2, double *r0, int *t,
 	LAIcalc(&LAI, &LA, st.la, st.r, st.h, st.rBH, p, gp, -99, &st);  //0 is Hc=0
 
 	// Store the initial variable states at index 0 (index 1 in R)
-	
+
 	// Replaced these with Mike's new version
 	//hh2[0]=st.hh; //double
 	//hC2[0]=st.hC; //double
@@ -225,7 +223,7 @@ void growthloop(sparms *p, gparms *gp, double *Io2, double *r0, int *t,
 	for (i = 1; i < (ceil(gp->T/gp->deltat) + 1); i++){  //DG: added in plus one
 
 			Hc[i] = -99;
-			Io[i] = 2060;
+			Io[i] = Io2[0];
 
 
   		double APAR[2];
