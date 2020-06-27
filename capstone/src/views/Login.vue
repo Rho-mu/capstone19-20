@@ -43,12 +43,8 @@
     background-image: url('../assets/Background.png');
     min-height: 100%;
     min-width: 1024px;
-
-
     width: 100%;
     height: auto;
-
-
     position: fixed;
     top: 0;
     left: 0;
@@ -64,9 +60,6 @@
     margin: 10px 0;
     width: 20%;
     padding: 15px;
-    border-radius: 5px;
-    border: thin;
-    outline: none;
   }
 
   span {

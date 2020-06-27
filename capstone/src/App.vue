@@ -27,12 +27,12 @@ export default {
   button {
     margin-top: 10px;
     background-color: #44c767;
-    border-radius: 20px;
+    border-radius: 15px;
     border: none;
     padding: 10px 30px;
     color:#ffffff;
     font-family:Arial;
-    font-size: 13px;
+    font-size: 12px;
     outline: none;
     vertical-align: middle;
   }
@@ -41,6 +41,12 @@ export default {
     background-color: #EEE;
     color: black;
   }
-  
+
+  input {
+    border-radius: 5px;
+    border: thin;
+    outline: none;
+  }
+
 
 </style>

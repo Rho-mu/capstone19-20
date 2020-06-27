@@ -678,13 +678,8 @@
 
   .inputContainer button {
     color: black;
-    display: inline-block;
     height: 40px;
     padding: 10px;
-    border: none;
-    border-radius: 15px;
-    padding: 10px;
-    font-size: 12px;
     background-color: #FFF;
     width: 100%;
   }
@@ -741,9 +736,6 @@
   .panel input {
     float: left;
     width: 80%;
-    border: thin;
-    border-radius: 5px;
-    outline: none;
   }
 
   .panel button {
@@ -844,11 +836,6 @@
   .active:after {
     display: inline-block;
     content: "\2796";
-  }
-
-  .radius {
-    border-radius: 5px;
-    border: thin;
   }
 
   label {
