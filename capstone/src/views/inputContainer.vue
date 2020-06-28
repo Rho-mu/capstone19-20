@@ -188,10 +188,11 @@
 
         </div>
 
+
       <button type="button" class="accordion">Structural traits</button>
         <div class="panel">
           <br>
-          <label> WD (g dw m<sup>-3</sup>):</label><br>
+          <label> Rhomax (g dw m<sup>-3</sup>):</label><br>
           <input type="number" v-model="postBody.rhomax" step="any" placeholder="0 < WD" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -204,7 +205,7 @@
           </div><br>
 
           <label> gammaW (m3g dw<sup>-1</sup>):</label><br>
-          <input type="number" v-model="postBody.gammaw" placeholder="gammaW" step="any" required>
+          <input type="number" v-model="postBody.gammaw" step="any" placeholder="gammaW" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>(Inverse) density of sapwood structural tissue<br>
@@ -227,6 +228,155 @@
             </span>
           </div><br><br>
         </div>
+
+      <button type="button" class="accordion">Physiological traits</button>
+        <div class="panel">
+          <br>
+          <label> gammaC (g gluc m<sup>-3</sup>):</label><br>
+          <input type="number" v-model="postBody.gammac" step="any" placeholder="gammaC" min="0" required>
+          <div class="tooltip">
+            <span class="tooltiptext">
+              <b>Description: </b>Maximum labile carbon storage capacity of living sapwood cells<br>
+              <hr width="80%">
+              <b>Unit: </b>g gluc m<sup>-3</sup>
+              <hr width="80%">
+              <b>Constraint: </b>none
+            </span>
+          </div><br>
+
+          <label> cgL (g gluc g dw<sup>-1</sup>):</label><br>
+          <input type="number" v-model="postBody.cgl" step="any" placeholder="0 < cgL" min="0" required>
+          <div class="tooltip">
+            <span class="tooltiptext">
+              <b>Description: </b>Construction costs of producing leaves<br>
+              <hr width="80%">
+              <b>Unit: </b>g gluc g dw<sup>-1</sup>
+              <hr width="80%">
+              <b>Constraint: </b>none
+            </span>
+          </div><br>
+
+          <label> cgR (g gluc g dw<sup>-1</sup>):</label><br>
+          <input type="number" v-model="postBody.cgr" step="any" placeholder="0 < cgR" min="0" required>
+          <div class="tooltip">
+            <span class="tooltiptext">
+              <b>Description: </b>Construction costs of producing fine roots<br>
+              <hr width="80%">
+              <b>Unit: </b>g gluc g dw<sup>-1</sup>
+              <hr width="80%">
+              <b>Constraint: </b>none
+            </span>
+          </div><br>
+
+          <label> cgW (g gluc g dw<sup>-1</sup>):</label><br>
+          <input type="number" v-model="postBody.cgw" step="any" placeholder="0 < cgW" min="0" required>
+          <div class="tooltip">
+            <span class="tooltiptext">
+              <b>Description: </b>Construction costs of producing sapwood<br>
+              <hr width="80%">
+              <b>Unit: </b>g gluc g dw<sup>-1</sup>
+              <hr width="80%">
+              <b>Constraint: </b>none
+            </span>
+          </div><br>
+
+          <label> deltaL (g gluc g dw<sup>-1</sup>):</label><br>
+          <input type="number" v-model="postBody.deltal" step="any" placeholder="0 < deltaL" min="0" required>
+          <div class="tooltip">
+            <span class="tooltiptext">
+              <b>Description: </b>Labile carbon storage capacity of leaves<br>
+              <hr width="80%">
+              <b>Unit: </b>g gluc g dw<sup>-1</sup>
+              <hr width="80%">
+              <b>Constraint: </b>none
+            </span>
+          </div><br>
+
+          <label> deltaR (g gluc g dw<sup>-1</sup>):</label><br>
+          <input type="number" v-model="postBody.deltar" step="any" placeholder="0 < deltaR" min="0" required>
+          <div class="tooltip">
+            <span class="tooltiptext">
+              <b>Description: </b>Labile carbon storage capacity of fine roots<br>
+              <hr width="80%">
+              <b>Unit: </b>g gluc g dw<sup>-1</sup>
+              <hr width="80%">
+              <b>Constraint: </b>none
+            </span>
+          </div><br>
+
+          <label> rhor (g dw m<sup>-3</sup>):</label><br>
+          <input type="number" v-model="postBody.rhor" step="any" placeholder="0 < rhor" min="0" required>
+          <div class="tooltip">
+            <span class="tooltiptext">
+              <b>Description: </b>Tissue density of fine roots<br>
+              <hr width="80%">
+              <b>Unit: </b>g dw m<sup>-3</sup>
+              <hr width="80%">
+              <b>Constraint: </b>none
+            </span>
+          </div><br>
+
+          <label> rmL (g gluc g dw<sup>-1</sup> year<sup>-1</sup>):</label><br>
+          <input type="number" v-model="postBody.rml" step="any" placeholder="0 < rmL" min="0" required>
+          <div class="tooltip">
+            <span class="tooltiptext">
+              <b>Description: </b>Maintenance respiration rate of leaves<br>
+              <hr width="80%">
+              <b>Unit: </b>g gluc g dw<sup>-1</sup> year<sup>-1</sup>
+              <hr width="80%">
+              <b>Constraint: </b>none
+            </span>
+          </div><br>
+
+          <label> rmS (g gluc g dw<sup>-1</sup> year<sup>-1</sup>):</label><br>
+          <input type="number" v-model="postBody.rms" step="any" placeholder="0 < rmS" min="0" required>
+          <div class="tooltip">
+            <span class="tooltiptext">
+              <b>Description: </b>Maintenance respiration rate of sapwood<br>
+              <hr width="80%">
+              <b>Unit: </b>g gluc g dw<sup>-1</sup> year<sup>-1</sup>
+              <hr width="80%">
+              <b>Constraint: </b>none
+            </span>
+          </div><br>
+
+          <label> rmR (g gluc g dw<sup>-1</sup> year<sup>-1</sup>):</label><br>
+          <input type="number" v-model="postBody.rmr" step="any" placeholder="0 < rmR" min="0" required>
+          <div class="tooltip">
+            <span class="tooltiptext">
+              <b>Description: </b>Maintenance respiration rate of fine roots<br>
+              <hr width="80%">
+              <b>Unit: </b>g gluc g dw<sup>-1</sup> year<sup>-1</sup>
+              <hr width="80%">
+              <b>Constraint: </b>none
+            </span>
+          </div><br>
+
+          <label> K:</label><br>
+          <input type="number" v-model="postBody.k" step="any" placeholder="K" min="0" required>
+          <div class="tooltip">
+            <span class="tooltiptext">
+              <b>Description: </b>Light extinction coefficient<br>
+              <hr width="80%">
+              <b>Unit: </b>none
+              <hr width="80%">
+              <b>Constraint: </b>none
+            </span>
+          </div><br>
+
+          <label> epsg (g gluc MJ<sup>-1</sup>):</label><br>
+          <input type="number" v-model="postBody.epsg" step="any" placeholder="0 < epsg(RUE) < 15.73" min="0" max="15.73" required>
+          <div class="tooltip">
+            <span class="tooltiptext">
+              <b>Description: </b>Radiation-use coefficient<br>
+              <hr width="80%">
+              <b>Unit: </b>g gluc MJ<sup>-1</sup>
+              <hr width="80%">
+              <b>Constraint: </b>(0,15.73)
+            </span>
+          </div><br><br>
+        </div>
+
 
       <button type="button" class="accordion">Turn-over and senescence traits</button>
         <div class="panel">
@@ -313,38 +463,49 @@
     data() {
       return {
         postBody: {
-          hmax: '',
+          // group A - Allometries and biomass partitioning
           phih: '',
           eta: '',
-          swmax: '',
           lamda: '',
-          rhomax: '',
           f2: '',
           f1: '',
-          gammac: '',
-          gammaw: '',
           gammax: '',
+          etaB: '',
+          m: '',
+          alpha: '',
+          r0: '',
+          r40: '',
+
+          // Group B - Tree and organ size traits
+          hmax: '',
+          swmax: '',
+          rr: '',
+
+          // Group C - Structural traits
+          rhomax: '',
+          gammaw: '',
+          sla: '',
+
+          // Group D - Physiological traits
+          gammac: '',
           cgl: '',
           cgr: '',
           cgw: '',
           deltal: '',
           deltar: '',
-          sl: '',
-          sla: '',
-          so: '',
-          sr: '',
-          rr: '',
           rhor: '',
           rml: '',
           rms: '',
           rmr: '',
-          etaB: '',
           k: '',
           epsg: '',
-          m: '',
-          alpha: '',
-          r0: '',
-          r40: '',
+
+          // Group E - Turn-over and senescence traits
+          sl: '' ,
+          sr: '',
+          so: '',
+
+          // Extra variables
           t: '',
           radius: '',
           io: ''
@@ -492,6 +653,8 @@
           this.postBody.gammac=131000
           this.postBody.gammaw=6.67e-7
           this.postBody.gammax=0.12
+
+
           this.postBody.cgl=1.45;
           this.postBody.cgr=1.25
           this.postBody.cgw=1.37

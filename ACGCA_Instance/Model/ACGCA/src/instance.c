@@ -6,10 +6,10 @@
 
 typedef struct
 {
-    double BH;
-    double deltat;
-    double T;
-    double tolerance;
+  double BH;
+  double deltat;
+  double T;
+  double tolerance;
 } gparm;
 
 
@@ -66,17 +66,13 @@ void run_model(double *input, double *gp2,
 {
 
     double I = input[38];
-    // this is a questionable variable
     double *Io = &I;
 
-    // there are two r0's
     double r1 = input[37];
     double *r0 = &r1;
-    int t0 = 10; // NEED TO CHECK THIS VARIABLE
+    int t0 = 10;
     int *t = &t0;
-    // need to check the variables here
 
-    // number
 
     double Hc1[] = {-99.0, -99.0, -99.0, -99.0, -99.0, -99.0, -99.0, -99.0, -99.0, -99.0};
     double *Hc = Hc1;
@@ -143,7 +139,6 @@ void run_model(double *input, double *gp2,
     //gp2.T = 10;
     //gp2.tolerance = 0.00001;
     // pointer to the input structure
-    // create
 
     Forestparms ForParms;
   	ForParms.kF = 0.6;
@@ -202,10 +197,6 @@ void run_model(double *input, double *gp2,
     // int* lenvars,
     int errorind3[(int)(ceil(gp.T/gp.deltat)+1)];
     int growth_st3[(int)(ceil(gp.T/gp.deltat)+1)];
-
-
-
-
 
 
     // call Rgrowthloop
