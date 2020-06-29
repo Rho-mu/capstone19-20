@@ -25,10 +25,10 @@
         <p class="scaleBar" id="trunkMidText">{{this.dataIndex/*this.localResultJson.hB[this.dataIndex]*/}}</p>
         <p class="scaleBar" id="trunkBaseText">0</p>
 
-        <p class="scaleBar" id="topleft">top left</p>
+        <!--<p class="scaleBar" id="topleft">top left</p>
         <p class="scaleBar" id="topright">top right</p>
         <p class="scaleBar" id="botleft">bot left</p>
-        <p class="scaleBar" id="botright">bot right</p>
+        <p class="scaleBar" id="botright">bot right</p>-->
       </div>
       <div class="rawDataList" id="rawDataList">
         <br>
@@ -226,7 +226,7 @@
         // Allow canvas to resize with window.
         window.addEventListener( 'resize', this.onWindowResize, false )
 
-        this.tempview()
+        //this.tempview()
 
         console.log("initializeVisualization - Complete")
       }, // END: initializeVisualization()
@@ -240,32 +240,33 @@
         var treeBoundTopLeft = new THREE.Vector3(-5, this.maxHeight, 0)
 
 
-        this.text2 = document.createElement('div')
+        /*this.text2 = document.createElement('div')
         this.text2.style.position = 'absolute'
-        this.text2.style.height = 100
-        this.text2.style.backgroundColor = "blue"
-        this.text2.innerHTML = "text 2"
-        this.visCanvas.appendChild(this.text2)
+        this.text2.style.backgroundColor = "black"
+        this.text2.innerHTML = this.maxHeight
+        this.visCanvas.appendChild(this.text2)*/
 
-        this.text2.style.top = 0 + 'px'
-        this.text2.style.left = this.canvasWidth/2 + 'px'
+        /*this.text2vector = new THREE.Vector3(0.6, -0.86, 0)
+
+        this.text2vector.x = (this.text2vector.x + 1)/2 * this.canvasWidth
+        this.text2vector.y = (this.text2vector.y + 1)/2 * this.canvasHeight
+        this.text2.style.left = this.text2vector.x + 'px'
+        this.text2.style.top = this.text2vector.y + 'px'*/
 
 
 
-        this.text3 = document.createElement('div')
+        /*this.text3 = document.createElement('div')
         this.text3.style.position = 'absolute'
-        this.text3.style.backgroundColor = "blue"
-        this.text3.innerHTML = "text 3"
-        this.visCanvas.appendChild(this.text3)
+        this.text3.style.backgroundColor = "black"
+        this.text3.innerHTML = "0"
+        this.visCanvas.appendChild(this.text3)*/
 
+        /*this.text3vector = new THREE.Vector3(0.6, 0.81, 0)
 
-        var vector = new THREE.Vector3(0, 0, 0)
-
-        vector.x = (vector.x + 1)/2 * this.canvasWidth
-        vector.y = -(vector.y - 1)/2 * this.canvasHeight
-        this.text3.style.top = vector.y + 'px'
-        this.text3.style.left = vector.x + 'px'
-
+        this.text3vector.x = (this.text3vector.x + 1)/2 * this.canvasWidth
+        this.text3vector.y = (this.text3vector.y + 1)/2 * this.canvasHeight
+        this.text3.style.left = this.text3vector.x + 'px'
+        this.text3.style.top = this.text3vector.y + 'px'*/
 
 
         var mypoints = []
@@ -278,7 +279,7 @@
         var mylineGeo = new THREE.BufferGeometry().setFromPoints( mypoints )
         var mylineMat = new THREE.LineBasicMaterial( {color: 0x008509, linewidth: 30} )
         var myscale = new THREE.Line( mylineGeo, mylineMat )
-        this.treeScene.add( myscale )
+        //this.treeScene.add( myscale )
 
         this.treeCam.position.y = this.maxHeight / 2
         this.treeCam.position.z = this.maxHeight * 0.6
@@ -379,6 +380,29 @@
         //console.log("maxHeight", this.maxHeight)
         //console.log("maxRadius", this.maxRadius)
         //console.log("maxLAI2", this.maxLAI2)
+
+
+        /// Set labels for scale ///
+        // Max height label
+        this.text2 = document.createElement('div')
+        this.text2.style.position = 'absolute'
+        this.text2.style.backgroundColor = "black"
+        this.text2.innerHTML = this.maxHeight
+        this.visCanvas.appendChild(this.text2)
+
+        // Base label
+        this.text3 = document.createElement('div')
+        this.text3.style.position = 'absolute'
+        this.text3.style.backgroundColor = "black"
+        this.text3.innerHTML = "0"
+        this.visCanvas.appendChild(this.text3)
+
+        // Sets initial position of labels
+        this.text2.style.left = ((0.65 + 1)/2 * this.canvasWidth) + 'px'
+        this.text2.style.top = ((-0.86 + 1)/2 * this.canvasHeight) + 'px'
+        this.text3.style.left = ((0.65 + 1)/2 * this.canvasWidth) + 'px'
+        this.text3.style.top = ((0.81 + 1)/2 * this.canvasHeight) + 'px'
+
         console.log("afterGetSetup - Complete")
       }, // END: afterGetSetup()
 
@@ -404,7 +428,6 @@
         this.treeScene.add( this.newScene )          // Add new scene to root scene
 
         this.addLight()
-
 
         /// Trunk variables
         var h = this.localResultJson.h[year]      // Total tree height
@@ -536,56 +559,57 @@
         var  rightEdgeOfScreen = this.treeCam.position.z * (this.canvasWidth/this.canvasHeight)
         var points = []
 
-        // YELLOW //
         points.push( new THREE.Vector3( rightEdgeOfScreen - 1, this.maxHeight, 0 ) ) // Max height
         points.push( new THREE.Vector3( rightEdgeOfScreen - 5, this.maxHeight, 0 ) ) // Max height
         points.push( new THREE.Vector3( rightEdgeOfScreen - 1, this.maxHeight, 0 ) ) // Max height
-        var maxHeightText = document.getElementById("maxHeightText")
-        var maxHeightpx = String(this.canvasHeight) + "px"
-        maxHeightText.style.top = maxHeightpx
-        //console.log("pos-maxHeightText", maxHeightText.style.top)
 
-        // GREEN //
         points.push( new THREE.Vector3( rightEdgeOfScreen - 1, h, 0 ) ) // current height
         points.push( new THREE.Vector3( rightEdgeOfScreen - 5, h, 0 ) ) // current height
         points.push( new THREE.Vector3( rightEdgeOfScreen - 1, h, 0 ) ) // current height
-        var curHeightText = document.getElementById("curHeightText")
-        var curHeightpx = String(this.canvasHeight - h) + "px"
-        curHeightText.style.top = curHeightpx
-        //console.log("pos-curHeightText", curHeightText.style.top)
 
-        // BLUE //
         points.push( new THREE.Vector3( rightEdgeOfScreen - 1, hC, 0 ) ) // trunk top
         points.push( new THREE.Vector3( rightEdgeOfScreen - 5, hC, 0 ) ) // trunk top
         points.push( new THREE.Vector3( rightEdgeOfScreen - 1, hC, 0 ) ) // trunk top
-        var trunkTopText = document.getElementById("trunkTopText")
-        var trunkToppx = String(this.canvasHeight - hC) + "px"
-        trunkTopText.style.top = trunkToppx
-        //console.log("pos-trunkTopText", trunkTopText.style.top)
 
-        // PURPLE //
         points.push( new THREE.Vector3( rightEdgeOfScreen - 1, hB, 0 ) ) // trunk mid
         points.push( new THREE.Vector3( rightEdgeOfScreen - 5, hB, 0 ) ) // trunk mid
         points.push( new THREE.Vector3( rightEdgeOfScreen - 1, hB, 0 ) ) // trunk mid
-        var trunkMidText = document.getElementById("trunkMidText")
-        var trunkMidpx = String(this.canvasHeight - hB) + "px"
-        trunkMidText.style.top = trunkMidpx
-        //console.log("pos-trunkMidText", trunkMidText.style.top)
 
-        // BLACK //
         points.push( new THREE.Vector3( rightEdgeOfScreen - 1, 0, 0 ) ) // trunk base
         points.push( new THREE.Vector3( rightEdgeOfScreen - 5, 0, 0 ) ) // trunk base
         points.push( new THREE.Vector3( rightEdgeOfScreen - 1, 0, 0 ) ) // trunk base
-        var trunkBaseText = document.getElementById("trunkBaseText")
-        var trunkBasepx = "0px"
-        trunkBaseText.style.top = trunkBasepx
-        //console.log("pos-trunkBaseText", trunkBaseText.style.top)
 
         var lineGeo = new THREE.BufferGeometry().setFromPoints( points )
         var lineMat = new THREE.LineBasicMaterial( {color: 0x008509, linewidth: 30} )
         var scale = new THREE.Line( lineGeo, lineMat )
         this.newScene.add( scale )
         ///// Scale /////
+
+        // YELLOW //
+        var maxHeightText = document.getElementById("maxHeightText")
+        var maxHeightpx = String(this.canvasHeight) + "px"
+        maxHeightText.style.top = maxHeightpx
+        //console.log("pos-maxHeightText", maxHeightText.style.top)
+        // GREEN //
+        var curHeightText = document.getElementById("curHeightText")
+        var curHeightpx = String(this.canvasHeight - h) + "px"
+        curHeightText.style.top = curHeightpx
+        //console.log("pos-curHeightText", curHeightText.style.top)
+        // BLUE //
+        var trunkTopText = document.getElementById("trunkTopText")
+        var trunkToppx = String(this.canvasHeight - hC) + "px"
+        trunkTopText.style.top = trunkToppx
+        //console.log("pos-trunkTopText", trunkTopText.style.top)
+        // PURPLE //
+        var trunkMidText = document.getElementById("trunkMidText")
+        var trunkMidpx = String(this.canvasHeight - hB) + "px"
+        trunkMidText.style.top = trunkMidpx
+        //console.log("pos-trunkMidText", trunkMidText.style.top)
+        // BLACK //
+        var trunkBaseText = document.getElementById("trunkBaseText")
+        var trunkBasepx = "0px"
+        trunkBaseText.style.top = trunkBasepx
+        //console.log("pos-trunkBaseText", trunkBaseText.style.top)
       }, // END: drawTree()
 
       drawRings() {
@@ -661,8 +685,8 @@
         var boxGeo = new THREE.BoxGeometry( 1, 1, 1 )
 
         //var myMaterial = new THREE.MeshLambertMaterial( { map: this.barkTexture } )
-        //var boxMat = new THREE.MeshLambertMaterial( { color: 0xFFFF00 } )
-        var sideMats =
+        var boxMat = new THREE.MeshLambertMaterial( { color: 0xFFFF00 } )
+        /*var sideMats =
         [
           new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('../json/bark.png'), side: THREE.DoubleSide } ),
           new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('../json/bark.png'), side: THREE.DoubleSide } ),
@@ -670,12 +694,12 @@
           new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('../json/bark.png'), side: THREE.DoubleSide } ),
           new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('../json/bark.png'), side: THREE.DoubleSide } ),
           new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('../json/bark.png'), side: THREE.DoubleSide } )
-        ]
+        ]*/
 
         //var boxMat = new THREE.MeshFaceMaterial( sideMats )
-        var box = new THREE.Mesh( boxGeo, sideMats )
-        //box.position.x = r * 1.1
-        this.treeScene.add( box )
+        this.box = new THREE.Mesh( boxGeo, boxMat )
+        this.box.position.x = this.canvasWidth/100
+        this.treeScene.add( this.box )
       }, // END: addBox()
 
       addText() {
@@ -827,6 +851,10 @@
         /*this.hudBitmap.clearRect(0, 0, this.canvasWidth, this.canvasHeight)
         this.hudBitmap.fillText("year: "+this.dataIndex, this.canvasWidth/2, this.canvasHeight/2)
   	    this.hudTexture.needsUpdate = true*/
+
+
+
+        this.text3.innerHTML = this.localResultJson.h[this.dataIndex]
       }, // END: update()
 
       onWindowResize() {
@@ -836,6 +864,12 @@
 
         this.currentCam.aspect = this.canvasWidth / this.canvasHeight
         this.currentCam.updateProjectionMatrix()
+
+        // Repositions the scale labels
+        this.text2.style.left = ((0.65 + 1)/2 * this.canvasWidth) + 'px'
+        this.text2.style.top = ((-0.86 + 1)/2 * this.canvasHeight) + 'px'
+        this.text3.style.left = ((0.65 + 1)/2 * this.canvasWidth) + 'px'
+        this.text3.style.top = ((0.81 + 1)/2 * this.canvasHeight) + 'px'
 
         this.renderer.setSize( this.canvasWidth, this.canvasHeight)
         this.draw()
