@@ -416,139 +416,114 @@
         // var h = this.treeData[year].h     // Output. Delcared above
         const BH = 1.37                      // Breast height. Contsant 1.37 meters
 
-        // if h > BH --> rcmax = r0 + ((r40 - r0) * (2 * rBH * 100) / 40)
-        // if h < BH --> rcmax = (r0 * r) / ((hmax / phih) * ln(hmax/(hmax - BH)))
-        var rcmax // Maximum potential radius at a crown ratio of m
-        if( h > BH )
+        if( h > 0 )
         {
-          rcmax = r0 + ((r40 - r0) * (2 * rBH * 100) / 40)
-        }
-        else if( h < BH )
-        {
-          rcmax = (r0 * r) / ((hmax / phih) * Math.log(hmax/(hmax - BH)))
-        }
-        //console.log("rcmax",rcmax)
+          // if h > BH --> rcmax = r0 + ((r40 - r0) * (2 * rBH * 100) / 40)
+          // if h < BH --> rcmax = (r0 * r) / ((hmax / phih) * ln(hmax/(hmax - BH)))
+          var rcmax // Maximum potential radius at a crown ratio of m
+          if( h > BH )
+          {
+            rcmax = r0 + ((r40 - r0) * (2 * rBH * 100) / 40)
+          }
+          else if( h < BH )
+          {
+            rcmax = (r0 * r) / ((hmax / phih) * Math.log(hmax/(hmax - BH)))
+          }
+          //console.log("rcmax",rcmax)
 
-        var eta = this.postBody.eta     // Input.
-        var alpha = this.postBody.alpha // Input. Curvature of the crown.
+          var eta = this.postBody.eta     // Input.
+          var alpha = this.postBody.alpha // Input. Curvature of the crown.
 
-        // if m > (1 - eta) --> rcbase = rcmax * ((1 - eta) / m)^alpha
-        // otherwise --> rcbase = 1 - eta
-        var rcbase // Radius at the base of the crown.
-        if( m > (1 - eta))
-        {
-          rcbase = rcmax * Math.pow(((1 - eta) / m), alpha)
-        }
-        else
-        {
-          rcbase = rcmax
-        }
+          // if m > (1 - eta) --> rcbase = rcmax * ((1 - eta) / m)^alpha
+          // otherwise --> rcbase = 1 - eta
+          var rcbase // Radius at the base of the crown.
+          if( m > (1 - eta))
+          {
+            rcbase = rcmax * Math.pow(((1 - eta) / m), alpha)
+          }
+          else
+          {
+            rcbase = rcmax
+          }
 
-        //console.log("year:",year,"\nLAI2:",this.localResultJson.LAI2[year],"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,"\nrBH:",rBH,"\nrcmax:",rcmax,"\nrcbase:",rcbase)
+          //console.log("year:",year,"\nLAI2:",this.localResultJson.LAI2[year],"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,"\nrBH:",rBH,"\nrcmax:",rcmax,"\nrcbase:",rcbase)
 
-        // Supplemental parameters
-        var geoSegments = 20              // Segments of geometry
-        var crownPos = hC + (h-hC)/2      // Moves the crown so that it's bottom plane is at the top of the middle segment.
-        var trunkBasePos = hB/2           // Moves the trunk's base segment so that it's bottom plane is at (0,0).
-        var trunkMidPos = hB + (hC-hB)/2  // Moves the trunk's middle segment so that it's bottom plane is at the top of the base segment.
-        var trunkTopPos = hC + (h-hC)/2   // Moves the trunk's top segment so that it's bottom plane is at the top of the middle segment.
+          // Supplemental parameters
+          var geoSegments = 20              // Segments of geometry
+          var crownPos = hC + (h-hC)/2      // Moves the crown so that it's bottom plane is at the top of the middle segment.
+          var trunkBasePos = hB/2           // Moves the trunk's base segment so that it's bottom plane is at (0,0).
+          var trunkMidPos = hB + (hC-hB)/2  // Moves the trunk's middle segment so that it's bottom plane is at the top of the base segment.
+          var trunkTopPos = hC + (h-hC)/2   // Moves the trunk's top segment so that it's bottom plane is at the top of the middle segment.
 
-        ///// Trunk /////
-        // Trunk Top
-        // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
-        var trunkTopGeo = new THREE.ConeGeometry( rC, h-hC, geoSegments )
-        var trunkTopMat = new THREE.MeshLambertMaterial( {color: 0xb5651d} )
-        this.trunkTop = new THREE.Mesh( trunkTopGeo, trunkTopMat )
-        this.trunkTop.position.y = trunkTopPos
-
-        // Trunk Middle
-        // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
-        var trunkMidGeo = new THREE.CylinderGeometry( rC, rB, hC-hB, geoSegments )
-        var trunkMidMat = new THREE.MeshLambertMaterial( {color: 0xb5651d} )
-        this.trunkMid = new THREE.Mesh( trunkMidGeo, trunkMidMat )
-        this.trunkMid.position.y = trunkMidPos
-
-        // Trunk Base
-        // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
-        var trunkBaseGeo = new THREE.CylinderGeometry( rB, r, hB, geoSegments )
-        var trunkBaseMat = new THREE.MeshLambertMaterial( {color: 0xb5651d} )
-        this.trunkBase = new THREE.Mesh( trunkBaseGeo, trunkBaseMat )
-        this.trunkBase.position.y = trunkBasePos
-        ///// Trunk /////
-
-
-
-        ///// Crown /////
-        var crownGeo
-        if( this.crownShape == "cone" )
-        {
+          ///// Trunk /////
+          // Trunk Top
           // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
-          crownGeo = new THREE.ConeGeometry( rcbase, h-hC, geoSegments )
-        }
-        else if( this.crownShape == "sphere") // Currently looks weird. Needs tuning.
-        {
-          // SphereGeometry(radius : Float, widthSegments : Integer, heightSegments : Integer)
-          crownGeo = new THREE.SphereGeometry( rcbase, geoSegments*1.5, geoSegments*1.5 )
-        }
-        else if( this.crownShape == "cylinder" )
-        {
+          var trunkTopGeo = new THREE.ConeGeometry( rC, h-hC, geoSegments )
+          var trunkTopMat = new THREE.MeshLambertMaterial( {color: 0xb5651d} )
+          this.trunkTop = new THREE.Mesh( trunkTopGeo, trunkTopMat )
+          this.trunkTop.position.y = trunkTopPos
+
+          // Trunk Middle
           // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
-          crownGeo = new THREE.CylinderGeometry( rcbase, rcbase, h-hC, geoSegments );
-        }
-        else // Default to cone shaped crown
-        {
-          // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
-          crownGeo = new THREE.ConeGeometry( rcbase, h-hC, geoSegments )
-        }
-        //console.log("crownShape:", this.crownShape)
+          var trunkMidGeo = new THREE.CylinderGeometry( rC, rB, hC-hB, geoSegments )
+          var trunkMidMat = new THREE.MeshLambertMaterial( {color: 0xb5651d} )
+          this.trunkMid = new THREE.Mesh( trunkMidGeo, trunkMidMat )
+          this.trunkMid.position.y = trunkMidPos
 
-        var crownMat = new THREE.MeshLambertMaterial( {color: 0x00FF00} )
-        crownMat.transparent = true
-        crownMat.opacity = this.localResultJson.LAI2[year]/this.maxLAI2
-        //console.log("crown opacity:", crownMat.opacity)
-
-        this.crown = new THREE.Mesh( crownGeo, crownMat )
-        this.crown.position.y = crownPos
-        //console.log("Crown -", "\nradius:", rcbase, "\nheight:", h-hC,)
-        ///// Crown /////
+          // Trunk Base
+          // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
+          var trunkBaseGeo = new THREE.CylinderGeometry( rB, r, hB, geoSegments )
+          var trunkBaseMat = new THREE.MeshLambertMaterial( {color: 0xb5651d} )
+          this.trunkBase = new THREE.Mesh( trunkBaseGeo, trunkBaseMat )
+          this.trunkBase.position.y = trunkBasePos
+          ///// Trunk /////
 
 
-        // Add trunk and crown to scene
-        this.newScene.add( this.crown )
-        this.newScene.add( this.trunkTop )
-        this.newScene.add( this.trunkMid )
-        this.newScene.add( this.trunkBase )
+
+          ///// Crown /////
+          var crownGeo
+          if( this.crownShape == "cone" )
+          {
+            // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
+            crownGeo = new THREE.ConeGeometry( rcbase, h-hC, geoSegments )
+          }
+          else if( this.crownShape == "sphere") // Currently looks weird. Needs tuning.
+          {
+            // SphereGeometry(radius : Float, widthSegments : Integer, heightSegments : Integer)
+            crownGeo = new THREE.SphereGeometry( rcbase, geoSegments*1.5, geoSegments*1.5 )
+          }
+          else if( this.crownShape == "cylinder" )
+          {
+            // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
+            crownGeo = new THREE.CylinderGeometry( rcbase, rcbase, h-hC, geoSegments );
+          }
+          else // Default to cone shaped crown
+          {
+            // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
+            crownGeo = new THREE.ConeGeometry( rcbase, h-hC, geoSegments )
+          }
+          //console.log("crownShape:", this.crownShape)
+
+          var crownMat = new THREE.MeshLambertMaterial( {color: 0x00FF00} )
+          crownMat.transparent = true
+          crownMat.opacity = this.localResultJson.LAI2[year]/this.maxLAI2
+          //console.log("crown opacity:", crownMat.opacity)
+
+          this.crown = new THREE.Mesh( crownGeo, crownMat )
+          this.crown.position.y = crownPos
+          //console.log("Crown -", "\nradius:", rcbase, "\nheight:", h-hC,)
+          ///// Crown /////
 
 
-        ///// Scale /////
-        var  rightEdgeOfScreen = this.treeCam.position.z * (this.canvasWidth/this.canvasHeight)
-        var points = []
+          // Add trunk and crown to scene
+          this.newScene.add( this.crown )
+          this.newScene.add( this.trunkTop )
+          this.newScene.add( this.trunkMid )
+          this.newScene.add( this.trunkBase )
 
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, this.maxHeight, 0 ) ) // Max height
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 5, this.maxHeight, 0 ) ) // Max height
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, this.maxHeight, 0 ) ) // Max height
-
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, h, 0 ) ) // current height
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 5, h, 0 ) ) // current height
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, h, 0 ) ) // current height
-
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, hC, 0 ) ) // trunk top
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 5, hC, 0 ) ) // trunk top
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, hC, 0 ) ) // trunk top
-
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, hB, 0 ) ) // trunk mid
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 5, hB, 0 ) ) // trunk mid
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, hB, 0 ) ) // trunk mid
-
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, 0, 0 ) ) // trunk base
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 5, 0, 0 ) ) // trunk base
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, 0, 0 ) ) // trunk base
-
-        var lineGeo = new THREE.BufferGeometry().setFromPoints( points )
-        var lineMat = new THREE.LineBasicMaterial( {color: 0x008509, linewidth: 30} )
-        var scale = new THREE.Line( lineGeo, lineMat )
-        this.newScene.add( scale )
-        ///// Scale /////
+          // Draw the scale based on the current tree
+          this.drawScale(h, hC, hB)
+        } // END: if h > 0
 
         /*
         // YELLOW //
@@ -579,6 +554,36 @@
         */
       }, // END: drawTree()
 
+      drawScale(h, hC, hB)
+      {
+        var  rightEdgeOfScreen = this.treeCam.position.z * (this.canvasWidth/this.canvasHeight)
+        var points = []
+
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, this.maxHeight, 0 ) ) // Max height
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 5, this.maxHeight, 0 ) ) // Max height
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, this.maxHeight, 0 ) ) // Max height
+
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, h, 0 ) ) // current height
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 5, h, 0 ) ) // current height
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, h, 0 ) ) // current height
+
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, hC, 0 ) ) // trunk top
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 5, hC, 0 ) ) // trunk top
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, hC, 0 ) ) // trunk top
+
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, hB, 0 ) ) // trunk mid
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 5, hB, 0 ) ) // trunk mid
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, hB, 0 ) ) // trunk mid
+
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, 0, 0 ) ) // trunk base
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 5, 0, 0 ) ) // trunk base
+        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, 0, 0 ) ) // trunk base
+
+        var lineGeo = new THREE.BufferGeometry().setFromPoints( points )
+        var lineMat = new THREE.LineBasicMaterial( {color: 0x008509, linewidth: 30} )
+        var scale = new THREE.Line( lineGeo, lineMat )
+        this.treeScene.add( scale )
+      }, // END: drawScale()
       drawRings() {
         var geoSegments = 16
 
