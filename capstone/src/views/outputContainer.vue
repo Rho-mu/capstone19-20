@@ -19,16 +19,11 @@
 
       <input type="range" min="1" v-model="dataIndex" @input="draw()" id="timeStepSlider" class="timeStepSlider"><br><br>
       <div id="treeCanvasport">
-        <p class="scaleBar" id="maxHeightText">{{this.dataIndex/*this.maxHeight*/}}</p>
+        <!--<p class="scaleBar" id="maxHeightText">{{this.dataIndex/*this.maxHeight*/}}</p>
         <p class="scaleBar" id="curHeightText">{{this.dataIndex/*this.localResultJson.h[this.dataIndex]*/}}</p>
         <p class="scaleBar" id="trunkTopText">{{this.dataIndex/*this.localResultJson.hC[this.dataIndex]*/}}</p>
         <p class="scaleBar" id="trunkMidText">{{this.dataIndex/*this.localResultJson.hB[this.dataIndex]*/}}</p>
-        <p class="scaleBar" id="trunkBaseText">0</p>
-
-        <!--<p class="scaleBar" id="topleft">top left</p>
-        <p class="scaleBar" id="topright">top right</p>
-        <p class="scaleBar" id="botleft">bot left</p>
-        <p class="scaleBar" id="botright">bot right</p>-->
+        <p class="scaleBar" id="trunkBaseText">0</p>-->
       </div>
       <div class="rawDataList" id="rawDataList">
         <br>
@@ -239,36 +234,6 @@
         var treeBoundTopRight = new THREE.Vector3(5, this.maxHeight, 0)
         var treeBoundTopLeft = new THREE.Vector3(-5, this.maxHeight, 0)
 
-
-        /*this.text2 = document.createElement('div')
-        this.text2.style.position = 'absolute'
-        this.text2.style.backgroundColor = "black"
-        this.text2.innerHTML = this.maxHeight
-        this.visCanvas.appendChild(this.text2)*/
-
-        /*this.text2vector = new THREE.Vector3(0.6, -0.86, 0)
-
-        this.text2vector.x = (this.text2vector.x + 1)/2 * this.canvasWidth
-        this.text2vector.y = (this.text2vector.y + 1)/2 * this.canvasHeight
-        this.text2.style.left = this.text2vector.x + 'px'
-        this.text2.style.top = this.text2vector.y + 'px'*/
-
-
-
-        /*this.text3 = document.createElement('div')
-        this.text3.style.position = 'absolute'
-        this.text3.style.backgroundColor = "black"
-        this.text3.innerHTML = "0"
-        this.visCanvas.appendChild(this.text3)*/
-
-        /*this.text3vector = new THREE.Vector3(0.6, 0.81, 0)
-
-        this.text3vector.x = (this.text3vector.x + 1)/2 * this.canvasWidth
-        this.text3vector.y = (this.text3vector.y + 1)/2 * this.canvasHeight
-        this.text3.style.left = this.text3vector.x + 'px'
-        this.text3.style.top = this.text3vector.y + 'px'*/
-
-
         var mypoints = []
         mypoints.push( treeBoundBotLeft )
         mypoints.push( treeBoundBotRight )
@@ -384,24 +349,24 @@
 
         /// Set labels for scale ///
         // Max height label
-        this.text2 = document.createElement('div')
-        this.text2.style.position = 'absolute'
-        this.text2.style.backgroundColor = "black"
-        this.text2.innerHTML = this.maxHeight
-        this.visCanvas.appendChild(this.text2)
+        this.ScaleBarMaxHeight = document.createElement('div')
+        this.ScaleBarMaxHeight.style.position = 'absolute'
+        this.ScaleBarMaxHeight.style.color = 'black'
+        this.ScaleBarMaxHeight.innerHTML = this.maxHeight.toFixed(2)
+        this.visCanvas.appendChild(this.ScaleBarMaxHeight)
 
         // Base label
-        this.text3 = document.createElement('div')
-        this.text3.style.position = 'absolute'
-        this.text3.style.backgroundColor = "black"
-        this.text3.innerHTML = "0"
-        this.visCanvas.appendChild(this.text3)
+        this.ScaleBarBaseHeight = document.createElement('div')
+        this.ScaleBarBaseHeight.style.position = 'absolute'
+        this.ScaleBarBaseHeight.style.color = 'black'
+        this.ScaleBarBaseHeight.innerHTML = "0"
+        this.visCanvas.appendChild(this.ScaleBarBaseHeight)
 
         // Sets initial position of labels
-        this.text2.style.left = ((0.65 + 1)/2 * this.canvasWidth) + 'px'
-        this.text2.style.top = ((-0.86 + 1)/2 * this.canvasHeight) + 'px'
-        this.text3.style.left = ((0.65 + 1)/2 * this.canvasWidth) + 'px'
-        this.text3.style.top = ((0.81 + 1)/2 * this.canvasHeight) + 'px'
+        this.ScaleBarMaxHeight.style.left = ((0.75 + 1)/2 * this.canvasWidth) + 'px'
+        this.ScaleBarMaxHeight.style.top = ((-0.86 + 1)/2 * this.canvasHeight) + 'px'
+        this.ScaleBarBaseHeight.style.left = ((0.75 + 1)/2 * this.canvasWidth) + 'px'
+        this.ScaleBarBaseHeight.style.top = ((0.81 + 1)/2 * this.canvasHeight) + 'px'
 
         console.log("afterGetSetup - Complete")
       }, // END: afterGetSetup()
@@ -585,6 +550,7 @@
         this.newScene.add( scale )
         ///// Scale /////
 
+        /*
         // YELLOW //
         var maxHeightText = document.getElementById("maxHeightText")
         var maxHeightpx = String(this.canvasHeight) + "px"
@@ -610,6 +576,7 @@
         var trunkBasepx = "0px"
         trunkBaseText.style.top = trunkBasepx
         //console.log("pos-trunkBaseText", trunkBaseText.style.top)
+        */
       }, // END: drawTree()
 
       drawRings() {
@@ -852,9 +819,6 @@
         this.hudBitmap.fillText("year: "+this.dataIndex, this.canvasWidth/2, this.canvasHeight/2)
   	    this.hudTexture.needsUpdate = true*/
 
-
-
-        this.text3.innerHTML = this.localResultJson.h[this.dataIndex]
       }, // END: update()
 
       onWindowResize() {
@@ -866,10 +830,10 @@
         this.currentCam.updateProjectionMatrix()
 
         // Repositions the scale labels
-        this.text2.style.left = ((0.65 + 1)/2 * this.canvasWidth) + 'px'
-        this.text2.style.top = ((-0.86 + 1)/2 * this.canvasHeight) + 'px'
-        this.text3.style.left = ((0.65 + 1)/2 * this.canvasWidth) + 'px'
-        this.text3.style.top = ((0.81 + 1)/2 * this.canvasHeight) + 'px'
+        this.ScaleBarMaxHeight.style.left = ((0.75 + 1)/2 * this.canvasWidth) + 'px'
+        this.ScaleBarMaxHeight.style.top = ((-0.86 + 1)/2 * this.canvasHeight) + 'px'
+        this.ScaleBarBaseHeight.style.left = ((0.75 + 1)/2 * this.canvasWidth) + 'px'
+        this.ScaleBarBaseHeight.style.top = ((0.81 + 1)/2 * this.canvasHeight) + 'px'
 
         this.renderer.setSize( this.canvasWidth, this.canvasHeight)
         this.draw()
@@ -1107,6 +1071,7 @@
     position: absolute;
   }
 
+  /*
   #maxHeightText {
     color: yellow;
     top: 0px;
@@ -1136,26 +1101,7 @@
     top: 120px;
     right: 150px;
   }
-
-  #topleft {
-    top: 0px;
-    left: 0px;
-  }
-
-  #topright {
-    top: 0px;
-    right: 0px;
-  }
-
-  #botleft {
-    bottom: 0px;
-    left: 0px;
-  }
-
-  #botright {
-    bottom: 0px;
-    right: 0px;
-  }
+  */
 
   #treeCanvasport {
     position: relative;
