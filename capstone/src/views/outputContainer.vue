@@ -25,8 +25,11 @@
         <p class="scaleBar" id="trunkMidText">{{this.dataIndex/*this.localResultJson.hB[this.dataIndex]*/}}</p>
         <p class="scaleBar" id="trunkBaseText">0</p>-->
 
-        <div id="scaleBarMaxHeight"></div>
-        <div id="scaleBarBaseHeight"></div>
+        <div id="treeScaleBarMaxHeight"></div>
+        <div id="treeScaleBarBaseHeight"></div>
+        <div id="ringScaleBarRadiusTop"></div>
+        <div id="ringScaleBarRadiusMid"></div>
+        <div id="ringScaleBarRadiusBot"></div>
       </div>
       <div class="rawDataList" id="rawDataList">
         <br>
@@ -111,7 +114,8 @@
         currentScene: this.treeScene,
         currentCam: this.treeCam,
         maxHeight: 0,
-        maxRadius: 0,
+        maxCrownRadius: 0,
+        maxTrunkRadius: 0,
         maxLAI2: 0,
         crownShape: "cone",
         array : [],
@@ -220,6 +224,10 @@
         // Show the tree view as default and hide the raw data view.
         document.getElementById("treeCanvasport").style.display = "block"
         document.getElementById("rawDataList").style.display = "none"
+        // Also hide labels for ring scene scale
+        document.getElementById('ringScaleBarRadiusTop').style.display = "none" // Hide top radius text
+        document.getElementById('ringScaleBarRadiusMid').style.display = "none" // Hide middle text
+        document.getElementById('ringScaleBarRadiusBot').style.display = "none" // Hide bottom radius text
 
         // Allow canvas to resize with window.
         window.addEventListener( 'resize', this.onWindowResize, false )
@@ -296,15 +304,21 @@
             this.maxLAI2 = this.localResultJson.LAI2[i]
           }
 
+          // Check for larger trunk radius.
+          if( this.maxTrunkRadius < this.localResultJson.r[i] )
+          {
+            this.maxTrunkRadius = this.localResultJson.r[i]
+          }
+
           // Find max Radius. The larger value between rcmax (max r of crown) and max r (max r of base of trunk).
           var h = this.localResultJson.h[i]     // Total tree height
           const BH = 1.37                       // Breast height. Contsant 1.37 meters
-          var r0 = this.postBody.r0             // Input.
-          var r40 = this.postBody.r40           // Input.
-          var rBH = this.localResultJson.rBH[i] // Output.
+          var r0 = this.postBody.r0             // Input
+          var r40 = this.postBody.r40           // Input
+          var rBH = this.localResultJson.rBH[i] // Output
           var r = this.localResultJson.r[i]     // Radius of trunk at base
-          var hmax = this.postBody.hmax         // Input.
-          var phih = this.postBody.phih         // Input.
+          var hmax = this.postBody.hmax         // Input
+          var phih = this.postBody.phih         // Input
 
           var rcmax // Maximum potential radius at a crown ratio of m
           if( h > BH )
@@ -318,51 +332,53 @@
             rcmax = (r0 * r) / ((hmax / phih) * Math.log(hmax/(hmax - BH)))
           }
 
-          // Check for larger rcmax.
-          if( this.maxRadius < rcmax )
+          // Check for larger crown radius.
+          if( this.maxCrownRadius < rcmax )
           {
-            this.maxRadius = rcmax
-          }
-
-          // Check for larger base radius.
-          if( this.maxRadius < this.localResultJson.r[i] )
-          {
-            this.maxRadius = this.localResultJson.r[i]
+            this.maxCrownRadius = rcmax
           }
         } // END: for i to t
 
         // Resize camera based on max tree height or radius
         var scale = this.maxHeight
-        if( this.maxHeight > this.maxRadius )
+        if( this.maxHeight > this.maxCrownRadius )
         {
           scale = this.maxHeight * 0.6
         }
         else
         {
-          scale = this.maxRadius * 0.9
+          scale = this.maxCrownRadius * 0.9
         }
         this.treeCam.position.y = this.maxHeight / 2
         this.treeCam.position.z = scale
         this.treeCam.lookAt(0, this.maxHeight/2, 0)
 
-        //console.log("maxHeight", this.maxHeight)
-        //console.log("maxRadius", this.maxRadius)
-        //console.log("maxLAI2", this.maxLAI2)
-
         /// Set labels for scale ///
-        // Max height label
-        var scaleBarMaxHeight = document.getElementById('scaleBarMaxHeight')
-        scaleBarMaxHeight.innerHTML = this.maxHeight.toFixed(2) + " m"
+        var treeScaleBarMaxHeight = document.getElementById('treeScaleBarMaxHeight')
+        treeScaleBarMaxHeight.innerHTML = this.maxHeight.toFixed(2) + " m"
+        var treeScaleBarBaseHeight = document.getElementById('treeScaleBarBaseHeight')
+        treeScaleBarBaseHeight.innerHTML = "0 m"
 
-        // Base label
-        var scaleBarBaseHeight = document.getElementById('scaleBarBaseHeight')
-        scaleBarBaseHeight.innerHTML = "0 m"
+        var ringScaleBarRadiusTop = document.getElementById('ringScaleBarRadiusTop')
+        ringScaleBarRadiusTop.innerHTML = this.localResultJson.r[this.postBody.t].toFixed(2) + " m"
+        var ringScaleBarRadiusMid = document.getElementById('ringScaleBarRadiusMid')
+        ringScaleBarRadiusMid.innerHTML = "0 m"
+        var ringScaleBarRadiusBot = document.getElementById('ringScaleBarRadiusBot')
+        ringScaleBarRadiusBot.innerHTML = this.localResultJson.r[this.postBody.t].toFixed(2) + " m"
+
 
         // Sets position of labels
-        scaleBarMaxHeight.style.left = ((0.73 + 1)/2 * this.canvasWidth) + 'px'
-        scaleBarMaxHeight.style.top = ((-0.86 + 1)/2 * this.canvasHeight) + 'px'
-        scaleBarBaseHeight.style.left = ((0.78 + 1)/2 * this.canvasWidth) + 'px'
-        scaleBarBaseHeight.style.top = ((0.81 + 1)/2 * this.canvasHeight) + 'px'
+        treeScaleBarMaxHeight.style.left = ((0.73 + 1)/2 * this.canvasWidth) + 'px'
+        treeScaleBarMaxHeight.style.top = ((-0.86 + 1)/2 * this.canvasHeight) + 'px'
+        treeScaleBarBaseHeight.style.left = ((0.78 + 1)/2 * this.canvasWidth) + 'px'
+        treeScaleBarBaseHeight.style.top = ((0.81 + 1)/2 * this.canvasHeight) + 'px'
+
+        ringScaleBarRadiusTop.style.left = ((0.74 + 1)/2 * this.canvasWidth) + 'px'
+        ringScaleBarRadiusTop.style.top = ((-0.93 + 1)/2 * this.canvasHeight) + 'px'
+        ringScaleBarRadiusMid.style.left = ((0.78 + 1)/2 * this.canvasWidth) + 'px'
+        ringScaleBarRadiusMid.style.top = ((-0.02 + 1)/2 * this.canvasHeight) + 'px'
+        ringScaleBarRadiusBot.style.left = ((0.74 + 1)/2 * this.canvasWidth) + 'px'
+        ringScaleBarRadiusBot.style.top = ((0.88 + 1)/2 * this.canvasHeight) + 'px'
 
         console.log("afterGetSetup - Complete")
       }, // END: afterGetSetup()
@@ -554,21 +570,21 @@
         var  rightEdgeOfScreen = this.treeCam.position.z * (this.canvasWidth/this.canvasHeight)
         var points = []
 
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, this.maxHeight, 0 ) ) // Max height
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 5, this.maxHeight, 0 ) ) // Max height
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, this.maxHeight, 0 ) ) // Max height
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.maxHeight, 0 ) ) // Max height
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, this.maxHeight, 0 ) ) // Max height
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.maxHeight, 0 ) ) // Max height
 
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, h, 0 ) ) // current height
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 5, h, 0 ) ) // current height
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, h, 0 ) ) // current height
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, h, 0 ) ) // current height
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, h, 0 ) ) // current height
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, h, 0 ) ) // current height
 
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, hC, 0 ) ) // trunk top
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 5, hC, 0 ) ) // trunk top
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, hC, 0 ) ) // trunk top
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, hC, 0 ) ) // trunk top
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, hC, 0 ) ) // trunk top
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, hC, 0 ) ) // trunk top
 
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, 0, 0 ) ) // trunk base
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 5, 0, 0 ) ) // trunk base
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 1, 0, 0 ) ) // trunk base
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, 0, 0 ) ) // trunk base
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, 0, 0 ) ) // trunk base
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, 0, 0 ) ) // trunk base
 
         var lineGeo = new THREE.BufferGeometry().setFromPoints( points )
         var lineMat = new THREE.LineBasicMaterial( {color: 0x008509, linewidth: 30} )
@@ -632,35 +648,36 @@
 
       drawRingScale(h, hC, hB) {
         var  rightEdgeOfScreen = this.ringCam.position.z * (this.canvasWidth/this.canvasHeight)
+        var offset = rightEdgeOfScreen
         var points = []
 
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 0.1, this.localResultJson.r[this.postBody.t], 0 ) ) // Top of scale
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 0.2, this.localResultJson.r[this.postBody.t], 0 ) ) // Top of scale
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 0.1, this.localResultJson.r[this.postBody.t], 0 ) ) // Top of scale
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.localResultJson.r[this.postBody.t], 0 ) ) // Top of scale
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, this.localResultJson.r[this.postBody.t], 0 ) ) // Top of scale
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.localResultJson.r[this.postBody.t], 0 ) ) // Top of scale
 
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 0.1, this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius top
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 0.2, this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius top
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 0.1, this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius top
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius top
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius top
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius top
 
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 0.1, this.postBody.radius, 0 ) ) // Top of initial radius
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 0.2, this.postBody.radius, 0 ) ) // Top of initial radius
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 0.1, this.postBody.radius, 0 ) ) // Top of initial radius
-        
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 0.1, 0, 0 ) ) // Center
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 0.2, 0, 0 ) ) // Center
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 0.1, 0, 0 ) ) // Center
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.localResultJson.r[1], 0 ) ) // Top of initial radius
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, this.localResultJson.r[1], 0 ) ) // Top of initial radius
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.localResultJson.r[1], 0 ) ) // Top of initial radius
 
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 0.1, -this.postBody.radius, 0 ) ) // Bottom of initial radius
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 0.2, -this.postBody.radius, 0 ) ) // Bottom of initial radius
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 0.1, -this.postBody.radius, 0 ) ) // Bottom of initial radius
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, 0, 0 ) ) // Center
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, 0, 0 ) ) // Center
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, 0, 0 ) ) // Center
 
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 0.1, -this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius botttom
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 0.2, -this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius bottom
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 0.1, -this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius bottom
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.localResultJson.r[1], 0 ) ) // Bottom of initial radius
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, -this.localResultJson.r[1], 0 ) ) // Bottom of initial radius
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.localResultJson.r[1], 0 ) ) // Bottom of initial radius
 
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 0.1, -this.localResultJson.r[this.postBody.t], 0 ) ) // Bottom of scale
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 0.2, -this.localResultJson.r[this.postBody.t], 0 ) ) // Bottom of scale
-        points.push( new THREE.Vector3( rightEdgeOfScreen - 0.1, -this.localResultJson.r[this.postBody.t], 0 ) ) // Bottom of scale
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius botttom
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, -this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius bottom
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius bottom
+
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.localResultJson.r[this.postBody.t], 0 ) ) // Bottom of scale
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, -this.localResultJson.r[this.postBody.t], 0 ) ) // Bottom of scale
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.localResultJson.r[this.postBody.t], 0 ) ) // Bottom of scale
 
         var lineGeo = new THREE.BufferGeometry().setFromPoints( points )
         var lineMat = new THREE.LineBasicMaterial( {color: 0x008509, linewidth: 30} )
@@ -819,12 +836,16 @@
           //document.getElementById("sphereButton").style.display = "inline-block" // Show sphere button
           document.getElementById("cylinderButton").style.display = "inline-block" // Show cylinder button
 
-          document.getElementById('scaleBarMaxHeight').style.display = "block" // Show max height text
-          document.getElementById('scaleBarBaseHeight').style.dsiplay = "block" // Show base height text
+          document.getElementById('treeScaleBarMaxHeight').style.display = "inline-block" // Show max height text
+          document.getElementById('treeScaleBarBaseHeight').style.display = "inline-block" // Show base height text
+          document.getElementById('ringScaleBarRadiusTop').style.display = "none" // Hide top radius text
+          document.getElementById('ringScaleBarRadiusMid').style.display = "none" // Hide middle text
+          document.getElementById('ringScaleBarRadiusBot').style.display = "none" // Hide bottom radius text
 
           this.currentScene = this.treeScene
           this.currentCam = this.treeCam
-          this.drawTree()
+          this.onWindowResize()
+          this.draw()
           console.log("Scene Change - Tree")
         }
         else if(scene == "ringScene") {
@@ -835,13 +856,17 @@
           //document.getElementById("sphereButton").style.display = "none" // Hide sphere button
           document.getElementById("cylinderButton").style.display = "none" // Hide cylinder button
 
-          document.getElementById('scaleBarMaxHeight').style.display = "none" // Hide max height text
-          document.getElementById('scaleBarBaseHeight').style.dsiplay = "none" // Hide base height text
+          document.getElementById('treeScaleBarMaxHeight').style.display = "none" // Hide max height text
+          document.getElementById('treeScaleBarBaseHeight').style.display = "none" // Hide base height text
+          document.getElementById('ringScaleBarRadiusTop').style.display = "inline-block" // Show top radius text
+          document.getElementById('ringScaleBarRadiusMid').style.display = "inline-block" // Show middle text
+          document.getElementById('ringScaleBarRadiusBot').style.display = "inline-block" // Show bottom radius text
 
 
           this.currentScene = this.ringScene
           this.currentCam = this.ringCam
-          this.drawRings()
+          this.onWindowResize()
+          this.draw()
           console.log("Scene Change - Rings")
         }
         else if(scene == "rawDataScene") {
@@ -874,12 +899,22 @@
         this.currentCam.updateProjectionMatrix()
 
         // Repositions the scale labels
-        var scaleBarMaxHeight = document.getElementById('scaleBarMaxHeight')
-        var scaleBarBaseHeight = document.getElementById('scaleBarBaseHeight')
-        scaleBarMaxHeight.style.left = ((0.73 + 1)/2 * this.canvasWidth) + 'px'
-        scaleBarMaxHeight.style.top = ((-0.86 + 1)/2 * this.canvasHeight) + 'px'
-        scaleBarBaseHeight.style.left = ((0.78 + 1)/2 * this.canvasWidth) + 'px'
-        scaleBarBaseHeight.style.top = ((0.81 + 1)/2 * this.canvasHeight) + 'px'
+        var treeScaleBarMaxHeight = document.getElementById('treeScaleBarMaxHeight')
+        var treeScaleBarBaseHeight = document.getElementById('treeScaleBarBaseHeight')
+        treeScaleBarMaxHeight.style.left = ((0.73 + 1)/2 * this.canvasWidth) + 'px'
+        treeScaleBarMaxHeight.style.top = ((-0.86 + 1)/2 * this.canvasHeight) + 'px'
+        treeScaleBarBaseHeight.style.left = ((0.78 + 1)/2 * this.canvasWidth) + 'px'
+        treeScaleBarBaseHeight.style.top = ((0.81 + 1)/2 * this.canvasHeight) + 'px'
+
+        var ringScaleBarRadiusTop = document.getElementById('ringScaleBarRadiusTop')
+        var ringScaleBarRadiusMid = document.getElementById('ringScaleBarRadiusMid')
+        var ringScaleBarRadiusBot = document.getElementById('ringScaleBarRadiusBot')
+        ringScaleBarRadiusTop.style.left = ((0.74 + 1)/2 * this.canvasWidth) + 'px'
+        ringScaleBarRadiusTop.style.top = ((-0.93 + 1)/2 * this.canvasHeight) + 'px'
+        ringScaleBarRadiusMid.style.left = ((0.78 + 1)/2 * this.canvasWidth) + 'px'
+        ringScaleBarRadiusMid.style.top = ((-0.02 + 1)/2 * this.canvasHeight) + 'px'
+        ringScaleBarRadiusBot.style.left = ((0.74 + 1)/2 * this.canvasWidth) + 'px'
+        ringScaleBarRadiusBot.style.top = ((0.88 + 1)/2 * this.canvasHeight) + 'px'
 
         this.renderer.setSize( this.canvasWidth, this.canvasHeight)
         this.draw()
@@ -990,7 +1025,8 @@
 
         // Set output data max's to 0.
         this.maxHeight = 0
-        this.maxRadius = 0
+        this.maxTrunkRadius = 0
+        this.maxCrownRadius = 0
         this.maxLAI2 = 0
 
         // Set result json to be all empty.
@@ -1117,12 +1153,27 @@
     position: absolute;
   }
 
-  #scaleBarMaxHeight {
+  #treeScaleBarMaxHeight {
     position: absolute;
     color: black;
   }
 
-  #scaleBarBaseHeight {
+  #treeScaleBarBaseHeight {
+    position: absolute;
+    color: black;
+  }
+
+  #ringScaleBarRadiusTop {
+    position: absolute;
+    color: black;
+  }
+
+  #ringScaleBarRadiusMid {
+    position: absolute;
+    color: black;
+  }
+
+  #ringScaleBarRadiusBot {
     position: absolute;
     color: black;
   }
