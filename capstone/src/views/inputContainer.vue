@@ -50,11 +50,11 @@
             </span>
           </div><br>
 
-          <label> f2 (RA:LA):</label><br>
-          <input type="number" v-model="postBody.f2" step="any" placeholder="0 < f2 (RA:LA)" min="0" required>
+          <label> f2:</label><br>
+          <input type="number" v-model="postBody.f2" step="any" placeholder="0 < f2" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
-              <b>Description: </b>Fine root area to leaf area ratio<br>
+              <b>Description: </b>Fine root area to leaf area ratio (RA:LA)<br>
               <hr width="80%">
               <b>Unit: </b>none
               <hr width="80%">
@@ -62,11 +62,11 @@
             </span>
           </div><br>
 
-          <label> f1 (LA:XA):</label><br>
-          <input type="number" v-model="postBody.f1" step="any" placeholder="0 < f1 (LA:XA)" min="0" required>
+          <label> f1:</label><br>
+          <input type="number" v-model="postBody.f1" step="any" placeholder="0 < f1" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
-              <b>Description: </b>Leaf area to xylem confucting area ratio<br>
+              <b>Description: </b>Leaf area to xylem confucting area ratio (LA:XA)<br>
               <hr width="80%">
               <b>Unit: </b>none
               <hr width="80%">
@@ -74,11 +74,12 @@
             </span>
           </div><br>
 
-          <label> gammaX (XA:SA):</label><br>
-          <input type="number" v-model="postBody.gammax" step="any" placeholder="0 < gammaX (XA:SA) < 1" min="0" max="1" required>
+
+          <label> gammaX:</label><br>
+          <input type="number" v-model="postBody.gammax" step="any" placeholder="0 < gammaX < 1" min="0" max="1" required>
           <div class="tooltip">
             <span class="tooltiptext">
-              <b>Description: </b>Xylem conducting area to sapwood area ratio<br>
+              <b>Description: </b>Xylem conducting area to sapwood area ratio (XA:SA)<br>
               <hr width="80%">
               <b>Unit: </b>none
               <hr width="80%">
@@ -150,7 +151,7 @@
       <button type="button" class="accordion">Tree and organ size traits</button>
         <div class="panel">
           <br>
-          <label> Hmax (m):</label><br>
+          <label> Hmax:</label><br>
           <input id="hmax" type="number" :disabled="postBody.r0==''" v-model="postBody.hmax" step="any" placeholder="R0 < Hmax < 127" min="postBody.r0" max="127" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -162,7 +163,7 @@
             </span>
           </div><br>
 
-          <label> SWmax (m):</label><br>
+          <label> SWmax:</label><br>
           <input type="number" v-model="postBody.swmax" step="any" placeholder="0 < SWmax" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -174,7 +175,7 @@
             </span>
           </div><br>
 
-          <label> rr (m):</label><br>
+          <label> rr:</label><br>
           <input type="number" v-model="postBody.rr" step="any" placeholder="0 < rr" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -192,7 +193,7 @@
       <button type="button" class="accordion">Structural traits</button>
         <div class="panel">
           <br>
-          <label> Rhomax (g dw m<sup>-3</sup>):</label><br>
+          <label> Rhomax:</label><br>
           <input type="number" v-model="postBody.rhomax" step="any" placeholder="0 < WD" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -204,7 +205,7 @@
             </span>
           </div><br>
 
-          <label> gammaW (m3g dw<sup>-1</sup>):</label><br>
+          <label> gammaW:</label><br>
           <input type="number" v-model="postBody.gammaw" step="any" placeholder="gammaW" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -216,7 +217,7 @@
             </span>
           </div><br>
 
-          <label> sla (m2g dw<sup>-1</sup>):</label><br>
+          <label> sla:</label><br>
           <input type="number" v-model="postBody.sla" step="any" placeholder="0 < sla" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -232,7 +233,7 @@
       <button type="button" class="accordion">Physiological traits</button>
         <div class="panel">
           <br>
-          <label> gammaC (g gluc m<sup>-3</sup>):</label><br>
+          <label> gammaC:</label><br>
           <input type="number" v-model="postBody.gammac" step="any" placeholder="gammaC" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -244,7 +245,7 @@
             </span>
           </div><br>
 
-          <label> cgL (g gluc g dw<sup>-1</sup>):</label><br>
+          <label> cgL:</label><br>
           <input type="number" v-model="postBody.cgl" step="any" placeholder="0 < cgL" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -256,7 +257,7 @@
             </span>
           </div><br>
 
-          <label> cgR (g gluc g dw<sup>-1</sup>):</label><br>
+          <label> cgR:</label><br>
           <input type="number" v-model="postBody.cgr" step="any" placeholder="0 < cgR" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -268,7 +269,7 @@
             </span>
           </div><br>
 
-          <label> cgW (g gluc g dw<sup>-1</sup>):</label><br>
+          <label> cgW:</label><br>
           <input type="number" v-model="postBody.cgw" step="any" placeholder="0 < cgW" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -280,7 +281,7 @@
             </span>
           </div><br>
 
-          <label> deltaL (g gluc g dw<sup>-1</sup>):</label><br>
+          <label> deltaL:</label><br>
           <input type="number" v-model="postBody.deltal" step="any" placeholder="0 < deltaL" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -292,7 +293,7 @@
             </span>
           </div><br>
 
-          <label> deltaR (g gluc g dw<sup>-1</sup>):</label><br>
+          <label> deltaR:</label><br>
           <input type="number" v-model="postBody.deltar" step="any" placeholder="0 < deltaR" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -304,7 +305,7 @@
             </span>
           </div><br>
 
-          <label> rhor (g dw m<sup>-3</sup>):</label><br>
+          <label> rhor:</label><br>
           <input type="number" v-model="postBody.rhor" step="any" placeholder="0 < rhor" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -316,7 +317,7 @@
             </span>
           </div><br>
 
-          <label> rmL (g gluc g dw<sup>-1</sup> year<sup>-1</sup>):</label><br>
+          <label> rmL:</label><br>
           <input type="number" v-model="postBody.rml" step="any" placeholder="0 < rmL" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -328,7 +329,7 @@
             </span>
           </div><br>
 
-          <label> rmS (g gluc g dw<sup>-1</sup> year<sup>-1</sup>):</label><br>
+          <label> rmS:</label><br>
           <input type="number" v-model="postBody.rms" step="any" placeholder="0 < rmS" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -340,7 +341,7 @@
             </span>
           </div><br>
 
-          <label> rmR (g gluc g dw<sup>-1</sup> year<sup>-1</sup>):</label><br>
+          <label> rmR:</label><br>
           <input type="number" v-model="postBody.rmr" step="any" placeholder="0 < rmR" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -364,7 +365,7 @@
             </span>
           </div><br>
 
-          <label> epsg (g gluc MJ<sup>-1</sup>):</label><br>
+          <label> epsg:</label><br>
           <input type="number" v-model="postBody.epsg" step="any" placeholder="0 < epsg(RUE) < 15.73" min="0" max="15.73" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -381,7 +382,7 @@
       <button type="button" class="accordion">Turn-over and senescence traits</button>
         <div class="panel">
           <br>
-          <label> sL (year<sup>-1</sup>):</label><br>
+          <label> sL:</label><br>
           <input type="number" v-model="postBody.sl" step="any" placeholder="0 < sL" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -393,7 +394,7 @@
             </span>
           </div><br>
 
-          <label> sR (year<sup>-1</sup>):</label><br>
+          <label> sR:</label><br>
           <input type="number" v-model="postBody.sr" step="any" placeholder="0 < sR" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -405,7 +406,7 @@
             </span>
           </div><br>
 
-          <label> sO (year<sup>-1</sup>):</label><br>
+          <label> sO:</label><br>
           <input type="number" v-model="postBody.so" step="any" placeholder="0 < sO" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -421,7 +422,7 @@
 
       <div class="slidecontainer">
         <div>
-          <label> Initial radius (m): </label><br>
+          <label> Initial radius: </label><br>
           <input type="number" class="radius" v-model="postBody.radius" step="any" placeholder="0 < radius" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -745,7 +746,6 @@
         .then((response) => {
           this.loadingFlag = 1
           this.resetFlag = 0;
-
 
           //console.log("runID:", this.runID)
           this.getJson = response.data
