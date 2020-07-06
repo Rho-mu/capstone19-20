@@ -448,7 +448,7 @@
       </div>
 
       <button class="runButton" id="runButton" >RUN</button>
-      <button class="resetButton" @click="resetData()">Reset</button>
+      <button type="button" class="resetButton" @click="resetData()">Reset</button>
       <br>
     </form>
 
@@ -603,6 +603,7 @@
         this.postBody.alpha=''
         this.postBody.r0=''
         this.postBody.r40=''
+        this.postBody.radius=''
         this.resetFlag = 1
         this.loadingFlag = 0
         this.$emit('postResetFlagToParent', this.resetFlag)
