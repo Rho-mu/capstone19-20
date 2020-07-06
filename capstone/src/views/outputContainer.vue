@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="outputContainer" id="outputContainer">
-      <button @click="addText()">TEMP: add text</button>
-      <button @click="temp_sd()">TEMP: start draw</button>
+      <!--<button @click="addText()">temp: add text</button>
+      <button @click="temp_sd()">temp: start draw</button>-->
       <div class="setSceneContainer">
         <button @click="setScene('ringScene')" class="ringSceneButton" id="ringSceneButton">RINGS</button>
         <button @click="setScene('treeScene')" class="treeSceneButton" id="treeSceneButton">TREE</button>
@@ -30,6 +30,8 @@
         <div id="ringScaleBarRadiusTop"></div>
         <div id="ringScaleBarRadiusMid"></div>
         <div id="ringScaleBarRadiusBot"></div>
+        <div id="ringLegendHW"></div>
+        <div id="ringLegendSW"></div>
       </div>
       <div class="rawDataList" id="rawDataList">
         <br>
@@ -353,7 +355,17 @@
         this.treeCam.position.z = scale
         this.treeCam.lookAt(0, this.maxHeight/2, 0)
 
-        /// Set labels for scale ///
+        this.ringCam.position.z = this.maxTrunkRadius * 1.1   // Scale scene to max radius of the trunk so that no rings are off-screen.
+        this.ringCam.lookAt(0, 0, 0)
+
+        this.setUpLabels()
+        this.setScene("treeScene")
+
+        console.log("afterGetSetup - Complete")
+      }, // END: afterGetSetup()
+
+      setUpLabels() {
+        /// Set up labels for scale ///
         var treeScaleBarMaxHeight = document.getElementById('treeScaleBarMaxHeight')
         treeScaleBarMaxHeight.innerHTML = this.maxHeight.toFixed(2) + " m"
         var treeScaleBarBaseHeight = document.getElementById('treeScaleBarBaseHeight')
@@ -380,8 +392,19 @@
         ringScaleBarRadiusBot.style.left = ((0.74 + 1)/2 * this.canvasWidth) + 'px'
         ringScaleBarRadiusBot.style.top = ((0.88 + 1)/2 * this.canvasHeight) + 'px'
 
-        console.log("afterGetSetup - Complete")
-      }, // END: afterGetSetup()
+
+        /// Set up labels for ring legend ///
+        var ringLegendHWText = document.getElementById('ringLegendHW')
+        ringLegendHWText.innerHTML = "Heartwood"
+        var ringLegendSWText = document.getElementById('ringLegendSW')
+        ringLegendSWText.innerHTML = "Sapwood"
+
+        ringLegendHWText.style.left = ((-0.92 + 1)/2 * this.canvasWidth) + 'px'
+        ringLegendHWText.style.top = ((-0.97 + 1)/2 * this.canvasHeight) + 'px'
+        ringLegendSWText.style.left = ((-0.92 + 1)/2 * this.canvasWidth) + 'px'
+        ringLegendSWText.style.top = ((-0.9 + 1)/2 * this.canvasHeight) + 'px'
+
+      }, // END: setUpLabels()
 
       draw() {
         if(this.currentScene == this.treeScene)
@@ -566,8 +589,8 @@
         */
       }, // END: drawTree()
 
-      drawTreeScale(h, hC, hB) {
-        var  rightEdgeOfScreen = this.treeCam.position.z * (this.canvasWidth/this.canvasHeight)
+      drawTreeScale(h, hC) {
+        var rightEdgeOfScreen = this.treeCam.position.z * (this.canvasWidth/this.canvasHeight)
         var points = []
 
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.maxHeight, 0 ) ) // Max height
@@ -602,27 +625,11 @@
         this.newScene = new THREE.Scene()                    // Create new scene for new rings
         this.ringScene.add( this.newScene )                  // Add new scene to root scene
 
-        this.ringCam.position.z = this.localResultJson.r[this.postBody.t] * 1.1   // Scale scene to final radius of the trunk so that no rings are off-screne.
-        this.ringCam.lookAt(0, 0, 0)
-
         var heartwoodRadius = this.localResultJson.r[this.dataIndex] - this.localResultJson.sw2[this.dataIndex] // Gets the heart wood radius at the current year on the slider
         //console.log("sw:", this.localResultJson.sw2[this.dataIndex], "\nr:", this.localResultJson.r[this.dataIndex], "\nhw:", heartwoodRadius)
 
         for( var i = 1; i <= this.dataIndex; i++ )
         {
-          var ringGeo
-
-          // RingGeometry(innerRadius : Float, outerRadius : Float, thetaSegments : Integer, phiSegments : Integer, thetaStart : Float, thetaLength : Float)
-          if(i == 1)
-          {
-            // Sets the initial ring to a circle. Otherwise, there would be a hole of r0 raidus in the center.
-            ringGeo = new THREE.CircleGeometry(this.localResultJson.r[i], geoSegments)
-          }
-          else
-          {
-            ringGeo = new THREE.RingGeometry( this.localResultJson.r[i-1], this.localResultJson.r[i], geoSegments, 1 )
-          }
-
           // color
           var ringColor = new THREE.Color()
           if( this.localResultJson.r[i] < heartwoodRadius ) // If the current ring is part of the heart wood..
@@ -638,16 +645,77 @@
             else { ringColor = 0x331700 }
           }
 
-          var ringMat = new THREE.MeshBasicMaterial( {color: ringColor} )
-          var ring = new THREE.Mesh( ringGeo, ringMat )
-          this.newScene.add( ring )
+          var ringGeo
+          if(i == 1)
+          {
+            // Sets the initial ring to a circle. Otherwise, there would be a hole of r0 raidus in the center.
+            ringGeo = new THREE.CircleGeometry(this.localResultJson.r[i], geoSegments)
+            var ringMat = new THREE.MeshBasicMaterial( {color: ringColor} )
+            ringMat.transparent = true
+            ringMat.opacity = 0.4
+            var ring = new THREE.Mesh( ringGeo, ringMat )
+            this.newScene.add( ring )
+          }
+          else
+          {
+            // RingGeometry(innerRadius : Float, outerRadius : Float, thetaSegments : Integer, phiSegments : Integer, thetaStart : Float, thetaLength : Float)
+            ringGeo = new THREE.RingGeometry( this.localResultJson.r[i-1], this.localResultJson.r[i], geoSegments, 1 )
+            var ringMat = new THREE.MeshBasicMaterial( {color: ringColor} )
+            var ring = new THREE.Mesh( ringGeo, ringMat )
+            this.newScene.add( ring )
+          }
         } // END: for i
 
+        this.drawRingLegend()
         this.drawRingScale()
       }, // END: drawRings()
 
-      drawRingScale(h, hC, hB) {
-        var  rightEdgeOfScreen = this.ringCam.position.z * (this.canvasWidth/this.canvasHeight)
+      drawRingLegend() {
+        var leftEdgeOfScreen = -1 * (this.ringCam.position.z * (this.canvasWidth/this.canvasHeight))
+        var x = leftEdgeOfScreen * 0.98
+        var y = this.localResultJson.r[this.postBody.t] * 0.95
+        var squareSize = 0.01
+
+        var squareShape = new THREE.Shape()
+        squareShape.moveTo( 0, 0 )
+        squareShape.lineTo( squareSize, 0 )
+        squareShape.lineTo( squareSize, squareSize )
+        squareShape.lineTo( 0, squareSize )
+        squareShape.lineTo( 0, 0 )
+        var squareGeo = new THREE.ShapeGeometry( squareShape )
+
+        // Heartwood color 1
+        var hwColor1Mat = new THREE.MeshBasicMaterial( { color: 0xad593b } )
+        var hwColor1 = new THREE.Mesh( squareGeo, hwColor1Mat )
+        hwColor1.position.x = x
+        hwColor1.position.y = y
+        this.ringScene.add( hwColor1 )
+
+        // Heartwood color 2
+        var hwColor2Mat = new THREE.MeshBasicMaterial( { color: 0x521700 } )
+        var hwColor2 = new THREE.Mesh( squareGeo, hwColor2Mat )
+        hwColor2.position.x = x + squareSize
+        hwColor2.position.y = y
+        this.ringScene.add( hwColor2 )
+
+        // Sapwood color 1
+        var swColor1Mat = new THREE.MeshBasicMaterial( { color: 0x997354 } )
+        var swColor1 = new THREE.Mesh( squareGeo, swColor1Mat )
+        swColor1.position.x = x
+        swColor1.position.y = y + squareSize*2
+        this.ringScene.add( swColor1 )
+
+        // Sapwood color 2
+        var swColor2Mat = new THREE.MeshBasicMaterial( { color: 0x331700 } )
+        var swColor2 = new THREE.Mesh( squareGeo, swColor2Mat )
+        swColor2.position.x = x + squareSize
+        swColor2.position.y = y + squareSize*2
+        this.ringScene.add( swColor2 )
+
+      }, // END: drawRingLegend()
+
+      drawRingScale() {
+        var rightEdgeOfScreen = this.ringCam.position.z * (this.canvasWidth/this.canvasHeight)
         var offset = rightEdgeOfScreen
         var points = []
 
@@ -842,6 +910,9 @@
           document.getElementById('ringScaleBarRadiusMid').style.display = "none" // Hide middle text
           document.getElementById('ringScaleBarRadiusBot').style.display = "none" // Hide bottom radius text
 
+          document.getElementById('ringLegendHW').style.display = "none" // Hide heartwood legend text
+          document.getElementById('ringLegendSW').style.display = "none" // Hide sapwood legend text
+
           this.currentScene = this.treeScene
           this.currentCam = this.treeCam
           this.onWindowResize()
@@ -862,6 +933,8 @@
           document.getElementById('ringScaleBarRadiusMid').style.display = "inline-block" // Show middle text
           document.getElementById('ringScaleBarRadiusBot').style.display = "inline-block" // Show bottom radius text
 
+          document.getElementById('ringLegendHW').style.display = "inline-block" // Show heartwood legend text
+          document.getElementById('ringLegendSW').style.display = "inline-block" // Show sapwood legend text
 
           this.currentScene = this.ringScene
           this.currentCam = this.ringCam
@@ -915,6 +988,13 @@
         ringScaleBarRadiusMid.style.top = ((-0.02 + 1)/2 * this.canvasHeight) + 'px'
         ringScaleBarRadiusBot.style.left = ((0.74 + 1)/2 * this.canvasWidth) + 'px'
         ringScaleBarRadiusBot.style.top = ((0.88 + 1)/2 * this.canvasHeight) + 'px'
+
+        var ringLegendHWText = document.getElementById('ringLegendHW')
+        var ringLegendSWText = document.getElementById('ringLegendSW')
+        ringLegendHWText.style.left = ((-0.92 + 1)/2 * this.canvasWidth) + 'px'
+        ringLegendHWText.style.top = ((-0.97 + 1)/2 * this.canvasHeight) + 'px'
+        ringLegendSWText.style.left = ((-0.92 + 1)/2 * this.canvasWidth) + 'px'
+        ringLegendSWText.style.top = ((-0.9 + 1)/2 * this.canvasHeight) + 'px'
 
         this.renderer.setSize( this.canvasWidth, this.canvasHeight)
         this.draw()
@@ -1174,6 +1254,16 @@
   }
 
   #ringScaleBarRadiusBot {
+    position: absolute;
+    color: black;
+  }
+
+  #ringLegendHW {
+    position: absolute;
+    color: black;
+  }
+
+  #ringLegendSW {
     position: absolute;
     color: black;
   }
