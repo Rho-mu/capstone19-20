@@ -121,6 +121,8 @@
         maxLAI2: 0,
         crownShape: "cone",
         array : [],
+        ringArray: [],
+        numberOfRings: 0,
         loopFlag: 0,
         localResultJson: {
           "APARout":'',
@@ -235,9 +237,45 @@
         window.addEventListener( 'resize', this.onWindowResize, false )
 
         //this.tempview()
+        this.ringZoom()
 
         console.log("initializeVisualization - Complete")
       }, // END: initializeVisualization()
+
+      ringZoom() {
+        this.ringZoomCam = new THREE.OrthographicCamera( -this.canvasWidth/2, this.canvasWidth/2, this.canvasHeight/2, -this.canvasHeight/2, 1, 10 )
+        this.ringZoomCam.position.z = 10
+        this.ringZoomScene = new THREE.Scene()
+
+        this.vector = new THREE.Vector2()
+        this.textureSize = 3
+
+        var data = new Uint8Array( this.textureSize * this.textureSize * 3 )
+
+				this.texture = new THREE.DataTexture( data, this.textureSize, this.textureSize, THREE.RGBFormat )
+				this.texture.minFilter = THREE.NearestFilter
+				this.texture.magFilter = THREE.NearestFilter
+
+				//
+
+				var spriteMaterial = new THREE.SpriteMaterial( { map: this.texture } )
+				this.sprite = new THREE.Sprite( spriteMaterial )
+				this.sprite.scale.set( this.textureSize, this.textureSize, 1 )
+				this.ringZoomScene.add( this.sprite )
+
+				this.updateSpritePosition()
+      },
+
+      updateSpritePosition() {
+
+        var halfWidth = this.canvasWidth / 2
+				var halfHeight = this.canvasHeight / 2
+
+				var halfImageWidth = this.textureSize / 2
+				var halfImageHeight = this.textureSize / 2
+
+				this.sprite.position.set( - halfWidth + halfImageWidth, halfHeight - halfImageHeight, 1 );
+      },
 
       tempview() {
         this.visCanvas = document.getElementById('treeCanvasport')
@@ -652,7 +690,7 @@
             ringGeo = new THREE.CircleGeometry(this.localResultJson.r[i], geoSegments)
             var ringMat = new THREE.MeshBasicMaterial( {color: ringColor} )
             ringMat.transparent = true
-            ringMat.opacity = 0.4
+            ringMat.opacity = 0.6
             var ring = new THREE.Mesh( ringGeo, ringMat )
             this.newScene.add( ring )
           }
@@ -669,6 +707,75 @@
         this.drawRingLegend()
         this.drawRingScale()
       }, // END: drawRings()
+
+      drawRingsTemp() {
+        var geoSegments = 16
+
+        console.log("dataIndex", this.dataIndex, "\nnumRings", this.numberOfRings)
+
+        if(this.dataIndex > this.numberOfRings)
+        {
+          console.log("adding rings")
+          var i = this.numberOfRings + 1 // Index that goes between numberOfRings and dataIndex.
+          var heartwoodRadius = this.localResultJson.r[this.dataIndex] - this.localResultJson.sw2[this.dataIndex] // Gets the heart wood radius at the current year on the slider
+
+          while(this.dataIndex > this.numberOfRings)
+          {
+            // color
+            var ringColor = new THREE.Color()
+            if( this.localResultJson.r[i] < heartwoodRadius ) // If the current ring is part of the heart wood..
+            {
+              // Alternate between lighter colors
+              if(i % 2 == 0) { ringColor = 0xad593b }
+              else { ringColor = 0x521700 }
+            }
+            else                                              // If the current ring is part of the sap wood..
+            {
+              // Alternate between darker colors
+              if(i % 2 == 0) { ringColor = 0x997354 }
+              else { ringColor = 0x331700 }
+            }
+
+            var ringGeo
+            if(i == 1)
+            {
+              // Sets the initial ring to a circle. Otherwise, there would be a hole of r0 raidus in the center.
+              ringGeo = new THREE.CircleGeometry(this.localResultJson.r[i], geoSegments)
+              var ringMat = new THREE.MeshBasicMaterial( {color: ringColor} )
+              ringMat.transparent = true
+              ringMat.opacity = 0.6
+              var ring = new THREE.Mesh( ringGeo, ringMat )
+              this.ringScene.add( ring )
+              this.ringArray[this.numberOfRings] = ring
+            }
+            else
+            {
+              // RingGeometry(innerRadius : Float, outerRadius : Float, thetaSegments : Integer, phiSegments : Integer, thetaStart : Float, thetaLength : Float)
+              ringGeo = new THREE.RingGeometry( this.localResultJson.r[i-1], this.localResultJson.r[i], geoSegments, 1 )
+              var ringMat = new THREE.MeshBasicMaterial( {color: ringColor} )
+              var ring = new THREE.Mesh( ringGeo, ringMat )
+              this.ringScene.add( ring )
+              this.ringArray[this.numberOfRings] = ring
+            }
+
+            i++
+            this.numberOfRings++
+          } // END: while-loop
+        } // END: if(dataIndex > numberOfRings)
+
+        if(this.dataIndex < this.numberOfRings) // If the user moves the slider down (ie, younger tree, less rings)
+        {
+          console.log("removing rings")
+          while(this.dataIndex < this.numberOfRings) // Remove all rings that come after the current index of the slider.
+          {
+            this.ringScene.remove(this.ringArray[this.numberOfRings])
+            this.numberOfRings--
+          }
+        }
+
+        this.drawRingLegend()
+        this.drawRingScale()
+      }, // END: drawRingsTemp()
 
       drawRingLegend() {
         var leftEdgeOfScreen = -1 * (this.ringCam.position.z * (this.canvasWidth/this.canvasHeight))
@@ -715,6 +822,8 @@
       }, // END: drawRingLegend()
 
       drawRingScale() {
+        this.ringScene.remove(scale)
+
         var rightEdgeOfScreen = this.ringCam.position.z * (this.canvasWidth/this.canvasHeight)
         var offset = rightEdgeOfScreen
         var points = []
@@ -953,16 +1062,6 @@
         }
       }, // END: setScene()
 
-      update() {
-        // THREE.js function used to move objects in the scene.
-        //this.trunk.rotation.y += 0.01
-        //this.crown.rotation.y += 0.01
-        /*this.hudBitmap.clearRect(0, 0, this.canvasWidth, this.canvasHeight)
-        this.hudBitmap.fillText("year: "+this.dataIndex, this.canvasWidth/2, this.canvasHeight/2)
-  	    this.hudTexture.needsUpdate = true*/
-
-      }, // END: update()
-
       onWindowResize() {
         // Adjusts the renderer size when the window is resized.
         this.canvasWidth = window.innerWidth * 0.75
@@ -1003,11 +1102,25 @@
       animate() {
         // THREE.js function
 
-        //this.update()
+        this.update()
         this.renderer.render(this.currentScene, this.currentCam)
+        //this.renderer.render(this.ringZoomScene, this.ringZoomCam)
 
         requestAnimationFrame(this.animate)
       }, // END: animate()
+
+      update() {
+        // THREE.js function used to move objects in the scene.
+        //this.trunk.rotation.y += 0.01
+        //this.crown.rotation.y += 0.01
+        /*this.hudBitmap.clearRect(0, 0, this.canvasWidth, this.canvasHeight)
+        this.hudBitmap.fillText("year: "+this.dataIndex, this.canvasWidth/2, this.canvasHeight/2)
+  	    this.hudTexture.needsUpdate = true*/
+        this.vector.x = ( this.canvasWidth / 2 ) - ( this.textureSize / 2 );
+				this.vector.y = ( this.canvasHeight / 2 ) - ( this.textureSize / 2 );
+
+				this.renderer.copyFramebufferToTexture( this.vector, this.texture );
+      }, // END: update()
 
       downloadRawData() {
         // Downloads the raw data output from localResultJson to a .csv file
