@@ -1235,6 +1235,15 @@
           this.ringScene.remove(this.ringScene.children[0])
         }
 
+        // Hide labels
+        document.getElementById("treeScaleBarMaxHeight").style.display = "none"
+        document.getElementById("treeScaleBarBaseHeight").style.display = "none"
+        document.getElementById("ringScaleBarRadiusTop").style.display = "none"
+        document.getElementById("ringScaleBarRadiusMid").style.display = "none"
+        document.getElementById("ringScaleBarRadiusBot").style.display = "none"
+        document.getElementById("ringLegendHW").style.display = "none"
+        document.getElementById("ringLegendSW").style.display = "none"        
+
         // Set startDraw to false and re-call it to check when getData is done again.
         this.startDraw = false
         this.checkForStartDraw()
