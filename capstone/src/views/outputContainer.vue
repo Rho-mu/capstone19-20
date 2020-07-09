@@ -236,8 +236,7 @@
         // Allow canvas to resize with window.
         window.addEventListener( 'resize', this.onWindowResize, false )
 
-        //this.tempview()
-        //this.ringZoom()
+
 
         console.log("initializeVisualization - Complete")
       }, // END: initializeVisualization()
@@ -324,11 +323,14 @@
         this.treeCam.position.z = this.maxHeight * 0.6
         this.treeCam.lookAt(0, this.maxHeight/2, 0)
 
+        console.log("maxTrunkRadius", this.maxTrunkRadius)
         this.ringCam.position.z = this.maxTrunkRadius * 1.1   // Scale scene to max radius of the trunk so that no rings are off-screen.
         this.ringCam.lookAt(0, 0, 0)
 
         this.setUpLabels()
         this.setScene("treeScene")
+
+
 
         console.log("afterGetSetup - Complete")
       }, // END: afterGetSetup()
@@ -341,11 +343,11 @@
         treeScaleBarBaseHeight.innerHTML = "0 m"
 
         var ringScaleBarRadiusTop = document.getElementById('ringScaleBarRadiusTop')
-        ringScaleBarRadiusTop.innerHTML = this.localResultJson.r[this.postBody.t].toFixed(2) + " m"
+        ringScaleBarRadiusTop.innerHTML = this.maxTrunkRadius.toFixed(2) + " m"
         var ringScaleBarRadiusMid = document.getElementById('ringScaleBarRadiusMid')
         ringScaleBarRadiusMid.innerHTML = "0 m"
         var ringScaleBarRadiusBot = document.getElementById('ringScaleBarRadiusBot')
-        ringScaleBarRadiusBot.innerHTML = this.localResultJson.r[this.postBody.t].toFixed(2) + " m"
+        ringScaleBarRadiusBot.innerHTML = this.maxTrunkRadius.toFixed(2) + " m"
 
 
         // Sets position of labels
@@ -378,11 +380,17 @@
       draw() {
         if(this.currentScene == this.treeScene)
         {
-          this.drawTree()
+          if( this.localResultJson.h[1] != undefined) // Prevents drawing when there is no data yet.
+          {
+            this.drawTree()
+          }
         }
         else if(this.currentScene == this.ringScene)
         {
-          this.drawRings()
+          if( this.localResultJson.r[1] != undefined) // Prevents drawing when there is no data yet.
+          {
+            this.drawRings()
+          }
         }
       }, // END: draw()
 
@@ -599,6 +607,7 @@
 
         for( var i = 1; i <= this.dataIndex; i++ )
         {
+
           // color
           var ringColor = new THREE.Color()
           if( this.localResultJson.r[i] < heartwoodRadius ) // If the current ring is part of the heart wood..
@@ -642,7 +651,7 @@
       drawRingLegend() {
         var leftEdgeOfScreen = -1 * (this.ringCam.position.z * (this.canvasWidth/this.canvasHeight))
         var x = leftEdgeOfScreen * 0.98
-        var y = this.localResultJson.r[this.postBody.t] * 0.95
+        var y = this.maxTrunkRadius * 0.95
         var squareSize = 0.01
 
         var squareShape = new THREE.Shape()
@@ -680,19 +689,17 @@
         swColor2.position.x = x + squareSize
         swColor2.position.y = y + squareSize*2
         this.ringScene.add( swColor2 )
-
       }, // END: drawRingLegend()
 
       drawRingScale() {
         //this.ringScene.remove(scale)
-
         var rightEdgeOfScreen = this.ringCam.position.z * (this.canvasWidth/this.canvasHeight)
         var offset = rightEdgeOfScreen
         var points = []
 
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.localResultJson.r[this.postBody.t], 0 ) ) // Top of scale
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, this.localResultJson.r[this.postBody.t], 0 ) ) // Top of scale
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.localResultJson.r[this.postBody.t], 0 ) ) // Top of scale
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.maxTrunkRadius, 0 ) ) // Top of scale
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, this.maxTrunkRadius, 0 ) ) // Top of scale
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.maxTrunkRadius, 0 ) ) // Top of scale
 
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius top
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius top
@@ -714,9 +721,9 @@
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, -this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius bottom
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius bottom
 
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.localResultJson.r[this.postBody.t], 0 ) ) // Bottom of scale
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, -this.localResultJson.r[this.postBody.t], 0 ) ) // Bottom of scale
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.localResultJson.r[this.postBody.t], 0 ) ) // Bottom of scale
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.maxTrunkRadius, 0 ) ) // Bottom of scale
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, -this.maxTrunkRadius, 0 ) ) // Bottom of scale
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.maxTrunkRadius, 0 ) ) // Bottom of scale
 
         var lineGeo = new THREE.BufferGeometry().setFromPoints( points )
         var lineMat = new THREE.LineBasicMaterial( {color: 0x008509, linewidth: 30} )
@@ -855,10 +862,10 @@
         /*this.hudBitmap.clearRect(0, 0, this.canvasWidth, this.canvasHeight)
         this.hudBitmap.fillText("year: "+this.dataIndex, this.canvasWidth/2, this.canvasHeight/2)
   	    this.hudTexture.needsUpdate = true*/
-        this.vector.x = ( this.canvasWidth / 2 ) - ( this.textureSize / 2 );
-				this.vector.y = ( this.canvasHeight / 2 ) - ( this.textureSize / 2 );
+        //this.vector.x = ( this.canvasWidth / 2 ) - ( this.textureSize / 2 );
+				//this.vector.y = ( this.canvasHeight / 2 ) - ( this.textureSize / 2 );
 
-				this.renderer.copyFramebufferToTexture( this.vector, this.texture );
+				//this.renderer.copyFramebufferToTexture( this.vector, this.texture );
       }, // END: update()
 
       downloadRawData() {
@@ -1015,8 +1022,7 @@
 
         //var boxMat = new THREE.MeshFaceMaterial( sideMats )
         this.box = new THREE.Mesh( boxGeo, boxMat )
-        this.box.position.x = this.canvasWidth/100
-        this.treeScene.add( this.box )
+        this.ringScene.add( this.box )
       }, // END: addBox()
 
       addText() {
@@ -1255,8 +1261,6 @@
       this.setTempDefaultlocalResultJson()
       this.checkForStartDraw()
       this.checkForReset()
-      // setTimeout(this.initializeVisualization, 1)
-      // setTimeout(this.animate, 2)
     },
 
     updated() {
