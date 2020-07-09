@@ -380,17 +380,8 @@
         } // END: for i to t
 
         // Resize camera based on max tree height or radius
-        var scale = this.maxHeight
-        if( this.maxHeight > this.maxCrownRadius )
-        {
-          scale = this.maxHeight * 0.6
-        }
-        else
-        {
-          scale = this.maxCrownRadius * 0.9
-        }
         this.treeCam.position.y = this.maxHeight / 2
-        this.treeCam.position.z = scale
+        this.treeCam.position.z = this.maxHeight * 0.6
         this.treeCam.lookAt(0, this.maxHeight/2, 0)
 
         this.ringCam.position.z = this.maxTrunkRadius * 1.1   // Scale scene to max radius of the trunk so that no rings are off-screen.
@@ -1242,7 +1233,7 @@
         document.getElementById("ringScaleBarRadiusMid").style.display = "none"
         document.getElementById("ringScaleBarRadiusBot").style.display = "none"
         document.getElementById("ringLegendHW").style.display = "none"
-        document.getElementById("ringLegendSW").style.display = "none"        
+        document.getElementById("ringLegendSW").style.display = "none"
 
         // Set startDraw to false and re-call it to check when getData is done again.
         this.startDraw = false
