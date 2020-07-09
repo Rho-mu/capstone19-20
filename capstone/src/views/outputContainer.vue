@@ -237,70 +237,10 @@
         window.addEventListener( 'resize', this.onWindowResize, false )
 
         //this.tempview()
-        this.ringZoom()
+        //this.ringZoom()
 
         console.log("initializeVisualization - Complete")
       }, // END: initializeVisualization()
-
-      ringZoom() {
-        this.ringZoomCam = new THREE.OrthographicCamera( -this.canvasWidth/2, this.canvasWidth/2, this.canvasHeight/2, -this.canvasHeight/2, 1, 10 )
-        this.ringZoomCam.position.z = 10
-        this.ringZoomScene = new THREE.Scene()
-
-        this.vector = new THREE.Vector2()
-        this.textureSize = 3
-
-        var data = new Uint8Array( this.textureSize * this.textureSize * 3 )
-
-				this.texture = new THREE.DataTexture( data, this.textureSize, this.textureSize, THREE.RGBFormat )
-				this.texture.minFilter = THREE.NearestFilter
-				this.texture.magFilter = THREE.NearestFilter
-
-				//
-
-				var spriteMaterial = new THREE.SpriteMaterial( { map: this.texture } )
-				this.sprite = new THREE.Sprite( spriteMaterial )
-				this.sprite.scale.set( this.textureSize, this.textureSize, 1 )
-				this.ringZoomScene.add( this.sprite )
-
-				this.updateSpritePosition()
-      },
-
-      updateSpritePosition() {
-
-        var halfWidth = this.canvasWidth / 2
-				var halfHeight = this.canvasHeight / 2
-
-				var halfImageWidth = this.textureSize / 2
-				var halfImageHeight = this.textureSize / 2
-
-				this.sprite.position.set( - halfWidth + halfImageWidth, halfHeight - halfImageHeight, 1 );
-      },
-
-      tempview() {
-        this.visCanvas = document.getElementById('treeCanvasport')
-
-        var treeBoundBotLeft = new THREE.Vector3(-5, 0, 0)
-        var treeBoundBotRight = new THREE.Vector3(5, 0, 0)
-        var treeBoundTopRight = new THREE.Vector3(5, this.maxHeight, 0)
-        var treeBoundTopLeft = new THREE.Vector3(-5, this.maxHeight, 0)
-
-        var mypoints = []
-        mypoints.push( treeBoundBotLeft )
-        mypoints.push( treeBoundBotRight )
-        mypoints.push( treeBoundTopRight )
-        mypoints.push( treeBoundTopLeft )
-        mypoints.push( treeBoundBotLeft )
-
-        var mylineGeo = new THREE.BufferGeometry().setFromPoints( mypoints )
-        var mylineMat = new THREE.LineBasicMaterial( {color: 0x008509, linewidth: 30} )
-        var myscale = new THREE.Line( mylineGeo, mylineMat )
-        //this.treeScene.add( myscale )
-
-        this.treeCam.position.y = this.maxHeight / 2
-        this.treeCam.position.z = this.maxHeight * 0.6
-        this.treeCam.lookAt(0, this.maxHeight/2, 0)
-      },
 
       afterGetSetup() {
         // Does some setup once getData() is done and data has been retrieved.
@@ -480,114 +420,114 @@
         // var h = this.treeData[year].h     // Output. Delcared above
         const BH = 1.37                      // Breast height. Contsant 1.37 meters
 
-        if( h > 0 )
+        //if( h > 0 )
+        //{
+        // if h > BH --> rcmax = r0 + ((r40 - r0) * (2 * rBH * 100) / 40)
+        // if h < BH --> rcmax = (r0 * r) / ((hmax / phih) * ln(hmax/(hmax - BH)))
+        var rcmax // Maximum potential radius at a crown ratio of m
+        if( h > BH )
         {
-          // if h > BH --> rcmax = r0 + ((r40 - r0) * (2 * rBH * 100) / 40)
-          // if h < BH --> rcmax = (r0 * r) / ((hmax / phih) * ln(hmax/(hmax - BH)))
-          var rcmax // Maximum potential radius at a crown ratio of m
-          if( h > BH )
-          {
-            rcmax = r0 + ((r40 - r0) * (2 * rBH * 100) / 40)
-          }
-          else if( h < BH )
-          {
-            rcmax = (r0 * r) / ((hmax / phih) * Math.log(hmax/(hmax - BH)))
-          }
-          //console.log("rcmax",rcmax)
+          rcmax = r0 + ((r40 - r0) * (2 * rBH * 100) / 40)
+        }
+        else if( h < BH )
+        {
+          rcmax = (r0 * r) / ((hmax / phih) * Math.log(hmax/(hmax - BH)))
+        }
+        //console.log("rcmax",rcmax)
 
-          var eta = this.postBody.eta     // Input.
-          var alpha = this.postBody.alpha // Input. Curvature of the crown.
+        var eta = this.postBody.eta     // Input.
+        var alpha = this.postBody.alpha // Input. Curvature of the crown.
 
-          // if m > (1 - eta) --> rcbase = rcmax * ((1 - eta) / m)^alpha
-          // otherwise --> rcbase = 1 - eta
-          var rcbase // Radius at the base of the crown.
-          if( m > (1 - eta))
-          {
-            rcbase = rcmax * Math.pow(((1 - eta) / m), alpha)
-          }
-          else
-          {
-            rcbase = rcmax
-          }
+        // if m > (1 - eta) --> rcbase = rcmax * ((1 - eta) / m)^alpha
+        // otherwise --> rcbase = 1 - eta
+        var rcbase // Radius at the base of the crown.
+        if( m > (1 - eta))
+        {
+          rcbase = rcmax * Math.pow(((1 - eta) / m), alpha)
+        }
+        else
+        {
+          rcbase = rcmax
+        }
 
-          //console.log("year:",year,"\nLAI2:",this.localResultJson.LAI2[year],"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,"\nrBH:",rBH,"\nrcmax:",rcmax,"\nrcbase:",rcbase)
+        //console.log("year:",year,"\nLAI2:",this.localResultJson.LAI2[year],"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,"\nrBH:",rBH,"\nrcmax:",rcmax,"\nrcbase:",rcbase)
 
-          // Supplemental parameters
-          var geoSegments = 20              // Segments of geometry
-          var crownPos = hC + (h-hC)/2      // Moves the crown so that it's bottom plane is at the top of the middle segment.
-          var trunkBasePos = hB/2           // Moves the trunk's base segment so that it's bottom plane is at (0,0).
-          var trunkMidPos = hB + (hC-hB)/2  // Moves the trunk's middle segment so that it's bottom plane is at the top of the base segment.
-          var trunkTopPos = hC + (h-hC)/2   // Moves the trunk's top segment so that it's bottom plane is at the top of the middle segment.
+        // Supplemental parameters
+        var geoSegments = 20              // Segments of geometry
+        var crownPos = hC + (h-hC)/2      // Moves the crown so that it's bottom plane is at the top of the middle segment.
+        var trunkBasePos = hB/2           // Moves the trunk's base segment so that it's bottom plane is at (0,0).
+        var trunkMidPos = hB + (hC-hB)/2  // Moves the trunk's middle segment so that it's bottom plane is at the top of the base segment.
+        var trunkTopPos = hC + (h-hC)/2   // Moves the trunk's top segment so that it's bottom plane is at the top of the middle segment.
 
-          ///// Trunk /////
-          // Trunk Top
+        ///// Trunk /////
+        // Trunk Top
+        // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
+        var trunkTopGeo = new THREE.ConeGeometry( rC, h-hC, geoSegments )
+        var trunkTopMat = new THREE.MeshLambertMaterial( {color: 0xb5651d} )
+        this.trunkTop = new THREE.Mesh( trunkTopGeo, trunkTopMat )
+        this.trunkTop.position.y = trunkTopPos
+
+        // Trunk Middle
+        // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
+        var trunkMidGeo = new THREE.CylinderGeometry( rC, rB, hC-hB, geoSegments )
+        var trunkMidMat = new THREE.MeshLambertMaterial( {color: 0xb5651d} )
+        this.trunkMid = new THREE.Mesh( trunkMidGeo, trunkMidMat )
+        this.trunkMid.position.y = trunkMidPos
+
+        // Trunk Base
+        // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
+        var trunkBaseGeo = new THREE.CylinderGeometry( rB, r, hB, geoSegments )
+        var trunkBaseMat = new THREE.MeshLambertMaterial( {color: 0xb5651d} )
+        this.trunkBase = new THREE.Mesh( trunkBaseGeo, trunkBaseMat )
+        this.trunkBase.position.y = trunkBasePos
+        ///// Trunk /////
+
+
+
+        ///// Crown /////
+        var crownGeo
+        if( this.crownShape == "cone" )
+        {
           // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
-          var trunkTopGeo = new THREE.ConeGeometry( rC, h-hC, geoSegments )
-          var trunkTopMat = new THREE.MeshLambertMaterial( {color: 0xb5651d} )
-          this.trunkTop = new THREE.Mesh( trunkTopGeo, trunkTopMat )
-          this.trunkTop.position.y = trunkTopPos
-
-          // Trunk Middle
+          crownGeo = new THREE.ConeGeometry( rcbase, h-hC, geoSegments )
+        }
+        else if( this.crownShape == "sphere") // Currently looks weird. Needs tuning.
+        {
+          // SphereGeometry(radius : Float, widthSegments : Integer, heightSegments : Integer)
+          crownGeo = new THREE.SphereGeometry( rcbase, geoSegments*1.5, geoSegments*1.5 )
+        }
+        else if( this.crownShape == "cylinder" )
+        {
           // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
-          var trunkMidGeo = new THREE.CylinderGeometry( rC, rB, hC-hB, geoSegments )
-          var trunkMidMat = new THREE.MeshLambertMaterial( {color: 0xb5651d} )
-          this.trunkMid = new THREE.Mesh( trunkMidGeo, trunkMidMat )
-          this.trunkMid.position.y = trunkMidPos
+          crownGeo = new THREE.CylinderGeometry( rcbase, rcbase, h-hC, geoSegments );
+        }
+        else // Default to cone shaped crown
+        {
+          // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
+          crownGeo = new THREE.ConeGeometry( rcbase, h-hC, geoSegments )
+        }
+        //console.log("crownShape:", this.crownShape)
 
-          // Trunk Base
-          // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
-          var trunkBaseGeo = new THREE.CylinderGeometry( rB, r, hB, geoSegments )
-          var trunkBaseMat = new THREE.MeshLambertMaterial( {color: 0xb5651d} )
-          this.trunkBase = new THREE.Mesh( trunkBaseGeo, trunkBaseMat )
-          this.trunkBase.position.y = trunkBasePos
-          ///// Trunk /////
+        var crownMat = new THREE.MeshLambertMaterial( {color: 0x00FF00} )
+        crownMat.transparent = true
+        crownMat.opacity = this.localResultJson.LAI2[year]/this.maxLAI2
+        //console.log("crown opacity:", crownMat.opacity)
 
-
-
-          ///// Crown /////
-          var crownGeo
-          if( this.crownShape == "cone" )
-          {
-            // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
-            crownGeo = new THREE.ConeGeometry( rcbase, h-hC, geoSegments )
-          }
-          else if( this.crownShape == "sphere") // Currently looks weird. Needs tuning.
-          {
-            // SphereGeometry(radius : Float, widthSegments : Integer, heightSegments : Integer)
-            crownGeo = new THREE.SphereGeometry( rcbase, geoSegments*1.5, geoSegments*1.5 )
-          }
-          else if( this.crownShape == "cylinder" )
-          {
-            // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
-            crownGeo = new THREE.CylinderGeometry( rcbase, rcbase, h-hC, geoSegments );
-          }
-          else // Default to cone shaped crown
-          {
-            // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
-            crownGeo = new THREE.ConeGeometry( rcbase, h-hC, geoSegments )
-          }
-          //console.log("crownShape:", this.crownShape)
-
-          var crownMat = new THREE.MeshLambertMaterial( {color: 0x00FF00} )
-          crownMat.transparent = true
-          crownMat.opacity = this.localResultJson.LAI2[year]/this.maxLAI2
-          //console.log("crown opacity:", crownMat.opacity)
-
-          this.crown = new THREE.Mesh( crownGeo, crownMat )
-          this.crown.position.y = crownPos
-          //console.log("Crown -", "\nradius:", rcbase, "\nheight:", h-hC,)
-          ///// Crown /////
+        this.crown = new THREE.Mesh( crownGeo, crownMat )
+        this.crown.position.y = crownPos
+        //console.log("Crown -", "\nradius:", rcbase, "\nheight:", h-hC,)
+        ///// Crown /////
 
 
-          // Add trunk and crown to scene
-          this.newScene.add( this.crown )
-          this.newScene.add( this.trunkTop )
-          this.newScene.add( this.trunkMid )
-          this.newScene.add( this.trunkBase )
+        // Add trunk and crown to scene
+        this.newScene.add( this.crown )
+        this.newScene.add( this.trunkTop )
+        this.newScene.add( this.trunkMid )
+        this.newScene.add( this.trunkBase )
 
-          // Draw the scale based on the current tree
-          this.drawTreeScale(h, hC, hB)
-        } // END: if h > 0
+        // Draw the scale based on the current tree
+        this.drawTreeScale(h, hC, hB)
+        //} // END: if h > 0
 
         /*
         // YELLOW //
@@ -667,7 +607,7 @@
             if(i % 2 == 0) { ringColor = 0xad593b }
             else { ringColor = 0x521700 }
           }
-          else                                         // If the current ring is part of the sap wood..
+          else                                              // If the current ring is part of the sap wood..
           {
             // Alternate between darker colors
             if(i % 2 == 0) { ringColor = 0x997354 }
@@ -698,75 +638,6 @@
         this.drawRingLegend()
         this.drawRingScale()
       }, // END: drawRings()
-
-      drawRingsTemp() {
-        var geoSegments = 16
-
-        console.log("dataIndex", this.dataIndex, "\nnumRings", this.numberOfRings)
-
-        if(this.dataIndex > this.numberOfRings)
-        {
-          console.log("adding rings")
-          var i = this.numberOfRings + 1 // Index that goes between numberOfRings and dataIndex.
-          var heartwoodRadius = this.localResultJson.r[this.dataIndex] - this.localResultJson.sw2[this.dataIndex] // Gets the heart wood radius at the current year on the slider
-
-          while(this.dataIndex > this.numberOfRings)
-          {
-            // color
-            var ringColor = new THREE.Color()
-            if( this.localResultJson.r[i] < heartwoodRadius ) // If the current ring is part of the heart wood..
-            {
-              // Alternate between lighter colors
-              if(i % 2 == 0) { ringColor = 0xad593b }
-              else { ringColor = 0x521700 }
-            }
-            else                                              // If the current ring is part of the sap wood..
-            {
-              // Alternate between darker colors
-              if(i % 2 == 0) { ringColor = 0x997354 }
-              else { ringColor = 0x331700 }
-            }
-
-            var ringGeo
-            if(i == 1)
-            {
-              // Sets the initial ring to a circle. Otherwise, there would be a hole of r0 raidus in the center.
-              ringGeo = new THREE.CircleGeometry(this.localResultJson.r[i], geoSegments)
-              var ringMat = new THREE.MeshBasicMaterial( {color: ringColor} )
-              ringMat.transparent = true
-              ringMat.opacity = 0.6
-              var ring = new THREE.Mesh( ringGeo, ringMat )
-              this.ringScene.add( ring )
-              this.ringArray[this.numberOfRings] = ring
-            }
-            else
-            {
-              // RingGeometry(innerRadius : Float, outerRadius : Float, thetaSegments : Integer, phiSegments : Integer, thetaStart : Float, thetaLength : Float)
-              ringGeo = new THREE.RingGeometry( this.localResultJson.r[i-1], this.localResultJson.r[i], geoSegments, 1 )
-              var ringMat = new THREE.MeshBasicMaterial( {color: ringColor} )
-              var ring = new THREE.Mesh( ringGeo, ringMat )
-              this.ringScene.add( ring )
-              this.ringArray[this.numberOfRings] = ring
-            }
-
-            i++
-            this.numberOfRings++
-          } // END: while-loop
-        } // END: if(dataIndex > numberOfRings)
-
-        if(this.dataIndex < this.numberOfRings) // If the user moves the slider down (ie, younger tree, less rings)
-        {
-          console.log("removing rings")
-          while(this.dataIndex < this.numberOfRings) // Remove all rings that come after the current index of the slider.
-          {
-            this.ringScene.remove(this.ringArray[this.numberOfRings])
-            this.numberOfRings--
-          }
-        }
-
-        this.drawRingLegend()
-        this.drawRingScale()
-      }, // END: drawRingsTemp()
 
       drawRingLegend() {
         var leftEdgeOfScreen = -1 * (this.ringCam.position.z * (this.canvasWidth/this.canvasHeight))
@@ -813,7 +684,7 @@
       }, // END: drawRingLegend()
 
       drawRingScale() {
-        this.ringScene.remove(scale)
+        //this.ringScene.remove(scale)
 
         var rightEdgeOfScreen = this.ringCam.position.z * (this.canvasWidth/this.canvasHeight)
         var offset = rightEdgeOfScreen
@@ -865,129 +736,6 @@
         pointLight.position.set( 10, 10, 10 )
         this.treeScene.add( pointLight )
       }, // END: addLight
-
-      addBox() {
-        //var myTexture = new THREE.TextureLoader().load( '../json/bark.png' )
-        //var r = this.localResultJson.r[this.dataIndex]      // Radius of trunk at base
-        //r = r * 7 // Temporary use to negate weird data
-
-        var boxGeo = new THREE.BoxGeometry( 1, 1, 1 )
-
-        //var myMaterial = new THREE.MeshLambertMaterial( { map: this.barkTexture } )
-        var boxMat = new THREE.MeshLambertMaterial( { color: 0xFFFF00 } )
-        /*var sideMats =
-        [
-          new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('../json/bark.png'), side: THREE.DoubleSide } ),
-          new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('../json/bark.png'), side: THREE.DoubleSide } ),
-          new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('../json/bark.png'), side: THREE.DoubleSide } ),
-          new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('../json/bark.png'), side: THREE.DoubleSide } ),
-          new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('../json/bark.png'), side: THREE.DoubleSide } ),
-          new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('../json/bark.png'), side: THREE.DoubleSide } )
-        ]*/
-
-        //var boxMat = new THREE.MeshFaceMaterial( sideMats )
-        this.box = new THREE.Mesh( boxGeo, boxMat )
-        this.box.position.x = this.canvasWidth/100
-        this.treeScene.add( this.box )
-      }, // END: addBox()
-
-      addText() {
-        /*
-        var loader = new THREE.FontLoader()
-
-        loader.load( 'fonts/optimer_regular.typeface.json', function ( font ) {
-
-          var text
-
-          var color = 0x006699
-
-          var material = new THREE.MeshBasicMaterial( { color: color } )
-
-          var geometry = new THREE.TextGeometry( 'Hello three.js!', {
-        		font: font,
-        		size: 80,
-        		height: 5,
-        		curveSegments: 12,
-        		bevelEnabled: true,
-        		bevelThickness: 10,
-        		bevelSize: 8,
-        		bevelOffset: 0,
-        		bevelSegments: 5
-        	} )
-
-          text = new THREE.Mesh( geometry, material )
-          this.treeScene.add( text )
-        } ) //end load function
-        */
-
-        console.log("adding text")
-
-        //var loader = new THREE.FontLoader()
-
-        /*var font = loader.load(
-        	// resource URL
-        	'../assets/fonts/helvetiker_regular.typeface.json',
-
-        	// onLoad callback
-        	function ( font ) {
-            console.log("trying to add")
-            console.log("font:", font)
-
-
-            var geometry = new THREE.TextGeometry( 'Hello three.js!', {
-          		font: parsedFont
-          	} )
-
-            var matLite = new THREE.MeshBasicMaterial( {
-  						color: red
-  					} )
-
-            text = new THREE.Mesh( geometry, material )
-
-        		// do something with the font
-        		this.treeScene.add( text )
-            console.log("text added")
-        	},
-
-        	// onProgress callback
-        	function ( xhr ) {
-        		console.log( (xhr.loaded / xhr.total * 100) + '% loaded' )
-        	},
-
-        	// onError callback
-        	function ( err ) {
-        		console.log( 'An error happened' )
-        	}
-        )*/
-
-
-        /*var loader = new THREE.FileLoader()
-        loader.setResponseType('json')
-
-        var myfont = loader.load(
-          '../assets/fonts/helvetiker_regular.typeface.json'
-        )
-        console.log("font:", myfont)*/
-
-        //var parsedFont = loader.parse(myfont)
-        console.log("parsedFont:", this.font_helvetiker_regular)
-
-        var geometry = new THREE.TextGeometry( 'Hello three.js!', {})
-
-        var material = new THREE.MeshBasicMaterial( {
-          color: red
-        } )
-
-        text = new THREE.Mesh( geometry, material )
-
-        // do something with the font
-        this.treeScene.add( text )
-        console.log("text added")
-
-        //var parsedFont = loader.parse(font)
-
-        console.log("addText - Complete")
-      }, // END: addText()
 
       setCrownShape(shape) {
         this.crownShape = shape
@@ -1093,7 +841,7 @@
       animate() {
         // THREE.js function
 
-        this.update()
+        //this.update()
         this.renderer.render(this.currentScene, this.currentCam)
         //this.renderer.render(this.ringZoomScene, this.ringZoomCam)
 
@@ -1246,8 +994,260 @@
         console.log("Reset - Visualization")
       }, // END: resetVisualization()
 
+      addBox() {
+        //var myTexture = new THREE.TextureLoader().load( '../json/bark.png' )
+        //var r = this.localResultJson.r[this.dataIndex]      // Radius of trunk at base
+        //r = r * 7 // Temporary use to negate weird data
+
+        var boxGeo = new THREE.BoxGeometry( 1, 1, 1 )
+
+        //var myMaterial = new THREE.MeshLambertMaterial( { map: this.barkTexture } )
+        var boxMat = new THREE.MeshLambertMaterial( { color: 0xFFFF00 } )
+        /*var sideMats =
+        [
+          new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('../json/bark.png'), side: THREE.DoubleSide } ),
+          new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('../json/bark.png'), side: THREE.DoubleSide } ),
+          new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('../json/bark.png'), side: THREE.DoubleSide } ),
+          new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('../json/bark.png'), side: THREE.DoubleSide } ),
+          new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('../json/bark.png'), side: THREE.DoubleSide } ),
+          new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('../json/bark.png'), side: THREE.DoubleSide } )
+        ]*/
+
+        //var boxMat = new THREE.MeshFaceMaterial( sideMats )
+        this.box = new THREE.Mesh( boxGeo, boxMat )
+        this.box.position.x = this.canvasWidth/100
+        this.treeScene.add( this.box )
+      }, // END: addBox()
+
+      addText() {
+        /*
+        var loader = new THREE.FontLoader()
+
+        loader.load( 'fonts/optimer_regular.typeface.json', function ( font ) {
+
+          var text
+
+          var color = 0x006699
+
+          var material = new THREE.MeshBasicMaterial( { color: color } )
+
+          var geometry = new THREE.TextGeometry( 'Hello three.js!', {
+        		font: font,
+        		size: 80,
+        		height: 5,
+        		curveSegments: 12,
+        		bevelEnabled: true,
+        		bevelThickness: 10,
+        		bevelSize: 8,
+        		bevelOffset: 0,
+        		bevelSegments: 5
+        	} )
+
+          text = new THREE.Mesh( geometry, material )
+          this.treeScene.add( text )
+        } ) //end load function
+        */
+
+        console.log("adding text")
+
+        //var loader = new THREE.FontLoader()
+
+        /*var font = loader.load(
+        	// resource URL
+        	'../assets/fonts/helvetiker_regular.typeface.json',
+
+        	// onLoad callback
+        	function ( font ) {
+            console.log("trying to add")
+            console.log("font:", font)
+
+
+            var geometry = new THREE.TextGeometry( 'Hello three.js!', {
+          		font: parsedFont
+          	} )
+
+            var matLite = new THREE.MeshBasicMaterial( {
+  						color: red
+  					} )
+
+            text = new THREE.Mesh( geometry, material )
+
+        		// do something with the font
+        		this.treeScene.add( text )
+            console.log("text added")
+        	},
+
+        	// onProgress callback
+        	function ( xhr ) {
+        		console.log( (xhr.loaded / xhr.total * 100) + '% loaded' )
+        	},
+
+        	// onError callback
+        	function ( err ) {
+        		console.log( 'An error happened' )
+        	}
+        )*/
+
+
+        /*var loader = new THREE.FileLoader()
+        loader.setResponseType('json')
+
+        var myfont = loader.load(
+          '../assets/fonts/helvetiker_regular.typeface.json'
+        )
+        console.log("font:", myfont)*/
+
+        //var parsedFont = loader.parse(myfont)
+        console.log("parsedFont:", this.font_helvetiker_regular)
+
+        var geometry = new THREE.TextGeometry( 'Hello three.js!', {})
+
+        var material = new THREE.MeshBasicMaterial( {
+          color: red
+        } )
+
+        text = new THREE.Mesh( geometry, material )
+
+        // do something with the font
+        this.treeScene.add( text )
+        console.log("text added")
+
+        //var parsedFont = loader.parse(font)
+
+        console.log("addText - Complete")
+      }, // END: addText()
+
       temp_sd() {
         this.startDraw = true
+      },
+
+      drawRingsTemp() {
+        var geoSegments = 16
+
+        console.log("dataIndex", this.dataIndex, "\nnumRings", this.numberOfRings)
+
+        if(this.dataIndex > this.numberOfRings)
+        {
+          console.log("adding rings")
+          var i = this.numberOfRings + 1 // Index that goes between numberOfRings and dataIndex.
+          var heartwoodRadius = this.localResultJson.r[this.dataIndex] - this.localResultJson.sw2[this.dataIndex] // Gets the heart wood radius at the current year on the slider
+
+          while(this.dataIndex > this.numberOfRings)
+          {
+            // color
+            var ringColor = new THREE.Color()
+            if( this.localResultJson.r[i] < heartwoodRadius ) // If the current ring is part of the heart wood..
+            {
+              // Alternate between lighter colors
+              if(i % 2 == 0) { ringColor = 0xad593b }
+              else { ringColor = 0x521700 }
+            }
+            else                                              // If the current ring is part of the sap wood..
+            {
+              // Alternate between darker colors
+              if(i % 2 == 0) { ringColor = 0x997354 }
+              else { ringColor = 0x331700 }
+            }
+
+            var ringGeo
+            if(i == 1)
+            {
+              // Sets the initial ring to a circle. Otherwise, there would be a hole of r0 raidus in the center.
+              ringGeo = new THREE.CircleGeometry(this.localResultJson.r[i], geoSegments)
+              var ringMat = new THREE.MeshBasicMaterial( {color: ringColor} )
+              ringMat.transparent = true
+              ringMat.opacity = 0.6
+              var ring = new THREE.Mesh( ringGeo, ringMat )
+              this.ringScene.add( ring )
+              this.ringArray[this.numberOfRings] = ring
+            }
+            else
+            {
+              // RingGeometry(innerRadius : Float, outerRadius : Float, thetaSegments : Integer, phiSegments : Integer, thetaStart : Float, thetaLength : Float)
+              ringGeo = new THREE.RingGeometry( this.localResultJson.r[i-1], this.localResultJson.r[i], geoSegments, 1 )
+              var ringMat = new THREE.MeshBasicMaterial( {color: ringColor} )
+              var ring = new THREE.Mesh( ringGeo, ringMat )
+              this.ringScene.add( ring )
+              this.ringArray[this.numberOfRings] = ring
+            }
+
+            i++
+            this.numberOfRings++
+          } // END: while-loop
+        } // END: if(dataIndex > numberOfRings)
+
+        if(this.dataIndex < this.numberOfRings) // If the user moves the slider down (ie, younger tree, less rings)
+        {
+          console.log("removing rings")
+          while(this.dataIndex < this.numberOfRings) // Remove all rings that come after the current index of the slider.
+          {
+            this.ringScene.remove(this.ringArray[this.numberOfRings])
+            this.numberOfRings--
+          }
+        }
+
+        this.drawRingLegend()
+        this.drawRingScale()
+      }, // END: drawRingsTemp()
+
+      tempview() {
+        this.visCanvas = document.getElementById('treeCanvasport')
+
+        var treeBoundBotLeft = new THREE.Vector3(-5, 0, 0)
+        var treeBoundBotRight = new THREE.Vector3(5, 0, 0)
+        var treeBoundTopRight = new THREE.Vector3(5, this.maxHeight, 0)
+        var treeBoundTopLeft = new THREE.Vector3(-5, this.maxHeight, 0)
+
+        var mypoints = []
+        mypoints.push( treeBoundBotLeft )
+        mypoints.push( treeBoundBotRight )
+        mypoints.push( treeBoundTopRight )
+        mypoints.push( treeBoundTopLeft )
+        mypoints.push( treeBoundBotLeft )
+
+        var mylineGeo = new THREE.BufferGeometry().setFromPoints( mypoints )
+        var mylineMat = new THREE.LineBasicMaterial( {color: 0x008509, linewidth: 30} )
+        var myscale = new THREE.Line( mylineGeo, mylineMat )
+        //this.treeScene.add( myscale )
+
+        this.treeCam.position.y = this.maxHeight / 2
+        this.treeCam.position.z = this.maxHeight * 0.6
+        this.treeCam.lookAt(0, this.maxHeight/2, 0)
+      },
+
+      ringZoom() {
+        this.ringZoomCam = new THREE.OrthographicCamera( -this.canvasWidth/2, this.canvasWidth/2, this.canvasHeight/2, -this.canvasHeight/2, 1, 10 )
+        this.ringZoomCam.position.z = 10
+        this.ringZoomScene = new THREE.Scene()
+
+        this.vector = new THREE.Vector2()
+        this.textureSize = 3
+
+        var data = new Uint8Array( this.textureSize * this.textureSize * 3 )
+
+				this.texture = new THREE.DataTexture( data, this.textureSize, this.textureSize, THREE.RGBFormat )
+				this.texture.minFilter = THREE.NearestFilter
+				this.texture.magFilter = THREE.NearestFilter
+
+				//
+
+				var spriteMaterial = new THREE.SpriteMaterial( { map: this.texture } )
+				this.sprite = new THREE.Sprite( spriteMaterial )
+				this.sprite.scale.set( this.textureSize, this.textureSize, 1 )
+				this.ringZoomScene.add( this.sprite )
+
+				this.updateSpritePosition()
+      },
+
+      updateSpritePosition() {
+
+        var halfWidth = this.canvasWidth / 2
+				var halfHeight = this.canvasHeight / 2
+
+				var halfImageWidth = this.textureSize / 2
+				var halfImageHeight = this.textureSize / 2
+
+				this.sprite.position.set( - halfWidth + halfImageWidth, halfHeight - halfImageHeight, 1 );
       },
     }, // END: methods
 
