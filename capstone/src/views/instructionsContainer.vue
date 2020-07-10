@@ -51,7 +51,7 @@ export default {
 } // END: export default
 </script>
 
-<style scoped>
+<style>
   h1 {
     font-family: Avant Garde,Avantgarde,Century Gothic,CenturyGothic,AppleGothic,sans-serif;
     text-align: center;
@@ -63,12 +63,11 @@ export default {
     margin-bottom: 2px;
     padding: 1%;
     float: left;
-    background-color: #b9b9b9;
+    background-color: #11ffee00;
     border-radius: 10px;
     float: left;
     position: relative;
     text-align: left;
-    background-image: url("../assets/InstructionsBack.png");
-    color: white;
+    background-image: url('../assets/Background.png');
   }
 </style>

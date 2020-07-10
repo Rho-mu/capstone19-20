@@ -85,6 +85,28 @@
           <download-csv class="downloadbutton" :data="this.array" name = "treeData.csv">
             <button @click="downloadRawData()">Download data</button>
           </download-csv>
+          <div class="tooltip">
+            <span class="tooltiptext">
+              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
+              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
+              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
+              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
+              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
+              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
+              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
+              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
+              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
+              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
+              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
+              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
+              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
+              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
+              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
+              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
+              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
+              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -1369,15 +1391,58 @@
     opacity: 1;
   }
 
-  /* .timeStepSlider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 25px;
-    height: 25px;
-    background: #4CAF50;
-    cursor: pointer;
+  /* Tooltip container */
+  .tooltip {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    float: right;
+    background-color: #44c767;
     border-radius: 50%;
-  } */
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+    line-height: 26px;
+  }
+
+  .tooltip:before {
+    content:'?';
+    font-weight: bold;
+    color:#fff;
+  }
+
+  /* Tooltip text */
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 500px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 0%;
+    right: 140%;
+  }
+
+  /* Tooltip arrow */
+  .tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 97%;
+    left: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent transparent #555;
+  }
+
+  /* Show the tooltip text when you mouse over the tooltip container */
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+  }
 
   .timeStepSlider::-moz-range-thumb {
     width: 25px;

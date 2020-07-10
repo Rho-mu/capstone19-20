@@ -45,7 +45,7 @@ export default {
       postBody: '',
       loadingFlag: 0,
       startDraw: '',
-      resetFlag: 0
+      resetFlag: 0,
     }
   },
 
@@ -75,6 +75,8 @@ export default {
 </script>
 
 <style scoped>
-
-
+  .acgca {
+    background: url("../assets/Background.png");
+    /* background-position: bottom; */
+  }
 </style>

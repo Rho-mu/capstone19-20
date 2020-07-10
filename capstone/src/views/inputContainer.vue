@@ -2,6 +2,7 @@
   <div class="inputContainer">
     <form @submit.prevent="postData">
       <div class="containerTitle">Inputs Specification</div>
+
       <button type="button" class="accordion">Default values</button>
         <div class="panel">
           <br>
@@ -458,6 +459,7 @@
 <script>
   import axios from 'axios'
 
+
   export default {
     name: 'inputContainer',
 
@@ -834,10 +836,11 @@
     border: none;
     border-radius: 10px;
     width:17.5%;
-    background-color: #9e9a9a;
-    background-image: url("../assets/InputBack.png");
+
     background-position: bottom;
     background-repeat: no-repeat;
+    background-color: #9e9a9a;
+    background-image: url('../assets/InputBack.png');
   }
 
   .inputContainer button {
