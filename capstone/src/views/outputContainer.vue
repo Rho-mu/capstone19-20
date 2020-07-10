@@ -19,19 +19,15 @@
 
       <input type="range" min="1" v-model="dataIndex" @input="draw()" id="timeStepSlider" class="timeStepSlider"><br><br>
       <div id="treeCanvasport">
-        <!--<p class="scaleBar" id="maxHeightText">{{this.dataIndex/*this.maxHeight*/}}</p>
-        <p class="scaleBar" id="curHeightText">{{this.dataIndex/*this.localResultJson.h[this.dataIndex]*/}}</p>
-        <p class="scaleBar" id="trunkTopText">{{this.dataIndex/*this.localResultJson.hC[this.dataIndex]*/}}</p>
-        <p class="scaleBar" id="trunkMidText">{{this.dataIndex/*this.localResultJson.hB[this.dataIndex]*/}}</p>
-        <p class="scaleBar" id="trunkBaseText">0</p>-->
-
-        <div id="treeScaleBarMaxHeight"></div>
-        <div id="treeScaleBarBaseHeight"></div>
-        <div id="ringScaleBarRadiusTop"></div>
-        <div id="ringScaleBarRadiusMid"></div>
-        <div id="ringScaleBarRadiusBot"></div>
-        <div id="ringLegendHW"></div>
-        <div id="ringLegendSW"></div>
+        <div id="treeScaleBarMaxHeight" class="UILabel"></div>
+        <div id="treeScaleBarBaseHeight" class="UILabel"></div>
+        <div id="ringScaleBarRadiusTop" class="UILabel"></div>
+        <div id="ringScaleBarRadiusMid" class="UILabel"></div>
+        <div id="ringScaleBarRadiusBot" class="UILabel"></div>
+        <div id="ringLegendHW" class="UILabel"></div>
+        <div id="ringLegendSW" class="UILabel"></div>
+        <div id="ringLegendInitR" class="UILabel"></div>
+        <div id="ringLegendCurR" class="UILabel"></div>
       </div>
       <div class="rawDataList" id="rawDataList">
         <br>
@@ -350,7 +346,7 @@
         ringScaleBarRadiusBot.innerHTML = this.maxTrunkRadius.toFixed(2) + " m"
 
 
-        // Sets position of labels
+        // Sets position of scale labels
         treeScaleBarMaxHeight.style.left = ((0.73 + 1)/2 * this.canvasWidth) + 'px'
         treeScaleBarMaxHeight.style.top = ((-0.86 + 1)/2 * this.canvasHeight) + 'px'
         treeScaleBarBaseHeight.style.left = ((0.78 + 1)/2 * this.canvasWidth) + 'px'
@@ -370,10 +366,20 @@
         var ringLegendSWText = document.getElementById('ringLegendSW')
         ringLegendSWText.innerHTML = "Sapwood"
 
+        var ringLegendInitRText = document.getElementById('ringLegendInitR')
+        ringLegendInitRText.innerHTML = "Initial Radius"
+        var ringLegendCurRText = document.getElementById('ringLegendCurR')
+        ringLegendCurRText.innerHTML = "Current Radius"
+
         ringLegendHWText.style.left = ((-0.92 + 1)/2 * this.canvasWidth) + 'px'
-        ringLegendHWText.style.top = ((-0.97 + 1)/2 * this.canvasHeight) + 'px'
+        ringLegendHWText.style.top = ((-0.93 + 1)/2 * this.canvasHeight) + 'px'
         ringLegendSWText.style.left = ((-0.92 + 1)/2 * this.canvasWidth) + 'px'
-        ringLegendSWText.style.top = ((-0.9 + 1)/2 * this.canvasHeight) + 'px'
+        ringLegendSWText.style.top = ((-0.86 + 1)/2 * this.canvasHeight) + 'px'
+
+        ringLegendInitRText.style.left = ((-0.92 + 1)/2 * this.canvasWidth) + 'px'
+        ringLegendInitRText.style.top = ((-0.79 + 1)/2 * this.canvasHeight) + 'px'
+        ringLegendCurRText.style.left = ((-0.92 + 1)/2 * this.canvasWidth) + 'px'
+        ringLegendCurRText.style.top = ((-0.72 + 1)/2 * this.canvasHeight) + 'px'
 
       }, // END: setUpLabels()
 
@@ -651,7 +657,7 @@
       drawRingLegend() {
         var leftEdgeOfScreen = -1 * (this.ringCam.position.z * (this.canvasWidth/this.canvasHeight))
         var x = leftEdgeOfScreen * 0.98
-        var y = this.maxTrunkRadius * 0.95
+        var y = this.maxTrunkRadius
         var squareSize = 0.01
 
         var squareShape = new THREE.Shape()
@@ -666,69 +672,111 @@
         var hwColor1Mat = new THREE.MeshBasicMaterial( { color: 0xad593b } )
         var hwColor1 = new THREE.Mesh( squareGeo, hwColor1Mat )
         hwColor1.position.x = x
-        hwColor1.position.y = y
+        hwColor1.position.y = y - squareSize*0.5
         this.ringScene.add( hwColor1 )
 
         // Heartwood color 2
         var hwColor2Mat = new THREE.MeshBasicMaterial( { color: 0x521700 } )
         var hwColor2 = new THREE.Mesh( squareGeo, hwColor2Mat )
         hwColor2.position.x = x + squareSize
-        hwColor2.position.y = y
+        hwColor2.position.y = y - squareSize*0.5
         this.ringScene.add( hwColor2 )
 
         // Sapwood color 1
         var swColor1Mat = new THREE.MeshBasicMaterial( { color: 0x997354 } )
         var swColor1 = new THREE.Mesh( squareGeo, swColor1Mat )
         swColor1.position.x = x
-        swColor1.position.y = y + squareSize*2
+        swColor1.position.y = y - squareSize*2.5
         this.ringScene.add( swColor1 )
 
         // Sapwood color 2
         var swColor2Mat = new THREE.MeshBasicMaterial( { color: 0x331700 } )
         var swColor2 = new THREE.Mesh( squareGeo, swColor2Mat )
         swColor2.position.x = x + squareSize
-        swColor2.position.y = y + squareSize*2
+        swColor2.position.y = y - squareSize*2.5
         this.ringScene.add( swColor2 )
+
+        // Scale Bar legend
+        var initRadPoints = []
+        var curRadPoints = []
+
+        initRadPoints.push( new THREE.Vector3( x, y - squareSize*4, 0 ) )
+        initRadPoints.push( new THREE.Vector3( x + squareSize*2, y - squareSize*4, 0 ) )
+
+        curRadPoints.push( new THREE.Vector3( x, y - squareSize*6, 0 ) )
+        curRadPoints.push( new THREE.Vector3( x + squareSize*2, y - squareSize*6, 0 ) )
+
+        var initRadLineGeo = new THREE.BufferGeometry().setFromPoints( initRadPoints )
+        var curRadLineGeo = new THREE.BufferGeometry().setFromPoints( curRadPoints )
+        var initRadLineMat = new THREE.LineBasicMaterial( {color: 0xff0000} )
+        var CurRadLineMat = new THREE.LineBasicMaterial( {color: 0x0000ff} )
+        var initRadScale = new THREE.Line( initRadLineGeo, initRadLineMat )
+        var curRadScale = new THREE.Line( curRadLineGeo, CurRadLineMat )
+
+        this.ringScene.add( initRadScale )
+        this.ringScene.add( curRadScale )
       }, // END: drawRingLegend()
 
       drawRingScale() {
         //this.ringScene.remove(scale)
         var rightEdgeOfScreen = this.ringCam.position.z * (this.canvasWidth/this.canvasHeight)
-        var offset = rightEdgeOfScreen
         var points = []
+        var curRadTopPoints = []
+        var initRadTopPoints = []
+        var initRadBotPoints = []
+        var curRadBotPoints = []
 
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.maxTrunkRadius, 0 ) ) // Top of scale
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, this.maxTrunkRadius, 0 ) ) // Top of scale
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.maxTrunkRadius, 0 ) ) // Top of scale
 
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius top
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius top
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius top
+        curRadTopPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius top
+        curRadTopPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius top
+        //curRadTopPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius top
 
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.localResultJson.r[1], 0 ) ) // Top of initial radius
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, this.localResultJson.r[1], 0 ) ) // Top of initial radius
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.localResultJson.r[1], 0 ) ) // Top of initial radius
+        initRadTopPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.localResultJson.r[1], 0 ) ) // Top of initial radius
+        initRadTopPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, this.localResultJson.r[1], 0 ) ) // Top of initial radius
+        //initRadTopPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.localResultJson.r[1], 0 ) ) // Top of initial radius
 
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, 0, 0 ) ) // Center
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, 0, 0 ) ) // Center
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, 0, 0 ) ) // Center
 
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.localResultJson.r[1], 0 ) ) // Bottom of initial radius
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, -this.localResultJson.r[1], 0 ) ) // Bottom of initial radius
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.localResultJson.r[1], 0 ) ) // Bottom of initial radius
+        initRadBotPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.localResultJson.r[1], 0 ) ) // Bottom of initial radius
+        initRadBotPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, -this.localResultJson.r[1], 0 ) ) // Bottom of initial radius
+        //initRadBotPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.localResultJson.r[1], 0 ) ) // Bottom of initial radius
 
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius botttom
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, -this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius bottom
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius bottom
+        curRadBotPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius botttom
+        curRadBotPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, -this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius bottom
+        //curRadBotPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius bottom
 
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.maxTrunkRadius, 0 ) ) // Bottom of scale
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, -this.maxTrunkRadius, 0 ) ) // Bottom of scale
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.maxTrunkRadius, 0 ) ) // Bottom of scale
 
         var lineGeo = new THREE.BufferGeometry().setFromPoints( points )
-        var lineMat = new THREE.LineBasicMaterial( {color: 0x008509, linewidth: 30} )
+        var curRadTopLineGeo = new THREE.BufferGeometry().setFromPoints( curRadTopPoints )
+        var initRadTopLineGeo = new THREE.BufferGeometry().setFromPoints( initRadTopPoints )
+        var initRadBotLineGeo = new THREE.BufferGeometry().setFromPoints( initRadBotPoints )
+        var curRadBotLineGeo = new THREE.BufferGeometry().setFromPoints( curRadBotPoints )
+
+        var lineMat = new THREE.LineBasicMaterial( {color: 0x008509, linewidth: 5} )
+        var curRadTopLineMat = new THREE.LineBasicMaterial( {color: 0x0000ff} )
+        var initRadTopLineMat = new THREE.LineBasicMaterial( {color: 0xff0000} )
+        var initRadBotLineMat = new THREE.LineBasicMaterial( {color: 0xff0000} )
+        var CurRadBotLineMat = new THREE.LineBasicMaterial( {color: 0x0000ff} )
+
         var scale = new THREE.Line( lineGeo, lineMat )
+        var curRadTopScale = new THREE.Line( curRadTopLineGeo, curRadTopLineMat )
+        var initRadTopScale = new THREE.Line( initRadTopLineGeo, initRadTopLineMat )
+        var initRadBotScale = new THREE.Line( initRadBotLineGeo, initRadBotLineMat )
+        var curRadBotScale = new THREE.Line( curRadBotLineGeo, CurRadBotLineMat )
+
         this.ringScene.add( scale )
+        this.ringScene.add( curRadTopScale )
+        this.ringScene.add( initRadTopScale )
+        this.ringScene.add( initRadBotScale )
+        this.ringScene.add( curRadBotScale )
       }, // END: drawRingScale()
 
       addLight() {
@@ -768,6 +816,9 @@
           document.getElementById('ringLegendHW').style.display = "none" // Hide heartwood legend text
           document.getElementById('ringLegendSW').style.display = "none" // Hide sapwood legend text
 
+          document.getElementById('ringLegendInitR').style.display = "none" // Hide ring initial radius text
+          document.getElementById('ringLegendCurR').style.display = "none" // Hide ring current radius text
+
           this.currentScene = this.treeScene
           this.currentCam = this.treeCam
           this.onWindowResize()
@@ -784,12 +835,15 @@
 
           document.getElementById('treeScaleBarMaxHeight').style.display = "none" // Hide max height text
           document.getElementById('treeScaleBarBaseHeight').style.display = "none" // Hide base height text
-          document.getElementById('ringScaleBarRadiusTop').style.display = "inline-block" // Show top radius text
-          document.getElementById('ringScaleBarRadiusMid').style.display = "inline-block" // Show middle text
-          document.getElementById('ringScaleBarRadiusBot').style.display = "inline-block" // Show bottom radius text
+          document.getElementById('ringScaleBarRadiusTop').style.display = "block" // Show top radius text
+          document.getElementById('ringScaleBarRadiusMid').style.display = "block" // Show middle text
+          document.getElementById('ringScaleBarRadiusBot').style.display = "block" // Show bottom radius text
 
-          document.getElementById('ringLegendHW').style.display = "inline-block" // Show heartwood legend text
-          document.getElementById('ringLegendSW').style.display = "inline-block" // Show sapwood legend text
+          document.getElementById('ringLegendHW').style.display = "block" // Show heartwood legend text
+          document.getElementById('ringLegendSW').style.display = "block" // Show sapwood legend text
+
+          document.getElementById('ringLegendInitR').style.display = "block" // Show ring initial radius text
+          document.getElementById('ringLegendCurR').style.display = "block" // Show ring current radius text
 
           this.currentScene = this.ringScene
           this.currentCam = this.ringCam
@@ -837,9 +891,16 @@
         var ringLegendHWText = document.getElementById('ringLegendHW')
         var ringLegendSWText = document.getElementById('ringLegendSW')
         ringLegendHWText.style.left = ((-0.92 + 1)/2 * this.canvasWidth) + 'px'
-        ringLegendHWText.style.top = ((-0.97 + 1)/2 * this.canvasHeight) + 'px'
+        ringLegendHWText.style.top = ((-0.93 + 1)/2 * this.canvasHeight) + 'px'
         ringLegendSWText.style.left = ((-0.92 + 1)/2 * this.canvasWidth) + 'px'
-        ringLegendSWText.style.top = ((-0.9 + 1)/2 * this.canvasHeight) + 'px'
+        ringLegendSWText.style.top = ((-0.86 + 1)/2 * this.canvasHeight) + 'px'
+
+        var ringLegendInitRText = document.getElementById('ringLegendInitR')
+        var ringLegendCurRText = document.getElementById('ringLegendCurR')
+        ringLegendInitRText.style.left = ((-0.92 + 1)/2 * this.canvasWidth) + 'px'
+        ringLegendInitRText.style.top = ((-0.79 + 1)/2 * this.canvasHeight) + 'px'
+        ringLegendCurRText.style.left = ((-0.92 + 1)/2 * this.canvasWidth) + 'px'
+        ringLegendCurRText.style.top = ((-0.72 + 1)/2 * this.canvasHeight) + 'px'
 
         this.renderer.setSize( this.canvasWidth, this.canvasHeight)
         this.draw()
@@ -1350,37 +1411,7 @@
     position: absolute;
   }
 
-  #treeScaleBarMaxHeight {
-    position: absolute;
-    color: black;
-  }
-
-  #treeScaleBarBaseHeight {
-    position: absolute;
-    color: black;
-  }
-
-  #ringScaleBarRadiusTop {
-    position: absolute;
-    color: black;
-  }
-
-  #ringScaleBarRadiusMid {
-    position: absolute;
-    color: black;
-  }
-
-  #ringScaleBarRadiusBot {
-    position: absolute;
-    color: black;
-  }
-
-  #ringLegendHW {
-    position: absolute;
-    color: black;
-  }
-
-  #ringLegendSW {
+  .UILabel {
     position: absolute;
     color: black;
   }
