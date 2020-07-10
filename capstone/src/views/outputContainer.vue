@@ -87,24 +87,26 @@
           </download-csv>
           <div class="tooltip">
             <span class="tooltiptext">
-              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
-              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
-              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
-              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
-              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
-              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
-              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
-              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
-              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
-              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
-              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
-              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
-              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
-              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
-              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
-              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
-              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
-              <b>H: </b>Slope at H versus r curve at r = 0 &nbsp; <b>H: </b>Slope at H versus r curve at r = 0<br>
+              <b>h: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>bl: </b>Slope at H versus r curve at r = 0<br>
+              <b>hh: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>br: </b>Slope at H versus r curve at r = 0<br>
+              <b>hC: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>bt: </b>Slope at H versus r curve at r = 0<br>
+              <b>hB: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>bts: </b>Slope at H versus r curve at r = 0<br>
+              <b>hBH: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>bth: </b>Slope at H versus r curve at r = 0<br>
+              <b>r: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>boh: </b>Slope at H versus r curve at r = 0<br>
+              <b>rB: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>bos: </b>Slope at H versus r curve at r = 0<br>
+              <b>rC: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>bo: </b>Slope at H versus r curve at r = 0<br>
+              <b>rBH: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>bs: </b>Slope at H versus r curve at r = 0<br>
+              <b>sw: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>clr: </b>Slope at H versus r curve at r = 0<br>
+              <b>vts: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>fl: </b>Slope at H versus r curve at r = 0<br>
+              <b>vt: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>fr: </b>Slope at H versus r curve at r = 0<br>
+              <b>vth: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>ft: </b>Slope at H versus r curve at r = 0<br>
+              <b>sa: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>rfl: </b>Slope at H versus r curve at r = 0<br>
+              <b>la: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>rfr: </b>Slope at H versus r curve at r = 0<br>
+              <b>ra: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>rfs: </b>Slope at H versus r curve at r = 0<br>
+              <b>dr: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>rtrans: </b>Slope at H versus r curve at r = 0<br>
+              <b>xa: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>light: </b>Slope at H versus r curve at r = 0<br>
+              <b>nut: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>deltas: </b>Slope at H versus r curve at r = 0<br>
+              <b>LAI: </b>Slope at H versus r curve at r = 0<br>
             </span>
           </div>
         </div>
@@ -1414,10 +1416,10 @@
   /* Tooltip text */
   .tooltip .tooltiptext {
     visibility: hidden;
-    width: 500px;
+    width: 520px;
     background-color: #555;
     color: #fff;
-    text-align: center;
+    text-align: left;
     border-radius: 6px;
     padding: 10px;
     position: absolute;
