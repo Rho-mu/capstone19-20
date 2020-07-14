@@ -557,12 +557,25 @@
         //console.log("Crown -", "\nradius:", rcbase, "\nheight:", h-hC,)
         ///// Crown /////
 
+        ///// Roots /////
+        var rootDepth
+        var rootWidth
 
-        // Add trunk and crown to scene
+        rootDepth = 3
+        rootWidth = 3
+
+        var rootGeo = new THREE.BoxGeometry( rootWidth, rootDepth, rootWidth )
+        var rootMat = new THREE.MeshLambertMaterial( { color: 0x402000 } )
+        this.roots = new THREE.Mesh( rootGeo, rootMat )
+        this.roots.position.y = -rootDepth/2
+
+
+        // Add trunk, crown, and roots to scene
         this.newScene.add( this.crown )
         this.newScene.add( this.trunkTop )
         this.newScene.add( this.trunkMid )
         this.newScene.add( this.trunkBase )
+        this.newScene.add( this.roots )
 
         // Draw the scale based on the current tree
         this.drawTreeScale(h, hC, hB)
