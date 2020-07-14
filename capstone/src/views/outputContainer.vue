@@ -140,6 +140,7 @@
         maxTrunkRadius: 0,
         maxLAI2: 0,
         crownShape: "cone",
+        ringScale: 10,
         array : [],
         ringArray: [],
         numberOfRings: 0,
@@ -344,7 +345,7 @@
         this.treeCam.lookAt(0, this.maxHeight/2, 0)
 
         console.log("maxTrunkRadius", this.maxTrunkRadius)
-        this.ringCam.position.z = this.maxTrunkRadius * 1.1   // Scale scene to max radius of the trunk so that no rings are off-screen.
+        this.ringCam.position.z = this.maxTrunkRadius * this.ringScale * 1.1   // Scale scene to max radius of the trunk so that no rings are off-screen.
         this.ringCam.lookAt(0, 0, 0)
 
         this.setUpLabels()
@@ -635,9 +636,10 @@
         var heartwoodRadius = this.localResultJson.r[this.dataIndex] - this.localResultJson.sw2[this.dataIndex] // Gets the heart wood radius at the current year on the slider
         //console.log("sw:", this.localResultJson.sw2[this.dataIndex], "\nr:", this.localResultJson.r[this.dataIndex], "\nhw:", heartwoodRadius)
 
+
+
         for( var i = 1; i <= this.dataIndex; i++ )
         {
-
           // color
           var ringColor = new THREE.Color()
           if( this.localResultJson.r[i] < heartwoodRadius ) // If the current ring is part of the heart wood..
@@ -657,7 +659,7 @@
           if(i == 1)
           {
             // Sets the initial ring to a circle. Otherwise, there would be a hole of r0 raidus in the center.
-            ringGeo = new THREE.CircleGeometry(this.localResultJson.r[i], geoSegments)
+            ringGeo = new THREE.CircleGeometry(this.localResultJson.r[i]*this.ringScale, geoSegments)
             var ringMat = new THREE.MeshBasicMaterial( {color: ringColor} )
             ringMat.transparent = true
             ringMat.opacity = 0.6
@@ -667,7 +669,7 @@
           else
           {
             // RingGeometry(innerRadius : Float, outerRadius : Float, thetaSegments : Integer, phiSegments : Integer, thetaStart : Float, thetaLength : Float)
-            ringGeo = new THREE.RingGeometry( this.localResultJson.r[i-1], this.localResultJson.r[i], geoSegments, 1 )
+            ringGeo = new THREE.RingGeometry( this.localResultJson.r[i-1]*this.ringScale, this.localResultJson.r[i]*this.ringScale, geoSegments, 1 )
             var ringMat = new THREE.MeshBasicMaterial( {color: ringColor} )
             var ring = new THREE.Mesh( ringGeo, ringMat )
             this.newScene.add( ring )
@@ -681,8 +683,8 @@
       drawRingLegend() {
         var leftEdgeOfScreen = -1 * (this.ringCam.position.z * (this.canvasWidth/this.canvasHeight))
         var x = leftEdgeOfScreen * 0.98
-        var y = this.maxTrunkRadius
-        var squareSize = 0.01
+        var y = this.maxTrunkRadius*this.ringScale
+        var squareSize = 0.01*(this.ringScale*0.35)
 
         var squareShape = new THREE.Shape()
         squareShape.moveTo( 0, 0 )
@@ -750,33 +752,33 @@
         var initRadBotPoints = []
         var curRadBotPoints = []
 
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.maxTrunkRadius, 0 ) ) // Top of scale
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, this.maxTrunkRadius, 0 ) ) // Top of scale
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.maxTrunkRadius, 0 ) ) // Top of scale
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.maxTrunkRadius*this.ringScale, 0 ) ) // Top of scale
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, this.maxTrunkRadius*this.ringScale, 0 ) ) // Top of scale
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.maxTrunkRadius*this.ringScale, 0 ) ) // Top of scale
 
-        curRadTopPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius top
-        curRadTopPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius top
+        curRadTopPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.localResultJson.r[this.dataIndex]*this.ringScale, 0 ) ) // Current radius top
+        curRadTopPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, this.localResultJson.r[this.dataIndex]*this.ringScale, 0 ) ) // Current radius top
         //curRadTopPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius top
 
-        initRadTopPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.localResultJson.r[1], 0 ) ) // Top of initial radius
-        initRadTopPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, this.localResultJson.r[1], 0 ) ) // Top of initial radius
+        initRadTopPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.localResultJson.r[1]*this.ringScale, 0 ) ) // Top of initial radius
+        initRadTopPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, this.localResultJson.r[1]*this.ringScale, 0 ) ) // Top of initial radius
         //initRadTopPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.localResultJson.r[1], 0 ) ) // Top of initial radius
 
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, 0, 0 ) ) // Center
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, 0, 0 ) ) // Center
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, 0, 0 ) ) // Center
 
-        initRadBotPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.localResultJson.r[1], 0 ) ) // Bottom of initial radius
-        initRadBotPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, -this.localResultJson.r[1], 0 ) ) // Bottom of initial radius
+        initRadBotPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.localResultJson.r[1]*this.ringScale, 0 ) ) // Bottom of initial radius
+        initRadBotPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, -this.localResultJson.r[1]*this.ringScale, 0 ) ) // Bottom of initial radius
         //initRadBotPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.localResultJson.r[1], 0 ) ) // Bottom of initial radius
 
-        curRadBotPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius botttom
-        curRadBotPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, -this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius bottom
+        curRadBotPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.localResultJson.r[this.dataIndex]*this.ringScale, 0 ) ) // Current radius botttom
+        curRadBotPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, -this.localResultJson.r[this.dataIndex]*this.ringScale, 0 ) ) // Current radius bottom
         //curRadBotPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius bottom
 
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.maxTrunkRadius, 0 ) ) // Bottom of scale
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, -this.maxTrunkRadius, 0 ) ) // Bottom of scale
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.maxTrunkRadius, 0 ) ) // Bottom of scale
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.maxTrunkRadius*this.ringScale, 0 ) ) // Bottom of scale
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, -this.maxTrunkRadius*this.ringScale, 0 ) ) // Bottom of scale
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.maxTrunkRadius*this.ringScale, 0 ) ) // Bottom of scale
 
         var lineGeo = new THREE.BufferGeometry().setFromPoints( points )
         var curRadTopLineGeo = new THREE.BufferGeometry().setFromPoints( curRadTopPoints )
@@ -1074,6 +1076,8 @@
         document.getElementById("ringScaleBarRadiusBot").style.display = "none"
         document.getElementById("ringLegendHW").style.display = "none"
         document.getElementById("ringLegendSW").style.display = "none"
+        document.getElementById('ringLegendInitR').style.display = "none"
+        document.getElementById('ringLegendCurR').style.display = "none"
 
         // Set startDraw to false and re-call it to check when getData is done again.
         this.startDraw = false
