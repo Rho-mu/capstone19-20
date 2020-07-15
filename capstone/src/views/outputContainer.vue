@@ -919,7 +919,6 @@
         treeScaleBarMaxRootDepth.style.top = ((0.81 + 1)/2 * this.canvasHeight) + 'px'
 
         var treeLegendZeroText = document.getElementById('treeLegendZero')
-        treeLegendZeroText.innerHTML = "0 m"
         treeLegendZeroText.style.left = ((-0.92 + 1)/2 * this.canvasWidth) + 'px'
         treeLegendZeroText.style.top = ((-0.86 + 1)/2 * this.canvasHeight) + 'px'
 
