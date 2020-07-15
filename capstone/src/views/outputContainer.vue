@@ -135,8 +135,8 @@
         canvasHeight: window.innerHeight*0.75,
         currentScene: this.treeScene,
         currentCam: this.treeCam,
+        maxRootDepth: 0,
         maxHeight: 0,
-        maxCrownRadius: 0,
         maxTrunkRadius: 0,
         maxLAI2: 0,
         crownShape: "cone",
@@ -292,10 +292,23 @@
         // Find max LAI2 to normalize it for opacity.
         for( var i = 1; i <= this.postBody.t; i++ )
         {
-          // Find max height.
+          // Find max height
           if( this.maxHeight < this.localResultJson.h[i] )
           {
             this.maxHeight = this.localResultJson.h[i]
+          }
+
+          // Find max root depth
+          var h = this.localResultJson.h[i]     // Total tree height
+          var hC = this.localResultJson.hC2[i]  // Height that trunk transitions from paraboloid to cone (trunk to crown)
+          hC = this.postBody.eta * h
+
+          // Root depth = sqrt(f1/2)*(H-hc)
+          var rootDepth = Math.sqrt(this.postBody.f1 / 2) * (h - hC) // Get root depth
+
+          if( this.maxRootDepth < rootDepth )
+          {
+            this.maxRootDepth = rootDepth
           }
 
           // Find max LAI2.
@@ -309,49 +322,18 @@
           {
             this.maxTrunkRadius = this.localResultJson.r[i]
           }
-
-          // Find max Radius. The larger value between rcmax (max r of crown) and max r (max r of base of trunk).
-          var h = this.localResultJson.h[i]     // Total tree height
-          const BH = 1.37                       // Breast height. Contsant 1.37 meters
-          var r0 = this.postBody.r0             // Input
-          var r40 = this.postBody.r40           // Input
-          var rBH = this.localResultJson.rBH[i] // Output
-          var r = this.localResultJson.r[i]     // Radius of trunk at base
-          var hmax = this.postBody.hmax         // Input
-          var phih = this.postBody.phih         // Input
-
-          var rcmax // Maximum potential radius at a crown ratio of m
-          if( h > BH )
-          {
-            // if h > BH --> rcmax = r0 + ((r40 - r0) * (2 * rBH * 100) / 40)
-            rcmax = r0 + ((r40 - r0) * (2 * rBH * 100) / 40)
-          }
-          else if( h < BH )
-          {
-            // if h < BH --> rcmax = (r0 * r) / ((hmax / phih) * ln(hmax/(hmax - BH)))
-            rcmax = (r0 * r) / ((hmax / phih) * Math.log(hmax/(hmax - BH)))
-          }
-
-          // Check for larger crown radius.
-          if( this.maxCrownRadius < rcmax )
-          {
-            this.maxCrownRadius = rcmax
-          }
         } // END: for i to t
 
-        // Resize camera based on max tree height or radius
-        this.treeCam.position.y = this.maxHeight / 2
-        this.treeCam.position.z = this.maxHeight * 0.6
-        this.treeCam.lookAt(0, this.maxHeight/2, 0)
+        // Resize camera based on total tree height (from -maxRootdepth to maxHeight since 0 is the base of the tree).
+        this.treeCam.position.y = (this.maxHeight - this.maxRootDepth) / 2
+        this.treeCam.position.z = (this.maxHeight + this.maxRootDepth) * 0.6 // 0.6 just makes it fit on the screen better.
+        this.treeCam.lookAt(0, (this.maxHeight - this.maxRootDepth)/2, 0)
 
-        console.log("maxTrunkRadius", this.maxTrunkRadius)
         this.ringCam.position.z = this.maxTrunkRadius * this.ringScale * 1.1   // Scale scene to max radius of the trunk so that no rings are off-screen.
         this.ringCam.lookAt(0, 0, 0)
 
         this.setUpLabels()
         this.setScene("treeScene")
-
-
 
         console.log("afterGetSetup - Complete")
       }, // END: afterGetSetup()
@@ -561,10 +543,13 @@
         var rootDepth
         var rootWidth
 
-        rootDepth = 3
-        rootWidth = 3
+        // Root depth = sqrt(f1/2)*(H-hc)
+        rootDepth = Math.sqrt(this.postBody.f1 / 2) * (h - hC)
 
-        var rootGeo = new THREE.BoxGeometry( rootWidth, rootDepth, rootWidth )
+        // Root width = sqrt(2*f1)*Rcbase
+        rootWidth = Math.sqrt(2 * this.postBody.f1) * rcbase
+
+        var rootGeo = new THREE.BoxGeometry( rootWidth, rootDepth, 1 )
         var rootMat = new THREE.MeshLambertMaterial( { color: 0x402000 } )
         this.roots = new THREE.Mesh( rootGeo, rootMat )
         this.roots.position.y = -rootDepth/2
@@ -579,35 +564,6 @@
 
         // Draw the scale based on the current tree
         this.drawTreeScale(h, hC, hB)
-        //} // END: if h > 0
-
-        /*
-        // YELLOW //
-        var maxHeightText = document.getElementById("maxHeightText")
-        var maxHeightpx = String(this.canvasHeight) + "px"
-        maxHeightText.style.top = maxHeightpx
-        //console.log("pos-maxHeightText", maxHeightText.style.top)
-        // GREEN //
-        var curHeightText = document.getElementById("curHeightText")
-        var curHeightpx = String(this.canvasHeight - h) + "px"
-        curHeightText.style.top = curHeightpx
-        //console.log("pos-curHeightText", curHeightText.style.top)
-        // BLUE //
-        var trunkTopText = document.getElementById("trunkTopText")
-        var trunkToppx = String(this.canvasHeight - hC) + "px"
-        trunkTopText.style.top = trunkToppx
-        //console.log("pos-trunkTopText", trunkTopText.style.top)
-        // PURPLE //
-        var trunkMidText = document.getElementById("trunkMidText")
-        var trunkMidpx = String(this.canvasHeight - hB) + "px"
-        trunkMidText.style.top = trunkMidpx
-        //console.log("pos-trunkMidText", trunkMidText.style.top)
-        // BLACK //
-        var trunkBaseText = document.getElementById("trunkBaseText")
-        var trunkBasepx = "0px"
-        trunkBaseText.style.top = trunkBasepx
-        //console.log("pos-trunkBaseText", trunkBaseText.style.top)
-        */
       }, // END: drawTree()
 
       drawTreeScale(h, hC) {
@@ -1063,9 +1019,9 @@
         // Resets the visualization so that it's easier for the user to rerun the simulation.
 
         // Set output data max's to 0.
+        this.maxRootDepth = 0
         this.maxHeight = 0
         this.maxTrunkRadius = 0
-        this.maxCrownRadius = 0
         this.maxLAI2 = 0
 
         // Set result json to be all empty.
@@ -1103,7 +1059,8 @@
         console.log("Reset - Visualization")
       }, // END: resetVisualization()
 
-      addBox() {
+      addBox(x, y, z, theColor) {
+        console.log("adding box:", x, y, z, theColor)
         //var myTexture = new THREE.TextureLoader().load( '../json/bark.png' )
         //var r = this.localResultJson.r[this.dataIndex]      // Radius of trunk at base
         //r = r * 7 // Temporary use to negate weird data
@@ -1111,7 +1068,7 @@
         var boxGeo = new THREE.BoxGeometry( 1, 1, 1 )
 
         //var myMaterial = new THREE.MeshLambertMaterial( { map: this.barkTexture } )
-        var boxMat = new THREE.MeshLambertMaterial( { color: 0xFFFF00 } )
+        var boxMat = new THREE.MeshLambertMaterial( { color: theColor } )
         /*var sideMats =
         [
           new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('../json/bark.png'), side: THREE.DoubleSide } ),
@@ -1124,7 +1081,10 @@
 
         //var boxMat = new THREE.MeshFaceMaterial( sideMats )
         this.box = new THREE.Mesh( boxGeo, boxMat )
-        this.ringScene.add( this.box )
+        this.box.position.x = x
+        this.box.position.y = y
+        this.box.position.z = z
+        this.treeScene.add( this.box )
       }, // END: addBox()
 
       addText() {
