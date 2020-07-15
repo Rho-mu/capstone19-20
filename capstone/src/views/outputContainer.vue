@@ -20,7 +20,9 @@
       <input type="range" min="1" v-model="dataIndex" @input="draw()" id="timeStepSlider" class="timeStepSlider"><br><br>
       <div id="treeCanvasport">
         <div id="treeScaleBarMaxHeight" class="UILabel"></div>
-        <div id="treeScaleBarBaseHeight" class="UILabel"></div>
+        <div id="treeScaleBarMaxRootDepth" class="UILabel"></div>
+        <div id="treeLegendZero" class="UILabel"></div>
+
         <div id="ringScaleBarRadiusTop" class="UILabel"></div>
         <div id="ringScaleBarRadiusMid" class="UILabel"></div>
         <div id="ringScaleBarRadiusBot" class="UILabel"></div>
@@ -139,6 +141,7 @@
         maxHeight: 0,
         maxTrunkRadius: 0,
         maxLAI2: 0,
+        maxBr: 0,
         crownShape: "cone",
         ringScale: 10,
         array : [],
@@ -317,6 +320,12 @@
             this.maxLAI2 = this.localResultJson.LAI2[i]
           }
 
+          // Find max root biomass.
+          if( this.maxBr < this.localResultJson.br2[i] )
+          {
+            this.maxBr = this.localResultJson.br2[i]
+          }
+
           // Check for larger trunk radius.
           if( this.maxTrunkRadius < this.localResultJson.r[i] )
           {
@@ -342,8 +351,8 @@
         /// Set up labels for scale ///
         var treeScaleBarMaxHeight = document.getElementById('treeScaleBarMaxHeight')
         treeScaleBarMaxHeight.innerHTML = this.maxHeight.toFixed(2) + " m"
-        var treeScaleBarBaseHeight = document.getElementById('treeScaleBarBaseHeight')
-        treeScaleBarBaseHeight.innerHTML = "0 m"
+        var treeScaleBarMaxRootDepth = document.getElementById('treeScaleBarMaxRootDepth')
+        treeScaleBarMaxRootDepth.innerHTML = "-" + this.maxRootDepth.toFixed(2) + " m"
 
         var ringScaleBarRadiusTop = document.getElementById('ringScaleBarRadiusTop')
         ringScaleBarRadiusTop.innerHTML = this.maxTrunkRadius.toFixed(2) + " m"
@@ -356,8 +365,8 @@
         // Sets position of scale labels
         treeScaleBarMaxHeight.style.left = ((0.73 + 1)/2 * this.canvasWidth) + 'px'
         treeScaleBarMaxHeight.style.top = ((-0.86 + 1)/2 * this.canvasHeight) + 'px'
-        treeScaleBarBaseHeight.style.left = ((0.78 + 1)/2 * this.canvasWidth) + 'px'
-        treeScaleBarBaseHeight.style.top = ((0.81 + 1)/2 * this.canvasHeight) + 'px'
+        treeScaleBarMaxRootDepth.style.left = ((0.72 + 1)/2 * this.canvasWidth) + 'px'
+        treeScaleBarMaxRootDepth.style.top = ((0.81 + 1)/2 * this.canvasHeight) + 'px'
 
         ringScaleBarRadiusTop.style.left = ((0.74 + 1)/2 * this.canvasWidth) + 'px'
         ringScaleBarRadiusTop.style.top = ((-0.93 + 1)/2 * this.canvasHeight) + 'px'
@@ -366,6 +375,11 @@
         ringScaleBarRadiusBot.style.left = ((0.74 + 1)/2 * this.canvasWidth) + 'px'
         ringScaleBarRadiusBot.style.top = ((0.88 + 1)/2 * this.canvasHeight) + 'px'
 
+        /// Set up lables for tree legend ///
+        var treeLegendZeroText = document.getElementById('treeLegendZero')
+        treeLegendZeroText.innerHTML = "0 m"
+        treeLegendZeroText.style.left = ((-0.92 + 1)/2 * this.canvasWidth) + 'px'
+        treeLegendZeroText.style.top = ((-0.86 + 1)/2 * this.canvasHeight) + 'px'
 
         /// Set up labels for ring legend ///
         var ringLegendHWText = document.getElementById('ringLegendHW')
@@ -501,9 +515,7 @@
         var trunkBaseMat = new THREE.MeshLambertMaterial( {color: 0xb5651d} )
         this.trunkBase = new THREE.Mesh( trunkBaseGeo, trunkBaseMat )
         this.trunkBase.position.y = trunkBasePos
-        ///// Trunk /////
-
-
+        ///// END: Trunk /////
 
         ///// Crown /////
         var crownGeo
@@ -532,12 +544,10 @@
         var crownMat = new THREE.MeshLambertMaterial( {color: 0x00FF00} )
         crownMat.transparent = true
         crownMat.opacity = this.localResultJson.LAI2[year]/this.maxLAI2
-        //console.log("crown opacity:", crownMat.opacity)
-
         this.crown = new THREE.Mesh( crownGeo, crownMat )
         this.crown.position.y = crownPos
         //console.log("Crown -", "\nradius:", rcbase, "\nheight:", h-hC,)
-        ///// Crown /////
+        ///// END: Crown /////
 
         ///// Roots /////
         var rootDepth
@@ -545,15 +555,16 @@
 
         // Root depth = sqrt(f1/2)*(H-hc)
         rootDepth = Math.sqrt(this.postBody.f1 / 2) * (h - hC)
-
         // Root width = sqrt(2*f1)*Rcbase
         rootWidth = Math.sqrt(2 * this.postBody.f1) * rcbase
 
         var rootGeo = new THREE.BoxGeometry( rootWidth, rootDepth, 1 )
         var rootMat = new THREE.MeshLambertMaterial( { color: 0x402000 } )
+        rootMat.transparent = true
+        rootMat.opacity = this.localResultJson.br2[year]/this.maxBr
         this.roots = new THREE.Mesh( rootGeo, rootMat )
         this.roots.position.y = -rootDepth/2
-
+        ///// END: Roots /////
 
         // Add trunk, crown, and roots to scene
         this.newScene.add( this.crown )
@@ -563,16 +574,35 @@
         this.newScene.add( this.roots )
 
         // Draw the scale based on the current tree
-        this.drawTreeScale(h, hC, hB)
+        this.drawTreeScale(h, hC, rootDepth)
+        this.drawTreeLegend()
       }, // END: drawTree()
 
-      drawTreeScale(h, hC) {
+      drawTreeLegend() {
+        var leftEdgeOfScreen = -1 * (this.treeCam.position.z * (this.canvasWidth/this.canvasHeight))
+        var x = leftEdgeOfScreen * 0.98
+        var y = this.maxHeight
+
+        var zeroMarkPoints = []
+
+        zeroMarkPoints.push( new THREE.Vector3( x, y, 0 ) )
+        zeroMarkPoints.push( new THREE.Vector3( x+1, y, 0 ) )
+
+        var zeroMarkLineGeo = new THREE.BufferGeometry().setFromPoints( zeroMarkPoints )
+        var zeroMarkLineMat = new THREE.LineBasicMaterial( {color: 0xff0000} )
+        var zeroMarkLegend = new THREE.Line( zeroMarkLineGeo, zeroMarkLineMat )
+
+        this.treeScene.add( zeroMarkLegend )
+      }, // END: drawTreeLegend()
+
+      drawTreeScale(h, hC, rootDepth) {
         var rightEdgeOfScreen = this.treeCam.position.z * (this.canvasWidth/this.canvasHeight)
         var points = []
+        var zeroPoints = []
 
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.maxHeight, 0 ) ) // Max height
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, this.maxHeight, 0 ) ) // Max height
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.maxHeight, 0 ) ) // Max height
+        //points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.maxHeight, 0 ) ) // max height
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, this.maxHeight, 0 ) ) // max height
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.maxHeight, 0 ) ) // max height
 
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, h, 0 ) ) // current height
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, h, 0 ) ) // current height
@@ -582,14 +612,28 @@
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, hC, 0 ) ) // trunk top
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, hC, 0 ) ) // trunk top
 
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, 0, 0 ) ) // trunk base
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, 0, 0 ) ) // trunk base
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, 0, 0 ) ) // trunk base
+        zeroPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, 0, 0 ) ) // trunk base
+        zeroPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, 0, 0 ) ) // trunk base
+        //zeroPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, 0, 0 ) ) // trunk base
+
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -rootDepth, 0 ) ) // current root depth
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, -rootDepth, 0 ) ) // current root depth
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -rootDepth, 0 ) ) // current root depth
+
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.maxRootDepth, 0 ) ) // max root depth
+        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, -this.maxRootDepth, 0 ) ) // max root depth
+        //points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.maxRootDepth, 0 ) ) // max root depth
 
         var lineGeo = new THREE.BufferGeometry().setFromPoints( points )
         var lineMat = new THREE.LineBasicMaterial( {color: 0x008509, linewidth: 30} )
         var scale = new THREE.Line( lineGeo, lineMat )
+
+        var zeroLineGeo = new THREE.BufferGeometry().setFromPoints( zeroPoints )
+        var zeroLineMat = new THREE.LineBasicMaterial( {color: 0xff0000, linewidth: 30} )
+        var zeroScale = new THREE.Line( zeroLineGeo, zeroLineMat )
+
         this.treeScene.add( scale )
+        this.treeScene.add( zeroScale )
       }, // END: drawTreeScale()
 
       drawRings() {
@@ -702,10 +746,11 @@
         curRadPoints.push( new THREE.Vector3( x + squareSize*2, y - squareSize*6, 0 ) )
 
         var initRadLineGeo = new THREE.BufferGeometry().setFromPoints( initRadPoints )
-        var curRadLineGeo = new THREE.BufferGeometry().setFromPoints( curRadPoints )
         var initRadLineMat = new THREE.LineBasicMaterial( {color: 0xff0000} )
-        var CurRadLineMat = new THREE.LineBasicMaterial( {color: 0x0000ff} )
         var initRadScale = new THREE.Line( initRadLineGeo, initRadLineMat )
+
+        var curRadLineGeo = new THREE.BufferGeometry().setFromPoints( curRadPoints )
+        var CurRadLineMat = new THREE.LineBasicMaterial( {color: 0x0000ff} )
         var curRadScale = new THREE.Line( curRadLineGeo, CurRadLineMat )
 
         this.ringScene.add( initRadScale )
@@ -721,7 +766,7 @@
         var initRadBotPoints = []
         var curRadBotPoints = []
 
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.maxTrunkRadius*this.ringScale, 0 ) ) // Top of scale
+        //points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.maxTrunkRadius*this.ringScale, 0 ) ) // Top of scale
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, this.maxTrunkRadius*this.ringScale, 0 ) ) // Top of scale
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.maxTrunkRadius*this.ringScale, 0 ) ) // Top of scale
 
@@ -747,7 +792,7 @@
 
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.maxTrunkRadius*this.ringScale, 0 ) ) // Bottom of scale
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, -this.maxTrunkRadius*this.ringScale, 0 ) ) // Bottom of scale
-        points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.maxTrunkRadius*this.ringScale, 0 ) ) // Bottom of scale
+        //points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.maxTrunkRadius*this.ringScale, 0 ) ) // Bottom of scale
 
         var lineGeo = new THREE.BufferGeometry().setFromPoints( points )
         var curRadTopLineGeo = new THREE.BufferGeometry().setFromPoints( curRadTopPoints )
@@ -803,14 +848,14 @@
           document.getElementById("cylinderButton").style.display = "inline-block" // Show cylinder button
 
           document.getElementById('treeScaleBarMaxHeight').style.display = "inline-block" // Show max height text
-          document.getElementById('treeScaleBarBaseHeight').style.display = "inline-block" // Show base height text
+          document.getElementById('treeScaleBarMaxRootDepth').style.display = "inline-block" // Show base height text
+          document.getElementById('treeLegendZero').style.display = "inline-block" // Show zero legend text
+
           document.getElementById('ringScaleBarRadiusTop').style.display = "none" // Hide top radius text
           document.getElementById('ringScaleBarRadiusMid').style.display = "none" // Hide middle text
           document.getElementById('ringScaleBarRadiusBot').style.display = "none" // Hide bottom radius text
-
           document.getElementById('ringLegendHW').style.display = "none" // Hide heartwood legend text
           document.getElementById('ringLegendSW').style.display = "none" // Hide sapwood legend text
-
           document.getElementById('ringLegendInitR').style.display = "none" // Hide ring initial radius text
           document.getElementById('ringLegendCurR').style.display = "none" // Hide ring current radius text
 
@@ -829,14 +874,14 @@
           document.getElementById("cylinderButton").style.display = "none" // Hide cylinder button
 
           document.getElementById('treeScaleBarMaxHeight').style.display = "none" // Hide max height text
-          document.getElementById('treeScaleBarBaseHeight').style.display = "none" // Hide base height text
+          document.getElementById('treeScaleBarMaxRootDepth').style.display = "none" // Hide base height text
+          document.getElementById('treeLegendZero').style.display = "none" // Hide zero legend text
+
           document.getElementById('ringScaleBarRadiusTop').style.display = "block" // Show top radius text
           document.getElementById('ringScaleBarRadiusMid').style.display = "block" // Show middle text
           document.getElementById('ringScaleBarRadiusBot').style.display = "block" // Show bottom radius text
-
           document.getElementById('ringLegendHW').style.display = "block" // Show heartwood legend text
           document.getElementById('ringLegendSW').style.display = "block" // Show sapwood legend text
-
           document.getElementById('ringLegendInitR').style.display = "block" // Show ring initial radius text
           document.getElementById('ringLegendCurR').style.display = "block" // Show ring current radius text
 
@@ -867,11 +912,16 @@
 
         // Repositions the scale labels
         var treeScaleBarMaxHeight = document.getElementById('treeScaleBarMaxHeight')
-        var treeScaleBarBaseHeight = document.getElementById('treeScaleBarBaseHeight')
+        var treeScaleBarMaxRootDepth = document.getElementById('treeScaleBarMaxRootDepth')
         treeScaleBarMaxHeight.style.left = ((0.73 + 1)/2 * this.canvasWidth) + 'px'
         treeScaleBarMaxHeight.style.top = ((-0.86 + 1)/2 * this.canvasHeight) + 'px'
-        treeScaleBarBaseHeight.style.left = ((0.78 + 1)/2 * this.canvasWidth) + 'px'
-        treeScaleBarBaseHeight.style.top = ((0.81 + 1)/2 * this.canvasHeight) + 'px'
+        treeScaleBarMaxRootDepth.style.left = ((0.72 + 1)/2 * this.canvasWidth) + 'px'
+        treeScaleBarMaxRootDepth.style.top = ((0.81 + 1)/2 * this.canvasHeight) + 'px'
+
+        var treeLegendZeroText = document.getElementById('treeLegendZero')
+        treeLegendZeroText.innerHTML = "0 m"
+        treeLegendZeroText.style.left = ((-0.92 + 1)/2 * this.canvasWidth) + 'px'
+        treeLegendZeroText.style.top = ((-0.86 + 1)/2 * this.canvasHeight) + 'px'
 
         var ringScaleBarRadiusTop = document.getElementById('ringScaleBarRadiusTop')
         var ringScaleBarRadiusMid = document.getElementById('ringScaleBarRadiusMid')
@@ -1039,7 +1089,8 @@
 
         // Hide labels
         document.getElementById("treeScaleBarMaxHeight").style.display = "none"
-        document.getElementById("treeScaleBarBaseHeight").style.display = "none"
+        document.getElementById("treeScaleBarMaxRootDepth").style.display = "none"
+        document.getElementById('treeLegendZero').style.display = "none"
         document.getElementById("ringScaleBarRadiusTop").style.display = "none"
         document.getElementById("ringScaleBarRadiusMid").style.display = "none"
         document.getElementById("ringScaleBarRadiusBot").style.display = "none"
