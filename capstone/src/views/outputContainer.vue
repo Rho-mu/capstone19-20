@@ -134,7 +134,7 @@
       return {
         dataIndex: "1",
         canvasWidth: window.innerWidth*0.75,
-        canvasHeight: window.innerHeight*0.75,
+        canvasHeight: window.innerWidth*0.5,
         currentScene: this.treeScene,
         currentCam: this.treeCam,
         maxRootDepth: 0,
@@ -905,7 +905,7 @@
       onWindowResize() {
         // Adjusts the renderer size when the window is resized.
         this.canvasWidth = window.innerWidth * 0.75
-        this.canvasHeight = window.innerHeight * 0.75
+        this.canvasHeight = window.innerWidth * 0.5
 
         this.currentCam.aspect = this.canvasWidth / this.canvasHeight
         this.currentCam.updateProjectionMatrix()
