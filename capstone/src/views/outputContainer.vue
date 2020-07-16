@@ -11,6 +11,8 @@
       <div class="crownShapeContainer">
         <button @click="setCrownShape('cone')" class="coneButton" id="coneButton">CONE</button>
         <button @click="setCrownShape('cylinder')" class="cylinderButton" id="cylinderButton">CYLINDER</button>
+        <button @click="zoom('in')">Zoom in</button>
+        <button @click="zoom('out')">Zoom out</button>
       </div>
 
       <h4> Move the slider to see the growth of the tree!</h4>
@@ -259,8 +261,8 @@
 
         // Allow canvas to resize with window.
         window.addEventListener( 'resize', this.onWindowResize, false )
-
-
+        // Allow canvas to zoom when users scrolls mouse wheel.
+        //window.addEventListener( 'scroll', this.scrollCamera )
 
         console.log("initializeVisualization - Complete")
       }, // END: initializeVisualization()
@@ -580,13 +582,12 @@
 
       drawTreeLegend() {
         var leftEdgeOfScreen = -1 * (this.treeCam.position.z * (this.canvasWidth/this.canvasHeight))
-        var x = leftEdgeOfScreen * 0.98
         var y = this.maxHeight
 
         var zeroMarkPoints = []
 
-        zeroMarkPoints.push( new THREE.Vector3( x, y, 0 ) )
-        zeroMarkPoints.push( new THREE.Vector3( x+1, y, 0 ) )
+        zeroMarkPoints.push( new THREE.Vector3( leftEdgeOfScreen*0.98, y, 0 ) )
+        zeroMarkPoints.push( new THREE.Vector3( leftEdgeOfScreen*0.93, y, 0 ) )
 
         var zeroMarkLineGeo = new THREE.BufferGeometry().setFromPoints( zeroMarkPoints )
         var zeroMarkLineMat = new THREE.LineBasicMaterial( {color: 0xff0000} )
@@ -1367,6 +1368,26 @@
 
 				this.sprite.position.set( - halfWidth + halfImageWidth, halfHeight - halfImageHeight, 1 );
       },
+
+      zoom(type) {
+        if( type == "in" )
+        {
+          this.currentCam.zoom++
+          this.currentCam.updateProjectionMatrix()
+          console.log("zoom in")
+        }
+        else if( type == "out" )
+        {
+          this.currentCam.zoom--
+          this.currentCam.updateProjectionMatrix()
+          console.log("zoom out")
+        }
+      }, // END: zoom()
+
+      scrollCamera() {
+        this.treeCam.position.z = (this.maxHeight+this.maxRootDepth)*0.6 + window.scrollY/100
+        this.treeCam.updateProjectionMatrix()
+      }, // END: scrollCamera()
     }, // END: methods
 
     mounted() {
@@ -1401,6 +1422,7 @@
     border-radius: 10px;
     float: right;
     position: relative;
+    /*overflow-y: scroll;*/
     background-image: url("../assets/OutputBackground.png");
   }
 
