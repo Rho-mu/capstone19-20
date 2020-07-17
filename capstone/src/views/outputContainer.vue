@@ -241,16 +241,6 @@
         this.currentScene = this.treeScene
         this.currentCam = this.treeCam
 
-        // Attempt at making a ground plane.
-        // PlaneGeometry(width : Float, height : Float, widthSegments : Integer, heightSegments : Integer)
-        /*var groundGEO = new THREE.PlaneGeometry(3, 3, 1)
-        var groundMat = new THREE.MeshBasicMaterial( {color: 0x00FF00} )
-        var ground = new THREE.Mesh( groundGEO, groundMat )
-        this.currentScene.add(ground)
-        ground.position.z = 2
-        ground.rotation.x = 89
-        ground.rotation.y = 0*/
-
         // Show the tree view as default and hide the raw data view.
         document.getElementById("treeCanvasport").style.display = "block"
         document.getElementById("rawDataList").style.display = "none"
@@ -457,8 +447,6 @@
         // var h = this.treeData[year].h     // Output. Delcared above
         const BH = 1.37                      // Breast height. Contsant 1.37 meters
 
-        //if( h > 0 )
-        //{
         // if h > BH --> rcmax = r0 + ((r40 - r0) * (2 * rBH * 100) / 40)
         // if h < BH --> rcmax = (r0 * r) / ((hmax / phih) * ln(hmax/(hmax - BH)))
         var rcmax // Maximum potential radius at a crown ratio of m
@@ -649,8 +637,6 @@
 
         var heartwoodRadius = this.localResultJson.r[this.dataIndex] - this.localResultJson.sw2[this.dataIndex] // Gets the heart wood radius at the current year on the slider
         //console.log("sw:", this.localResultJson.sw2[this.dataIndex], "\nr:", this.localResultJson.r[this.dataIndex], "\nhw:", heartwoodRadius)
-
-
 
         for( var i = 1; i <= this.dataIndex; i++ )
         {
@@ -1113,8 +1099,6 @@
       addBox(x, y, z, theColor) {
         console.log("adding box:", x, y, z, theColor)
         //var myTexture = new THREE.TextureLoader().load( '../json/bark.png' )
-        //var r = this.localResultJson.r[this.dataIndex]      // Radius of trunk at base
-        //r = r * 7 // Temporary use to negate weird data
 
         var boxGeo = new THREE.BoxGeometry( 1, 1, 1 )
 
@@ -1348,7 +1332,6 @@
 				this.texture.minFilter = THREE.NearestFilter
 				this.texture.magFilter = THREE.NearestFilter
 
-				//
 
 				var spriteMaterial = new THREE.SpriteMaterial( { map: this.texture } )
 				this.sprite = new THREE.Sprite( spriteMaterial )
@@ -1394,7 +1377,7 @@
       this.setTempDefaultlocalResultJson()
       this.checkForStartDraw()
       this.checkForReset()
-    },
+    }, // END: mounted
 
     updated() {
       while(this.loopFlag == 0)
@@ -1407,7 +1390,7 @@
           this.animate()
         }
       }
-    } // END: mounted
+    } // END: updated
   } // END: export default
 </script>
 
