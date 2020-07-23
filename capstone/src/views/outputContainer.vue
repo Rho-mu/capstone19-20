@@ -425,147 +425,183 @@
 
         this.addLight()
 
-        /// Trunk variables
-        var h = this.localResultJson.h[year]      // Total tree height
-        var hB = this.localResultJson.hB2[year]   // Height that trunk transitions from neiloid to paraboloid (base to trunk)
-        hB = this.postBody.etaB * h
-        var hC = this.localResultJson.hC2[year]   // Height that trunk transitions from paraboloid to cone (trunk to crown)
-        hC = this.postBody.eta * h
-        var r = this.localResultJson.r[year]      // Radius of trunk at base
-        var rB = this.localResultJson.rB2[year]   // Radius of trunk when transitioning from neilooid to paraboloid (base to trunk)
-        var rC = this.localResultJson.rC2[year]   // Radius of trunk when transitioning from parapoloid to cone (trunk to crown)
+        var status = this.localResultJson.status2[year]
+        //console.log("status", status)
 
-        /// Crown variables (overlaid on "cone" part of trunk)
-        var hmax = this.postBody.hmax        // Input.
-        var phih = this.postBody.phih        // Input.
-        var eta = this.postBody.eta          // Input.
-        var m = this.postBody.m              // Input.
-        var alpha = this.postBody.alpha      // Input.
-        var r0 = this.postBody.r0            // Input.
-        var r40 = this.postBody.r40          // Input.
-        var rBH = this.localResultJson.rBH[year]  // Output.
-        // var h = this.treeData[year].h     // Output. Delcared above
-        const BH = 1.37                      // Breast height. Contsant 1.37 meters
-
-        // if h > BH --> rcmax = r0 + ((r40 - r0) * (2 * rBH * 100) / 40)
-        // if h < BH --> rcmax = (r0 * r) / ((hmax / phih) * ln(hmax/(hmax - BH)))
-        var rcmax // Maximum potential radius at a crown ratio of m
-        if( h > BH )
+        if( status != 1 ) // 1 is alive, so don't draw the current tree if status isn't 1.
         {
-          rcmax = r0 + ((r40 - r0) * (2 * rBH * 100) / 40)
-        }
-        else if( h < BH )
+          // Go through previous years until a live tree is found.
+          tempIndex = 1 // Start with 1 year previous.
+          tempStatus = this.localResultJson.status2[year-tempIndex] // Get status of 1 year previous.
+          liveTreeFound = true // Stays true if the while loop stops, meaning a live tree was found.
+          console.log("Tree", year-tempIndex, "is dead")
+
+          while( tempStatus != 1 )  // Keep checking status until a live tree is found.
+          {
+            if( year-tempIndex == 0 ) // If the first tree has been checked and is still dead, then there are no previous live trees.
+            {
+              liveTreeFound = false
+              break
+            }
+
+            tempIndex++ // Go one year further back.
+            tempStatus = this.localResultJson.status2[year-tempIndex] // Get status of tree.
+            console.log("Tree", year-tempIndex, "is dead")
+          }
+
+          /*console.log("Tree", year-tempIndex, "is alive or 1")
+          // The while-loop breaks when a live tree is found or it goes through every previous year and they're all dead.
+          if( this.localResultJson.status2[year-tempIndex] != 1 ) // If no live tree was found in the previous years.
+          {
+            console.log("No live tree found")
+          }*/
+          // The index of the live tree is year-tempIndex.
+
+        } // END: if status is not 1
+        else if( status == 1 ) // Draw the tree if it is alive.
         {
-          rcmax = (r0 * r) / ((hmax / phih) * Math.log(hmax/(hmax - BH)))
-        }
-        //console.log("rcmax",rcmax)
+          /// Trunk variables
+          var h = this.localResultJson.h[year]      // Total tree height
+          var hB = this.localResultJson.hB2[year]   // Height that trunk transitions from neiloid to paraboloid (base to trunk)
+          hB = this.postBody.etaB * h
+          var hC = this.localResultJson.hC2[year]   // Height that trunk transitions from paraboloid to cone (trunk to crown)
+          hC = this.postBody.eta * h
+          var r = this.localResultJson.r[year]      // Radius of trunk at base
+          var rB = this.localResultJson.rB2[year]   // Radius of trunk when transitioning from neilooid to paraboloid (base to trunk)
+          var rC = this.localResultJson.rC2[year]   // Radius of trunk when transitioning from parapoloid to cone (trunk to crown)
 
-        var eta = this.postBody.eta     // Input.
-        var alpha = this.postBody.alpha // Input. Curvature of the crown.
+          /// Crown variables (overlaid on "cone" part of trunk)
+          var hmax = this.postBody.hmax        // Input.
+          var phih = this.postBody.phih        // Input.
+          var eta = this.postBody.eta          // Input.
+          var m = this.postBody.m              // Input.
+          var alpha = this.postBody.alpha      // Input.
+          var r0 = this.postBody.r0            // Input.
+          var r40 = this.postBody.r40          // Input.
+          var rBH = this.localResultJson.rBH[year]  // Output.
+          // var h = this.treeData[year].h     // Output. Delcared above
+          const BH = 1.37                      // Breast height. Contsant 1.37 meters
 
-        // if m > (1 - eta) --> rcbase = rcmax * ((1 - eta) / m)^alpha
-        // otherwise --> rcbase = 1 - eta
-        var rcbase // Radius at the base of the crown.
-        if( m > (1 - eta))
-        {
-          rcbase = rcmax * Math.pow(((1 - eta) / m), alpha)
-        }
-        else
-        {
-          rcbase = rcmax
-        }
+          // if h > BH --> rcmax = r0 + ((r40 - r0) * (2 * rBH * 100) / 40)
+          // if h < BH --> rcmax = (r0 * r) / ((hmax / phih) * ln(hmax/(hmax - BH)))
+          var rcmax // Maximum potential radius at a crown ratio of m
+          if( h > BH )
+          {
+            rcmax = r0 + ((r40 - r0) * (2 * rBH * 100) / 40)
+          }
+          else if( h < BH )
+          {
+            rcmax = (r0 * r) / ((hmax / phih) * Math.log(hmax/(hmax - BH)))
+          }
+          //console.log("rcmax",rcmax)
 
-        //console.log("year:",year,"\nLAI2:",this.localResultJson.LAI2[year],"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,"\nrBH:",rBH,"\nrcmax:",rcmax,"\nrcbase:",rcbase)
+          var eta = this.postBody.eta     // Input.
+          var alpha = this.postBody.alpha // Input. Curvature of the crown.
 
-        // Supplemental parameters
-        var geoSegments = 20              // Segments of geometry
-        var crownPos = hC + (h-hC)/2      // Moves the crown so that it's bottom plane is at the top of the middle segment.
-        var trunkBasePos = hB/2           // Moves the trunk's base segment so that it's bottom plane is at (0,0).
-        var trunkMidPos = hB + (hC-hB)/2  // Moves the trunk's middle segment so that it's bottom plane is at the top of the base segment.
-        var trunkTopPos = hC + (h-hC)/2   // Moves the trunk's top segment so that it's bottom plane is at the top of the middle segment.
+          // if m > (1 - eta) --> rcbase = rcmax * ((1 - eta) / m)^alpha
+          // otherwise --> rcbase = 1 - eta
+          var rcbase // Radius at the base of the crown.
+          if( m > (1 - eta))
+          {
+            rcbase = rcmax * Math.pow(((1 - eta) / m), alpha)
+          }
+          else
+          {
+            rcbase = rcmax
+          }
 
-        ///// Trunk /////
-        // Trunk Top
-        // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
-        var trunkTopGeo = new THREE.ConeGeometry( rC, h-hC, geoSegments )
-        var trunkTopMat = new THREE.MeshLambertMaterial( {color: 0xb5651d} )
-        this.trunkTop = new THREE.Mesh( trunkTopGeo, trunkTopMat )
-        this.trunkTop.position.y = trunkTopPos
+          //console.log("year:",year,"\nLAI2:",this.localResultJson.LAI2[year],"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,"\nrBH:",rBH,"\nrcmax:",rcmax,"\nrcbase:",rcbase)
 
-        // Trunk Middle
-        // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
-        var trunkMidGeo = new THREE.CylinderGeometry( rC, rB, hC-hB, geoSegments )
-        var trunkMidMat = new THREE.MeshLambertMaterial( {color: 0xb5651d} )
-        this.trunkMid = new THREE.Mesh( trunkMidGeo, trunkMidMat )
-        this.trunkMid.position.y = trunkMidPos
+          // Supplemental parameters
+          var geoSegments = 20              // Segments of geometry
+          var crownPos = hC + (h-hC)/2      // Moves the crown so that it's bottom plane is at the top of the middle segment.
+          var trunkBasePos = hB/2           // Moves the trunk's base segment so that it's bottom plane is at (0,0).
+          var trunkMidPos = hB + (hC-hB)/2  // Moves the trunk's middle segment so that it's bottom plane is at the top of the base segment.
+          var trunkTopPos = hC + (h-hC)/2   // Moves the trunk's top segment so that it's bottom plane is at the top of the middle segment.
 
-        // Trunk Base
-        // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
-        var trunkBaseGeo = new THREE.CylinderGeometry( rB, r, hB, geoSegments )
-        var trunkBaseMat = new THREE.MeshLambertMaterial( {color: 0xb5651d} )
-        this.trunkBase = new THREE.Mesh( trunkBaseGeo, trunkBaseMat )
-        this.trunkBase.position.y = trunkBasePos
-        ///// END: Trunk /////
-
-        ///// Crown /////
-        var crownGeo
-        if( this.crownShape == "cone" )
-        {
+          ///// Trunk /////
+          // Trunk Top
           // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
-          crownGeo = new THREE.ConeGeometry( rcbase, h-hC, geoSegments )
-        }
-        else if( this.crownShape == "sphere") // Currently looks weird. Needs tuning.
-        {
-          // SphereGeometry(radius : Float, widthSegments : Integer, heightSegments : Integer)
-          crownGeo = new THREE.SphereGeometry( rcbase, geoSegments*1.5, geoSegments*1.5 )
-        }
-        else if( this.crownShape == "cylinder" )
-        {
+          var trunkTopGeo = new THREE.ConeGeometry( rC, h-hC, geoSegments )
+          var trunkTopMat = new THREE.MeshLambertMaterial( {color: 0xb5651d} )
+          this.trunkTop = new THREE.Mesh( trunkTopGeo, trunkTopMat )
+          this.trunkTop.position.y = trunkTopPos
+
+          // Trunk Middle
           // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
-          crownGeo = new THREE.CylinderGeometry( rcbase, rcbase, h-hC, geoSegments );
-        }
-        else // Default to cone shaped crown
-        {
-          // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
-          crownGeo = new THREE.ConeGeometry( rcbase, h-hC, geoSegments )
-        }
-        //console.log("crownShape:", this.crownShape)
+          var trunkMidGeo = new THREE.CylinderGeometry( rC, rB, hC-hB, geoSegments )
+          var trunkMidMat = new THREE.MeshLambertMaterial( {color: 0xb5651d} )
+          this.trunkMid = new THREE.Mesh( trunkMidGeo, trunkMidMat )
+          this.trunkMid.position.y = trunkMidPos
 
-        var crownMat = new THREE.MeshLambertMaterial( {color: 0x00FF00} )
-        crownMat.transparent = true
-        crownMat.opacity = this.localResultJson.LAI2[year]/this.maxLAI2
-        this.crown = new THREE.Mesh( crownGeo, crownMat )
-        this.crown.position.y = crownPos
-        //console.log("Crown -", "\nradius:", rcbase, "\nheight:", h-hC,)
-        ///// END: Crown /////
+          // Trunk Base
+          // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
+          var trunkBaseGeo = new THREE.CylinderGeometry( rB, r, hB, geoSegments )
+          var trunkBaseMat = new THREE.MeshLambertMaterial( {color: 0xb5651d} )
+          this.trunkBase = new THREE.Mesh( trunkBaseGeo, trunkBaseMat )
+          this.trunkBase.position.y = trunkBasePos
+          ///// END: Trunk /////
 
-        ///// Roots /////
-        var rootDepth
-        var rootWidth
+          ///// Crown /////
+          var crownGeo
+          if( this.crownShape == "cone" )
+          {
+            // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
+            crownGeo = new THREE.ConeGeometry( rcbase, h-hC, geoSegments )
+          }
+          else if( this.crownShape == "sphere") // Currently looks weird. Needs tuning.
+          {
+            // SphereGeometry(radius : Float, widthSegments : Integer, heightSegments : Integer)
+            crownGeo = new THREE.SphereGeometry( rcbase, geoSegments*1.5, geoSegments*1.5 )
+          }
+          else if( this.crownShape == "cylinder" )
+          {
+            // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
+            crownGeo = new THREE.CylinderGeometry( rcbase, rcbase, h-hC, geoSegments );
+          }
+          else // Default to cone shaped crown
+          {
+            // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
+            crownGeo = new THREE.ConeGeometry( rcbase, h-hC, geoSegments )
+          }
+          //console.log("crownShape:", this.crownShape)
 
-        // Root depth = sqrt(f1/2)*(H-hc)
-        rootDepth = Math.sqrt(this.postBody.f1 / 2) * (h - hC)
-        // Root width = sqrt(2*f1)*Rcbase
-        rootWidth = Math.sqrt(2 * this.postBody.f1) * rcbase
+          var crownMat = new THREE.MeshLambertMaterial( {color: 0x00FF00} )
+          crownMat.transparent = true
+          crownMat.opacity = this.localResultJson.LAI2[year]/this.maxLAI2
+          this.crown = new THREE.Mesh( crownGeo, crownMat )
+          this.crown.position.y = crownPos
+          //console.log("Crown -", "\nradius:", rcbase, "\nheight:", h-hC,)
+          ///// END: Crown /////
 
-        var rootGeo = new THREE.BoxGeometry( rootWidth, rootDepth, 1 )
-        var rootMat = new THREE.MeshLambertMaterial( { color: 0x402000 } )
-        rootMat.transparent = true
-        rootMat.opacity = this.localResultJson.br2[year]/this.maxBr
-        this.roots = new THREE.Mesh( rootGeo, rootMat )
-        this.roots.position.y = -rootDepth/2
-        ///// END: Roots /////
+          ///// Roots /////
+          var rootDepth
+          var rootWidth
 
-        // Add trunk, crown, and roots to scene
-        this.newScene.add( this.crown )
-        this.newScene.add( this.trunkTop )
-        this.newScene.add( this.trunkMid )
-        this.newScene.add( this.trunkBase )
-        this.newScene.add( this.roots )
+          // Root depth = sqrt(f1/2)*(H-hc)
+          rootDepth = Math.sqrt(this.postBody.f1 / 2) * (h - hC)
+          // Root width = sqrt(2*f1)*Rcbase
+          rootWidth = Math.sqrt(2 * this.postBody.f1) * rcbase
 
-        // Draw the scale based on the current tree
-        this.drawTreeScale(h, hC, rootDepth)
-        this.drawTreeLegend()
+          var rootGeo = new THREE.BoxGeometry( rootWidth, rootDepth, 1 )
+          var rootMat = new THREE.MeshLambertMaterial( { color: 0x402000 } )
+          rootMat.transparent = true
+          rootMat.opacity = this.localResultJson.br2[year]/this.maxBr
+          this.roots = new THREE.Mesh( rootGeo, rootMat )
+          this.roots.position.y = -rootDepth/2
+          ///// END: Roots /////
+
+          // Add trunk, crown, and roots to scene
+          this.newScene.add( this.crown )
+          this.newScene.add( this.trunkTop )
+          this.newScene.add( this.trunkMid )
+          this.newScene.add( this.trunkBase )
+          this.newScene.add( this.roots )
+
+          // Draw the scale based on the current tree
+          this.drawTreeScale(h, hC, rootDepth)
+          this.drawTreeLegend()
+        } // END: if status is 1
       }, // END: drawTree()
 
       drawTreeLegend() {
