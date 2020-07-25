@@ -517,7 +517,6 @@
         errorMessage: "",
         runID: '',
         getJson: [],
-        loadingFlag: 0,
         resetFlag: 0,
         resultJson: {
             "APARout":' ',
@@ -715,9 +714,7 @@
 
       postData() {
         this.resetFlag = 1
-        this.loadingFlag = 0
         this.$emit('postResetFlagToParent', this.resetFlag)
-        this.$emit('postFlagToParent', this.loadingFlag)
         console.log("Posting inputs..")
         axios.post('https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user', {
           headers: {
@@ -745,7 +742,6 @@
           }
         })
         .then((response) => {
-          this.loadingFlag = 1
           this.resetFlag = 0;
 
           //console.log("runID:", this.runID)
@@ -800,7 +796,6 @@
           //this.afterGet() // Sets up some stuff for the visualization now that the output data has been retrieved.
           this.$emit('resultJsonToParent', this.resultJson) // Sends the result json to acgca.vue to be used in outputContainer.
           this.$emit('postBodyToParent', this.postBody) // Sends the postBody to acgca.vue to be used in outputContainer.
-          this.$emit('postFlagToParent', this.loadingFlag)
           this.$emit('startDrawToParent', true)
           this.$emit('postResetFlagToParent', this.resetFlag)
 
@@ -834,7 +829,6 @@
     border: none;
     border-radius: 10px;
     width:17.5%;
-
     background-position: bottom;
     background-repeat: no-repeat;
     background-color: #9e9a9a;
@@ -931,8 +925,8 @@
 
   /* Tooltip container */
   .tooltip {
+    vertical-align: middle;
     position: relative;
-    display: inline-block;
     text-align: center;
     background-color: #44c767;
     border-radius: 50%;
@@ -940,7 +934,7 @@
     height: 24px;
     font-size: 14px;
     line-height: 26px;
-    cursor: default;
+    bottom: 3px;
   }
 
   .tooltip:before {
@@ -1002,6 +996,7 @@
     display: inline-block;
     content: "\2796";
   }
+
 
   label {
     font-size: 15px;
