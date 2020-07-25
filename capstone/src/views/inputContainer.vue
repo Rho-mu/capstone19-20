@@ -606,10 +606,6 @@
         this.postBody.r0=''
         this.postBody.r40=''
         this.postBody.radius=''
-        this.resetFlag = 1
-        this.loadingFlag = 0
-        this.$emit('postResetFlagToParent', this.resetFlag)
-        this.$emit('postFlagToParent', this.loadingFlag)
       },
 
       initializeWebpage() {
@@ -657,8 +653,6 @@
           this.postBody.gammac=131000
           this.postBody.gammaw=6.67e-7
           this.postBody.gammax=0.12
-
-
           this.postBody.cgl=1.45;
           this.postBody.cgr=1.25
           this.postBody.cgw=1.37
@@ -720,6 +714,10 @@
       }, // END: set_default()
 
       postData() {
+        this.resetFlag = 1
+        this.loadingFlag = 0
+        this.$emit('postResetFlagToParent', this.resetFlag)
+        this.$emit('postFlagToParent', this.loadingFlag)
         console.log("Posting inputs..")
         axios.post('https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user', {
           headers: {
