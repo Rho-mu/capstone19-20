@@ -153,14 +153,14 @@
         <div class="panel">
           <br>
           <label> Hmax:</label><br>
-          <input id="hmax" type="number" :disabled="postBody.r0==''" v-model="postBody.hmax" step="any" placeholder="R0 < Hmax < 127" min="postBody.r0" max="127" required>
+          <input id="hmax" type="number" v-model="postBody.hmax" step="any" placeholder="0 < Hmax < 127" min="postBody.r0" max="127" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Maximum tree height<br>
               <hr width="80%">
               <b>Unit: </b>m
               <hr width="80%">
-              <b>Constraint: </b>(R0,127)
+              <b>Constraint: </b>(0,127)
             </span>
           </div><br>
 
