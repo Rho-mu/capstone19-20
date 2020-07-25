@@ -851,6 +851,11 @@
     text-align: left;
   }
 
+  .slidecontainer .tooltip {
+    bottom: 0px;
+    right: 15px;
+  }
+
   .slidecontainer input{
     width: 75%;
   }
