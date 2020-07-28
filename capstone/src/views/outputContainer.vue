@@ -461,7 +461,7 @@
         } // END: if status is not 1
         else if( status == 1 ) // Draw the tree if it is alive.
         {
-          console.log("Tree", year, "is alive!")
+          //console.log("Tree", year, "is alive!")
           this.drawTree( year )
         } // END: if status is 1
       }, // END: getTree()
@@ -691,6 +691,12 @@
 
         for( var i = 1; i <= this.dataIndex; i++ )
         {
+          if( this.localResultJson.r[i] - this.localResultJson.r[i-1] < 0.0001 )
+          {
+            console.log("ring too small")
+            break // Stop drawing rings if they get too small to see.
+          }
+
           // color
           var ringColor = new THREE.Color()
           if( this.localResultJson.r[i] < heartwoodRadius ) // If the current ring is part of the heart wood..
