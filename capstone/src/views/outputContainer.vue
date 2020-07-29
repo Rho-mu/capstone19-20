@@ -21,6 +21,8 @@
 
       <input type="range" min="1" v-model="dataIndex" @input="draw()" id="timeStepSlider" class="timeStepSlider"><br><br>
       <div id="treeCanvasport">
+        <div id="treeStatus" class="UILabel"></div>
+
         <div id="treeScaleBarMaxHeight" class="UILabel"></div>
         <div id="treeScaleBarMaxRootDepth" class="UILabel"></div>
         <div id="treeLegendZero" class="UILabel"></div>
@@ -394,9 +396,27 @@
         ringLegendCurRText.style.left = ((-0.92 + 1)/2 * this.canvasWidth) + 'px'
         ringLegendCurRText.style.top = ((-0.72 + 1)/2 * this.canvasHeight) + 'px'
 
+        /// Set up lables for tree status ///
+        var treeStatusText = document.getElementById('treeStatus')
+        treeStatusText.innerHTML = this.localResultJson.status2[this.dataIndex]
+        treeStatusText.style.left = ((-0.92 + 1)/2 * this.canvasWidth) + 'px'
+        treeStatusText.style.top = ((0.81 + 1)/2 * this.canvasHeight) + 'px'
       }, // END: setUpLabels()
 
       draw() {
+        var status = this.localResultJson.status2[this.dataIndex]
+        
+        // Update status label.
+        if( status == 1 )
+        {
+          document.getElementById('treeStatus').innerHTML = "Status: Alive"
+        }
+        else if( status == 0 )
+        {
+          document.getElementById('treeStatus').innerHTML = "Status: Dead"
+        }
+
+        // Draw based on scene.
         if(this.currentScene == this.treeScene)
         {
           if( this.localResultJson.h[1] != undefined) // Prevents drawing when there is no data yet.
@@ -891,6 +911,8 @@
           //document.getElementById("sphereButton").style.display = "inline-block" // Show sphere button
           document.getElementById("cylinderButton").style.display = "inline-block" // Show cylinder button
 
+          document.getElementById('treeStatus').style.display = "inline-block"
+
           document.getElementById('treeScaleBarMaxHeight').style.display = "inline-block" // Show max height text
           document.getElementById('treeScaleBarMaxRootDepth').style.display = "inline-block" // Show base height text
           document.getElementById('treeLegendZero').style.display = "inline-block" // Show zero legend text
@@ -916,6 +938,8 @@
           document.getElementById("coneButton").style.display = "none" // Hide cone button
           //document.getElementById("sphereButton").style.display = "none" // Hide sphere button
           document.getElementById("cylinderButton").style.display = "none" // Hide cylinder button
+
+          document.getElementById('treeStatus').style.display = "inline-block"
 
           document.getElementById('treeScaleBarMaxHeight').style.display = "none" // Hide max height text
           document.getElementById('treeScaleBarMaxRootDepth').style.display = "none" // Hide base height text
@@ -954,7 +978,11 @@
         this.currentCam.aspect = this.canvasWidth / this.canvasHeight
         this.currentCam.updateProjectionMatrix()
 
-        // Repositions the scale labels
+        // Reposition labels
+        var treeStatusText = document.getElementById('treeStatus')
+        treeStatusText.style.left = ((-0.92 + 1)/2 * this.canvasWidth) + 'px'
+        treeStatusText.style.top = ((0.81 + 1)/2 * this.canvasHeight) + 'px'
+
         var treeScaleBarMaxHeight = document.getElementById('treeScaleBarMaxHeight')
         var treeScaleBarMaxRootDepth = document.getElementById('treeScaleBarMaxRootDepth')
         treeScaleBarMaxHeight.style.left = ((0.73 + 1)/2 * this.canvasWidth) + 'px'
@@ -1006,6 +1034,7 @@
 
       update() {
         // THREE.js function used to move objects in the scene.
+
         //this.trunk.rotation.y += 0.01
         //this.crown.rotation.y += 0.01
         /*this.hudBitmap.clearRect(0, 0, this.canvasWidth, this.canvasHeight)
@@ -1116,6 +1145,7 @@
         this.maxHeight = 0
         this.maxTrunkRadius = 0
         this.maxLAI2 = 0
+        this.br2 = 0
 
         // Set result json to be all empty.
         this.setTempDefaultlocalResultJson()
@@ -1141,6 +1171,7 @@
         document.getElementById("ringLegendSW").style.display = "none"
         document.getElementById('ringLegendInitR').style.display = "none"
         document.getElementById('ringLegendCurR').style.display = "none"
+        document.getElementById('treeStatus').style.display = "none"
 
         // Set startDraw to false and re-call it to check when getData is done again.
         this.startDraw = false
