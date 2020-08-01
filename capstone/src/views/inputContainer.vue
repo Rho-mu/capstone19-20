@@ -15,19 +15,19 @@
       <button type="button" class="accordion">Allometries and biomass partitioning</button>
         <div class="panel">
           <br>
-          <label> phih:</label><br>
-          <input type="number" v-model="postBody.phih" step="any" placeholder="0 < phih" min="0" required>
+          <label> &#x3c6h:</label><br>
+          <input type="number" v-model="postBody.phih" step="any" placeholder="0 < phih < 300" min="0" max="300" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Slope at H versus r curve at r = 0<br>
               <hr width="80%">
               <b>Unit: </b>none
               <hr width="80%">
-              <b>Constraint: </b>(0,&#8734)
+              <b>Constraint: </b>(0, 300)
             </span>
           </div><br>
 
-          <label> eta:</label><br>
+          <label> &#x3b7:</label><br>
           <input id="eta" type="number" v-model="postBody.eta" step="any" placeholder="0 < eta < 1" min="0" max="1" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -35,11 +35,11 @@
               <hr width="80%">
               <b>Unit: </b>none
               <hr width="80%">
-              <b>Constraint: </b>(0,1)
+              <b>Constraint: </b>(0, 1)
             </span>
           </div><br>
 
-          <label> lamda:</label><br>
+          <label> &#955:</label><br>
           <input type="number" v-model="postBody.lamda" step="any" placeholder="0 < lamda < 1" min="0" max="1" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -47,36 +47,36 @@
               <hr width="80%">
               <b>Unit: </b>none
               <hr width="80%">
-              <b>Constraint: </b>(0,1)
+              <b>Constraint: </b>(0, 1)
             </span>
           </div><br>
 
           <label> f2:</label><br>
-          <input type="number" v-model="postBody.f2" step="any" placeholder="0 < f2" min="0" required>
-          <div class="tooltip">
-            <span class="tooltiptext">
-              <b>Description: </b>Fine root area to leaf area ratio (RA:LA)<br>
-              <hr width="80%">
-              <b>Unit: </b>none
-              <hr width="80%">
-              <b>Constraint: </b>(0,&#8734)
-            </span>
-          </div><br>
-
-          <label> f1:</label><br>
-          <input type="number" v-model="postBody.f1" step="any" placeholder="0 < f1" min="0" required>
+          <input type="number" v-model="postBody.f2" step="any" placeholder="0 < f2 < 8000" min="0" max="8000" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Leaf area to xylem confucting area ratio (LA:XA)<br>
               <hr width="80%">
               <b>Unit: </b>none
               <hr width="80%">
-              <b>Constraint: </b>(0,&#8734)
+              <b>Constraint: </b>(0, 8000)
+            </span>
+          </div><br>
+
+          <label> f1:</label><br>
+          <input type="number" v-model="postBody.f1" step="any" placeholder="0 < f1 < 25" min="0" max="25" required>
+          <div class="tooltip">
+            <span class="tooltiptext">
+              <b>Description: </b>Fine root area to leaf area ratio (RA:LA)<br>
+              <hr width="80%">
+              <b>Unit: </b>none
+              <hr width="80%">
+              <b>Constraint: </b>(0, 25)
             </span>
           </div><br>
 
 
-          <label> gammaX:</label><br>
+          <label> &#x3b3X:</label><br>
           <input type="number" v-model="postBody.gammax" step="any" placeholder="0 < gammaX < 1" min="0" max="1" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -84,23 +84,23 @@
               <hr width="80%">
               <b>Unit: </b>none
               <hr width="80%">
-              <b>Constraint: </b>(0,1)
+              <b>Constraint: </b>(0, 1)
             </span>
           </div><br>
 
-          <label> etaB:</label><br>
-          <input id="etaB" type="number" :disabled="postBody.eta==''" v-model="postBody.etaB" step="any" placeholder="0 < etaB < eta" min="0" required>
+          <label> &#951B:</label><br>
+          <input id="etaB" type="number" :disabled="postBody.eta==''" v-model="postBody.etaB" step="any" placeholder="0 < etaB < eta" min="0" max="postBody.eta" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Relative height at which trunk transitions from a neiloid to a paraboloid<br>
               <hr width="80%">
               <b>Unit: </b>none
               <hr width="80%">
-              <b>Constraint: </b>(0,eta)
+              <b>Constraint: </b>(0, eta)
             </span>
           </div><br>
 
-          <label> M:</label><br>
+          <label> m:</label><br>
           <input type="number" v-model="postBody.m" step="any" placeholder="0 < m < 1" min="0" max="1" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -108,43 +108,43 @@
               <hr width="80%">
               <b>Unit: </b>none
               <hr width="80%">
-              <b>Constraint: </b>(0,1)
+              <b>Constraint: </b>(0, 1)
             </span>
           </div><br>
 
           <label> R0:</label><br>
-          <input id="R0" type="number" v-model="postBody.r0" step="any" placeholder="0 < R0" min="0" required>
+          <input id="R0" type="number" v-model="postBody.r0" step="any" placeholder="0 < R0 < 3" min="0" max="3" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Maximum potential crown radius of a tree with diameter at breast height of 0 cm (i.e., for a tree that is exactly 1.37 m tall)<br>
               <hr width="80%">
-              <b>Unit: </b>none
+              <b>Unit: </b>m
               <hr width="80%">
-              <b>Constraint: </b>(0,&#8734)
+              <b>Constraint: </b>(0, 3)
             </span>
           </div><br>
 
           <label> R40:</label><br>
-          <input id="R40" type="number" :disabled="postBody.r0==''" v-model="postBody.r40" step="any" placeholder="R0 < R40" min="postBody.r0" required>
+          <input id="R40" type="number" :disabled="postBody.r0==''" v-model="postBody.r40" step="any" placeholder="R0 < R40 < 15" min="postBody.r0" max="15" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Maximum potential crown radius of a tree with diameter at breast height of 40 cm<br>
               <hr width="80%">
               <b>Unit: </b>none
               <hr width="80%">
-              <b>Constraint: </b>(R0,&#8734)
+              <b>Constraint: </b>(R0, 15)
             </span>
           </div><br>
 
-          <label> alpha:</label><br>
-          <input type="number" v-model="postBody.alpha" step="any" placeholder="0 < alpha" min="0" required>
+          <label> &#x3b1:</label><br>
+          <input type="number" v-model="postBody.alpha" step="any" placeholder="0 < alpha < 1" min="0" max="1" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Crown curvature parameter<br>
               <hr width="80%">
               <b>Unit: </b>none
               <hr width="80%">
-              <b>Constraint: </b>(0,&#8734)
+              <b>Constraint: </b>(0, 1)
             </span>
           </div><br><br>
         </div>
@@ -165,26 +165,26 @@
           </div><br>
 
           <label> SWmax:</label><br>
-          <input type="number" v-model="postBody.swmax" step="any" placeholder="0 < SWmax" min="0" required>
+          <input type="number" v-model="postBody.swmax" step="any" placeholder="0 < SWmax < 0.2" min="0" max="0.2" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Maximum sapwood width<br>
               <hr width="80%">
               <b>Unit: </b>m
               <hr width="80%">
-              <b>Constraint: </b>(0,&#8734)
+              <b>Constraint: </b>(0, 0.2)
             </span>
           </div><br>
 
           <label> rr:</label><br>
-          <input type="number" v-model="postBody.rr" step="any" placeholder="0 < rr" min="0" required>
+          <input type="number" v-model="postBody.rr" step="any" placeholder="0 < rr < 0.0008" min="0" max="0.0008" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Average fine root radius<br>
               <hr width="80%">
               <b>Unit: </b>m
               <hr width="80%">
-              <b>Constraint: </b>(0,&#8734)
+              <b>Constraint: </b>(0, 0.0008)
             </span>
           </div><br><br>
 
@@ -194,7 +194,7 @@
       <button type="button" class="accordion">Structural traits</button>
         <div class="panel">
           <br>
-          <label> Rhomax:</label><br>
+          <label> &#x3c1max:</label><br>
           <input type="number" v-model="postBody.rhomax" step="any" placeholder="0 < WD" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -206,7 +206,7 @@
             </span>
           </div><br>
 
-          <label> gammaW:</label><br>
+          <label> &#x3b3W:</label><br>
           <input type="number" v-model="postBody.gammaw" step="any" placeholder="gammaW" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -218,15 +218,15 @@
             </span>
           </div><br>
 
-          <label> sla:</label><br>
-          <input type="number" v-model="postBody.sla" step="any" placeholder="0 < sla" min="0" required>
+          <label> SLA:</label><br>
+          <input type="number" v-model="postBody.sla" step="any" placeholder="0 < SLA < 0.05" min="0" max="0.05" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Specific leaf area<br>
               <hr width="80%">
               <b>Unit: </b>m2g dw<sup>-1</sup>
               <hr width="80%">
-              <b>Constraint: </b>(0,&#8734)
+              <b>Constraint: </b>(0, 0.05)
             </span>
           </div><br><br>
         </div>
@@ -234,135 +234,135 @@
       <button type="button" class="accordion">Physiological traits</button>
         <div class="panel">
           <br>
-          <label> gammaC:</label><br>
-          <input type="number" v-model="postBody.gammac" step="any" placeholder="gammaC" min="0" required>
+          <label> &#947C:</label><br>
+          <input type="number" v-model="postBody.gammac" step="any" placeholder="0 < gammaC < 500000" min="0" max="500000" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Maximum labile carbon storage capacity of living sapwood cells<br>
               <hr width="80%">
               <b>Unit: </b>g gluc m<sup>-3</sup>
               <hr width="80%">
-              <b>Constraint: </b>none
+              <b>Constraint: </b>(0, 500000)
             </span>
           </div><br>
 
           <label> cgL:</label><br>
-          <input type="number" v-model="postBody.cgl" step="any" placeholder="0 < cgL" min="0" required>
+          <input type="number" v-model="postBody.cgl" step="any" placeholder="1 < cgL < 2" min="1" max="2" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Construction costs of producing leaves<br>
               <hr width="80%">
               <b>Unit: </b>g gluc g dw<sup>-1</sup>
               <hr width="80%">
-              <b>Constraint: </b>none
+              <b>Constraint: </b>(1, 2)
             </span>
           </div><br>
 
           <label> cgR:</label><br>
-          <input type="number" v-model="postBody.cgr" step="any" placeholder="0 < cgR" min="0" required>
+          <input type="number" v-model="postBody.cgr" step="any" placeholder="1 < cgR < 2" min="1" max="2" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Construction costs of producing fine roots<br>
               <hr width="80%">
               <b>Unit: </b>g gluc g dw<sup>-1</sup>
               <hr width="80%">
-              <b>Constraint: </b>none
+              <b>Constraint: </b>(1, 2)
             </span>
           </div><br>
 
           <label> cgW:</label><br>
-          <input type="number" v-model="postBody.cgw" step="any" placeholder="0 < cgW" min="0" required>
+          <input type="number" v-model="postBody.cgw" step="any" placeholder="1 < cgW < 2" min="1" max="2" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Construction costs of producing sapwood<br>
               <hr width="80%">
               <b>Unit: </b>g gluc g dw<sup>-1</sup>
               <hr width="80%">
-              <b>Constraint: </b>none
+              <b>Constraint: </b>(1, 2)
             </span>
           </div><br>
 
-          <label> deltaL:</label><br>
-          <input type="number" v-model="postBody.deltal" step="any" placeholder="0 < deltaL" min="0" required>
+          <label> &#x394L:</label><br>
+          <input type="number" v-model="postBody.deltal" step="any" placeholder="0.06 < deltaL < 0.12" min="0.06" max="0.12" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Labile carbon storage capacity of leaves<br>
               <hr width="80%">
               <b>Unit: </b>g gluc g dw<sup>-1</sup>
               <hr width="80%">
-              <b>Constraint: </b>none
+              <b>Constraint: </b>(0.06, 0.12)
             </span>
           </div><br>
 
-          <label> deltaR:</label><br>
-          <input type="number" v-model="postBody.deltar" step="any" placeholder="0 < deltaR" min="0" required>
+          <label> &#x394R:</label><br>
+          <input type="number" v-model="postBody.deltar" step="any" placeholder="0.02 < deltaR < 0.18" min="0.02" max="0.18" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Labile carbon storage capacity of fine roots<br>
               <hr width="80%">
               <b>Unit: </b>g gluc g dw<sup>-1</sup>
               <hr width="80%">
-              <b>Constraint: </b>none
+              <b>Constraint: </b>(0.02, 0.18)
             </span>
           </div><br>
 
-          <label> rhor:</label><br>
-          <input type="number" v-model="postBody.rhor" step="any" placeholder="0 < rhor" min="0" required>
+          <label> &#x3c1r:</label><br>
+          <input type="number" v-model="postBody.rhor" step="any" placeholder="0 < rhor < 300000" min="0" max="300000" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Tissue density of fine roots<br>
               <hr width="80%">
               <b>Unit: </b>g dw m<sup>-3</sup>
               <hr width="80%">
-              <b>Constraint: </b>none
+              <b>Constraint: </b>(0, 300000)
             </span>
           </div><br>
 
           <label> rmL:</label><br>
-          <input type="number" v-model="postBody.rml" step="any" placeholder="0 < rmL" min="0" required>
+          <input type="number" v-model="postBody.rml" step="any" placeholder="0 < rmL < 150" min="0" max="150" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Maintenance respiration rate of leaves<br>
               <hr width="80%">
               <b>Unit: </b>g gluc g dw<sup>-1</sup> year<sup>-1</sup>
               <hr width="80%">
-              <b>Constraint: </b>none
+              <b>Constraint: </b>(0, 150)
             </span>
           </div><br>
 
           <label> rmS:</label><br>
-          <input type="number" v-model="postBody.rms" step="any" placeholder="0 < rmS" min="0" required>
+          <input type="number" v-model="postBody.rms" step="any" placeholder="0 < rmS < 10" min="0" max="10" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Maintenance respiration rate of sapwood<br>
               <hr width="80%">
               <b>Unit: </b>g gluc g dw<sup>-1</sup> year<sup>-1</sup>
               <hr width="80%">
-              <b>Constraint: </b>none
+              <b>Constraint: </b>(0, 10)
             </span>
           </div><br>
 
           <label> rmR:</label><br>
-          <input type="number" v-model="postBody.rmr" step="any" placeholder="0 < rmR" min="0" required>
+          <input type="number" v-model="postBody.rmr" step="any" placeholder="0 < rmR < 200" min="0" max="200" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Maintenance respiration rate of fine roots<br>
               <hr width="80%">
               <b>Unit: </b>g gluc g dw<sup>-1</sup> year<sup>-1</sup>
               <hr width="80%">
-              <b>Constraint: </b>none
+              <b>Constraint: </b>(0, 200)
             </span>
           </div><br>
 
-          <label> K:</label><br>
-          <input type="number" v-model="postBody.k" step="any" placeholder="K" min="0" required>
+          <label> k:</label><br>
+          <input type="number" v-model="postBody.k" step="any" placeholder="0 < k < 1" min="0" max="1" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Light extinction coefficient<br>
               <hr width="80%">
               <b>Unit: </b>none
               <hr width="80%">
-              <b>Constraint: </b>none
+              <b>Constraint: </b>(0, 1)
             </span>
           </div><br>
 
@@ -374,7 +374,7 @@
               <hr width="80%">
               <b>Unit: </b>g gluc MJ<sup>-1</sup>
               <hr width="80%">
-              <b>Constraint: </b>(0,15.73)
+              <b>Constraint: </b>(0, 15.73)
             </span>
           </div><br><br>
         </div>
@@ -384,38 +384,38 @@
         <div class="panel">
           <br>
           <label> sL:</label><br>
-          <input type="number" v-model="postBody.sl" step="any" placeholder="0 < sL" min="0" required>
+          <input type="number" v-model="postBody.sl" step="any" placeholder="0 < sL < 20" min="0" max="20" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Senescence rate of leaves<br>
               <hr width="80%">
               <b>Unit: </b>year<sup>-1</sup>
               <hr width="80%">
-              <b>Constraint: </b>(0,&#8734)
+              <b>Constraint: </b>(0, 20)
             </span>
           </div><br>
 
           <label> sR:</label><br>
-          <input type="number" v-model="postBody.sr" step="any" placeholder="0 < sR" min="0" required>
+          <input type="number" v-model="postBody.sr" step="any" placeholder="0 < sR < 6" min="0" max="6" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Senescence rate of fine roots<br>
               <hr width="80%">
               <b>Unit: </b>year<sup>-1</sup>
               <hr width="80%">
-              <b>Constraint: </b>(0,&#8734)
+              <b>Constraint: </b>(0, 6)
             </span>
           </div><br>
 
           <label> sO:</label><br>
-          <input type="number" v-model="postBody.so" step="any" placeholder="0 < sO" min="0" required>
+          <input type="number" v-model="postBody.so" step="any" placeholder="0 < sO < 1" min="0" max="1" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Senescence rate of coarse roots and branches<br>
               <hr width="80%">
               <b>Unit: </b>year<sup>-1</sup>
               <hr width="80%">
-              <b>Constraint: </b>(0,&#8734)
+              <b>Constraint: </b>(0, 1)
             </span>
           </div><br>
 
