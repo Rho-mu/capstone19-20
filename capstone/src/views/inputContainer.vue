@@ -458,11 +458,8 @@
 
 <script>
   import axios from 'axios'
-
-
   export default {
     name: 'inputContainer',
-
     data() {
       return {
         postBody: {
@@ -478,17 +475,14 @@
           alpha: '',
           r0: '',
           r40: '',
-
           // Group B - Tree and organ size traits
           hmax: '',
           swmax: '',
           rr: '',
-
           // Group C - Structural traits
           rhomax: '',
           gammaw: '',
           sla: '',
-
           // Group D - Physiological traits
           gammac: '',
           cgl: '',
@@ -502,12 +496,10 @@
           rmr: '',
           k: '',
           epsg: '',
-
           // Group E - Turn-over and senescence traits
           sl: '' ,
           sr: '',
           so: '',
-
           // Extra variables
           t: '',
           radius: '',
@@ -517,6 +509,7 @@
         errorMessage: "",
         runID: '',
         getJson: [],
+        loadingFlag: 0,
         resetFlag: 0,
         resultJson: {
             "APARout":' ',
@@ -569,7 +562,6 @@
         } // END: resultJson
       } // END: return
     }, // END: data()
-
     methods: {
       resetData() {
         this.postBody.hmax=''
@@ -606,21 +598,17 @@
         this.postBody.r40=''
         this.postBody.radius=''
       },
-
       initializeWebpage() {
         this.postBody.io = 1030 // Set light level to 1000.
         this.postBody.t = 100   // Set time to 100.
-
         /////////////// collapsible Menus ///////////////
         var acc = document.getElementsByClassName("accordion");
         var i;
-
         for (i = 0; i < acc.length; i++) {
           acc[i].addEventListener("click", function() {
             /* Toggle between adding and removing the "active" class,
             to highlight the button that controls the panel */
             this.classList.toggle("active");
-
             /* Toggle between hiding and showing the active panel */
             var panel = this.nextElementSibling;
             if (panel.style.display === "block") {
@@ -631,13 +619,11 @@
           });
         }
       }, // END: initializeWebpage()
-
       setDefault(defaultType) {
         // Set default time, light level, and initial radius
         this.postBody.t=100
         this.postBody.radius=0.05
         this.postBody.io=1030
-
         // Sets default values in the input fields based on the button that user clicks
         if(defaultType == "Red Maple") // Red Maple button
         {
@@ -674,7 +660,6 @@
           this.postBody.r0=1.909
           this.postBody.r40=5.592
         } // END: if Red Maple
-
         else if(defaultType == "Loblolly Pine")  // Loblolly Pine button
         {
           this.postBody.hmax=42
@@ -711,9 +696,10 @@
           this.postBody.r40=3.873
         } // END: if Loblolly Pine
       }, // END: set_default()
-
       postData() {
         this.resetFlag = 1
+        this.loadingFlag = 1
+        this.$emit('postFlagToParent', this.loadingFlag)
         this.$emit('postResetFlagToParent', this.resetFlag)
         console.log("Posting inputs..")
         axios.post('https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user', {
@@ -728,12 +714,10 @@
           this.runID = response.headers['x-run-id'],
           //console.log("from post -- runID: ", this.runID)
           console.log("Posted inputs!")
-
           document.getElementById("timeStepSlider").setAttribute("max", this.postBody.t) // Sets max value for timestep slider.
           this.getData() // Call getData() to start looking for model outputs.
         })
       }, // END: postData()
-
       getData() {
         axios.get('https://0q0oam4bxl.execute-api.us-east-2.amazonaws.com/Testing/user', {
           headers: {
@@ -742,13 +726,11 @@
           }
         })
         .then((response) => {
-          this.resetFlag = 0;
-
+          this.resetFlag = 0
+          this.loadingFlag = 0
           //console.log("runID:", this.runID)
           this.getJson = response.data
-
           //console.log("json:", this.getJson)
-
           // If the JSON is not found quit out and try again in 2 seconds.
           if(this.getJson == "Not Found")
           {
@@ -761,9 +743,7 @@
             setTimeout(this.getData, 2000)
             return
           }
-
           var parsedobj = JSON.parse(JSON.stringify(this.resultJson))
-
           let newStr = this.getJson.replace(/=/g, "\":")
           let newStr2 = newStr.replace(/&/g, ",\"")
           let newStr3 = newStr2.split(",")
@@ -784,21 +764,18 @@
             }
             Values.push(value)
           }
-
           this.resultJson = Result
           // let newStr3 = "{\"" + newStr2 + "}"
           // this.resultJson = JSON.parse(newStr3)
           console.log("Output data retrieved!")
           console.log("ResultJson: \n", this.resultJson)
-
           document.getElementById("runButton").innerHTML = "RUN"
-
           //this.afterGet() // Sets up some stuff for the visualization now that the output data has been retrieved.
           this.$emit('resultJsonToParent', this.resultJson) // Sends the result json to acgca.vue to be used in outputContainer.
           this.$emit('postBodyToParent', this.postBody) // Sends the postBody to acgca.vue to be used in outputContainer.
           this.$emit('startDrawToParent', true)
+          this.$emit('postFlagToParent')
           this.$emit('postResetFlagToParent', this.resetFlag)
-
         },
             (error) => { console.log(error.request)}
         )
@@ -822,7 +799,6 @@
     font-size: 20px;
     padding-bottom: 10px;
   }
-
   .inputContainer {
     float:left;
     padding: 20px 10px 20px 10px;
@@ -834,7 +810,6 @@
     background-color: #9e9a9a;
     background-image: url('../assets/InputBack.png');
   }
-
   .inputContainer button {
     color: black;
     height: 40px;
@@ -842,76 +817,61 @@
     background-color: #FFF;
     width: 100%;
   }
-
   .inputContainer button:hover {
     background-color: #EEE;
   }
-
   .slidecontainer {
     text-align: left;
   }
-
   .slidecontainer .tooltip {
     bottom: 0px;
     right: 15px;
   }
-
   .slidecontainer input{
     width: 75%;
   }
-
   .runButton:enabled {
     background-color: #44c767;
     padding: 10px 30px;
     color:#ffffff;
   }
-
   .runButton:hover {
     background-color: #EEE;
     color: black;
   }
-
   .runButton:disabled {
     cursor: auto;
     color: white;
     background-color: lightgray;
   }
-
   .error-message {
     color: white;
     font-weight: bold;
   }
-
   .accordion {
     text-align: left;
   }
-
   .active, .accordion:hover {
     background-color: #ccc;
   }
-
   .panel {
     padding: 0 18px;
     background-color: transparent;
     display: none;
     overflow: visible;
   }
-
   .panel input {
     float: left;
     width: 80%;
   }
-
   .panel button {
     color: white;
     background-color: #44c767;
   }
-
   .panel button:hover {
     background-color: #EEE;
     color: black;
   }
-
   .inputSlider {
     -webkit-appearance: none;
     width: 70%;
@@ -923,11 +883,9 @@
     -webkit-transition: .2s;
     transition: opacity .2s;
   }
-
   .inputSlider:hover {
     opacity: 1;
   }
-
   /* Tooltip container */
   .tooltip {
     vertical-align: middle;
@@ -941,13 +899,11 @@
     line-height: 26px;
     bottom: 3px;
   }
-
   .tooltip:before {
     content:'?';
     font-weight: bold;
     color:#fff;
   }
-
   /* Tooltip text */
   .tooltip .tooltiptext {
     visibility: hidden;
@@ -957,19 +913,16 @@
     text-align: center;
     padding: 5px 0;
     border-radius: 6px;
-
     /* Position the tooltip text */
     position: absolute;
     z-index: 1;
     bottom: 125%;
     left: 50%;
     margin-left: -80px;
-
     /* Fade in tooltip */
     opacity: 0;
     transition: opacity 0.3s;
   }
-
   /* Tooltip arrow */
   .tooltip .tooltiptext::after {
     content: "";
@@ -981,13 +934,11 @@
     border-style: solid;
     border-color: #555 transparent transparent transparent;
   }
-
   /* Show the tooltip text when you mouse over the tooltip container */
   .tooltip:hover .tooltiptext {
     visibility: visible;
     opacity: 1;
   }
-
   .accordion:after {
     display: inline-block;
     content: '\02795';
@@ -996,13 +947,10 @@
     float: right;
     margin-left: 5px;
   }
-
   .active:after {
     display: inline-block;
     content: "\2796";
   }
-
-
   label {
     font-size: 15px;
     float: left;
