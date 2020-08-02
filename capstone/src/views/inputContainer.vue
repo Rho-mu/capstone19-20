@@ -118,7 +118,8 @@
             <span class="tooltiptext">
               <b>Description: </b>Maximum potential crown radius of a tree with diameter at breast height of 0 cm (i.e., for a tree that is exactly 1.37 m tall)<br>
               <hr width="80%">
-              <b>Unit: </b>m
+              <b>Unit: </b>m <br>
+              (meters)
               <hr width="80%">
               <b>Constraint: </b>(0, 3)
             </span>
@@ -130,7 +131,8 @@
             <span class="tooltiptext">
               <b>Description: </b>Maximum potential crown radius of a tree with diameter at breast height of 40 cm<br>
               <hr width="80%">
-              <b>Unit: </b>none
+              <b>Unit: </b>m <br>
+              (meters)
               <hr width="80%">
               <b>Constraint: </b>(R0, 15)
             </span>
@@ -158,7 +160,8 @@
             <span class="tooltiptext">
               <b>Description: </b>Maximum tree height<br>
               <hr width="80%">
-              <b>Unit: </b>m
+              <b>Unit: </b>m <br>
+              (meters)
               <hr width="80%">
               <b>Constraint: </b>(0,127)
             </span>
@@ -170,7 +173,8 @@
             <span class="tooltiptext">
               <b>Description: </b>Maximum sapwood width<br>
               <hr width="80%">
-              <b>Unit: </b>m
+              <b>Unit: </b>m <br>
+              (meters)
               <hr width="80%">
               <b>Constraint: </b>(0, 0.2)
             </span>
@@ -182,7 +186,8 @@
             <span class="tooltiptext">
               <b>Description: </b>Average fine root radius<br>
               <hr width="80%">
-              <b>Unit: </b>m
+              <b>Unit: </b>m <br>
+              (meters)
               <hr width="80%">
               <b>Constraint: </b>(0, 0.0008)
             </span>
@@ -200,9 +205,10 @@
             <span class="tooltiptext">
               <b>Description: </b>Wood density<br>
               <hr width="80%">
-              <b>Unit: </b>g dw m<sup>-3</sup>
+              <b>Unit: </b>g dw m<sup>-3</sup><br>
+              (grams dry weight per cubic centimeter)
               <hr width="80%">
-              <b>Constraint: </b>(0,&#8734)
+              <b>Constraint: </b>(0,&#8734) <!-- there needs to be a variable for the min/max equation so that it can be placed here -->
             </span>
           </div><br>
 
@@ -212,7 +218,8 @@
             <span class="tooltiptext">
               <b>Description: </b>Specific leaf area<br>
               <hr width="80%">
-              <b>Unit: </b>m2g dw<sup>-1</sup>
+              <b>Unit: </b>cm<sup>2</sup> g dw<sup>-1</sup><br>
+              (square centimeters per gram dry weight)
               <hr width="80%">
               <b>Constraint: </b>(0, 0.05)
             </span>
@@ -228,7 +235,8 @@
             <span class="tooltiptext">
               <b>Description: </b>Maximum labile carbon storage capacity of living sapwood cells<br>
               <hr width="80%">
-              <b>Unit: </b>g gluc m<sup>-3</sup>
+              <b>Unit: </b>g dw cm<sup>-3</sup><br>
+              (grams dry weight per cubic centimeter)
               <hr width="80%">
               <b>Constraint: </b>(0, 500000)
             </span>
@@ -240,7 +248,8 @@
             <span class="tooltiptext">
               <b>Description: </b>Construction costs of producing leaves<br>
               <hr width="80%">
-              <b>Unit: </b>g gluc g dw<sup>-1</sup>
+              <b>Unit: </b>g gluc g dw<sup>-1</sup><br>
+              (grams glucose per gram dry weight)
               <hr width="80%">
               <b>Constraint: </b>(1, 2)
             </span>
@@ -252,7 +261,8 @@
             <span class="tooltiptext">
               <b>Description: </b>Construction costs of producing fine roots<br>
               <hr width="80%">
-              <b>Unit: </b>g gluc g dw<sup>-1</sup>
+              <b>Unit: </b>g gluc g dw<sup>-1</sup><br>
+              (grams glucose per gram dry weight)
               <hr width="80%">
               <b>Constraint: </b>(1, 2)
             </span>
@@ -264,7 +274,8 @@
             <span class="tooltiptext">
               <b>Description: </b>Construction costs of producing sapwood<br>
               <hr width="80%">
-              <b>Unit: </b>g gluc g dw<sup>-1</sup>
+              <b>Unit: </b>g gluc g dw<sup>-1</sup><br>
+              (grams glucose per gram dry weight)
               <hr width="80%">
               <b>Constraint: </b>(1, 2)
             </span>
@@ -276,7 +287,8 @@
             <span class="tooltiptext">
               <b>Description: </b>Labile carbon storage capacity of leaves<br>
               <hr width="80%">
-              <b>Unit: </b>g gluc g dw<sup>-1</sup>
+              <b>Unit: </b>g gluc g dw<sup>-1</sup><br>
+              (grams glucose per gram dry weight)
               <hr width="80%">
               <b>Constraint: </b>(0.06, 0.12)
             </span>
@@ -288,7 +300,8 @@
             <span class="tooltiptext">
               <b>Description: </b>Labile carbon storage capacity of fine roots<br>
               <hr width="80%">
-              <b>Unit: </b>g gluc g dw<sup>-1</sup>
+              <b>Unit: </b>g gluc g dw<sup>-1</sup><br>
+              (grams glucose per gram dry weight)
               <hr width="80%">
               <b>Constraint: </b>(0.02, 0.18)
             </span>
@@ -300,7 +313,8 @@
             <span class="tooltiptext">
               <b>Description: </b>Tissue density of fine roots<br>
               <hr width="80%">
-              <b>Unit: </b>g dw m<sup>-3</sup>
+              <b>Unit: </b>g dw cm<sup>-3</sup><br>
+              (grams dry weight per cubic centimeter)
               <hr width="80%">
               <b>Constraint: </b>(0, 300000)
             </span>
@@ -312,7 +326,8 @@
             <span class="tooltiptext">
               <b>Description: </b>Maintenance respiration rate of leaves<br>
               <hr width="80%">
-              <b>Unit: </b>g gluc g dw<sup>-1</sup> year<sup>-1</sup>
+              <b>Unit: </b>g gluc g dw<sup>-1</sup> year<sup>-1</sup><br>
+              (grams glucose per gram dry weight per year)
               <hr width="80%">
               <b>Constraint: </b>(0, 150)
             </span>
@@ -324,7 +339,8 @@
             <span class="tooltiptext">
               <b>Description: </b>Maintenance respiration rate of sapwood<br>
               <hr width="80%">
-              <b>Unit: </b>g gluc g dw<sup>-1</sup> year<sup>-1</sup>
+              <b>Unit: </b>g gluc g dw<sup>-1</sup> year<sup>-1</sup><br>
+              (grams glucose per gram dry weight per year)
               <hr width="80%">
               <b>Constraint: </b>(0, 10)
             </span>
@@ -336,7 +352,8 @@
             <span class="tooltiptext">
               <b>Description: </b>Maintenance respiration rate of fine roots<br>
               <hr width="80%">
-              <b>Unit: </b>g gluc g dw<sup>-1</sup> year<sup>-1</sup>
+              <b>Unit: </b>g gluc g dw<sup>-1</sup> year<sup>-1</sup><br>
+              (grams glucose per gram dry weight per year)
               <hr width="80%">
               <b>Constraint: </b>(0, 200)
             </span>
@@ -358,9 +375,10 @@
           <input type="number" v-model="postBody.epsg" step="any" placeholder="0 < epsg(RUE) < 15.73" min="0" max="15.73" required>
           <div class="tooltip">
             <span class="tooltiptext">
-              <b>Description: </b>Radiation-use coefficient<br>
+              <b>Description: </b>Radiation-use efficiency<br>
               <hr width="80%">
-              <b>Unit: </b>g gluc MJ<sup>-1</sup>
+              <b>Unit: </b>g gluc MJ<sup>-1</sup><br>
+              (grams glucose per millijoules)
               <hr width="80%">
               <b>Constraint: </b>(0, 15.73)
             </span>
@@ -377,7 +395,8 @@
             <span class="tooltiptext">
               <b>Description: </b>Senescence rate of leaves<br>
               <hr width="80%">
-              <b>Unit: </b>year<sup>-1</sup>
+              <b>Unit: </b>year<sup>-1</sup><br>
+              (per year)
               <hr width="80%">
               <b>Constraint: </b>(0, 20)
             </span>
@@ -389,7 +408,8 @@
             <span class="tooltiptext">
               <b>Description: </b>Senescence rate of fine roots<br>
               <hr width="80%">
-              <b>Unit: </b>year<sup>-1</sup>
+              <b>Unit: </b>year<sup>-1</sup><br>
+              (per year)
               <hr width="80%">
               <b>Constraint: </b>(0, 6)
             </span>
@@ -401,7 +421,8 @@
             <span class="tooltiptext">
               <b>Description: </b>Senescence rate of coarse roots and branches<br>
               <hr width="80%">
-              <b>Unit: </b>year<sup>-1</sup>
+              <b>Unit: </b>year<sup>-1</sup><br>
+              (per year)
               <hr width="80%">
               <b>Constraint: </b>(0, 1)
             </span>
@@ -417,13 +438,13 @@
             <span class="tooltiptext">
               <b>Description: </b>Initial trunk radius<br>
               <hr width="80%">
-              <b>Unit: </b>m
+              <b>Unit: </b>m <br>
+              (meters)
               <hr width="80%">
               <b>Constraint: </b>(0,&#8734)
             </span>
           </div><br>
         </div><br>
-
 
         <div class="slider">
           <label> Light level: {{ (postBody.io / 20.6).toFixed(0)}}%</label><br>
@@ -561,7 +582,6 @@
         this.postBody.f2=''
         this.postBody.f1=''
         this.postBody.gammac=''
-
         this.postBody.gammax=''
         this.postBody.cgl=''
         this.postBody.cgr=''
@@ -624,7 +644,6 @@
           this.postBody.f2=7000
           this.postBody.f1=4
           this.postBody.gammac=131000
-
           this.postBody.gammax=0.12
           this.postBody.cgl=1.45;
           this.postBody.cgr=1.25
@@ -659,7 +678,6 @@
           this.postBody.f2=2100
           this.postBody.f1=4
           this.postBody.gammac=265000
-
           this.postBody.gammax=0.62
           this.postBody.cgl=1.51
           this.postBody.cgr=1.3
