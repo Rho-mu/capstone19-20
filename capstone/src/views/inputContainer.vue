@@ -206,18 +206,6 @@
             </span>
           </div><br>
 
-          <label> &#x3b3W:</label><br>
-          <input type="number" v-model="postBody.gammaw" step="any" placeholder="gammaW" min="0" required>
-          <div class="tooltip">
-            <span class="tooltiptext">
-              <b>Description: </b>(Inverse) density of sapwood structural tissue<br>
-              <hr width="80%">
-              <b>Unit: </b>m3g dw<sup>-1</sup>
-              <hr width="80%">
-              <b>Constraint: </b>none
-            </span>
-          </div><br>
-
           <label> SLA:</label><br>
           <input type="number" v-model="postBody.sla" step="any" placeholder="0 < SLA < 0.05" min="0" max="0.05" required>
           <div class="tooltip">
@@ -481,7 +469,7 @@
           rr: '',
           // Group C - Structural traits
           rhomax: '',
-          gammaw: '',
+          gammaw: 6.67e-7,
           sla: '',
           // Group D - Physiological traits
           gammac: '',
@@ -573,7 +561,7 @@
         this.postBody.f2=''
         this.postBody.f1=''
         this.postBody.gammac=''
-        this.postBody.gammaw=''
+
         this.postBody.gammax=''
         this.postBody.cgl=''
         this.postBody.cgr=''
@@ -636,7 +624,7 @@
           this.postBody.f2=7000
           this.postBody.f1=4
           this.postBody.gammac=131000
-          this.postBody.gammaw=6.67e-7
+
           this.postBody.gammax=0.12
           this.postBody.cgl=1.45;
           this.postBody.cgr=1.25
@@ -671,7 +659,7 @@
           this.postBody.f2=2100
           this.postBody.f1=4
           this.postBody.gammac=265000
-          this.postBody.gammaw=6.67e-7
+
           this.postBody.gammax=0.62
           this.postBody.cgl=1.51
           this.postBody.cgr=1.3
