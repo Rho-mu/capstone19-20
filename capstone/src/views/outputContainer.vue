@@ -82,7 +82,7 @@
           <!--<label>cs2: {{ this.localResultJson.cs2[this.dataIndex] }}       </label><br>-->
           <!--<label >egrow: {{ this.localResultJson.egrow2[this.dataIndex] }}     </label><br>-->
           <!--<label >ex: {{ this.localResultJson.ex2[this.dataIndex] }}           </label><br>-->
-          <!-- <label>status2: {{ this.localResultJson.status2[this.dataIndex] }}   </label><br> -->
+          <label>status2: {{ this.localResultJson.status2[this.dataIndex] }}   </label><br>
           <!--<label>errorind: {{ this.localResultJson.errorind[this.dataIndex] }}   </label><br>-->
           <!--<label>growth_st: {{ this.localResultJson.growth_st[this.dataIndex] }} </label><br>-->
         </div>
@@ -279,8 +279,8 @@
         }
         else
         {
-          bgColor.r = this.postBody.io/2060
-          bgColor.g = this.postBody.io/2060+0.4
+          bgColor.r = this.postBody.io/2060+0.4
+          bgColor.g = this.postBody.io/2060+0.6
           bgColor.b = 1
         }
         this.treeScene.background = bgColor
@@ -398,20 +398,19 @@
 
         /// Set up lables for tree status ///
         var treeStatusText = document.getElementById('treeStatus')
-        treeStatusText.innerHTML = this.localResultJson.status2[this.dataIndex]
+        treeStatusText.innerHTML = ""
         treeStatusText.style.left = ((-0.92 + 1)/2 * this.canvasWidth) + 'px'
         treeStatusText.style.top = ((0.81 + 1)/2 * this.canvasHeight) + 'px'
       }, // END: setUpLabels()
 
       draw() {
-        var status = this.localResultJson.status2[this.dataIndex]
-        
         // Update status label.
+        var status = this.localResultJson.status2[this.dataIndex]
         if( status == 1 )
         {
           document.getElementById('treeStatus').innerHTML = "Status: Alive"
         }
-        else if( status == 0 )
+        else if( status != 0 )
         {
           document.getElementById('treeStatus').innerHTML = "Status: Dead"
         }
@@ -437,7 +436,7 @@
         var year = this.dataIndex // The current timestep on the slider. Named "year" to make it easier to read.
 
         var status = this.localResultJson.status2[year] // Status == 1 is alive.
-
+        var drawCrown = true // true if current tree is alive, false if a previous tree needs to be drawn.
 
         if( status != 1 ) // If tree is not alive.
         {
@@ -471,7 +470,8 @@
           if( liveTreeFound == true ) // Draw the most recent living tree.
           {
             console.log("Tree", year-tempIndex, "is the most recent alive tree!")
-            this.drawTree( year-tempIndex )
+            drawCrown = false // Don't draw crown for this tree so it looks more dead.
+            this.drawTree( year-tempIndex, drawCrown )
           }
           else if( liveTreeFound == false ) // If no live tree was found in the previous years.
           {
@@ -482,11 +482,12 @@
         else if( status == 1 ) // Draw the tree if it is alive.
         {
           //console.log("Tree", year, "is alive!")
-          this.drawTree( year )
+          drawCrown = true // Draw the crown for this tree.
+          this.drawTree( year, drawCrown )
         } // END: if status is 1
       }, // END: getTree()
 
-      drawTree( year ) {
+      drawTree( year, drawCrown ) {
         // Clear scene of old drawings
         while(this.treeScene.children.length > 0){   // Clear scene of old tree
           this.treeScene.remove(this.treeScene.children[0])
@@ -576,38 +577,48 @@
         var trunkBaseMat = new THREE.MeshLambertMaterial( {color: 0xb5651d} )
         this.trunkBase = new THREE.Mesh( trunkBaseGeo, trunkBaseMat )
         this.trunkBase.position.y = trunkBasePos
+
+        // Add trunk pieces to scene.
+        this.newScene.add( this.trunkTop )
+        this.newScene.add( this.trunkMid )
+        this.newScene.add( this.trunkBase )
         ///// END: Trunk /////
 
         ///// Crown /////
-        var crownGeo
-        if( this.crownShape == "cone" )
+        if( drawCrown == true )
         {
-          // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
-          crownGeo = new THREE.ConeGeometry( rcbase, h-hC, geoSegments )
-        }
-        else if( this.crownShape == "sphere") // Currently looks weird. Needs tuning.
-        {
-          // SphereGeometry(radius : Float, widthSegments : Integer, heightSegments : Integer)
-          crownGeo = new THREE.SphereGeometry( rcbase, geoSegments*1.5, geoSegments*1.5 )
-        }
-        else if( this.crownShape == "cylinder" )
-        {
-          // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
-          crownGeo = new THREE.CylinderGeometry( rcbase, rcbase, h-hC, geoSegments );
-        }
-        else // Default to cone shaped crown
-        {
-          // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
-          crownGeo = new THREE.ConeGeometry( rcbase, h-hC, geoSegments )
-        }
-        //console.log("crownShape:", this.crownShape)
+          var crownGeo
+          if( this.crownShape == "cone" )
+          {
+            // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
+            crownGeo = new THREE.ConeGeometry( rcbase, h-hC, geoSegments )
+          }
+          else if( this.crownShape == "sphere") // Currently looks weird. Needs tuning.
+          {
+            // SphereGeometry(radius : Float, widthSegments : Integer, heightSegments : Integer)
+            crownGeo = new THREE.SphereGeometry( rcbase, geoSegments*1.5, geoSegments*1.5 )
+          }
+          else if( this.crownShape == "cylinder" )
+          {
+            // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer)
+            crownGeo = new THREE.CylinderGeometry( rcbase, rcbase, h-hC, geoSegments );
+          }
+          else // Default to cone shaped crown
+          {
+            // ConeGeometry(radius : Float, height : Float, radialSegments : Integer)
+            crownGeo = new THREE.ConeGeometry( rcbase, h-hC, geoSegments )
+          }
+          //console.log("crownShape:", this.crownShape)
 
-        var crownMat = new THREE.MeshLambertMaterial( {color: 0x00FF00} )
-        crownMat.transparent = true
-        crownMat.opacity = this.localResultJson.LAI2[year]/this.maxLAI2
-        this.crown = new THREE.Mesh( crownGeo, crownMat )
-        this.crown.position.y = crownPos
-        //console.log("Crown -", "\nradius:", rcbase, "\nheight:", h-hC,)
+          var crownMat = new THREE.MeshLambertMaterial( {color: 0x00FF00} )
+          crownMat.transparent = true
+          crownMat.opacity = this.localResultJson.LAI2[year]/this.maxLAI2
+          this.crown = new THREE.Mesh( crownGeo, crownMat )
+          this.crown.position.y = crownPos
+          //console.log("Crown -", "\nradius:", rcbase, "\nheight:", h-hC,)
+
+          this.newScene.add( this.crown ) // Add crown to scene.
+        } // End: if drawCrown == true
         ///// END: Crown /////
 
         ///// Roots /////
@@ -625,14 +636,9 @@
         rootMat.opacity = this.localResultJson.br2[year]/this.maxBr
         this.roots = new THREE.Mesh( rootGeo, rootMat )
         this.roots.position.y = -rootDepth/2
-        ///// END: Roots /////
 
-        // Add trunk, crown, and roots to scene
-        this.newScene.add( this.crown )
-        this.newScene.add( this.trunkTop )
-        this.newScene.add( this.trunkMid )
-        this.newScene.add( this.trunkBase )
-        this.newScene.add( this.roots )
+        this.newScene.add( this.roots ) // Add roots to scene.
+        ///// END: Roots /////
 
         // Draw the scale based on the current tree
         this.drawTreeScale(h, hC, rootDepth)
