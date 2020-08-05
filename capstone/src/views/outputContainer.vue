@@ -410,7 +410,7 @@
         {
           document.getElementById('treeStatus').innerHTML = "Status: Alive"
         }
-        else if( status != 0 )
+        else if( status == 0 )
         {
           document.getElementById('treeStatus').innerHTML = "Status: Dead"
         }
@@ -436,6 +436,7 @@
         var year = this.dataIndex // The current timestep on the slider. Named "year" to make it easier to read.
 
         var status = this.localResultJson.status2[year] // Status == 1 is alive.
+        console.log("status:", status)
         var drawCrown = true // true if current tree is alive, false if a previous tree needs to be drawn.
 
         if( status != 1 ) // If tree is not alive.
@@ -547,10 +548,10 @@
           rcbase = rcmax
         }
 
-        //console.log("year:",year,"\nLAI2:",this.localResultJson.LAI2[year],"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,"\nrBH:",rBH,"\nrcmax:",rcmax,"\nrcbase:",rcbase)
+        console.log("year:",year,"\nLAI2:",this.localResultJson.LAI2[year],"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,"\nrBH:",rBH,"\nrcmax:",rcmax,"\nrcbase:",rcbase)
 
         // Supplemental parameters
-        var geoSegments = 20              // Segments of geometry
+        var geoSegments = 16              // Segments of geometry
         var crownPos = hC + (h-hC)/2      // Moves the crown so that it's bottom plane is at the top of the middle segment.
         var trunkBasePos = hB/2           // Moves the trunk's base segment so that it's bottom plane is at (0,0).
         var trunkMidPos = hB + (hC-hB)/2  // Moves the trunk's middle segment so that it's bottom plane is at the top of the base segment.
@@ -717,11 +718,12 @@
 
         for( var i = 1; i <= this.dataIndex; i++ )
         {
-          if( this.localResultJson.r[i] - this.localResultJson.r[i-1] < 0.0001 )
+          // Avoids drawing a ring if it's too small.
+          /*if( this.localResultJson.r[i] - this.localResultJson.r[i-1] < 0.0001 )
           {
             console.log("ring too small")
             break // Stop drawing rings if they get too small to see.
-          }
+          }*/
 
           // color
           var ringColor = new THREE.Color()
