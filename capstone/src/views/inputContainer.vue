@@ -52,14 +52,15 @@
           </div><br>
 
           <label> f2:</label><br>
-          <input type="number" v-model="postBody.f2" step="any" placeholder="0 < f2 < 8000" min="0" max="8000" required>
+          <input type="number" v-model="postBody.f2" step="any" placeholder="0 < f2 < 0.8" min="0" max="0.8" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Leaf area to xylem confucting area ratio (LA:XA)<br>
               <hr width="80%">
-              <b>Unit: </b>none
+              <b>Unit: </b>m<sup>2</sup> cm<sup>-2</sup><br>
+              (square meters per square centimeters)
               <hr width="80%">
-              <b>Constraint: </b>(0, 8000)
+              <b>Constraint: </b>(0, 0.8)
             </span>
           </div><br>
 
@@ -168,28 +169,28 @@
           </div><br>
 
           <label> SWmax:</label><br>
-          <input type="number" v-model="postBody.swmax" step="any" placeholder="0 < SWmax < 0.2" min="0" max="0.2" required>
+          <input type="number" v-model="postBody.swmax" step="any" placeholder="0 < SWmax < 20" min="0" max="20" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Maximum sapwood width<br>
               <hr width="80%">
-              <b>Unit: </b>m <br>
-              (meters)
+              <b>Unit: </b>cm <br>
+              (centimeters)
               <hr width="80%">
-              <b>Constraint: </b>(0, 0.2)
+              <b>Constraint: </b>(0, 20)
             </span>
           </div><br>
 
           <label> rr:</label><br>
-          <input type="number" v-model="postBody.rr" step="any" placeholder="0 < rr < 0.0008" min="0" max="0.0008" required>
+          <input type="number" v-model="postBody.rr" step="any" placeholder="0 < rr < 0.8" min="0" max="0.8" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Average fine root radius<br>
               <hr width="80%">
-              <b>Unit: </b>m <br>
-              (meters)
+              <b>Unit: </b>mm <br>
+              (millimeters)
               <hr width="80%">
-              <b>Constraint: </b>(0, 0.0008)
+              <b>Constraint: </b>(0, 0.8)
             </span>
           </div><br><br>
 
@@ -208,12 +209,12 @@
               <b>Unit: </b>g dw m<sup>-3</sup><br>
               (grams dry weight per cubic centimeter)
               <hr width="80%">
-              <b>Constraint: </b>(0,&#8734) <!-- there needs to be a variable for the min/max equation so that it can be placed here -->
+              <b>Constraint: </b>({{postBody.gammax * 2}}, &#8734) <!-- there needs to be a variable for the min/max equation so that it can be placed here -->
             </span>
           </div><br>
 
           <label> SLA:</label><br>
-          <input type="number" v-model="postBody.sla" step="any" placeholder="0 < SLA < 0.05" min="0" max="0.05" required>
+          <input type="number" v-model="postBody.sla" step="any" placeholder="0 < SLA < 500" min="0" max="500" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Specific leaf area<br>
@@ -221,7 +222,7 @@
               <b>Unit: </b>cm<sup>2</sup> g dw<sup>-1</sup><br>
               (square centimeters per gram dry weight)
               <hr width="80%">
-              <b>Constraint: </b>(0, 0.05)
+              <b>Constraint: </b>(0, 500)
             </span>
           </div><br><br>
         </div>
@@ -230,7 +231,7 @@
         <div class="panel">
           <br>
           <label> &#947C:</label><br>
-          <input type="number" v-model="postBody.gammac" step="any" placeholder="0 < gammaC < 500000" min="0" max="500000" required>
+          <input type="number" v-model="postBody.gammac" step="any" placeholder="0 < gammaC < 0.5" min="0" max="0.5" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Maximum labile carbon storage capacity of living sapwood cells<br>
@@ -238,7 +239,7 @@
               <b>Unit: </b>g dw cm<sup>-3</sup><br>
               (grams dry weight per cubic centimeter)
               <hr width="80%">
-              <b>Constraint: </b>(0, 500000)
+              <b>Constraint: </b>(0, 0.5)
             </span>
           </div><br>
 
@@ -308,7 +309,7 @@
           </div><br>
 
           <label> &#x3c1r:</label><br>
-          <input type="number" v-model="postBody.rhor" step="any" placeholder="0 < rhor < 300000" min="0" max="300000" required>
+          <input type="number" v-model="postBody.rhor" step="any" placeholder="0 < rhor < 0.3" min="0" max="0.3" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Tissue density of fine roots<br>
@@ -316,7 +317,7 @@
               <b>Unit: </b>g dw cm<sup>-3</sup><br>
               (grams dry weight per cubic centimeter)
               <hr width="80%">
-              <b>Constraint: </b>(0, 300000)
+              <b>Constraint: </b>(0, 0.3)
             </span>
           </div><br>
 
@@ -638,12 +639,12 @@
           this.postBody.hmax=27.5
           this.postBody.phih=263
           this.postBody.eta=0.64
-          this.postBody.swmax=0.1
+          this.postBody.swmax=10
           this.postBody.lamda=0.95
-          this.postBody.rhomax=525000
-          this.postBody.f2=7000
+          this.postBody.rhomax=0.525
+          this.postBody.f2=0.7
           this.postBody.f1=4
-          this.postBody.gammac=131000
+          this.postBody.gammac=0.131
           this.postBody.gammax=0.12
           this.postBody.cgl=1.45;
           this.postBody.cgr=1.25
@@ -651,11 +652,11 @@
           this.postBody.deltal=0.095
           this.postBody.deltar=0.15
           this.postBody.sl=1
-          this.postBody.sla=0.0141
+          this.postBody.sla=141
           this.postBody.sr=1
           this.postBody.so=0.05
-          this.postBody.rr=0.00015
-          this.postBody.rhor=160000
+          this.postBody.rr=0.15
+          this.postBody.rhor=0.16
           this.postBody.rml=1.25
           this.postBody.rms=0.025
           this.postBody.rmr=0.75
@@ -672,12 +673,12 @@
           this.postBody.hmax=42
           this.postBody.phih=220
           this.postBody.eta=0.71
-          this.postBody.swmax=0.06
+          this.postBody.swmax=6
           this.postBody.lamda=0.95
-          this.postBody.rhomax=380000
-          this.postBody.f2=2100
+          this.postBody.rhomax=.38
+          this.postBody.f2=0.21
           this.postBody.f1=4
-          this.postBody.gammac=265000
+          this.postBody.gammac=0.265
           this.postBody.gammax=0.62
           this.postBody.cgl=1.51
           this.postBody.cgr=1.3
@@ -685,11 +686,11 @@
           this.postBody.deltal=0.11
           this.postBody.deltar=0.08
           this.postBody.sl=0.33
-          this.postBody.sla=0.00602
+          this.postBody.sla=60.2
           this.postBody.sr=0.5
           this.postBody.so=0.05
-          this.postBody.rr=0.00027
-          this.postBody.rhor=200000
+          this.postBody.rr=2.7
+          this.postBody.rhor=0.2
           this.postBody.rml=1.9
           this.postBody.rms=0.05
           this.postBody.rmr=1.5
