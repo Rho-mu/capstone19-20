@@ -16,7 +16,7 @@
         <div class="panel">
           <br>
           <label> &#x3c6h:</label><br>
-          <input type="number" v-model="postBody.phih" step="any" placeholder="0 < phih < 300" min="0" max="300" required>
+          <input type="number" v-model="postBody.phih" step="any" :placeholder="'0 < \u03D5h < 300'" min="0" max="300" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Slope at H versus r curve at r = 0<br>
@@ -28,7 +28,7 @@
           </div><br>
 
           <label> &#x3b7:</label><br>
-          <input id="eta" type="number" v-model="postBody.eta" step="any" placeholder="0 < eta < 1" min="0" max="1" required>
+          <input id="eta" type="number" v-model="postBody.eta" step="any" :placeholder="'0 < \u03B7 < 1'" min="0" max="1" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Relative height at which trunk transitions from a paraboloid to a cone<br>
@@ -40,7 +40,7 @@
           </div><br>
 
           <label> &#955:</label><br>
-          <input type="number" v-model="postBody.lamda" step="any" placeholder="0 < lamda < 1" min="0" max="1" required>
+          <input type="number" v-model="postBody.lamda" step="any" :placeholder="'0 < \u03BB < 1'" min="0" max="1" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Proportionality between trunk and non-trunk biomass<br>
@@ -78,7 +78,7 @@
 
 
           <label> &#x3b3X:</label><br>
-          <input type="number" v-model="postBody.gammax" step="any" placeholder="0 < gammaX < 1" min="0" max="1" required>
+          <input type="number" v-model="postBody.gammax" step="any" :placeholder="'0 < \u03B3X < 1'" min="0" max="1" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Xylem conducting area to sapwood area ratio (XA:SA)<br>
@@ -90,7 +90,7 @@
           </div><br>
 
           <label> &#951B:</label><br>
-          <input id="etaB" type="number" :disabled="postBody.eta==''" v-model="postBody.etaB" step="any" placeholder="0 < etaB < eta" min="0" max="postBody.eta" required>
+          <input id="etaB" type="number" :disabled="postBody.eta==''" v-model="postBody.etaB" step="any" :placeholder="'0 < \u03B7B < ' + [[postBody.eta]]" min="0" max="postBody.eta" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Relative height at which trunk transitions from a neiloid to a paraboloid<br>
@@ -127,7 +127,7 @@
           </div><br>
 
           <label> R40:</label><br>
-          <input id="R40" type="number" :disabled="postBody.r0==''" v-model="postBody.r40" step="any" placeholder="R0 < R40 < 15" min="postBody.r0" max="15" required>
+          <input id="R40" type="number" :disabled="postBody.r0==''" v-model="postBody.r40" step="any" :placeholder="[[postBody.r0]] + ' < R40 < 15'" min="postBody.r0" max="15" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Maximum potential crown radius of a tree with diameter at breast height of 40 cm<br>
@@ -140,7 +140,7 @@
           </div><br>
 
           <label> &#x3b1:</label><br>
-          <input type="number" v-model="postBody.alpha" step="any" placeholder="0 < alpha < 1" min="0" max="1" required>
+          <input type="number" v-model="postBody.alpha" step="any" :placeholder="'0 < \u03B1 < 1'" min="0" max="1" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Crown curvature parameter<br>
@@ -156,7 +156,7 @@
         <div class="panel">
           <br>
           <label> Hmax:</label><br>
-          <input id="hmax" type="number" v-model="postBody.hmax" step="any" placeholder="0 < Hmax < 127" min="postBody.r0" max="127" required>
+          <input id="hmax" type="number" v-model="postBody.hmax" step="any" placeholder="0 < Hmax < 127" min="0" max="127" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Maximum tree height<br>
@@ -201,7 +201,7 @@
         <div class="panel">
           <br>
           <label> &#x3c1max:</label><br>
-          <input type="number" v-model="postBody.rhomax" step="any" placeholder="0 < WD" min="0" required>
+          <input type="number" id="rhomax" :disabled="postBody.gammax==''" v-model="postBody.rhomax" step="any" :placeholder="[[rlo]] + ' < \u03C1max < ' + [[rhi]]" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Wood density<br>
@@ -209,7 +209,7 @@
               <b>Unit: </b>g dw m<sup>-3</sup><br>
               (grams dry weight per cubic centimeter)
               <hr width="80%">
-              <b>Constraint: </b>({{postBody.gammax * 2}}, &#8734) <!-- there needs to be a variable for the min/max equation so that it can be placed here -->
+              <b>Constraint: </b>({{rlo}}, {{rhi}}) <!-- there needs to be a variable for the min/max equation so that it can be placed here -->
             </span>
           </div><br>
 
@@ -231,7 +231,7 @@
         <div class="panel">
           <br>
           <label> &#947C:</label><br>
-          <input type="number" v-model="postBody.gammac" step="any" placeholder="0 < gammaC < 0.5" min="0" max="0.5" required>
+          <input type="number" v-model="postBody.gammac" step="any" :placeholder="'0 < \u03B3C < 0.5'" min="0" max="0.5" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Maximum labile carbon storage capacity of living sapwood cells<br>
@@ -283,7 +283,7 @@
           </div><br>
 
           <label> &#x394L:</label><br>
-          <input type="number" v-model="postBody.deltal" step="any" placeholder="0.06 < deltaL < 0.12" min="0.06" max="0.12" required>
+          <input type="number" v-model="postBody.deltal" step="any" :placeholder="'0.06 < \u0394L < 0.12'" min="0.06" max="0.12" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Labile carbon storage capacity of leaves<br>
@@ -296,7 +296,7 @@
           </div><br>
 
           <label> &#x394R:</label><br>
-          <input type="number" v-model="postBody.deltar" step="any" placeholder="0.02 < deltaR < 0.18" min="0.02" max="0.18" required>
+          <input type="number" v-model="postBody.deltar" step="any" :placeholder="'0.02 < \u0394R < 0.18'" min="0.02" max="0.18" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Labile carbon storage capacity of fine roots<br>
@@ -309,7 +309,7 @@
           </div><br>
 
           <label> &#x3c1r:</label><br>
-          <input type="number" v-model="postBody.rhor" step="any" placeholder="0 < rhor < 0.3" min="0" max="0.3" required>
+          <input type="number" v-model="postBody.rhor" step="any" :placeholder="'0 < \u03C1r < 0.3'" min="0" max="0.3" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Tissue density of fine roots<br>
@@ -521,6 +521,8 @@
         getJson: [],
         loadingFlag: 0,
         resetFlag: 0,
+        rlo: '',
+        rhi: '',
         resultJson: {
             "APARout":' ',
             "h":' ',
@@ -789,14 +791,19 @@
       }
     }, // END: getData()
     updated() {
+      this.rlo = (Math.max(0.1, (0.9995*(.05*this.postBody.gammax))))
+      this.rhi = (Math.min(0.7, (1.49925*(1-this.postBody.gammax))))
+      document.getElementById("rhomax").min = this.rlo
+      document.getElementById("rhomax").max = this.rhi
+
       document.getElementById("R40").min = document.getElementById("R0").value
       document.getElementById("etaB").max = document.getElementById("eta").value
-      document.getElementById("hmax").min = document.getElementById("R0").value
     },
     mounted() {
       this.initializeWebpage()
-    } // END: mounted
+    }, // END: mounted
   } // END: export default
+
 </script>
 
 <style scoped>
