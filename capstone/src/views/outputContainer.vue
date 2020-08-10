@@ -38,24 +38,32 @@
       <div class="rawDataList" id="rawDataList">
         <br>
         <div class="rawData" id="rawData">
+          <!--<label>APARout: {{ this.localResultJson.APARout[this.dataIndex] }}   </label><br>-->
+          <b>Height</b><br>
           <label >h: {{ this.localResultJson.h[this.dataIndex] }}              </label><br>
           <label >hh: {{ this.localResultJson.hh2[this.dataIndex] }}           </label><br>
           <label >hC: {{ this.localResultJson.hC2[this.dataIndex] }}           </label><br>
           <label >hB: {{ this.localResultJson.hB2[this.dataIndex] }}           </label><br>
-          <label >hBH: {{ this.localResultJson.hBH2[this.dataIndex] }}         </label><br>
+          <!--<label >hBH: {{ this.localResultJson.hBH2[this.dataIndex] }}         </label><br>-->
+          <hr>
+          <b>Radius</b><br>
           <label >r: {{ this.localResultJson.r[this.dataIndex] }}              </label><br>
           <label >rB: {{ this.localResultJson.rB2[this.dataIndex] }}           </label><br>
           <label >rC: {{ this.localResultJson.rC2[this.dataIndex] }}           </label><br>
           <label >rBH: {{ this.localResultJson.rBH[this.dataIndex] }}          </label><br>
+          <hr>
+          <b>Title</b><br>
           <label >sw: {{ this.localResultJson.sw2[this.dataIndex] }}           </label><br>
           <label >vts: {{ this.localResultJson.vts2[this.dataIndex] }}         </label><br>
           <label >vt: {{ this.localResultJson.vt2[this.dataIndex] }}           </label><br>
           <label >vth: {{ this.localResultJson.vth2[this.dataIndex] }}         </label><br>
           <label >sa: {{ this.localResultJson.sa2[this.dataIndex] }}           </label><br>
           <label >la: {{ this.localResultJson.la2[this.dataIndex] }}           </label><br>
-          <label >ra: {{ this.localResultJson.ra2[this.dataIndex] }}           </label><br>
+          <!--<label >ra: {{ this.localResultJson.ra2[this.dataIndex] }}           </label><br>-->
           <label >dr: {{ this.localResultJson.dr2[this.dataIndex] }}           </label><br>
-          <label >xa: {{ this.localResultJson.xa2[this.dataIndex] }}           </label><br>
+          <!--<label >xa: {{ this.localResultJson.xa2[this.dataIndex] }}           </label><br>-->
+          <hr>
+          <b>Biomass</b><br>
           <label >bl: {{ this.localResultJson.bl2[this.dataIndex] }}           </label><br>
           <label >br: {{ this.localResultJson.br2[this.dataIndex] }}           </label><br>
           <label >bt: {{ this.localResultJson.bt2[this.dataIndex] }}           </label><br>
@@ -65,26 +73,28 @@
           <label >bos: {{ this.localResultJson.bos2[this.dataIndex] }}         </label><br>
           <label >bo: {{ this.localResultJson.bo2[this.dataIndex] }}           </label><br>
           <label >bs: {{ this.localResultJson.bs2[this.dataIndex] }}           </label><br>
+          <hr>
+          <b>Labile carbon</b><br>
+          <label>cs: {{ this.localResultJson.cs2[this.dataIndex] }}            </label><br>
           <label >clr: {{ this.localResultJson.clr2[this.dataIndex] }}         </label><br>
           <label >fl: {{ this.localResultJson.fl2[this.dataIndex] }}           </label><br>
           <label >fr: {{ this.localResultJson.fr2[this.dataIndex] }}           </label><br>
           <label >ft: {{ this.localResultJson.ft2[this.dataIndex] }}           </label><br>
           <label >fo: {{ this.localResultJson.fo2[this.dataIndex] }}           </label><br>
+          <hr>
+          <b>Other</b><br>
           <label >rfl: {{ this.localResultJson.rfl2[this.dataIndex] }}         </label><br>
           <label >rfr: {{ this.localResultJson.rfr2[this.dataIndex] }}         </label><br>
           <label >rfs: {{ this.localResultJson.rfs2[this.dataIndex] }}         </label><br>
-          <label >rtrans: {{ this.localResultJson.rtrans2[this.dataIndex] }}   </label><br>
-          <label >light: {{ this.localResultJson.light2[this.dataIndex] }}     </label><br>
-          <label >nut: {{ this.localResultJson.nut2[this.dataIndex] }}         </label><br>
-          <label >deltas: {{ this.localResultJson.deltas2[this.dataIndex] }}   </label><br>
-          <label >LAI: {{ this.localResultJson.LAI2[this.dataIndex] }}         </label><br>
-          <!--<label>APARout: {{ this.localResultJson.APARout[this.dataIndex] }}   </label><br>-->
-          <!--<label>cs2: {{ this.localResultJson.cs2[this.dataIndex] }}       </label><br>-->
           <!--<label >egrow: {{ this.localResultJson.egrow2[this.dataIndex] }}     </label><br>-->
           <!--<label >ex: {{ this.localResultJson.ex2[this.dataIndex] }}           </label><br>-->
-          <label>status2: {{ this.localResultJson.status2[this.dataIndex] }}   </label><br>
+          <!--<label >rtrans: {{ this.localResultJson.rtrans2[this.dataIndex] }}   </label><br>-->
+          <label >light: {{ this.localResultJson.light2[this.dataIndex] }}     </label><br>
+          <label >nut: {{ this.localResultJson.nut2[this.dataIndex] }}         </label><br>
+          <!--<label >deltas: {{ this.localResultJson.deltas2[this.dataIndex] }}   </label><br>-->
+          <label >LAI: {{ this.localResultJson.LAI2[this.dataIndex] }}         </label><br>
+          <label>status: {{ this.localResultJson.status2[this.dataIndex] }}   </label><br>
           <!--<label>errorind: {{ this.localResultJson.errorind[this.dataIndex] }}   </label><br>-->
-          <!--<label>growth_st: {{ this.localResultJson.growth_st[this.dataIndex] }} </label><br>-->
         </div>
         <br><br>
         <div>
@@ -92,27 +102,62 @@
             <button @click="downloadRawData()">Download data</button>
           </download-csv>
           <div class="tooltip">
-            <span class="tooltiptext">
-              <b>h: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>bl: </b>Slope at H versus r curve at r = 0<br>
-              <b>hh: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>br: </b>Slope at H versus r curve at r = 0<br>
-              <b>hC: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>bt: </b>Slope at H versus r curve at r = 0<br>
-              <b>hB: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>bts: </b>Slope at H versus r curve at r = 0<br>
-              <b>hBH: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>bth: </b>Slope at H versus r curve at r = 0<br>
-              <b>r: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>boh: </b>Slope at H versus r curve at r = 0<br>
-              <b>rB: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>bos: </b>Slope at H versus r curve at r = 0<br>
-              <b>rC: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>bo: </b>Slope at H versus r curve at r = 0<br>
-              <b>rBH: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>bs: </b>Slope at H versus r curve at r = 0<br>
-              <b>sw: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>clr: </b>Slope at H versus r curve at r = 0<br>
-              <b>vts: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>fl: </b>Slope at H versus r curve at r = 0<br>
-              <b>vt: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>fr: </b>Slope at H versus r curve at r = 0<br>
-              <b>vth: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>ft: </b>Slope at H versus r curve at r = 0<br>
-              <b>sa: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>rfl: </b>Slope at H versus r curve at r = 0<br>
-              <b>la: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>rfr: </b>Slope at H versus r curve at r = 0<br>
-              <b>ra: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>rfs: </b>Slope at H versus r curve at r = 0<br>
-              <b>dr: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>rtrans: </b>Slope at H versus r curve at r = 0<br>
-              <b>xa: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>light: </b>Slope at H versus r curve at r = 0<br>
-              <b>nut: </b>Slope at H versus r curve at r = 0 &nbsp;&nbsp; <b>deltas: </b>Slope at H versus r curve at r = 0<br>
-              <b>LAI: </b>Slope at H versus r curve at r = 0<br>
+            <span class="tooltiptext" id="rawDataTooltip">
+              <b>Height</b><br>
+              <b>h: </b>Tree height (m)<br>
+              <b>hh: </b>Height to base of crown (m)<br>
+              <b>hC: </b>Height at which trunk transitions from a paraboloid to a cone (m)<br>
+              <b>hB: </b>Height at which trunk transitions from a neiloid to a paraboloid (m)<br>
+              <!--<b>hBH: </b>Description<br>-->
+              <hr>
+              <b>Radius</b><br>
+              <b>r: </b>Trunk radius at base of tree (m)<br>
+              <b>rB: </b>Trunk radius at neiloid-paraboloid transition (m)<br>
+              <b>rC: </b>Trunk radius at paraboloid-cone transition (m)<br>
+              <b>rBH: </b>Trunk radius at breast height (m)<br>
+              <hr>
+              <b>Title</b><br>
+              <b>sw: </b>Sapwood width at base of trunk (m)<br>
+              <b>vts: </b>Volume of trunk sapwood (m<sup>3</sup>)<br>
+              <b>vt: </b>Volume of trunk (m<sup>3</sup>)<br>
+              <b>vth: </b>Volume of trunk heartwood (m<sup>3</sup>)<br>
+              <b>sa: </b>Sapwood area at base (m<sup>2</sup>)<br>
+              <b>la: </b>Total one-sided leaf area (m<sup>2</sup>)<br>
+              <!--<b>ra: </b>Total fineroot surface area (m<sup>2</sup>)<br>-->
+              <b>dr: </b>Radial increment (m)<br>
+              <!--<b>xa: </b>Xylem area (m<sup>2</sup>)<br>-->
+              <hr>
+              <b>Biomass</b><br>
+              <b>bl: </b>Biomass of leaves (g dw)<br>
+              <b>br: </b>Biomass of roots (g dw)<br>
+              <b>bt: </b>Biomass of trunk (g dw)<br>
+              <b>bts: </b>Biomass of trunk sapwood (g dw)<br>
+              <b>bth: </b>Biomass of trunk heartwood (g dw)<br>
+              <b>boh: </b>Biomass of other heartwood (g dw)<br>
+              <b>bos: </b>Biomass of other sapwood (g dw)<br>
+              <b>bo: </b>Biomass of other wood (g dw)<br>
+              <b>bs: </b>Biomass of sapwood (g dw)<br>
+              <hr>
+              <b>Labile carbon</b><br>
+              <b>cs: </b>Labile carbon in sapwood (g gluc)<br>
+              <b>clr: </b>Labile carbon in leaves and fine roots (g gluc)<br>
+              <b>fl: </b>Fraction of excess labile carbon allocated to leaves<br>
+              <b>fr: </b>Fraction of excess labile carbon allocated to fine roots<br>
+              <b>ft: </b>Fraction of excess labile carbon allocated to trunk<br>
+              <b>fo: </b>Fraction of excess labile carbon allocated to roots and branches<br>
+              <hr>
+              <b>Other</b><br>
+              <b>rfl: </b>Relative retranslocation from leaves<br>
+              <b>rfr: </b>Relative retranslocation from fineroots<br>
+              <b>rfs: </b>Relative retranslocation from sapwood<br>
+              <!--<b>egrow: </b>Excess labile carbon available for growth (g gluc)<br>-->
+              <!--<b>ex: </b>Excess labile carbon and maintenance (g gluc)<br>-->
+              <!--<b>rtrans: </b>Total labile carbon retranslocated<br>-->
+              <b>light: </b>Annually absorbed photosynthetically active radiation (MJ yr<sup>-1</sup>)<br>
+              <b>nut: </b>Sapwood-to-heartwood conversion in trunk (yr<sup>-1</sup>)<br>
+              <!--<b>deltas: </b> Description <br>-->
+              <b>LAI: </b>Leaf area index (m<sup>2</sup> m<sup>-2</sup>)<br>
+              <b>status: </b>Tree status (1 = living, 0 = dead)<br>
             </span>
           </div>
         </div>
@@ -1589,6 +1634,12 @@
 
   .rawData {
     column-count: 3;
+    column-rule: 3px solid green;
+  }
+
+  #rawDataTooltip {
+    width: 550px;
+    column-count: 2;
     column-rule: 3px solid green;
   }
 
