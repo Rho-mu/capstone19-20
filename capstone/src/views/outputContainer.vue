@@ -11,13 +11,10 @@
       <div class="crownShapeContainer">
         <button @click="setCrownShape('cone')" class="coneButton" id="coneButton">CONE</button>
         <button @click="setCrownShape('cylinder')" class="cylinderButton" id="cylinderButton">CYLINDER</button>
-        <button @click="zoom('in')">Zoom in</button>
-        <button @click="zoom('out')">Zoom out</button>
       </div>
 
       <h4> Move the slider to see the growth of the tree!</h4>
       <h5>Year: {{this.dataIndex}}</h5>
-
 
       <input type="range" min="1" v-model="dataIndex" @input="draw()" id="timeStepSlider" class="timeStepSlider"><br><br>
       <div id="treeCanvasport">
@@ -38,126 +35,62 @@
       <div class="rawDataList" id="rawDataList">
         <br>
         <div class="rawData" id="rawData">
-          <!--<label>APARout: {{ this.localResultJson.APARout[this.dataIndex] }}   </label><br>-->
-          <b>Height</b><br>
-          <label >h: {{ this.localResultJson.h[this.dataIndex] }}              </label><br>
-          <label >hh: {{ this.localResultJson.hh2[this.dataIndex] }}           </label><br>
-          <label >hC: {{ this.localResultJson.hC2[this.dataIndex] }}           </label><br>
-          <label >hB: {{ this.localResultJson.hB2[this.dataIndex] }}           </label><br>
-          <!--<label >hBH: {{ this.localResultJson.hBH2[this.dataIndex] }}         </label><br>-->
-          <hr>
-          <b>Radius</b><br>
-          <label >r: {{ this.localResultJson.r[this.dataIndex] }}              </label><br>
-          <label >rB: {{ this.localResultJson.rB2[this.dataIndex] }}           </label><br>
-          <label >rC: {{ this.localResultJson.rC2[this.dataIndex] }}           </label><br>
-          <label >rBH: {{ this.localResultJson.rBH[this.dataIndex] }}          </label><br>
-          <hr>
-          <b>Title</b><br>
-          <label >sw: {{ this.localResultJson.sw2[this.dataIndex] }}           </label><br>
-          <label >vts: {{ this.localResultJson.vts2[this.dataIndex] }}         </label><br>
-          <label >vt: {{ this.localResultJson.vt2[this.dataIndex] }}           </label><br>
-          <label >vth: {{ this.localResultJson.vth2[this.dataIndex] }}         </label><br>
-          <label >sa: {{ this.localResultJson.sa2[this.dataIndex] }}           </label><br>
-          <label >la: {{ this.localResultJson.la2[this.dataIndex] }}           </label><br>
-          <!--<label >ra: {{ this.localResultJson.ra2[this.dataIndex] }}           </label><br>-->
-          <label >dr: {{ this.localResultJson.dr2[this.dataIndex] }}           </label><br>
-          <!--<label >xa: {{ this.localResultJson.xa2[this.dataIndex] }}           </label><br>-->
-          <hr>
-          <b>Biomass</b><br>
-          <label >bl: {{ this.localResultJson.bl2[this.dataIndex] }}           </label><br>
-          <label >br: {{ this.localResultJson.br2[this.dataIndex] }}           </label><br>
-          <label >bt: {{ this.localResultJson.bt2[this.dataIndex] }}           </label><br>
-          <label >bts: {{ this.localResultJson.bts2[this.dataIndex] }}         </label><br>
-          <label >bth: {{ this.localResultJson.bth2[this.dataIndex] }}         </label><br>
-          <label >boh: {{ this.localResultJson.boh2[this.dataIndex] }}         </label><br>
-          <label >bos: {{ this.localResultJson.bos2[this.dataIndex] }}         </label><br>
-          <label >bo: {{ this.localResultJson.bo2[this.dataIndex] }}           </label><br>
-          <label >bs: {{ this.localResultJson.bs2[this.dataIndex] }}           </label><br>
-          <hr>
-          <b>Labile carbon</b><br>
-          <label>cs: {{ this.localResultJson.cs2[this.dataIndex] }}            </label><br>
-          <label >clr: {{ this.localResultJson.clr2[this.dataIndex] }}         </label><br>
-          <label >fl: {{ this.localResultJson.fl2[this.dataIndex] }}           </label><br>
-          <label >fr: {{ this.localResultJson.fr2[this.dataIndex] }}           </label><br>
-          <label >ft: {{ this.localResultJson.ft2[this.dataIndex] }}           </label><br>
-          <label >fo: {{ this.localResultJson.fo2[this.dataIndex] }}           </label><br>
-          <hr>
-          <b>Other</b><br>
-          <label >rfl: {{ this.localResultJson.rfl2[this.dataIndex] }}         </label><br>
-          <label >rfr: {{ this.localResultJson.rfr2[this.dataIndex] }}         </label><br>
-          <label >rfs: {{ this.localResultJson.rfs2[this.dataIndex] }}         </label><br>
-          <!--<label >egrow: {{ this.localResultJson.egrow2[this.dataIndex] }}     </label><br>-->
-          <!--<label >ex: {{ this.localResultJson.ex2[this.dataIndex] }}           </label><br>-->
-          <!--<label >rtrans: {{ this.localResultJson.rtrans2[this.dataIndex] }}   </label><br>-->
-          <label >light: {{ this.localResultJson.light2[this.dataIndex] }}     </label><br>
-          <label >nut: {{ this.localResultJson.nut2[this.dataIndex] }}         </label><br>
-          <!--<label >deltas: {{ this.localResultJson.deltas2[this.dataIndex] }}   </label><br>-->
-          <label >LAI: {{ this.localResultJson.LAI2[this.dataIndex] }}         </label><br>
-          <label>status: {{ this.localResultJson.status2[this.dataIndex] }}   </label><br>
-          <!--<label>errorind: {{ this.localResultJson.errorind[this.dataIndex] }}   </label><br>-->
+          <label>H: {{ this.localResultJson.h[this.dataIndex] }}              </label><br>
+          <label>h<sub>C</sub>: {{ this.localResultJson.hC2[this.dataIndex] }}           </label><br>
+          <label>r: {{ this.localResultJson.r[this.dataIndex] }}              </label><br>
+          <label>r<sub>BH</sub>: {{ this.localResultJson.rBH[this.dataIndex] }}          </label><br>
+          <label>dr: {{ this.localResultJson.dr2[this.dataIndex] }}           </label><br>
+          <label>VT: {{ this.localResultJson.vt2[this.dataIndex] }}           </label><br>
+          <label>SW: {{ this.localResultJson.sw2[this.dataIndex] }}           </label><br>
+          <label>SA: {{ this.localResultJson.sa2[this.dataIndex] }}           </label><br>
+          <label>LA: {{ this.localResultJson.la2[this.dataIndex] }}           </label><br>
+          <label>RA: {{ this.localResultJson.ra2[this.dataIndex] }}           </label><br>
+          <label>LAI: {{ this.localResultJson.LAI2[this.dataIndex] }}         </label><br>
+          <label>BL: {{ this.localResultJson.bl2[this.dataIndex] }}           </label><br>
+          <label>BR: {{ this.localResultJson.br2[this.dataIndex] }}           </label><br>
+          <label>BT: {{ this.localResultJson.bt2[this.dataIndex] }}           </label><br>
+          <label>BO: {{ this.localResultJson.bo2[this.dataIndex] }}           </label><br>
+          <label>CS: {{ this.localResultJson.cs2[this.dataIndex] }}           </label><br>
+          <label>CLR: {{ this.localResultJson.clr2[this.dataIndex] }}         </label><br>
+          <label>Light: {{ this.localResultJson.light2[this.dataIndex] }}     </label><br>
         </div>
         <br><br>
         <div>
           <download-csv class="downloadbutton" :data="this.array" name = "treeData.csv">
             <button @click="downloadRawData()">Download data</button>
           </download-csv>
+
           <div class="tooltip">
             <span class="tooltiptext" id="rawDataTooltip">
-              <b>Height</b><br>
-              <b>h: </b>Tree height (m)<br>
-              <b>hh: </b>Height to base of crown (m)<br>
-              <b>hC: </b>Height at which trunk transitions from a paraboloid to a cone (m)<br>
-              <b>hB: </b>Height at which trunk transitions from a neiloid to a paraboloid (m)<br>
-              <!--<b>hBH: </b>Description<br>-->
-              <hr>
-              <b>Radius</b><br>
+              <b>Outputs</b><br>
+              <b>H: </b>Tree height (m)<br>
+              <b>h<sub>C</sub>: </b>Height to base of crown (m)<br>
               <b>r: </b>Trunk radius at base of tree (m)<br>
-              <b>rB: </b>Trunk radius at neiloid-paraboloid transition (m)<br>
-              <b>rC: </b>Trunk radius at paraboloid-cone transition (m)<br>
-              <b>rBH: </b>Trunk radius at breast height (m)<br>
-              <hr>
-              <b>Title</b><br>
-              <b>sw: </b>Sapwood width at base of trunk (m)<br>
-              <b>vts: </b>Volume of trunk sapwood (m<sup>3</sup>)<br>
-              <b>vt: </b>Volume of trunk (m<sup>3</sup>)<br>
-              <b>vth: </b>Volume of trunk heartwood (m<sup>3</sup>)<br>
-              <b>sa: </b>Sapwood area at base (m<sup>2</sup>)<br>
-              <b>la: </b>Total one-sided leaf area (m<sup>2</sup>)<br>
-              <!--<b>ra: </b>Total fineroot surface area (m<sup>2</sup>)<br>-->
-              <b>dr: </b>Radial increment (m)<br>
-              <!--<b>xa: </b>Xylem area (m<sup>2</sup>)<br>-->
-              <hr>
-              <b>Biomass</b><br>
-              <b>bl: </b>Biomass of leaves (g dw)<br>
-              <b>br: </b>Biomass of roots (g dw)<br>
-              <b>bt: </b>Biomass of trunk (g dw)<br>
-              <b>bts: </b>Biomass of trunk sapwood (g dw)<br>
-              <b>bth: </b>Biomass of trunk heartwood (g dw)<br>
-              <b>boh: </b>Biomass of other heartwood (g dw)<br>
-              <b>bos: </b>Biomass of other sapwood (g dw)<br>
-              <b>bo: </b>Biomass of other wood (g dw)<br>
-              <b>bs: </b>Biomass of sapwood (g dw)<br>
-              <hr>
-              <b>Labile carbon</b><br>
-              <b>cs: </b>Labile carbon in sapwood (g gluc)<br>
-              <b>clr: </b>Labile carbon in leaves and fine roots (g gluc)<br>
-              <b>fl: </b>Fraction of excess labile carbon allocated to leaves<br>
-              <b>fr: </b>Fraction of excess labile carbon allocated to fine roots<br>
-              <b>ft: </b>Fraction of excess labile carbon allocated to trunk<br>
-              <b>fo: </b>Fraction of excess labile carbon allocated to roots and branches<br>
-              <hr>
-              <b>Other</b><br>
-              <b>rfl: </b>Relative retranslocation from leaves<br>
-              <b>rfr: </b>Relative retranslocation from fineroots<br>
-              <b>rfs: </b>Relative retranslocation from sapwood<br>
-              <!--<b>egrow: </b>Excess labile carbon available for growth (g gluc)<br>-->
-              <!--<b>ex: </b>Excess labile carbon and maintenance (g gluc)<br>-->
-              <!--<b>rtrans: </b>Total labile carbon retranslocated<br>-->
-              <b>light: </b>Annually absorbed photosynthetically active radiation (MJ yr<sup>-1</sup>)<br>
-              <b>nut: </b>Sapwood-to-heartwood conversion in trunk (yr<sup>-1</sup>)<br>
-              <!--<b>deltas: </b> Description <br>-->
-              <b>LAI: </b>Leaf area index (m<sup>2</sup> m<sup>-2</sup>)<br>
-              <b>status: </b>Tree status (1 = living, 0 = dead)<br>
+              <b>r<sub>BH</sub>: </b>Trunk radius at breast height (m)<br>
+              <b>dr: </b>Trunk radial increment at base of trunk (m)<br>
+              <b>VT: </b>Volume of trunk (m<sup>3</sup>)<br>
+              <b>SW: </b>Sapwood width at base of trunk (m)<br>
+              <b>SA: </b>Sapwood area at base (m<sup>2</sup>)<br>
+              <b>LA: </b>Total one-sided leaf area (m<sup>2</sup>)<br>
+              <b>RA: </b>Total fineroot surface area (m<sup>2</sup>)<br>
+              <b>LAI: </b>Leaf area index (m<sup>2</sup> m <sup>-2</sup>)<br>
+              <b>BL: </b>Biomass of leaves (g dw)<br>
+              <b>BR: </b>Biomass of fine roots (g dw)<br>
+              <b>BT: </b>Biomass of trunk (g dw)<br>
+              <b>BO: </b>Biomass of other wood - coarse roots and stems (g dw)<br>
+              <b>CS: </b>Labile carbon in sapwood (g gluc)<br>
+              <b>CLR: </b>Labile carbon in leaves and fine roots (g gluc)<br>
+              <b>Light: </b>Annually absorbed photosynthetically active radiation (MJ yr <sup>-1</sup>)<br>
+
+              <br><hr>
+              <b>Unit Descriptions</b><br>
+              <b>m: </b>meters<br>
+              <b>m<sup>2</sup>: </b>sqaure meters<br>
+              <b>m<sup>3</sup>: </b>cubic meters<br>
+              <b>g dw: </b>grams dry weight<br>
+              <b>g gluc: </b>grams glucose<br>
+              <b>MJ yr <sup>-1</sup>: </b>megajoules per year<br>
+              <b>m<sup>2</sup> m <sup>-2</sup>: </b>meters squared leaf area per meter square ground<br>
             </span>
           </div>
         </div>
@@ -1566,6 +1499,14 @@
     opacity: 1;
   }
 
+  #rawDataTooltip {
+    /*height: 500px;*/
+    width: 900px;
+    column-count: 2;
+    column-rule: 3px solid green;
+    column-fill: balance;
+  }
+
   /* Tooltip container */
   .tooltip {
     position: relative;
@@ -1633,14 +1574,9 @@
   }
 
   .rawData {
-    column-count: 3;
+    /*column-count: 2;
     column-rule: 3px solid green;
-  }
-
-  #rawDataTooltip {
-    width: 550px;
-    column-count: 2;
-    column-rule: 3px solid green;
+    column-fill: balance;*/
   }
 
   h4 {
