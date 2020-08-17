@@ -56,8 +56,11 @@
         </div>
         <br><br>
         <div>
-          <download-csv class="downloadbutton" :data="this.array" name = "treeData.csv">
-            <button @click="downloadRawData()">Download data</button>
+          <download-csv
+            class="btn btn-default"
+            name="treeData.csv"
+            :data="this.downloadArray">
+            <button>Download data</button>
           </download-csv>
 
           <div class="tooltip">
@@ -178,6 +181,7 @@
           "status2":'',
           "errorind":'',
         },
+        downloadArray: [],
         localLoadingFlag: ''
       } // END: return
     }, // END: data()
@@ -241,8 +245,10 @@
         // Does some setup once getData() is done and data has been retrieved.
 
         // For running locally if model stops working.
-        //this.localResultJson = loblolly9
-        //console.log("localResultJson", this.localResultJson)
+        /*this.localResultJson = loblolly9
+        console.log("localResultJson - loblolly9", this.localResultJson)
+        this.convertDataToArray()
+        this.temp_sd()*/
 
         this.localResultJson = this.resultJson
         this.localLoadingFlag = this.loadingFlag
@@ -414,7 +420,7 @@
         var year = this.dataIndex // The current timestep on the slider. Named "year" to make it easier to read.
 
         var status = this.localResultJson.status2[year] // Status == 1 is alive.
-        console.log("status:", status)
+        //console.log("status:", status)
         var drawCrown = true // true if current tree is alive, false if a previous tree needs to be drawn.
 
         if( status != 1 ) // If tree is not alive.
@@ -526,7 +532,7 @@
           rcbase = rcmax
         }
 
-        console.log("year:",year,"\nLAI2:",this.localResultJson.LAI2[year],"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,"\nrBH:",rBH,"\nrcmax:",rcmax,"\nrcbase:",rcbase)
+        //console.log("year:",year,"\nLAI2:",this.localResultJson.LAI2[year],"\nh:",h,"\nhC:",hC,"\nhB:",hB,"\nr:",r,"\nrB:",rB,"\nrC:",rC,"\nrBH:",rBH,"\nrcmax:",rcmax,"\nrcbase:",rcbase)
 
         // Supplemental parameters
         var geoSegments = 16              // Segments of geometry
@@ -1032,15 +1038,67 @@
 				//this.renderer.copyFramebufferToTexture( this.vector, this.texture );
       }, // END: update()
 
-      downloadRawData() {
-        // Downloads the raw data output from localResultJson to a .csv file
-        for(let i in this.localResultJson){
-          let o = {name : i, v : this.localResultJson[i]};
-          this.array.push(this.localResultJson[i])
-        }
-        console.log(this.array);
-        console.log("object is transferred to array");
-      }, // END: downloadRawData()
+      convertDataToArray() {
+        console.log("Converting data to array")
+        var treeObj
+
+        for( var i = 1; i <= this.postBody.t; i++ )
+        {
+          // Each tree object is a row in the csv file.
+          treeObj = {
+            "year": i,
+            "APARout": this.localResultJson.APARout[i],
+            "h": this.localResultJson.h[i],
+            "hh": this.localResultJson.hh2[i],
+            "hC": this.localResultJson.hC2[i],
+            "hB": this.localResultJson.hB2[i],
+            "hBH": this.localResultJson.hBH2[i],
+            "r": this.localResultJson.r[i],
+            "rB": this.localResultJson.rB2[i],
+            "rC": this.localResultJson.rC2[i],
+            "rBH": this.localResultJson.rBH[i],
+            "sw": this.localResultJson.sw2[i],
+            "vts2": this.localResultJson.vts2[i],
+            "vt": this.localResultJson.vt2[i],
+            "vth": this.localResultJson.vth2[i],
+            "sa": this.localResultJson.sa2[i],
+            "la": this.localResultJson.la2[i],
+            "ra": this.localResultJson.ra2[i],
+            "dr": this.localResultJson.dr2[i],
+            "xa": this.localResultJson.xa2[i],
+            "bl": this.localResultJson.bl2[i],
+            "br": this.localResultJson.br2[i],
+            "bt": this.localResultJson.bt2[i],
+            "bts": this.localResultJson.bts2[i],
+            "bth": this.localResultJson.bth2[i],
+            "boh": this.localResultJson.boh2[i],
+            "bos": this.localResultJson.bos2[i],
+            "bo": this.localResultJson.bo2[i],
+            "bs": this.localResultJson.bs2[i],
+            "cs": this.localResultJson.cs2[i],
+            "clr": this.localResultJson.clr2[i],
+            "fl": this.localResultJson.fl2[i],
+            "fr": this.localResultJson.fr2[i],
+            "ft": this.localResultJson.ft2[i],
+            "fo": this.localResultJson.fo2[i],
+            "rfl": this.localResultJson.rfl2[i],
+            "rfr": this.localResultJson.rfr2[i],
+            "rfs": this.localResultJson.rfs2[i],
+            "egrow": this.localResultJson.egrow2[i],
+            "ex": this.localResultJson.ex2[i],
+            "rtrans": this.localResultJson.rtrans2[i],
+            "light": this.localResultJson.light2[i],
+            "nut": this.localResultJson.nut2[i],
+            "deltas": this.localResultJson.deltas2[i],
+            "LAI": this.localResultJson.LAI2[i],
+            "status": this.localResultJson.status2[i]
+          } // END: treeObj
+          //console.log("tree", i, ":", treeObj)
+
+          this.downloadArray.push(treeObj) // Push the new row to the array.
+        } // END: for i
+        //console.log("downloadArray:\n", this.downloadArray)
+      }, // END: convertDataToArray()
 
       setTempDefaultlocalResultJson() {
         this.localResultJson = {
