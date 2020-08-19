@@ -13,10 +13,11 @@
         <button @click="setCrownShape('cylinder')" class="cylinderButton" id="cylinderButton">CYLINDER</button>
       </div>
 
-      <h4> Move the slider to see the growth of the tree!</h4>
+      <h4> Move the slider to see the tree grow!</h4>
       <h5>Year: {{this.dataIndex}}</h5>
 
       <input type="range" min="1" v-model="dataIndex" @input="draw()" id="timeStepSlider" class="timeStepSlider"><br><br>
+
       <div id="treeCanvasport">
         <div id="treeStatus" class="UILabel"></div>
 
@@ -182,7 +183,8 @@
           "errorind":'',
         },
         downloadArray: [],
-        localLoadingFlag: ''
+        localLoadingFlag: '',
+        localStartDraw: ''
       } // END: return
     }, // END: data()
 
@@ -247,7 +249,6 @@
         // For running locally if model stops working.
         /*this.localResultJson = loblolly9
         console.log("localResultJson - loblolly9", this.localResultJson)
-        this.convertDataToArray()
         this.temp_sd()*/
 
         this.localResultJson = this.resultJson
@@ -322,6 +323,8 @@
         this.setUpLabels()
         this.setScene("treeScene")
 
+        this.convertDataToArray() // Store data in array for download button.
+
         console.log("afterGetSetup - Complete")
       }, // END: afterGetSetup()
 
@@ -388,6 +391,10 @@
       }, // END: setUpLabels()
 
       draw() {
+        //console.log("di:", this.dataIndex)
+        //console.log("h:",this.localResultJson.h[this.dataIndex])
+        //console.log("s:",this.localResultJson.status2[this.dataIndex])
+
         // Update status label.
         var status = this.localResultJson.status2[this.dataIndex]
         if( status == 1 )
@@ -1039,7 +1046,6 @@
       }, // END: update()
 
       convertDataToArray() {
-        console.log("Converting data to array")
         var treeObj
 
         for( var i = 1; i <= this.postBody.t; i++ )
@@ -1093,11 +1099,9 @@
             "LAI": this.localResultJson.LAI2[i],
             "status": this.localResultJson.status2[i]
           } // END: treeObj
-          //console.log("tree", i, ":", treeObj)
-
+          console.log(treeObj)
           this.downloadArray.push(treeObj) // Push the new row to the array.
         } // END: for i
-        //console.log("downloadArray:\n", this.downloadArray)
       }, // END: convertDataToArray()
 
       setTempDefaultlocalResultJson() {
@@ -1155,11 +1159,13 @@
       checkForStartDraw() {
         // Keeps checking for startDraw (from the input container)
         // to draw once getData() is complete.
-        if( this.startDraw == true )
+
+        this.localStartDraw = this.startDraw // Saves startDraw in a local variable.
+
+        if( this.localStartDraw == true )
         {
           console.log("startDraw - True")
           this.afterGetSetup()
-          this.draw()
         }
         else
         {
@@ -1217,8 +1223,8 @@
         document.getElementById('ringLegendCurR').style.display = "none"
         document.getElementById('treeStatus').style.display = "none"
 
-        // Set startDraw to false and re-call it to check when getData is done again.
-        this.startDraw = false
+        // Set localStartDraw to false and re-call it to check when getData is done again.
+        this.localStartDraw = false
         this.checkForStartDraw()
 
         // Set resetFlag to 0 and re-call it to check when the reset button is clicked again.
@@ -1353,7 +1359,7 @@
       }, // END: addText()
 
       temp_sd() {
-        this.startDraw = true
+        this.localStartDraw = true
       },
 
       drawRingsTemp() {
