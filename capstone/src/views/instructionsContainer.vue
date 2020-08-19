@@ -16,12 +16,12 @@
         <p>3. Wait for the ACGCA model to finish running. When the output data has been retrieved, use the output box to see your simulated tree.</p>
         <br>
         <h4>Output Tools</h4>
-        <p><b>Rings:</b> Shows the tree rings at each year.</p>
-        <p><b>Tree:</b> Shows the tree at each year.
-        <p><b>Cone:</b> Changes the tree crown to a cone.</P>
-        <p><b>Cylinder:</b> Changes the tree crown to a Cylinder.</P>
+        <p><b>RINGS:</b> Shows the tree rings and their widths at each year, and distinguishes between heartwood and sapwood.</p>
+        <p><b>TREE:</b> Visualizes the tree each year, in terms of its simulated height, trunk radius, crown dimensions, and status (living vs dead).
+        <p><b>CONE:</b> Changes the tree crown to a cone.</P>
+        <p><b>CYLINDER:</b> Changes the tree crown to a cylinder.</P>
         </p>
-        <p><b>Data:</b> Shows the raw data from the ACGCA model at each year.</p>
+        <p><b>DATA:</b> Shows the numerical (simulated) values for a subset of output variables produced by the ACGCA simulation at each year. These output data can also be downloaded (saved) as a csv file.</p>
       </div>
     </div>
   </div>
