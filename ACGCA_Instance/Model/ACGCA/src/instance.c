@@ -121,7 +121,6 @@ void run_model(double *input, double *gp2,
   	ForParms.intF = 3.4;
   	ForParms.slopeF = -5.5;
 
-
     // need to fix the year problem there
       // establish the secondary data structures
       // double pointers to pass into the growth loop function

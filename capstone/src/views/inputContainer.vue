@@ -691,7 +691,7 @@
           this.postBody.sla=60.2
           this.postBody.sr=0.5
           this.postBody.so=0.05
-          this.postBody.rr=2.7
+          this.postBody.rr=0.0027
           this.postBody.rhor=0.2
           this.postBody.rml=1.9
           this.postBody.rms=0.05

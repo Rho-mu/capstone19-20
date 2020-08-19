@@ -45,7 +45,7 @@
       For additional information about the model, see:
       </h3>
           <p>
-          Gemoets, D., J.J. Barber, andK. Ogle (2013). Reversible jump MCMC for inferencein a deterministic
+          Gemoets, D., J.J. Barber, and K. Ogle (2013). Reversible jump MCMC for inferencein a deterministic
           individual-based model of tree growth forstudying forest dynamics. Environmetrics, 24: 433-448.
           </p>
           <p>
