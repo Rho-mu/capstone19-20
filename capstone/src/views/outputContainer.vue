@@ -1,8 +1,6 @@
 <template>
   <div>
     <div class="outputContainer" id="outputContainer">
-      <!--<button @click="addText()">temp: add text</button>
-      <button @click="temp_sd()">temp: start draw</button>-->
       <div class="setSceneContainer">
         <button @click="setScene('ringScene')" class="ringSceneButton" id="ringSceneButton">RINGS</button>
         <button @click="setScene('treeScene')" class="treeSceneButton" id="treeSceneButton">TREE</button>
@@ -16,7 +14,7 @@
       <h4> Move the slider to see the tree grow!</h4>
       <h5>Year: {{this.dataIndex}}</h5>
 
-      <input type="range" min="1" v-model="dataIndex" @input="draw()" id="timeStepSlider" class="timeStepSlider"><br><br>
+      <input type="range" min="1"  @input="draw()" id="timeStepSlider" class="timeStepSlider"><br><br>
 
       <div id="treeCanvasport">
         <div id="treeStatus" class="UILabel"></div>
@@ -118,22 +116,23 @@
 
     data() {
       return {
+        // Keeps track of the year. DIrectly linked to timeStepSlider.
         dataIndex: "1",
+
+        // Scene and camera variables.
         canvasWidth: window.innerWidth*0.75,
         canvasHeight: window.innerWidth*0.5,
         currentScene: this.treeScene,
         currentCam: this.treeCam,
+
+        // Max values for normalizing.
         maxRootDepth: 0,
         maxHeight: 0,
         maxTrunkRadius: 0,
         maxLAI2: 0,
         maxBr: 0,
-        crownShape: "cone",
-        ringScale: 10,
-        array : [],
-        ringArray: [],
-        numberOfRings: 0,
-        loopFlag: 0,
+
+        // Model output.
         localResultJson: {
           "APARout":'',
           "h":'',
@@ -182,7 +181,20 @@
           "status2":'',
           "errorind":'',
         },
+
+        // Holds crown shape.
+        crownShape: "cone",
+
+        // Makes rings bigger to render them if they're too small.
+        ringScale: 10,
+
+        // Used on page load to wait to initialize scene.
+        loopFlag: 0,
+
+        // Array to hold comma separated tree objects for a .csv file.
         downloadArray: [],
+
+        // Local versions of props from other files. (like acgca.vue)
         localLoadingFlag: '',
         localStartDraw: ''
       } // END: return
@@ -238,7 +250,7 @@
         // Allow canvas to resize with window.
         window.addEventListener( 'resize', this.onWindowResize, false )
         // Allow canvas to zoom when users scrolls mouse wheel.
-        //window.addEventListener( 'scroll', this.scrollCamera )
+        window.addEventListener( 'scroll', this.scrollCamera )
 
         console.log("initializeVisualization - Complete")
       }, // END: initializeVisualization()
@@ -249,11 +261,11 @@
         // For running locally if model stops working.
         /*this.localResultJson = loblolly9
         console.log("localResultJson - loblolly9", this.localResultJson)
-        this.temp_sd()*/
+        */
 
         this.localResultJson = this.resultJson
         this.localLoadingFlag = this.loadingFlag
-
+        console.log("trj",this.localResultJson)
         // Change the background color of the tree scene based on the light level.
         var bgColor = new THREE.Color()
         if(this.postBody.io == null)
@@ -323,7 +335,7 @@
         this.setUpLabels()
         this.setScene("treeScene")
 
-        this.convertDataToArray() // Store data in array for download button.
+        //this.convertDataToArray() // Store data in array for download button.
 
         console.log("afterGetSetup - Complete")
       }, // END: afterGetSetup()
@@ -390,9 +402,10 @@
         treeStatusText.style.top = ((0.81 + 1)/2 * this.canvasHeight) + 'px'
       }, // END: setUpLabels()
 
+      /*** Drawing Functions ***/
       draw() {
-        //console.log("di:", this.dataIndex)
-        //console.log("h:",this.localResultJson.h[this.dataIndex])
+        console.log("di:", this.dataIndex)
+        console.log("h:",this.localResultJson.h[this.dataIndex])
         //console.log("s:",this.localResultJson.status2[this.dataIndex])
 
         // Update status label.
@@ -423,6 +436,7 @@
         }
       }, // END: draw()
 
+      /* Trees */
       getTree() {
         var year = this.dataIndex // The current timestep on the slider. Named "year" to make it easier to read.
 
@@ -693,7 +707,9 @@
         this.treeScene.add( scale )
         this.treeScene.add( zeroScale )
       }, // END: drawTreeScale()
+      /* END: Trees */
 
+      /* RINGS */
       drawRings() {
         var geoSegments = 16
 
@@ -881,6 +897,7 @@
         this.ringScene.add( initRadBotScale )
         this.ringScene.add( curRadBotScale )
       }, // END: drawRingScale()
+      /* END: RINGS */
 
       addLight() {
         // Ambient light for all objects.
@@ -927,7 +944,7 @@
           this.currentScene = this.treeScene
           this.currentCam = this.treeCam
           this.onWindowResize()
-          this.draw()
+          //this.draw()
           console.log("Scene Change - Tree")
         }
         else if(scene == "ringScene") {
@@ -955,7 +972,7 @@
           this.currentScene = this.ringScene
           this.currentCam = this.ringCam
           this.onWindowResize()
-          this.draw()
+          //this.draw()
           console.log("Scene Change - Rings")
         }
         else if(scene == "rawDataScene") {
@@ -968,6 +985,7 @@
           console.log("Scene Change - Raw Data")
         }
       }, // END: setScene()
+      /*** END: Drawing Functions ***/
 
       onWindowResize() {
         // Adjusts the renderer size when the window is resized.
@@ -1026,7 +1044,6 @@
 
         //this.update()
         this.renderer.render(this.currentScene, this.currentCam)
-        //this.renderer.render(this.ringZoomScene, this.ringZoomCam)
 
         requestAnimationFrame(this.animate)
       }, // END: animate()
@@ -1099,7 +1116,7 @@
             "LAI": this.localResultJson.LAI2[i],
             "status": this.localResultJson.status2[i]
           } // END: treeObj
-          console.log(treeObj)
+
           this.downloadArray.push(treeObj) // Push the new row to the array.
         } // END: for i
       }, // END: convertDataToArray()
@@ -1234,263 +1251,7 @@
         console.log("Reset - Visualization")
       }, // END: resetVisualization()
 
-      addBox(x, y, z, theColor) {
-        console.log("adding box:", x, y, z, theColor)
-        //var myTexture = new THREE.TextureLoader().load( '../json/bark.png' )
-
-        var boxGeo = new THREE.BoxGeometry( 1, 1, 1 )
-
-        //var myMaterial = new THREE.MeshLambertMaterial( { map: this.barkTexture } )
-        var boxMat = new THREE.MeshLambertMaterial( { color: theColor } )
-        /*var sideMats =
-        [
-          new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('../json/bark.png'), side: THREE.DoubleSide } ),
-          new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('../json/bark.png'), side: THREE.DoubleSide } ),
-          new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('../json/bark.png'), side: THREE.DoubleSide } ),
-          new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('../json/bark.png'), side: THREE.DoubleSide } ),
-          new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('../json/bark.png'), side: THREE.DoubleSide } ),
-          new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('../json/bark.png'), side: THREE.DoubleSide } )
-        ]*/
-
-        //var boxMat = new THREE.MeshFaceMaterial( sideMats )
-        this.box = new THREE.Mesh( boxGeo, boxMat )
-        this.box.position.x = x
-        this.box.position.y = y
-        this.box.position.z = z
-        this.treeScene.add( this.box )
-      }, // END: addBox()
-
-      addText() {
-        /*
-        var loader = new THREE.FontLoader()
-
-        loader.load( 'fonts/optimer_regular.typeface.json', function ( font ) {
-
-          var text
-
-          var color = 0x006699
-
-          var material = new THREE.MeshBasicMaterial( { color: color } )
-
-          var geometry = new THREE.TextGeometry( 'Hello three.js!', {
-        		font: font,
-        		size: 80,
-        		height: 5,
-        		curveSegments: 12,
-        		bevelEnabled: true,
-        		bevelThickness: 10,
-        		bevelSize: 8,
-        		bevelOffset: 0,
-        		bevelSegments: 5
-        	} )
-
-          text = new THREE.Mesh( geometry, material )
-          this.treeScene.add( text )
-        } ) //end load function
-        */
-
-        console.log("adding text")
-
-        //var loader = new THREE.FontLoader()
-
-        /*var font = loader.load(
-        	// resource URL
-        	'../assets/fonts/helvetiker_regular.typeface.json',
-
-        	// onLoad callback
-        	function ( font ) {
-            console.log("trying to add")
-            console.log("font:", font)
-
-
-            var geometry = new THREE.TextGeometry( 'Hello three.js!', {
-          		font: parsedFont
-          	} )
-
-            var matLite = new THREE.MeshBasicMaterial( {
-  						color: red
-  					} )
-
-            text = new THREE.Mesh( geometry, material )
-
-        		// do something with the font
-        		this.treeScene.add( text )
-            console.log("text added")
-        	},
-
-        	// onProgress callback
-        	function ( xhr ) {
-        		console.log( (xhr.loaded / xhr.total * 100) + '% loaded' )
-        	},
-
-        	// onError callback
-        	function ( err ) {
-        		console.log( 'An error happened' )
-        	}
-        )*/
-
-
-        /*var loader = new THREE.FileLoader()
-        loader.setResponseType('json')
-
-        var myfont = loader.load(
-          '../assets/fonts/helvetiker_regular.typeface.json'
-        )
-        console.log("font:", myfont)*/
-
-        //var parsedFont = loader.parse(myfont)
-        console.log("parsedFont:", this.font_helvetiker_regular)
-
-        var geometry = new THREE.TextGeometry( 'Hello three.js!', {})
-
-        var material = new THREE.MeshBasicMaterial( {
-          color: red
-        } )
-
-        text = new THREE.Mesh( geometry, material )
-
-        // do something with the font
-        this.treeScene.add( text )
-        console.log("text added")
-
-        //var parsedFont = loader.parse(font)
-
-        console.log("addText - Complete")
-      }, // END: addText()
-
-      temp_sd() {
-        this.localStartDraw = true
-      },
-
-      drawRingsTemp() {
-        var geoSegments = 16
-
-        console.log("dataIndex", this.dataIndex, "\nnumRings", this.numberOfRings)
-
-        if(this.dataIndex > this.numberOfRings)
-        {
-          console.log("adding rings")
-          var i = this.numberOfRings + 1 // Index that goes between numberOfRings and dataIndex.
-          var heartwoodRadius = this.localResultJson.r[this.dataIndex] - this.localResultJson.sw2[this.dataIndex] // Gets the heart wood radius at the current year on the slider
-
-          while(this.dataIndex > this.numberOfRings)
-          {
-            // color
-            var ringColor = new THREE.Color()
-            if( this.localResultJson.r[i] < heartwoodRadius ) // If the current ring is part of the heart wood..
-            {
-              // Alternate between lighter colors
-              if(i % 2 == 0) { ringColor = 0xad593b }
-              else { ringColor = 0x521700 }
-            }
-            else                                              // If the current ring is part of the sap wood..
-            {
-              // Alternate between darker colors
-              if(i % 2 == 0) { ringColor = 0x997354 }
-              else { ringColor = 0x331700 }
-            }
-
-            var ringGeo
-            if(i == 1)
-            {
-              // Sets the initial ring to a circle. Otherwise, there would be a hole of r0 raidus in the center.
-              ringGeo = new THREE.CircleGeometry(this.localResultJson.r[i], geoSegments)
-              var ringMat = new THREE.MeshBasicMaterial( {color: ringColor} )
-              ringMat.transparent = true
-              ringMat.opacity = 0.6
-              var ring = new THREE.Mesh( ringGeo, ringMat )
-              this.ringScene.add( ring )
-              this.ringArray[this.numberOfRings] = ring
-            }
-            else
-            {
-              // RingGeometry(innerRadius : Float, outerRadius : Float, thetaSegments : Integer, phiSegments : Integer, thetaStart : Float, thetaLength : Float)
-              ringGeo = new THREE.RingGeometry( this.localResultJson.r[i-1], this.localResultJson.r[i], geoSegments, 1 )
-              var ringMat = new THREE.MeshBasicMaterial( {color: ringColor} )
-              var ring = new THREE.Mesh( ringGeo, ringMat )
-              this.ringScene.add( ring )
-              this.ringArray[this.numberOfRings] = ring
-            }
-
-            i++
-            this.numberOfRings++
-          } // END: while-loop
-        } // END: if(dataIndex > numberOfRings)
-
-        if(this.dataIndex < this.numberOfRings) // If the user moves the slider down (ie, younger tree, less rings)
-        {
-          console.log("removing rings")
-          while(this.dataIndex < this.numberOfRings) // Remove all rings that come after the current index of the slider.
-          {
-            this.ringScene.remove(this.ringArray[this.numberOfRings])
-            this.numberOfRings--
-          }
-        }
-
-        this.drawRingLegend()
-        this.drawRingScale()
-      }, // END: drawRingsTemp()
-
-      tempview() {
-        this.visCanvas = document.getElementById('treeCanvasport')
-
-        var treeBoundBotLeft = new THREE.Vector3(-5, 0, 0)
-        var treeBoundBotRight = new THREE.Vector3(5, 0, 0)
-        var treeBoundTopRight = new THREE.Vector3(5, this.maxHeight, 0)
-        var treeBoundTopLeft = new THREE.Vector3(-5, this.maxHeight, 0)
-
-        var mypoints = []
-        mypoints.push( treeBoundBotLeft )
-        mypoints.push( treeBoundBotRight )
-        mypoints.push( treeBoundTopRight )
-        mypoints.push( treeBoundTopLeft )
-        mypoints.push( treeBoundBotLeft )
-
-        var mylineGeo = new THREE.BufferGeometry().setFromPoints( mypoints )
-        var mylineMat = new THREE.LineBasicMaterial( {color: 0x008509, linewidth: 30} )
-        var myscale = new THREE.Line( mylineGeo, mylineMat )
-        //this.treeScene.add( myscale )
-
-        this.treeCam.position.y = this.maxHeight / 2
-        this.treeCam.position.z = this.maxHeight * 0.6
-        this.treeCam.lookAt(0, this.maxHeight/2, 0)
-      },
-
-      ringZoom() {
-        this.ringZoomCam = new THREE.OrthographicCamera( -this.canvasWidth/2, this.canvasWidth/2, this.canvasHeight/2, -this.canvasHeight/2, 1, 10 )
-        this.ringZoomCam.position.z = 10
-        this.ringZoomScene = new THREE.Scene()
-
-        this.vector = new THREE.Vector2()
-        this.textureSize = 3
-
-        var data = new Uint8Array( this.textureSize * this.textureSize * 3 )
-
-				this.texture = new THREE.DataTexture( data, this.textureSize, this.textureSize, THREE.RGBFormat )
-				this.texture.minFilter = THREE.NearestFilter
-				this.texture.magFilter = THREE.NearestFilter
-
-
-				var spriteMaterial = new THREE.SpriteMaterial( { map: this.texture } )
-				this.sprite = new THREE.Sprite( spriteMaterial )
-				this.sprite.scale.set( this.textureSize, this.textureSize, 1 )
-				this.ringZoomScene.add( this.sprite )
-
-				this.updateSpritePosition()
-      },
-
-      updateSpritePosition() {
-
-        var halfWidth = this.canvasWidth / 2
-				var halfHeight = this.canvasHeight / 2
-
-				var halfImageWidth = this.textureSize / 2
-				var halfImageHeight = this.textureSize / 2
-
-				this.sprite.position.set( - halfWidth + halfImageWidth, halfHeight - halfImageHeight, 1 );
-      },
-
-      zoom(type) {
+      /*zoom(type) {
         if( type == "in" )
         {
           this.currentCam.zoom++
@@ -1504,16 +1265,17 @@
           console.log("zoom out")
         }
       }, // END: zoom()
+      */
 
-      scrollCamera() {
+      /*scrollCamera() {
         this.treeCam.position.z = (this.maxHeight+this.maxRootDepth)*0.6 + window.scrollY/100
         this.treeCam.updateProjectionMatrix()
       }, // END: scrollCamera()
+      */
     }, // END: methods
 
     mounted() {
       this.setTempDefaultlocalResultJson()
-      this.checkForStartDraw()
       this.checkForReset()
     }, // END: mounted
 
