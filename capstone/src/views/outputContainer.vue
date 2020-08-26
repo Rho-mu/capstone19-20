@@ -14,7 +14,7 @@
       <h4> Move the slider to see the tree grow!</h4>
       <h5>Year: {{this.dataIndex}}</h5>
 
-      <input type="range" min="1"  @input="draw()" id="timeStepSlider" class="timeStepSlider"><br><br>
+      <input type="range" min="1" v-model="dataIndex" @input="draw()" id="timeStepSlider" class="timeStepSlider"><br><br>
 
       <div id="treeCanvasport">
         <div id="treeStatus" class="UILabel"></div>
@@ -49,7 +49,7 @@
           <label>BR: {{ this.localResultJson.br2[this.dataIndex] }}           </label><br>
           <label>BT: {{ this.localResultJson.bt2[this.dataIndex] }}           </label><br>
           <label>BO: {{ this.localResultJson.bo2[this.dataIndex] }}           </label><br>
-          <label>CS: {{ this.localResultJson.cs2[this.dataIndex] }}           </label><br>
+          <!--<label>CS: {{ this.localResultJson.C2[this.dataIndex] }}           </label><br>-->
           <label>CLR: {{ this.localResultJson.clr2[this.dataIndex] }}         </label><br>
           <label>Light: {{ this.localResultJson.light2[this.dataIndex] }}     </label><br>
         </div>
@@ -335,7 +335,7 @@
         this.setUpLabels()
         this.setScene("treeScene")
 
-        //this.convertDataToArray() // Store data in array for download button.
+        this.convertDataToArray() // Store data in array for download button.
 
         console.log("afterGetSetup - Complete")
       }, // END: afterGetSetup()
@@ -404,8 +404,8 @@
 
       /*** Drawing Functions ***/
       draw() {
-        console.log("di:", this.dataIndex)
-        console.log("h:",this.localResultJson.h[this.dataIndex])
+        //console.log("di:", this.dataIndex)
+        //console.log("h:",this.localResultJson.h[this.dataIndex])
         //console.log("s:",this.localResultJson.status2[this.dataIndex])
 
         // Update status label.
@@ -1098,7 +1098,7 @@
             "bos": this.localResultJson.bos2[i],
             "bo": this.localResultJson.bo2[i],
             "bs": this.localResultJson.bs2[i],
-            "cs": this.localResultJson.cs2[i],
+            //"cs": this.localResultJson.cs2[i],
             "clr": this.localResultJson.clr2[i],
             "fl": this.localResultJson.fl2[i],
             "fr": this.localResultJson.fr2[i],
@@ -1397,12 +1397,6 @@
   .rawDataList {
     width: 100%;
     text-align: center;
-  }
-
-  .rawData {
-    /*column-count: 2;
-    column-rule: 3px solid green;
-    column-fill: balance;*/
   }
 
   h4 {
