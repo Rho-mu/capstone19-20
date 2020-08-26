@@ -186,7 +186,7 @@
         crownShape: "cone",
 
         // Makes rings bigger to render them if they're too small.
-        ringScale: 10,
+        ringScale: 1000,
 
         // Used on page load to wait to initialize scene.
         loopFlag: 0,
@@ -775,8 +775,8 @@
       drawRingLegend() {
         var leftEdgeOfScreen = -1 * (this.ringCam.position.z * (this.canvasWidth/this.canvasHeight))
         var x = leftEdgeOfScreen * 0.98
-        var y = this.maxTrunkRadius*this.ringScale
-        var squareSize = 0.01*(this.ringScale*0.35)
+        var y = this.maxTrunkRadius * this.ringScale
+        var squareSize = 0.000035 * this.ringScale * this.ringCam.position.z
 
         var squareShape = new THREE.Shape()
         squareShape.moveTo( 0, 0 )
