@@ -49,7 +49,7 @@
           <label>BR: {{ this.localResultJson.br2[this.dataIndex] }}           </label><br>
           <label>BT: {{ this.localResultJson.bt2[this.dataIndex] }}           </label><br>
           <label>BO: {{ this.localResultJson.bo2[this.dataIndex] }}           </label><br>
-          <!--<label>CS: {{ this.localResultJson.C2[this.dataIndex] }}           </label><br>-->
+          <!--<label>CS: {{ this.localResultJson.cs2[this.dataIndex] }}           </label><br>-->
           <label>CLR: {{ this.localResultJson.clr2[this.dataIndex] }}         </label><br>
           <label>Light: {{ this.localResultJson.light2[this.dataIndex] }}     </label><br>
         </div>
