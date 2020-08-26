@@ -196,7 +196,8 @@
 
         // Local versions of props from other files. (like acgca.vue)
         localLoadingFlag: '',
-        localStartDraw: ''
+        localStartDraw: '',
+        localResetFlag: ''
       } // END: return
     }, // END: data()
 
@@ -1182,31 +1183,39 @@
 
         if( this.localStartDraw == true )
         {
+          this.localStartDraw = false
+          this.startDraw = false
           console.log("startDraw - True")
           this.afterGetSetup()
         }
         else
         {
-          setTimeout(this.checkForStartDraw, 200)
+          setTimeout(this.checkForStartDraw, 500)
         }
       }, // END: checkForStartDraw()
 
       checkForReset() {
         // Keeps checking for resetFlag (from the input container)
-        // to reset the visualization when the suer clicks the reset button.
-        if( this.resetFlag == 1 )
+        // to reset the visualization when the user clicks the reset button.
+
+        this.localResetFlag = this.resetFlag // Saves resetFlag in a local variable.
+
+        if( this.localResetFlag == 1 )
         {
+          this.localResetFlag = 0
+          this.resetFlag = 0
           console.log("resetFlag - 1")
           this.resetVisualization()
         }
         else
         {
-          setTimeout(this.checkForReset, 200)
+          setTimeout(this.checkForReset, 500)
         }
       }, // END: checkForReset()
 
       resetVisualization() {
         // Resets the visualization so that it's easier for the user to rerun the simulation.
+        console.log("resetting")
 
         // Set output data max's to 0.
         this.maxRootDepth = 0
@@ -1221,11 +1230,13 @@
         // Clear tree scene of all drawings.
         while(this.treeScene.children.length > 0){
           this.treeScene.remove(this.treeScene.children[0])
+          console.log("removing trees")
         }
 
         // Clear ring scene of all drawings.
         while(this.ringScene.children.length > 0){
           this.ringScene.remove(this.ringScene.children[0])
+          console.log("removing rings")
         }
 
         // Hide labels
@@ -1246,8 +1257,12 @@
         this.checkForStartDraw()
 
         // Set resetFlag to 0 and re-call it to check when the reset button is clicked again.
+        this.localResetFlag = 0
         this.resetFlag = 0
         this.checkForReset()
+
+        // Clears the downlaod array.
+        this.downloadArray = []
 
         console.log("Reset - Visualization")
       }, // END: resetVisualization()
@@ -1277,6 +1292,7 @@
 
     mounted() {
       this.setTempDefaultlocalResultJson()
+      this.checkForStartDraw()
       this.checkForReset()
     }, // END: mounted
 

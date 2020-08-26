@@ -67,6 +67,7 @@ export default {
     setStartDrawData(data) {
       this.startDraw = data
     },
+    
     postResetFlagToParent(data) {
       this.resetFlag = data
     }
