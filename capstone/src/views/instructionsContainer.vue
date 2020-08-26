@@ -3,7 +3,7 @@
     <div class="instructionsContainer">
       <div class="instructionsButtons">
         <h1>
-          ACGCA Simulation and Visualization
+          ACGCA Simulation and Visualization of Tree Growth
           <br>
           <button id="hideInstructionsButton" @click="showHideInstructions('hide')">Hide</button>
           <button id="showInstructionsButton" @click="showHideInstructions('show')" style="display: none;">Instructions +</button>
@@ -12,14 +12,15 @@
 
       <div id="instructionsText">
         <p>1. Enter input values for the ACGCA model in the control panel on the left. You can also use the provided default values to autofill the fields.</p>
-        <p>2. Once the input fields are are filled, press the "RUN" button to run the ACGCA model.</p>
-        <p>3. Wait for the ACGCA model to finish running. When the output data has been retrieved, use the output box to see your simulated tree.</p>
+        <p>2. Press the "RUN" button to run the simulation. You can tell that the model is running by the dots animation on the run button.</p>
+        <p>3. Wait for the ACGCA model to finish running. When the output data has been retrieved, it will be displayed in the box on the right.</p>
+        <p>4. To run the simulation again, simply enter in your desired inputs and click run again. The previous tree data will be erased from the output box.</p>
         <br>
         <h4>Output Tools</h4>
         <p><b>RINGS:</b> Shows the tree rings and their widths at each year, and distinguishes between heartwood and sapwood.</p>
         <p><b>TREE:</b> Visualizes the tree each year, in terms of its simulated height, trunk radius, crown dimensions, and status (living vs dead).</p>
-        <p><b>CONE:</b> Changes the tree crown to a cone.</P>
-        <p><b>CYLINDER:</b> Changes the tree crown to a cylinder.</P>
+          <p class="subTool"><b>CONE:</b> Changes the tree crown to a cone.</P>
+          <p class="subTool"><b>CYLINDER:</b> Changes the tree crown to a cylinder.</P>
         <p><b>DATA:</b> Shows the numerical (simulated) values for a subset of output variables produced by the ACGCA simulation at each year. These output data can also be downloaded (saved) as a csv file.</p>
       </div>
     </div>
@@ -68,5 +69,10 @@ export default {
     position: relative;
     text-align: left;
     background-image: url('../assets/Background.png');
+  }
+
+  .subTool {
+    text-indent: 20px;
+    font-size: 14px;
   }
 </style>
