@@ -181,8 +181,9 @@
             </span>
           </div><br>
 
-          <label> rr:</label><br>
-          <input type="number" v-model="postBody.rr" step="any" placeholder="0 < rr < 0.8" min="0" max="0.8" required>
+          <label> r<sub>R</sub>:</label><br>
+          <div class="separator"></div>
+          <input type="number" v-model="postBody.rr" step="any" :placeholder="'0 < r\u1D63 < 0.8'" min="0" max="0.8" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Average fine root radius<br>
@@ -200,8 +201,8 @@
       <button type="button" class="accordion">Structural traits</button>
         <div class="panel">
           <br>
-          <label> &#x3c1max:</label><br>
-          <input type="number" id="rhomax" :disabled="postBody.gammax==''" v-model="postBody.rhomax" step="any" :placeholder="[[rlo]] + ' < \u03C1max < ' + [[rhi]]" required>
+          <label> &#x3c1:</label><br>
+          <input type="number" id="rhomax" v-model="postBody.rhomax" step="any" :placeholder="[[rlo]] + ' < \u03C1 < ' + [[rhi]]" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Wood density<br>
@@ -282,8 +283,8 @@
             </span>
           </div><br>
 
-          <label> &#x394L:</label><br>
-          <input type="number" v-model="postBody.deltal" step="any" :placeholder="'0.06 < \u0394L < 0.12'" min="0.06" max="0.12" required>
+          <label> &#x3b4L:</label><br>
+          <input type="number" v-model="postBody.deltal" step="any" :placeholder="'0 < \u03B4L < 0.2'" min="0" max="0.2" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Labile carbon storage capacity of leaves<br>
@@ -291,12 +292,12 @@
               <b>Unit: </b>g gluc g dw<sup>-1</sup><br>
               (grams glucose per gram dry weight)
               <hr width="80%">
-              <b>Constraint: </b>(0.06, 0.12)
+              <b>Constraint: </b>(0, 0.2)
             </span>
           </div><br>
 
-          <label> &#x394R:</label><br>
-          <input type="number" v-model="postBody.deltar" step="any" :placeholder="'0.02 < \u0394R < 0.18'" min="0.02" max="0.18" required>
+          <label> &#x3b4R:</label><br>
+          <input type="number" v-model="postBody.deltar" step="any" :placeholder="'0 < \u03B4R < 0.2'" min="0" max="0.2" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Labile carbon storage capacity of fine roots<br>
@@ -304,12 +305,13 @@
               <b>Unit: </b>g gluc g dw<sup>-1</sup><br>
               (grams glucose per gram dry weight)
               <hr width="80%">
-              <b>Constraint: </b>(0.02, 0.18)
+              <b>Constraint: </b>(0, 0.2)
             </span>
           </div><br>
 
-          <label> &#x3c1r:</label><br>
-          <input type="number" v-model="postBody.rhor" step="any" :placeholder="'0 < \u03C1r < 0.3'" min="0" max="0.3" required>
+          <label> &#x3c1<sub>R</sub>:</label><br>
+          <div class="separator"></div>
+          <input type="number" v-model="postBody.rhor" step="any" :placeholder="'0 < \u03C1\u1D63 < 0.3'" min="0" max="0.3" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Tissue density of fine roots<br>
@@ -372,8 +374,8 @@
             </span>
           </div><br>
 
-          <label> epsg:</label><br>
-          <input type="number" v-model="postBody.epsg" step="any" placeholder="0 < epsg(RUE) < 15.73" min="0" max="15.73" required>
+          <label> &#x3b5:</label><br>
+          <input type="number" v-model="postBody.epsg" step="any" :placeholder="'0 < \u03B5 < 16'" min="0" max="16" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Radiation-use efficiency<br>
@@ -381,7 +383,7 @@
               <b>Unit: </b>g gluc MJ<sup>-1</sup><br>
               (grams glucose per millijoules)
               <hr width="80%">
-              <b>Constraint: </b>(0, 15.73)
+              <b>Constraint: </b>(0, 16)
             </span>
           </div><br><br>
         </div>
@@ -433,11 +435,11 @@
 
       <div class="slidecontainer">
         <div>
-          <label> Initial radius: </label><br>
-          <input type="number" class="radius" v-model="postBody.radius" step="any" placeholder="0 < radius" min="0" required>
+          <label> Initial radius (r<sub>0</sub>): </label><br>
+          <input type="number" class="radius" v-model="postBody.radius" step="any" :placeholder="'0 < r\u2080'" min="0" required>
           <div class="tooltip">
             <span class="tooltiptext">
-              <b>Description: </b>Initial trunk radius<br>
+              <b>Description: </b>Initial trunk radius at the base of the trunk<br>
               <hr width="80%">
               <b>Unit: </b>m <br>
               (meters)
@@ -458,7 +460,7 @@
         </div>
       </div>
 
-      <button class="runButton" id="runButton" >RUN</button>
+      <button class="runButton" id="runButton" >Run</button>
       <button type="button" class="resetButton" @click="resetData()">Reset</button>
       <br>
     </form>
@@ -691,7 +693,7 @@
           this.postBody.sla=60.2
           this.postBody.sr=0.5
           this.postBody.so=0.05
-          this.postBody.rr=0.0027
+          this.postBody.rr=2.7
           this.postBody.rhor=0.2
           this.postBody.rml=1.9
           this.postBody.rms=0.05
@@ -795,7 +797,6 @@
       this.rhi = (Math.min(0.7, (1.49925*(1-this.postBody.gammax))))
       document.getElementById("rhomax").min = this.rlo
       document.getElementById("rhomax").max = this.rhi
-
       document.getElementById("R40").min = document.getElementById("R0").value
       document.getElementById("etaB").max = document.getElementById("eta").value
     },
@@ -803,7 +804,6 @@
       this.initializeWebpage()
     }, // END: mounted
   } // END: export default
-
 </script>
 
 <style scoped>
@@ -964,6 +964,9 @@
   .active:after {
     display: inline-block;
     content: "\2796";
+  }
+  .separator {
+    height: 2px;
   }
   label {
     font-size: 15px;

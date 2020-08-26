@@ -7,6 +7,8 @@
     </div>
     <div class="center">
 
+      <center><img src="../assets/ACGCA tree time-course figure.png" class="diagram"></center>
+
       <h3>Brief overview of the ACGCA model</h3>
       <p>
       The Allometrically Constrained Growth and Carbon Allocation (ACGCA) model is an individual-based model of tree growth and mortality.
@@ -34,39 +36,34 @@
       This web-based software was developed to provide a user-friendly means of exploring the ACGCA model predictions and learning about the
       processes and traits governing tree growth.
       </p>
-      <h3>
-      For a full description of the ACGCA model, see the following paper and its associated supplemental materials:
-      </h3>
-          <p>
-          Ogle, K. and S.W. Pacala (2009) A modeling framework for inferring tree growth and allocation from physiological, morphological,
-          and allometric traits. Tree Physiology, 29:587-605.
-          </p>
+        <p>
+        Ogle, K. and S.W. Pacala (2009) A modeling framework for inferring tree growth and allocation from physiological, morphological,
+        and allometric traits. Tree Physiology, 29:587-605.
+        </p>
       <h3>
       For additional information about the model, see:
       </h3>
-          <p>
-          Gemoets, D., J.J. Barber, and K. Ogle (2013). Reversible jump MCMC for inferencein a deterministic
-          individual-based model of tree growth forstudying forest dynamics. Environmetrics, 24: 433-448.
-          </p>
-          <p>
-          Fell M., J. Barber, J.W. Lichstein, and K. Ogle (2018). Multidimensional trait space informed by a
-          mechanistic model of tree growth and carbon allocation. Ecosphere, 9(1):e02060. abstract
-          </p>
-          <p>
-          Fell, M. and K. Ogle (2018). Refinement of a theoretical trait space for North American trees
-          via environmental filtering. Ecological Monographs, 88:372-384.
-          </p>
-      <br><br><br>
+        <p>
+        Gemoets, D., J.J. Barber, and K. Ogle (2013). Reversible jump MCMC for inferencein a deterministic
+        individual-based model of tree growth forstudying forest dynamics. Environmetrics, 24: 433-448.
+
+        Fell M., J. Barber, J.W. Lichstein, and K. Ogle (2018). Multidimensional trait space informed by a
+        mechanistic model of tree growth and carbon allocation. Ecosphere, 9(1):e02060. abstract
+
+        Fell, M. and K. Ogle (2018). Refinement of a theoretical trait space for North American trees
+        via environmental filtering. Ecological Monographs, 88:372-384.
+        </p>
+      <br>
       <p class="login">
-        <button class="testButton" @click="moveToLogin">Returning?</button>
+        <button class="testButton" @click="moveToLogin">Returning user</button>
       </p>
       <p class="signup">
-        <button class="testButton" @click="moveToSignUp">New?</button>
+        <button class="testButton" @click="moveToSignUp">New user</button>
       </p>
     </div>
     <br>
     <div class="topLeft">
-      ACGCA Model
+      ACGCA Model of Tree Growth
 
     </div>
   </div>
@@ -113,6 +110,7 @@ export default {
   transform: translate(-50%, -50%);
   font-size: 13px;
   color: white;
+  text-align: left;
 }
 
 .login {
@@ -151,6 +149,16 @@ export default {
   left: 16px;
   font-size: 24px;
   color: white;
+}
+
+h3 {
+  text-align: center;
+}
+
+.diagram {
+  margin-top: 2%;
+  height: 150px;
+  width: 280px;
 }
 
 
