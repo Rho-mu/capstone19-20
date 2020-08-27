@@ -923,7 +923,6 @@
           this.currentScene = this.treeScene
           this.currentCam = this.treeCam
           this.onWindowResize() // onWindowResize calls the draw() function.
-          console.log("Scene Change - Tree")
         }
         else if(scene == "ringScene") {
           document.getElementById("treeCanvasport").style.display = "block" // Show canvas that has the renderer attached to it
@@ -950,7 +949,6 @@
           this.currentScene = this.ringScene
           this.currentCam = this.ringCam
           this.onWindowResize() // onWindowResize calls the draw() function.
-          console.log("Scene Change - Rings")
         }
         else if(scene == "rawDataScene") {
           document.getElementById("treeCanvasport").style.display = "none" // Hide canvas that has the renderer attached to it
@@ -959,7 +957,6 @@
           document.getElementById("coneButton").style.display = "none" // Hide cone button
           //document.getElementById("sphereButton").style.display = "none" // Hide sphere button
           document.getElementById("cylinderButton").style.display = "none" // Hide cylinder button
-          console.log("Scene Change - Raw Data")
         }
       }, // END: setScene()
       /*** END: Drawing Functions ***/
@@ -1118,7 +1115,6 @@
         {
           this.localStartDraw = false
           this.startDraw = false
-          console.log("startDraw - True")
           this.afterGetSetup()
         }
         else
@@ -1137,7 +1133,6 @@
         {
           this.localResetFlag = 0
           this.resetFlag = 0
-          console.log("resetFlag - 1")
           this.resetVisualization()
         }
         else
