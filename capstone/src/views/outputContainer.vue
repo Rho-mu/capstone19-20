@@ -104,8 +104,6 @@
 <script>
   import * as THREE from 'three'
   import JsonCSV from 'vue-json-csv'
-  import font_helvetiker_regular from '../assets/fonts/helvetiker_regular.typeface.json'
-  import loblolly9 from '../json/loblolly9.json'
 
   export default {
     name: 'outputContainer',
@@ -218,7 +216,7 @@
         this.treeCam = new THREE.PerspectiveCamera( 90, this.canvasWidth / this.canvasHeight, 0.1, 1000 )
         this.treeCam.position.z = 10
         this.treeScene.add( this.treeCam )
-        ///// Tree Scene /////
+        ///// END: Tree Scene /////
 
         ///// Ring Scene /////
         // Create scene for rings
@@ -229,7 +227,7 @@
         this.ringCam = new THREE.PerspectiveCamera( 90, this.canvasWidth / this.canvasHeight, 0.1, 1000 )
         this.ringCam.position.z = 10
         this.ringScene.add( this.ringCam )
-        ///// Ring Scene /////
+        ///// END: Ring Scene /////
 
         // Create renderer
         this.renderer = new THREE.WebGLRenderer( {antialias: true} )
@@ -250,8 +248,6 @@
 
         // Allow canvas to resize with window.
         window.addEventListener( 'resize', this.onWindowResize, false )
-        // Allow canvas to zoom when users scrolls mouse wheel.
-        window.addEventListener( 'scroll', this.scrollCamera )
 
         console.log("initializeVisualization - Complete")
       }, // END: initializeVisualization()
@@ -259,11 +255,7 @@
       afterGetSetup() {
         // Does some setup once getData() is done and data has been retrieved.
 
-        // For running locally if model stops working.
-        /*this.localResultJson = loblolly9
-        console.log("localResultJson - loblolly9", this.localResultJson)
-        */
-
+        // Save props from input container as local variables.
         this.localResultJson = this.resultJson
         this.localLoadingFlag = this.loadingFlag
 
@@ -284,7 +276,7 @@
         this.treeScene.background = bgColor
 
         // Find max height and radius of tree over its life to scale the scene to.
-        // Find max LAI2 to normalize it for opacity.
+        // Find max LAI2 and root biomass to normalize them for opacity.
         for( var i = 1; i <= this.postBody.t; i++ )
         {
           // Find max height
@@ -330,7 +322,8 @@
         this.treeCam.position.z = (this.maxHeight + this.maxRootDepth) * 0.6 // 0.6 just makes it fit on the screen better.
         this.treeCam.lookAt(0, (this.maxHeight - this.maxRootDepth)/2, 0)
 
-        this.ringCam.position.z = this.maxTrunkRadius * this.ringScale * 1.1   // Scale scene to max radius of the trunk so that no rings are off-screen.
+        // Scale ring scene to max radius of the trunk so that no rings are off-screen.
+        this.ringCam.position.z = this.maxTrunkRadius * this.ringScale * 1.1
         this.ringCam.lookAt(0, 0, 0)
 
         this.setUpLabels()
@@ -354,7 +347,6 @@
         ringScaleBarRadiusMid.innerHTML = "0 m"
         var ringScaleBarRadiusBot = document.getElementById('ringScaleBarRadiusBot')
         ringScaleBarRadiusBot.innerHTML = this.maxTrunkRadius.toFixed(2) + " m"
-
 
         // Sets position of scale labels
         treeScaleBarMaxHeight.style.left = ((0.73 + 1)/2 * this.canvasWidth) + 'px'
@@ -405,10 +397,6 @@
 
       /*** Drawing Functions ***/
       draw() {
-        //console.log("di:", this.dataIndex)
-        //console.log("h:",this.localResultJson.h[this.dataIndex])
-        //console.log("s:",this.localResultJson.status2[this.dataIndex])
-
         // Update status label.
         var status = this.localResultJson.status2[this.dataIndex]
         if( status == 1 )
@@ -442,28 +430,27 @@
         var year = this.dataIndex // The current timestep on the slider. Named "year" to make it easier to read.
 
         var status = this.localResultJson.status2[year] // Status == 1 is alive.
-        //console.log("status:", status)
         var drawCrown = true // true if current tree is alive, false if a previous tree needs to be drawn.
 
         if( status != 1 ) // If tree is not alive.
         {
-          console.log("Tree", year, "is dead!")
-          var liveTreeFound = true // Used to keep tell if there all previous trees are dead or not.
+          //console.log("Tree", year, "is dead!")
+          var liveTreeFound = true // Used to tell if all previous trees are dead or not.
 
           if( year == 1 ) // If the current tree is the first tree.
           {
             liveTreeFound = false // Since this is the first tree, and it is dead, no preiouvs trees can be alive.
           }
 
-          // Go through previous years until a live tree is found.
+          // Go through previous years until a living tree is found.
           var tempIndex = 1 // Start with 1 year previous.
           var tempStatus = this.localResultJson.status2[year-tempIndex] // Get status of 1 year previous.
 
           if( year > 1 ) // If the current tree is not the first tree.
           {
-            while( tempStatus != 1 )  // Keep checking status until a live tree is found.
+            while( tempStatus != 1 )  // Keep checking status until a living tree is found.
             {
-              if( year-tempIndex == 1 ) // If the first tree has been checked and is still dead, then there are no previous live trees.
+              if( year-tempIndex == 1 ) // If the first tree has been checked and is still dead, then there are no previous living trees.
               {
                 liveTreeFound = false
                 break
@@ -472,17 +459,17 @@
               tempIndex++ // Go one year further back.
               tempStatus = this.localResultJson.status2[year-tempIndex] // Get status of tree.
             } // END: while tempStatus is not 1
-          } // END: else
+          } // END: if year > 1
 
           if( liveTreeFound == true ) // Draw the most recent living tree.
           {
-            console.log("Tree", year-tempIndex, "is the most recent alive tree!")
-            drawCrown = false // Don't draw crown for this tree so it looks more dead.
+            //console.log("Tree", year-tempIndex, "is the most recent alive tree!")
+            drawCrown = false // Don't draw crown for this tree, so it looks more dead.
             this.drawTree( year-tempIndex, drawCrown )
           }
           else if( liveTreeFound == false ) // If no live tree was found in the previous years.
           {
-            console.log("No live tree found!")
+            //console.log("No live tree found!")
           }
 
         } // END: if status is not 1
@@ -496,7 +483,7 @@
 
       drawTree( year, drawCrown ) {
         // Clear scene of old drawings
-        while(this.treeScene.children.length > 0){   // Clear scene of old tree
+        while(this.treeScene.children.length > 0){
           this.treeScene.remove(this.treeScene.children[0])
         }
         this.newScene = new THREE.Scene()            // Create new scene for new tree
@@ -537,13 +524,12 @@
         {
           rcmax = (r0 * r) / ((hmax / phih) * Math.log(hmax/(hmax - BH)))
         }
-        //console.log("rcmax",rcmax)
 
         var eta = this.postBody.eta     // Input.
         var alpha = this.postBody.alpha // Input. Curvature of the crown.
 
         // if m > (1 - eta) --> rcbase = rcmax * ((1 - eta) / m)^alpha
-        // otherwise --> rcbase = 1 - eta
+        // otherwise --> rcbase = rcmax
         var rcbase // Radius at the base of the crown.
         if( m > (1 - eta))
         {
@@ -622,7 +608,6 @@
           crownMat.opacity = this.localResultJson.LAI2[year]/this.maxLAI2
           this.crown = new THREE.Mesh( crownGeo, crownMat )
           this.crown.position.y = crownPos
-          //console.log("Crown -", "\nradius:", rcbase, "\nheight:", h-hC,)
 
           this.newScene.add( this.crown ) // Add crown to scene.
         } // End: if drawCrown == true
@@ -653,6 +638,9 @@
       }, // END: drawTree()
 
       drawTreeLegend() {
+        // Draws the legend for the tree scene.
+
+        // Get position of the left side of the canvas in world coordinates.
         var leftEdgeOfScreen = -1 * (this.treeCam.position.z * (this.canvasWidth/this.canvasHeight))
         var y = this.maxHeight
 
@@ -669,11 +657,14 @@
       }, // END: drawTreeLegend()
 
       drawTreeScale(h, hC, rootDepth) {
+        // Draws the right-side scale for the tree.
+
+        // Get position of the right side of the canvas in world coordinates.
         var rightEdgeOfScreen = this.treeCam.position.z * (this.canvasWidth/this.canvasHeight)
+
         var points = []
         var zeroPoints = []
 
-        //points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.maxHeight, 0 ) ) // max height
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, this.maxHeight, 0 ) ) // max height
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.maxHeight, 0 ) ) // max height
 
@@ -687,7 +678,6 @@
 
         zeroPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, 0, 0 ) ) // trunk base
         zeroPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, 0, 0 ) ) // trunk base
-        //zeroPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, 0, 0 ) ) // trunk base
 
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -rootDepth, 0 ) ) // current root depth
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, -rootDepth, 0 ) ) // current root depth
@@ -695,7 +685,6 @@
 
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.maxRootDepth, 0 ) ) // max root depth
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, -this.maxRootDepth, 0 ) ) // max root depth
-        //points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.maxRootDepth, 0 ) ) // max root depth
 
         var lineGeo = new THREE.BufferGeometry().setFromPoints( points )
         var lineMat = new THREE.LineBasicMaterial( {color: 0x008509, linewidth: 30} )
@@ -715,24 +704,17 @@
         var geoSegments = 16
 
         // Clear scene of previous drawings
-        while(this.ringScene.children.length > 0){           // Clear scene of old rings
+        while(this.ringScene.children.length > 0){
           this.ringScene.remove(this.ringScene.children[0])
         }
-        this.newScene = new THREE.Scene()                    // Create new scene for new rings
-        this.ringScene.add( this.newScene )                  // Add new scene to root scene
+        this.newScene = new THREE.Scene()   // Create new scene for new rings
+        this.ringScene.add( this.newScene ) // Add new scene to root scene
 
         var heartwoodRadius = this.localResultJson.r[this.dataIndex] - this.localResultJson.sw2[this.dataIndex] // Gets the heart wood radius at the current year on the slider
         //console.log("sw:", this.localResultJson.sw2[this.dataIndex], "\nr:", this.localResultJson.r[this.dataIndex], "\nhw:", heartwoodRadius)
 
         for( var i = 1; i <= this.dataIndex; i++ )
         {
-          // Avoids drawing a ring if it's too small.
-          /*if( this.localResultJson.r[i] - this.localResultJson.r[i-1] < 0.0001 )
-          {
-            console.log("ring too small")
-            break // Stop drawing rings if they get too small to see.
-          }*/
-
           // color
           var ringColor = new THREE.Color()
           if( this.localResultJson.r[i] < heartwoodRadius ) // If the current ring is part of the heart wood..
@@ -752,6 +734,7 @@
           if(i == 1)
           {
             // Sets the initial ring to a circle. Otherwise, there would be a hole of r0 raidus in the center.
+            // CircleGeometry(radius : Float, segments : Integer, thetaStart : Float, thetaLength : Float)
             ringGeo = new THREE.CircleGeometry(this.localResultJson.r[i]*this.ringScale, geoSegments)
             var ringMat = new THREE.MeshBasicMaterial( {color: ringColor} )
             ringMat.transparent = true
@@ -774,11 +757,13 @@
       }, // END: drawRings()
 
       drawRingLegend() {
+        // Get position of the left side of the canvas in world coordinates.
         var leftEdgeOfScreen = -1 * (this.ringCam.position.z * (this.canvasWidth/this.canvasHeight))
         var x = leftEdgeOfScreen * 0.98
         var y = this.maxTrunkRadius * this.ringScale
-        var squareSize = 0.000035 * this.ringScale * this.ringCam.position.z
+        var squareSize = 0.000035 * this.ringScale * this.ringCam.position.z // 0.000035 just makes it a good size.
 
+        // Creats a square geometry.
         var squareShape = new THREE.Shape()
         squareShape.moveTo( 0, 0 )
         squareShape.lineTo( squareSize, 0 )
@@ -838,7 +823,7 @@
       }, // END: drawRingLegend()
 
       drawRingScale() {
-        //this.ringScene.remove(scale)
+        // Get position of the right side of the canvas in world coordinates.
         var rightEdgeOfScreen = this.ringCam.position.z * (this.canvasWidth/this.canvasHeight)
         var points = []
         var curRadTopPoints = []
@@ -846,17 +831,14 @@
         var initRadBotPoints = []
         var curRadBotPoints = []
 
-        //points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.maxTrunkRadius*this.ringScale, 0 ) ) // Top of scale
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, this.maxTrunkRadius*this.ringScale, 0 ) ) // Top of scale
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.maxTrunkRadius*this.ringScale, 0 ) ) // Top of scale
 
         curRadTopPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.localResultJson.r[this.dataIndex]*this.ringScale, 0 ) ) // Current radius top
         curRadTopPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, this.localResultJson.r[this.dataIndex]*this.ringScale, 0 ) ) // Current radius top
-        //curRadTopPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius top
 
         initRadTopPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.localResultJson.r[1]*this.ringScale, 0 ) ) // Top of initial radius
         initRadTopPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, this.localResultJson.r[1]*this.ringScale, 0 ) ) // Top of initial radius
-        //initRadTopPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, this.localResultJson.r[1], 0 ) ) // Top of initial radius
 
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, 0, 0 ) ) // Center
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, 0, 0 ) ) // Center
@@ -864,15 +846,12 @@
 
         initRadBotPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.localResultJson.r[1]*this.ringScale, 0 ) ) // Bottom of initial radius
         initRadBotPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, -this.localResultJson.r[1]*this.ringScale, 0 ) ) // Bottom of initial radius
-        //initRadBotPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.localResultJson.r[1], 0 ) ) // Bottom of initial radius
 
         curRadBotPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.localResultJson.r[this.dataIndex]*this.ringScale, 0 ) ) // Current radius botttom
         curRadBotPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, -this.localResultJson.r[this.dataIndex]*this.ringScale, 0 ) ) // Current radius bottom
-        //curRadBotPoints.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.localResultJson.r[this.dataIndex], 0 ) ) // Current radius bottom
 
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.maxTrunkRadius*this.ringScale, 0 ) ) // Bottom of scale
         points.push( new THREE.Vector3( rightEdgeOfScreen * 0.85, -this.maxTrunkRadius*this.ringScale, 0 ) ) // Bottom of scale
-        //points.push( new THREE.Vector3( rightEdgeOfScreen * 0.95, -this.maxTrunkRadius*this.ringScale, 0 ) ) // Bottom of scale
 
         var lineGeo = new THREE.BufferGeometry().setFromPoints( points )
         var curRadTopLineGeo = new THREE.BufferGeometry().setFromPoints( curRadTopPoints )
@@ -915,7 +894,6 @@
 
       setCrownShape(shape) {
         this.crownShape = shape
-        console.log("Crown Shape Change -", shape)
         this.getTree()
       }, // END: setCrownShape()
 
@@ -944,8 +922,7 @@
 
           this.currentScene = this.treeScene
           this.currentCam = this.treeCam
-          this.onWindowResize()
-          //this.draw()
+          this.onWindowResize() // onWindowResize calls the draw() function.
           console.log("Scene Change - Tree")
         }
         else if(scene == "ringScene") {
@@ -972,8 +949,7 @@
 
           this.currentScene = this.ringScene
           this.currentCam = this.ringCam
-          this.onWindowResize()
-          //this.draw()
+          this.onWindowResize() // onWindowResize calls the draw() function.
           console.log("Scene Change - Rings")
         }
         else if(scene == "rawDataScene") {
@@ -990,13 +966,13 @@
 
       onWindowResize() {
         // Adjusts the renderer size when the window is resized.
-        this.canvasWidth = window.innerWidth * 0.75
-        this.canvasHeight = window.innerWidth * 0.5
+        this.canvasWidth = window.innerWidth * 0.75 // Must be the same as in data().
+        this.canvasHeight = window.innerWidth * 0.5 // Must be the same as in data().
 
         this.currentCam.aspect = this.canvasWidth / this.canvasHeight
         this.currentCam.updateProjectionMatrix()
 
-        // Reposition labels
+        // Reposition labels. These must be the same as the values they were initialzed to.
         var treeStatusText = document.getElementById('treeStatus')
         treeStatusText.style.left = ((-0.92 + 1)/2 * this.canvasWidth) + 'px'
         treeStatusText.style.top = ((0.81 + 1)/2 * this.canvasHeight) + 'px'
@@ -1041,29 +1017,14 @@
       }, // END: onWindowResize()
 
       animate() {
-        // THREE.js function
-
-        //this.update()
+        // Renders the current scene using the current camera.
         this.renderer.render(this.currentScene, this.currentCam)
 
         requestAnimationFrame(this.animate)
       }, // END: animate()
 
-      update() {
-        // THREE.js function used to move objects in the scene.
-
-        //this.trunk.rotation.y += 0.01
-        //this.crown.rotation.y += 0.01
-        /*this.hudBitmap.clearRect(0, 0, this.canvasWidth, this.canvasHeight)
-        this.hudBitmap.fillText("year: "+this.dataIndex, this.canvasWidth/2, this.canvasHeight/2)
-  	    this.hudTexture.needsUpdate = true*/
-        //this.vector.x = ( this.canvasWidth / 2 ) - ( this.textureSize / 2 );
-				//this.vector.y = ( this.canvasHeight / 2 ) - ( this.textureSize / 2 );
-
-				//this.renderer.copyFramebufferToTexture( this.vector, this.texture );
-      }, // END: update()
-
       convertDataToArray() {
+        // Formats the specific output data into an array to be downlaoded as a .csv file.
         var treeObj
 
         for( var i = 1; i <= this.postBody.t; i++ )
@@ -1089,34 +1050,6 @@
             //"cs": this.localResultJson.cs2[i],
             "clr": this.localResultJson.clr2[i],
             "light": this.localResultJson.light2[i],
-
-            //"APARout": this.localResultJson.APARout[i],
-            //"hh": this.localResultJson.hh2[i],
-            //"hB": this.localResultJson.hB2[i],
-            //"hBH": this.localResultJson.hBH2[i],
-            //"rB": this.localResultJson.rB2[i],
-            //"rC": this.localResultJson.rC2[i],
-            //"vts2": this.localResultJson.vts2[i],
-            //"vth": this.localResultJson.vth2[i],
-            //"xa": this.localResultJson.xa2[i],
-            //"bts": this.localResultJson.bts2[i],
-            //"bth": this.localResultJson.bth2[i],
-            //"boh": this.localResultJson.boh2[i],
-            //"bos": this.localResultJson.bos2[i],
-            //"bs": this.localResultJson.bs2[i],
-            //"fl": this.localResultJson.fl2[i],
-            //"fr": this.localResultJson.fr2[i],
-            //"ft": this.localResultJson.ft2[i],
-            //"fo": this.localResultJson.fo2[i],
-            //"rfl": this.localResultJson.rfl2[i],
-            //"rfr": this.localResultJson.rfr2[i],
-            //"rfs": this.localResultJson.rfs2[i],
-            //"egrow": this.localResultJson.egrow2[i],
-            //"ex": this.localResultJson.ex2[i],
-            //"rtrans": this.localResultJson.rtrans2[i],
-            //"nut": this.localResultJson.nut2[i],
-            //"deltas": this.localResultJson.deltas2[i],
-            //"status": this.localResultJson.status2[i],
           } // END: treeObj
 
           this.downloadArray.push(treeObj) // Push the new row to the array.
@@ -1124,6 +1057,7 @@
       }, // END: convertDataToArray()
 
       setTempDefaultlocalResultJson() {
+        // Sets the output data to all null.
         this.localResultJson = {
           "APARout":'',
           "h":'',
@@ -1170,8 +1104,7 @@
           "deltas2":'',
           "LAI2":'',
           "status2":'',
-          "errorind":'',
-          //"growth_st":''
+          "errorind":''
         }
       }, // END: setTempDefaultlocalResultJson()
 
@@ -1215,7 +1148,6 @@
 
       resetVisualization() {
         // Resets the visualization so that it's easier for the user to rerun the simulation.
-        console.log("resetting")
 
         // Set output data max's to 0.
         this.maxRootDepth = 0
@@ -1224,19 +1156,17 @@
         this.maxLAI2 = 0
         this.br2 = 0
 
-        // Set result json to be all empty.
+        // Set result json to be all empty values.
         this.setTempDefaultlocalResultJson()
 
         // Clear tree scene of all drawings.
         while(this.treeScene.children.length > 0){
           this.treeScene.remove(this.treeScene.children[0])
-          console.log("removing trees")
         }
 
         // Clear ring scene of all drawings.
         while(this.ringScene.children.length > 0){
           this.ringScene.remove(this.ringScene.children[0])
-          console.log("removing rings")
         }
 
         // Hide labels
@@ -1256,7 +1186,7 @@
         this.localStartDraw = false
         this.checkForStartDraw()
 
-        // Set resetFlag to 0 and re-call it to check when the reset button is clicked again.
+        // Set resetFlag to 0 and re-call it to check when reset is called again.
         this.localResetFlag = 0
         this.resetFlag = 0
         this.checkForReset()
@@ -1264,30 +1194,8 @@
         // Clears the downlaod array.
         this.downloadArray = []
 
-        console.log("Reset - Visualization")
+        console.log("resetVisualization - Complete")
       }, // END: resetVisualization()
-
-      /*zoom(type) {
-        if( type == "in" )
-        {
-          this.currentCam.zoom++
-          this.currentCam.updateProjectionMatrix()
-          console.log("zoom in")
-        }
-        else if( type == "out" )
-        {
-          this.currentCam.zoom--
-          this.currentCam.updateProjectionMatrix()
-          console.log("zoom out")
-        }
-      }, // END: zoom()
-      */
-
-      /*scrollCamera() {
-        this.treeCam.position.z = (this.maxHeight+this.maxRootDepth)*0.6 + window.scrollY/100
-        this.treeCam.updateProjectionMatrix()
-      }, // END: scrollCamera()
-      */
     }, // END: methods
 
     mounted() {
