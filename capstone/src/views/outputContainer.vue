@@ -18,6 +18,7 @@
 
       <div id="treeCanvasport">
         <div id="treeStatus" class="UILabel"></div>
+        <div id="noLivingTrees" class="UILabel"></div>
 
         <div id="treeScaleBarMaxHeight" class="UILabel"></div>
         <div id="treeScaleBarMaxRootDepth" class="UILabel"></div>
@@ -393,6 +394,11 @@
         treeStatusText.innerHTML = ""
         treeStatusText.style.left = ((-0.92 + 1)/2 * this.canvasWidth) + 'px'
         treeStatusText.style.top = ((0.81 + 1)/2 * this.canvasHeight) + 'px'
+
+        var noLivingTreesText = document.getElementById('noLivingTrees')
+        noLivingTreesText.innerHTML = "Initial tree is dead. Please try different inputs."
+        noLivingTreesText.style.left = this.canvasWidth/2 - 50 + 'px'
+        noLivingTreesText.style.top = this.canvasHeight/2 + 'px'
       }, // END: setUpLabels()
 
       /*** Drawing Functions ***/
@@ -432,6 +438,9 @@
         var status = this.localResultJson.status2[year] // Status == 1 is alive.
         var drawCrown = true // true if current tree is alive, false if a previous tree needs to be drawn.
 
+        // Default the "no living trees" message to be off.
+        document.getElementById('noLivingTrees').style.display = "none"
+
         if( status != 1 ) // If tree is not alive.
         {
           //console.log("Tree", year, "is dead!")
@@ -469,6 +478,8 @@
           }
           else if( liveTreeFound == false ) // If no live tree was found in the previous years.
           {
+            // Tell the user that there are no living trees.
+            document.getElementById('noLivingTrees').style.display = "inline-block"
             //console.log("No live tree found!")
           }
 
@@ -907,6 +918,7 @@
           document.getElementById("cylinderButton").style.display = "inline-block" // Show cylinder button
 
           document.getElementById('treeStatus').style.display = "inline-block"
+          //document.getElementById('noLivingTrees').style.display = "inline-block"
 
           document.getElementById('treeScaleBarMaxHeight').style.display = "inline-block" // Show max height text
           document.getElementById('treeScaleBarMaxRootDepth').style.display = "inline-block" // Show base height text
@@ -933,6 +945,7 @@
           document.getElementById("cylinderButton").style.display = "none" // Hide cylinder button
 
           document.getElementById('treeStatus').style.display = "inline-block"
+          //document.getElementById('noLivingTrees').style.display = "inline-block"
 
           document.getElementById('treeScaleBarMaxHeight').style.display = "none" // Hide max height text
           document.getElementById('treeScaleBarMaxRootDepth').style.display = "none" // Hide base height text
@@ -971,8 +984,11 @@
 
         // Reposition labels. These must be the same as the values they were initialzed to.
         var treeStatusText = document.getElementById('treeStatus')
+        var noLivingTreesText = document.getElementById('noLivingTrees')
         treeStatusText.style.left = ((-0.92 + 1)/2 * this.canvasWidth) + 'px'
         treeStatusText.style.top = ((0.81 + 1)/2 * this.canvasHeight) + 'px'
+        noLivingTreesText.style.left = ((-0.25 + 1)/2 * this.canvasWidth) + 'px'
+        noLivingTreesText.style.top = this.canvasHeight/2 + 'px'
 
         var treeScaleBarMaxHeight = document.getElementById('treeScaleBarMaxHeight')
         var treeScaleBarMaxRootDepth = document.getElementById('treeScaleBarMaxRootDepth')
@@ -1176,6 +1192,7 @@
         document.getElementById('ringLegendInitR').style.display = "none"
         document.getElementById('ringLegendCurR').style.display = "none"
         document.getElementById('treeStatus').style.display = "none"
+        document.getElementById('noLivingTrees').style.display = "none"
 
         // Set localStartDraw to false and re-call it to check when getData is done again.
         this.localStartDraw = false
