@@ -90,7 +90,7 @@
           </div><br>
 
           <label> &#951B:</label><br>
-          <input id="etaB" type="number" :disabled="postBody.eta==''" v-model="postBody.etaB" step="any" :placeholder="'0 < \u03B7B < ' + [[postBody.eta]]" min="0" max="postBody.eta" required>
+          <input id="etaB" type="number" :disabled="postBody.eta==''" v-model="postBody.etaB" step="any" :placeholder="'0 < \u03B7B < \u03B7'" min="0" max="postBody.eta" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Relative height at which trunk transitions from a neiloid to a paraboloid<br>
@@ -127,7 +127,7 @@
           </div><br>
 
           <label> R40:</label><br>
-          <input id="R40" type="number" :disabled="postBody.r0==''" v-model="postBody.r40" step="any" :placeholder="[[postBody.r0]] + ' < R40 < 15'" min="postBody.r0" max="15" required>
+          <input id="R40" type="number" :disabled="postBody.r0==''" v-model="postBody.r40" step="any" :placeholder="'R0 < R40 < 15'" min="postBody.r0" max="15" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Maximum potential crown radius of a tree with diameter at breast height of 40 cm<br>
