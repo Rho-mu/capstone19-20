@@ -1125,11 +1125,8 @@
         // Keeps checking for startDraw (from the input container)
         // to draw once getData() is complete.
 
-        this.localStartDraw = this.startDraw // Saves startDraw in a local variable.
-
-        if( this.localStartDraw == true )
+        if( this.startDraw == true )
         {
-          this.localStartDraw = false
           this.startDraw = false
           this.afterGetSetup()
         }
@@ -1137,17 +1134,20 @@
         {
           setTimeout(this.checkForStartDraw, 500)
         }
+
+        /*NOTE: since this function checks a vue.js prop, it will throw an error
+          to the console to "avoid mutating a prop." This just means that vue.js
+          prefers that you save startDraw locally before utilizing it. However,
+          this function checks startDraw to see if it is changed from the
+          inputContainer, so saving it locally leads to errors.*/
       }, // END: checkForStartDraw()
 
       checkForReset() {
         // Keeps checking for resetFlag (from the input container)
         // to reset the visualization when the user clicks the reset button.
 
-        this.localResetFlag = this.resetFlag // Saves resetFlag in a local variable.
-
-        if( this.localResetFlag == 1 )
+        if( this.resetFlag == 1 )
         {
-          this.localResetFlag = 0
           this.resetFlag = 0
           this.resetVisualization()
         }
@@ -1155,6 +1155,12 @@
         {
           setTimeout(this.checkForReset, 500)
         }
+
+        /*NOTE: since this function checks a vue.js prop, it will throw an error
+          to the console to "avoid mutating a prop." This just means that vue.js
+          prefers that you save resetFlag locally before utilizing it. However,
+          this function checks resetFlag to see if it is changed from the
+          inputContainer, so saving it locally leads to errors.*/
       }, // END: checkForReset()
 
       resetVisualization() {
@@ -1195,11 +1201,10 @@
         document.getElementById('noLivingTrees').style.display = "none"
 
         // Set localStartDraw to false and re-call it to check when getData is done again.
-        this.localStartDraw = false
+        this.startDraw = false
         this.checkForStartDraw()
 
         // Set resetFlag to 0 and re-call it to check when reset is called again.
-        this.localResetFlag = 0
         this.resetFlag = 0
         this.checkForReset()
 
