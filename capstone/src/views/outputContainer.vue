@@ -2,13 +2,13 @@
   <div>
     <div class="outputContainer" id="outputContainer">
       <div class="setSceneContainer">
-        <button @click="setScene('ringScene')" class="ringSceneButton" id="ringSceneButton">RINGS</button>
-        <button @click="setScene('treeScene')" class="treeSceneButton" id="treeSceneButton">TREE</button>
-        <button @click="setScene('rawDataScene')" class="rawDataSceneButton" id="rawDataSceneButton">DATA</button>
+        <button @click="setScene('ringScene')" class="ringSceneButton" id="ringSceneButton">Rings</button>
+        <button @click="setScene('treeScene')" class="treeSceneButton" id="treeSceneButton">Tree</button>
+        <button @click="setScene('rawDataScene')" class="rawDataSceneButton" id="rawDataSceneButton">Data</button>
       </div>
       <div class="crownShapeContainer">
-        <button @click="setCrownShape('cone')" class="coneButton" id="coneButton">CONE</button>
-        <button @click="setCrownShape('cylinder')" class="cylinderButton" id="cylinderButton">CYLINDER</button>
+        <button @click="setCrownShape('cone')" class="coneButton" id="coneButton">Cone</button>
+        <button @click="setCrownShape('cylinder')" class="cylinderButton" id="cylinderButton">Cylinder</button>
       </div>
 
       <h4> Move the slider to see the tree grow!</h4>

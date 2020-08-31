@@ -19,7 +19,7 @@
           <input type="number" v-model="postBody.phih" step="any" :placeholder="'0 < \u03D5h < 300'" min="0" max="300" required>
           <div class="tooltip">
             <span class="tooltiptext">
-              <b>Description: </b>Slope at H versus r curve at r = 0<br>
+              <b>Description: </b>Slope of H versus r curve at r = 0<br>
               <hr width="80%">
               <b>Unit: </b>none
               <hr width="80%">
@@ -55,7 +55,7 @@
           <input type="number" v-model="postBody.f2" step="any" placeholder="0 < f2 < 0.8" min="0" max="0.8" required>
           <div class="tooltip">
             <span class="tooltiptext">
-              <b>Description: </b>Leaf area to xylem confucting area ratio (LA:XA)<br>
+              <b>Description: </b>Leaf area to xylem conducting area ratio (LA:XA)<br>
               <hr width="80%">
               <b>Unit: </b>m<sup>2</sup> cm<sup>-2</sup><br>
               (square meters per square centimeters)
