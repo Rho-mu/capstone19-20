@@ -159,7 +159,7 @@ export default {
 
 .footnotes {
   font-size: 14px;
-  font-weight: 200;
+  font-weight: 2M00;
 }
 
 h3 {
