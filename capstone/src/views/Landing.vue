@@ -36,23 +36,28 @@
       This web-based software was developed to provide a user-friendly means of exploring the ACGCA model predictions and learning about the
       processes and traits governing tree growth.
       </p>
-        <p>
-        Ogle, K. and S.W. Pacala (2009) A modeling framework for inferring tree growth and allocation from physiological, morphological,
-        and allometric traits. Tree Physiology, 29:587-605.
-        </p>
+
       <h3>
       For additional information about the model, see:
       </h3>
+      <div class="footnotes">
         <p>
+        Ogle, K. and S.W. Pacala (2009) A modeling framework for inferring tree growth and allocation from physiological, morphological,
+        and allometric traits. Tree Physiology, 29:587-605.
+        <br>
+
         Gemoets, D., J.J. Barber, and K. Ogle (2013). Reversible jump MCMC for inferencein a deterministic
         individual-based model of tree growth forstudying forest dynamics. Environmetrics, 24: 433-448.
+        <br>
 
         Fell M., J. Barber, J.W. Lichstein, and K. Ogle (2018). Multidimensional trait space informed by a
-        mechanistic model of tree growth and carbon allocation. Ecosphere, 9(1):e02060. abstract
+        mechanistic model of tree growth and carbon allocation. Ecosphere, 9(1):e02060.
+        <br>
 
         Fell, M. and K. Ogle (2018). Refinement of a theoretical trait space for North American trees
         via environmental filtering. Ecological Monographs, 88:372-384.
         </p>
+      </div>
       <br>
       <p class="login">
         <button class="testButton" @click="moveToLogin">Returning user</button>
@@ -106,9 +111,10 @@ export default {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 80%;
+  width: 90%;
   transform: translate(-50%, -50%);
-  font-size: 13px;
+  font-size: 14px;
+  font-weight: 600;
   color: white;
   text-align: left;
 }
@@ -145,10 +151,15 @@ export default {
 
 .topLeft {
   position: absolute;
-  top: 55px;
+  top: 45px;
   left: 16px;
   font-size: 24px;
   color: white;
+}
+
+.footnotes {
+  font-size: 14px;
+  font-weight: 200;
 }
 
 h3 {

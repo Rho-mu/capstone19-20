@@ -610,6 +610,8 @@
         this.postBody.r0=''
         this.postBody.r40=''
         this.postBody.radius=''
+        this.postBody.io=1030
+        this.postBody.t=50
       },
       initializeWebpage() {
         this.postBody.io = 1030 // Set light level to 1000.
