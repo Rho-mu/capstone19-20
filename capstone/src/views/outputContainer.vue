@@ -1134,6 +1134,12 @@
         {
           setTimeout(this.checkForStartDraw, 500)
         }
+
+        /*NOTE: since this function checks a vue.js prop, it will throw an error
+          to the console to "avoid mutating a prop." This just means that vue.js
+          prefers that you save startDraw locally before utilizing it. However,
+          this function checks startDraw to see if it is changed from the
+          inputContainer, so saving it locally leads to errors.*/
       }, // END: checkForStartDraw()
 
       checkForReset() {
@@ -1149,6 +1155,12 @@
         {
           setTimeout(this.checkForReset, 500)
         }
+
+        /*NOTE: since this function checks a vue.js prop, it will throw an error
+          to the console to "avoid mutating a prop." This just means that vue.js
+          prefers that you save resetFlag locally before utilizing it. However,
+          this function checks resetFlag to see if it is changed from the
+          inputContainer, so saving it locally leads to errors.*/
       }, // END: checkForReset()
 
       resetVisualization() {
