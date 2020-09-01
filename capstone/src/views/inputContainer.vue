@@ -792,7 +792,7 @@
           // this.resultJson = JSON.parse(newStr3)
           console.log("Output data retrieved!")
           console.log("ResultJson: \n", this.resultJson)
-          document.getElementById("runButton").innerHTML = "RUN"
+          document.getElementById("runButton").innerHTML = "Run"
           //this.afterGet() // Sets up some stuff for the visualization now that the output data has been retrieved.
           this.$emit('resultJsonToParent', this.resultJson) // Sends the result json to acgca.vue to be used in outputContainer.
           this.$emit('postBodyToParent', this.postBody) // Sends the postBody to acgca.vue to be used in outputContainer.
@@ -983,5 +983,8 @@
   }
   .separator {
     height: 25px;
+  }
+  .slidecontainer .tooltip {
+    bottom: 2.5px;
   }
 </style>

@@ -3,6 +3,16 @@
 #include "head_files/growthloop.h"
 
 
+
+typedef struct
+{
+  double BH;
+  double deltat;
+  double T;
+  double tolerance;
+} gparm;
+
+
 void run_model(double *input, double *gp2,
     double *APARout2,
     double *h2,
@@ -53,7 +63,7 @@ void run_model(double *input, double *gp2,
     int* errorind2,
     int* growth_st2
   )
-  {
+{
 
     double I = input[38];
     double *Io = &I;
@@ -68,6 +78,13 @@ void run_model(double *input, double *gp2,
     double *Hc = Hc1;
     double LAIF1[] = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
     double *LAIF = LAIF1;
+    // double k = 0.6;
+    // double *kF = &k;
+    // double HFmax = 40;
+    // double inF = 3.4;
+    // double *intF = &inF;
+    // double slopF = -5.5;
+    // double *slopeF = &slopF;
 
     sparms p;
     gparms gp;
@@ -76,15 +93,15 @@ void run_model(double *input, double *gp2,
     p.phih = input[1];
     p.eta = input[2];
     p.etaB = input[3];
-    p.swmax = input[4] * 0.01; //exp(-3.054);
+    p.swmax = input[4]; //exp(-3.054);
     p.lamdas = input[5];
     p.lamdah = input[6];
-    p.rhomax = input[7] * 1000000; //exp(13.2);
+    p.rhomax = input[7]; //exp(13.2);
     p.rhomin = input[8]; //exp(13.2);
     // p.rhomin = p.rhomax; // this could be changed if rhomin != rhomax.
-    p.f2 = input[9] * 10000; //exp(8.456);//   //f2=gammax*NEWf2
+    p.f2 = input[9]; //exp(8.456);//   //f2=gammax*NEWf2
     p.f1 = input[10];
-    p.gammac = input[11] * 1000000;
+    p.gammac = input[11];
     p.gammaw = input[12];
     p.gammax = input[13]; //inv_logit(-0.709);//
     p.cgl = input[14]; //exp(0.3229);//
@@ -93,11 +110,12 @@ void run_model(double *input, double *gp2,
     p.deltal = input[17];//inv_logit(-2.276);//
     p.deltar = input[18]; //inv_logit(-2.832);//
     p.sl = input[19]; //exp(0.8133);//
-    p.sla = input[20] * 0.0001; //exp(-4.119);//
+    p.sla = input[20]; //exp(-4.119);//
     p.sr = input[21]; //exp(0.2493);//
     p.so = input[22]; //exp(0.6336); //
-    p.rr = input[23] * 0.001; //exp(-8.103); //
-    p.rhor = input[24] * 1000000; // new value: exp(-1.724);
+    p.rr = input[23]; //exp(-8.103); //
+    p.rr *= 0.001;
+    p.rhor = input[24]; // new value: exp(-1.724);
     p.rml = input[25]; //exp(2.544);//
     p.rms = input[26]; //exp(0.5499); //
     p.rmr = input[27]; //exp(3.252);//
@@ -111,15 +129,23 @@ void run_model(double *input, double *gp2,
     p.R0 = input[34];
     p.R40 = input[35];
 
+
     gp.BH = gp2[0];
     gp.deltat=gp2[1];
     gp.T=input[36];
     gp.tolerance=gp2[3];
+    //gparms gp2;
+    //gp2.BH = 1.37;
+    //gp2.deltat = 0.00625;
+    //gp2.T = 10;
+    //gp2.tolerance = 0.00001;
+    // pointer to the input structure
 
     Forestparms ForParms;
   	ForParms.kF = 0.6;
   	ForParms.intF = 3.4;
   	ForParms.slopeF = -5.5;
+
 
     // need to fix the year problem there
       // establish the secondary data structures

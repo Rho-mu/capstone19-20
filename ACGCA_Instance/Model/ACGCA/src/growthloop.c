@@ -109,7 +109,6 @@ void growthloop(sparms *p, gparms *gp, double *Io2, double *r0, int *t,
   //double *odemandout,
   //double *odrout
 ){
-
 	//, double la[],double LAI[], double egrow[], double ex[], int status[]
 	// state variables
 	tstates st;
@@ -215,8 +214,6 @@ void growthloop(sparms *p, gparms *gp, double *Io2, double *r0, int *t,
 
 
 
-
-
 	/****************** Start growthloop *****************************************/
 	// i
 	// gp->T number of years, gp->deltat is increment (=1/16)
@@ -225,6 +222,7 @@ void growthloop(sparms *p, gparms *gp, double *Io2, double *r0, int *t,
 
 			Hc[i] = -99;
 			Io[i] = Io2[0];
+
 
   		double APAR[2];
   		APAR[0] = -1;
@@ -496,12 +494,9 @@ void growthloop(sparms *p, gparms *gp, double *Io2, double *r0, int *t,
 		if(st.status == 0){
 			break;
 		}
-
-
-
-
 		//printf("index number in loop: %d \n", (i+(*lenvars * *iout)+ *iout));
 		//} // end of skip if
+
   } //end the for loop
 
 	//printf("This is lenvars * iout %d \nlenvars %d \niout %d\n\n", *lenvars * *iout, *lenvars, *iout);

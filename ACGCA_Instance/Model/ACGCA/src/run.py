@@ -19,7 +19,7 @@ def model():
 
 
     model_input = data["input"]
-    test_input = model_input.encode('ascii', 'igonre')
+    test_input = model_input.encode('ascii', 'ignore')
 
     body_inputs = json.loads(test_input)
     print("USER INPUT RECEIVED")
@@ -278,7 +278,6 @@ def run_alg(input):
         o.ft2,o.fo2,o.rfl2,o.rfr2,o.rfs2,o.egrow2,o.ex2,o.rtrans2,o.light2,
         o.nut2,o.deltas2,o.LAI2,o.status2,o.errorind,o.growth_st)
 
-
     output = {
         'APARout':o.APARout,
         'h':o.h,
@@ -328,8 +327,6 @@ def run_alg(input):
         'errorind':o.errorind,
         'growth_st':o.growth_st
     }
-
-
 
     return output
 
