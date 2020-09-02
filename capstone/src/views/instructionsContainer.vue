@@ -16,6 +16,8 @@
         <p>3. Wait for the ACGCA model to finish running. When the output data has been retrieved, it will be displayed in the box on the right.</p>
         <p>4. To run the simulation again, simply enter in your desired inputs and click run again. The previous tree data will be erased from the output box.</p>
         <br>
+        <p>If the visualization is producing unrealistic graphics or not displaying graphical output, this could be due to unreasonable input values. Even if the input values are within the constraints provided, input values may be incompatible with each other. Try different inputs values.</p>
+        <br>
         <h4>Output Tools</h4>
         <p><b>Rings:</b> Shows the tree rings and their widths at each year, and distinguishes between heartwood and sapwood.</p>
         <p><b>Tree:</b> Visualizes the tree each year, in terms of its simulated height, trunk radius, crown dimensions, and status (living vs dead).</p>
