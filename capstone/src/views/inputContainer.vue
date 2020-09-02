@@ -15,7 +15,7 @@
       <button type="button" class="accordion">Allometries and biomass partitioning</button>
         <div class="panel">
           <br>
-          <label> &#x3c6<sub>h</sub>:</label><div class="separator"></div>
+          <label> &#x3c6<sub>h</sub></label><div class="separator"></div>
           <input type="number" v-model="postBody.phih" step="any" :placeholder="'0 < \u03D5h < 300'" min="0" max="300" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -27,7 +27,7 @@
             </span>
           </div><br>
 
-          <label> &#x3b7:</label><div class="separator"></div>
+          <label> &#x3b7</label><div class="separator"></div>
           <input id="eta" type="number" v-model="postBody.eta" step="any" :placeholder="'0 < \u03B7 < 1'" min="0" max="1" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -39,7 +39,7 @@
             </span>
           </div><br>
 
-          <label> &#955:</label><div class="separator"></div>
+          <label> &#955</label><div class="separator"></div>
           <input type="number" v-model="postBody.lamda" step="any" :placeholder="'0 < \u03BB < 1'" min="0" max="1" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -51,7 +51,7 @@
             </span>
           </div><br>
 
-          <label> f<sub>2</sub>:</label><div class="separator"></div>
+          <label> f<sub>2</sub></label><div class="separator"></div>
           <input type="number" v-model="postBody.f2" step="any" placeholder="0 < f2 < 0.8" min="0" max="0.8" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -64,7 +64,7 @@
             </span>
           </div><br>
 
-          <label> f<sub>1</sub>:</label><div class="separator"></div>
+          <label> f<sub>1</sub></label><div class="separator"></div>
           <input type="number" v-model="postBody.f1" step="any" placeholder="0 < f1 < 25" min="0" max="25" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -77,7 +77,7 @@
           </div><br>
 
 
-          <label> &#x3b3<sub>X</sub>:</label><div class="separator"></div>
+          <label> &#x3b3<sub>X</sub></label><div class="separator"></div>
           <input type="number" v-model="postBody.gammax" step="any" :placeholder="'0 < \u03B3X < 1'" min="0" max="1" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -89,7 +89,7 @@
             </span>
           </div><br>
 
-          <label> &#951<sub>B</sub>:</label><div class="separator"></div>
+          <label> &#951<sub>B</sub></label><div class="separator"></div>
           <input id="etaB" type="number" :disabled="postBody.eta==''" v-model="postBody.etaB" step="any" :placeholder="'0 < \u03B7B < \u03B7'" min="0" max="postBody.eta" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -101,7 +101,7 @@
             </span>
           </div><br>
 
-          <label> m:</label><div class="separator"></div>
+          <label> m</label><div class="separator"></div>
           <input type="number" v-model="postBody.m" step="any" placeholder="0 < m < 1" min="0" max="1" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -113,7 +113,7 @@
             </span>
           </div><br>
 
-          <label> R<sub>0</sub>:</label><div class="separator"></div>
+          <label> R<sub>0</sub></label><div class="separator"></div>
           <input id="R0" type="number" v-model="postBody.r0" step="any" placeholder="0 < R0 < 3" min="0" max="3" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -126,7 +126,7 @@
             </span>
           </div><br>
 
-          <label> R<sub>40</sub>:</label><div class="separator"></div>
+          <label> R<sub>40</sub></label><div class="separator"></div>
           <input id="R40" type="number" :disabled="postBody.r0==''" v-model="postBody.r40" step="any" :placeholder="'R0 < R40 < 15'" min="postBody.r0" max="15" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -139,7 +139,7 @@
             </span>
           </div><br>
 
-          <label> &#x3b1:</label><div class="separator"></div>
+          <label> &#x3b1</label><div class="separator"></div>
           <input type="number" v-model="postBody.alpha" step="any" :placeholder="'0 < \u03B1 < 1'" min="0" max="1" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -155,7 +155,7 @@
       <button type="button" class="accordion">Tree and organ size traits</button>
         <div class="panel">
           <br>
-          <label> H<sub>max</sub>:</label><div class="separator"></div>
+          <label> H<sub>max</sub></label><div class="separator"></div>
           <input id="hmax" type="number" v-model="postBody.hmax" step="any" placeholder="0 < Hmax < 127" min="0" max="127" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -168,7 +168,7 @@
             </span>
           </div><br>
 
-          <label> SW<sub>max</sub>:</label><div class="separator"></div>
+          <label> SW<sub>max</sub></label><div class="separator"></div>
           <input type="number" v-model="postBody.swmax" step="any" placeholder="0 < SWmax < 20" min="0" max="20" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -181,7 +181,7 @@
             </span>
           </div><br>
 
-          <label> r<sub>R</sub>:</label><div class="separator"></div>
+          <label> r<sub>R</sub></label><div class="separator"></div>
           <input type="number" v-model="postBody.rr" step="any" :placeholder="'0 < r\u1D63 < 0.8'" min="0" max="0.8" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -198,7 +198,7 @@
       <button type="button" class="accordion">Structural traits</button>
         <div class="panel">
           <br>
-          <label> &#x3c1:</label><div class="separator"></div>
+          <label> &#x3c1</label><div class="separator"></div>
           <input type="number" id="rhomax" v-model="postBody.rhomax" step="any" :placeholder="[[rlo]] + ' < \u03C1 < ' + [[rhi]]" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -211,7 +211,7 @@
             </span>
           </div><br>
 
-          <label> SLA:</label><div class="separator"></div>
+          <label> SLA</label><div class="separator"></div>
           <input type="number" v-model="postBody.sla" step="any" placeholder="0 < SLA < 500" min="0" max="500" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -228,7 +228,7 @@
       <button type="button" class="accordion">Physiological traits</button>
         <div class="panel">
           <br>
-          <label> &#947<sub>C</sub>:</label><div class="separator"></div>
+          <label> &#947<sub>C</sub></label><div class="separator"></div>
           <input type="number" v-model="postBody.gammac" step="any" :placeholder="'0 < \u03B3C < 0.5'" min="0" max="0.5" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -241,7 +241,7 @@
             </span>
           </div><br>
 
-          <label> cg<sub>L</sub>:</label><div class="separator"></div>
+          <label> cg<sub>L</sub></label><div class="separator"></div>
           <input type="number" v-model="postBody.cgl" step="any" placeholder="1 < cgL < 2" min="1" max="2" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -254,7 +254,7 @@
             </span>
           </div><br>
 
-          <label> cg<sub>R</sub>:</label><div class="separator"></div>
+          <label> cg<sub>R</sub></label><div class="separator"></div>
           <input type="number" v-model="postBody.cgr" step="any" placeholder="1 < cgR < 2" min="1" max="2" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -267,7 +267,7 @@
             </span>
           </div><br>
 
-          <label> cg<sub>W</sub>:</label><div class="separator"></div>
+          <label> cg<sub>W</sub></label><div class="separator"></div>
           <input type="number" v-model="postBody.cgw" step="any" placeholder="1 < cgW < 2" min="1" max="2" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -280,7 +280,7 @@
             </span>
           </div><br>
 
-          <label> &#x3b4<sub>L</sub>:</label><div class="separator"></div>
+          <label> &#x3b4<sub>L</sub></label><div class="separator"></div>
           <input type="number" v-model="postBody.deltal" step="any" :placeholder="'0 < \u03B4L < 0.2'" min="0" max="0.2" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -293,7 +293,7 @@
             </span>
           </div><br>
 
-          <label> &#x3b4<sub>R</sub>:</label><div class="separator"></div>
+          <label> &#x3b4<sub>R</sub></label><div class="separator"></div>
           <input type="number" v-model="postBody.deltar" step="any" :placeholder="'0 < \u03B4R < 0.2'" min="0" max="0.2" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -306,7 +306,7 @@
             </span>
           </div><br>
 
-          <label> &#x3c1<sub>R</sub>:</label><div class="separator"></div>
+          <label> &#x3c1<sub>R</sub></label><div class="separator"></div>
           <input type="number" v-model="postBody.rhor" step="any" :placeholder="'0 < \u03C1\u1D63 < 0.3'" min="0" max="0.3" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -319,7 +319,7 @@
             </span>
           </div><br>
 
-          <label> rm<sub>L</sub>:</label><div class="separator"></div>
+          <label> rm<sub>L</sub></label><div class="separator"></div>
           <input type="number" v-model="postBody.rml" step="any" placeholder="0 < rmL < 150" min="0" max="150" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -332,7 +332,7 @@
             </span>
           </div><br>
 
-          <label> rm<sub>S</sub>:</label><div class="separator"></div>
+          <label> rm<sub>S</sub></label><div class="separator"></div>
           <input type="number" v-model="postBody.rms" step="any" placeholder="0 < rmS < 10" min="0" max="10" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -345,7 +345,7 @@
             </span>
           </div><br>
 
-          <label> rm<sub>R</sub>:</label><div class="separator"></div>
+          <label> rm<sub>R</sub></label><div class="separator"></div>
           <input type="number" v-model="postBody.rmr" step="any" placeholder="0 < rmR < 200" min="0" max="200" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -358,7 +358,7 @@
             </span>
           </div><br>
 
-          <label> k:</label><div class="separator"></div>
+          <label> k</label><div class="separator"></div>
           <input type="number" v-model="postBody.k" step="any" placeholder="0 < k < 1" min="0" max="1" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -370,7 +370,7 @@
             </span>
           </div><br>
 
-          <label> &#x3b5:</label><div class="separator"></div>
+          <label> &#x3b5</label><div class="separator"></div>
           <input type="number" v-model="postBody.epsg" step="any" :placeholder="'0 < \u03B5 < 16'" min="0" max="16" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -388,7 +388,7 @@
       <button type="button" class="accordion">Turn-over and senescence traits</button>
         <div class="panel">
           <br>
-          <label> s<sub>L</sub>:</label><div class="separator"></div>
+          <label> s<sub>L</sub></label><div class="separator"></div>
           <input type="number" v-model="postBody.sl" step="any" placeholder="0 < sL < 20" min="0" max="20" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -401,7 +401,7 @@
             </span>
           </div><br>
 
-          <label> s<sub>R</sub>:</label><div class="separator"></div>
+          <label> s<sub>R</sub></label><div class="separator"></div>
           <input type="number" v-model="postBody.sr" step="any" placeholder="0 < sR < 6" min="0" max="6" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -414,7 +414,7 @@
             </span>
           </div><br>
 
-          <label> s<sub>O</sub>:</label><div class="separator"></div>
+          <label> s<sub>O</sub></label><div class="separator"></div>
           <input type="number" v-model="postBody.so" step="any" placeholder="0 < sO < 1" min="0" max="1" required>
           <div class="tooltip">
             <span class="tooltiptext">
@@ -431,8 +431,8 @@
 
       <div class="slidecontainer">
         <div>
-          <label> Initial radius (r<sub>0</sub>): </label><br>
-          <input type="number" class="radius" v-model="postBody.radius" step="any" :placeholder="'0 < r\u2080'" min="0" required>
+          <label> Initial radius (r<sub>0</sub>) </label><br>
+          <input type="number" class="radius" v-model="postBody.radius" step="any" :placeholder="'0 < r\u2080'" min="0" max="50" required>
           <div class="tooltip">
             <span class="tooltiptext">
               <b>Description: </b>Initial trunk radius at the base of the trunk<br>
@@ -446,12 +446,12 @@
         </div><br>
 
         <div class="slider">
-          <label> Light level: {{ (postBody.io / 20.6).toFixed(0)}}%</label><br>
+          <label> Light level {{ (postBody.io / 20.6).toFixed(0)}}%</label><br>
           <p>0<input type="range" class="inputSlider"  min="0" max="2060" v-model="postBody.io"> 100%</p><!--@input="draw()" Used for testing, but don't have it connected yet.-->
         </div>
 
         <div class="slider">
-          <label for="t">Total time (years): {{postBody.t}} </label><br>
+          <label for="t">Total time (years) {{postBody.t}} </label><br>
           <p>0 <input type="range" class="inputSlider" min="1" max="450" v-model="postBody.t"> 450</p>
         </div>
       </div>
