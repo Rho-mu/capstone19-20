@@ -437,8 +437,8 @@
             <span class="tooltiptext">
               <b>Description: </b>Initial trunk radius at the base of the trunk<br>
               <hr width="80%">
-              <b>Unit: </b>m <br>
-              (meters)
+              <b>Unit: </b>cm <br>
+              (centimeters)
               <hr width="80%">
               <b>Constraint: </b>(0,&#8734)
             </span>
@@ -633,7 +633,7 @@
       setDefault(defaultType) {
         // Set default time, light level, and initial radius
         this.postBody.t=100
-        this.postBody.radius=0.05
+        this.postBody.radius=5
         this.postBody.io=1030
         // Sets default values in the input fields based on the button that user clicks
         if(defaultType == "Red Maple") // Red Maple button
@@ -713,6 +713,7 @@
         this.postBody.sla *= 0.0001;
         this.postBody.rr *= 0.001;
         this.postBody.rhor *= 1000000;
+        this.postBody.radius *= 0.01;
         this.resetFlag = 1
         this.loadingFlag = 1
         this.$emit('postFlagToParent', this.loadingFlag)
@@ -739,6 +740,7 @@
           this.postBody.sla /= 0.0001;
           this.postBody.rr /= 0.001;
           this.postBody.rhor /= 1000000;
+          this.postBody.radius /= 0.01;
         })
       }, // END: postData()
       getData() {

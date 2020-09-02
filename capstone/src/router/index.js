@@ -1,4 +1,3 @@
-
 import firebase from 'firebase'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
@@ -6,7 +5,6 @@ import Login from '../views/Login.vue'
 import SignUp from '../views/SignUp.vue'
 import Survey from '../views/Survey.vue'
 import Landing from '../views/Landing.vue'
-import Inputs from '../views/inputs-vis.vue'
 import Acgca from '../views/acgca.vue'
 
 Vue.use(VueRouter)
@@ -17,7 +15,7 @@ const routes = [
     name: 'Survey',
     component: Survey,
     meta: {
-      requiresAuth: false
+      requiresAuth: true
     }
   },
   {
@@ -44,7 +42,7 @@ const routes = [
     name: 'acgca',
     component: Acgca, // this will require Auth
     meta: {
-      requiresAuth: false
+      requiresAuth: true
     }
   }
 ]

@@ -26,7 +26,7 @@
       login() {
         firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
           (user) => {
-            this.$router.replace('inputs-vis')
+            this.$router.replace('acgca')
           },
           (err) => {
             alert('Oops. ' + err.message)

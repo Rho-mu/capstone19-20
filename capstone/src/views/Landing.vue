@@ -88,7 +88,6 @@ export default {
       this.$router.replace('login')
     }
   }
-
 }
 </script>
 
